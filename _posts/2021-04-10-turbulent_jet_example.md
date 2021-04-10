@@ -53,7 +53,7 @@ MWₐᵢᵣ = 28.960  # molar weight air, kg/kmol
 
 The simplest way of estimating the release rate is using the Bernoulli equation for a jet[^2]
 
-$$ Q_0 = c_d A_h \sqrt{ 2 \left( p - p_a \over \rho \right) } = c_d {{\pi \over 4} d_h^2} \sqrt{ 2 \left( p - p_a \over \rho \right) } $$
+$$ Q_0 = c_d A_h \sqrt{ 2 \left( p - p_a \over \rho \right) } = c_d { {\pi \over 4} d_h^2} \sqrt{ 2 \left( p - p_a \over \rho \right) } $$
 
 Where $Q_0$ is the volumetric flow of acetylene discharged through the hole (in m³/s), $c_d$ is the discharge coefficient which can be assumed to be 0.61[^3], and the rest are as defined earlier. I am assuming, here, that the hole is circular for simplicity.
 
