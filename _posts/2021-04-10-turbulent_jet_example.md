@@ -118,7 +118,7 @@ So the jet, in this case, is fully turbulent which guides the choice of models w
 
 ### Velocity and Concentration distributions
 
-There are many different empirical velocity distributions as well as velocity distributions derived from theories of turbulent mixing available in various references. Mostly of the same general type (gaussian), but parametrized slightly differently. However, in my experience, there are far fewer concentration distributions available, however this is not too critical due to an interesting result in turbulent mass transfer for jets[^6]
+There are many different empirical velocity distributions as well as velocity distributions derived from theories of turbulent mixing available in various references. Mostly of the same general type (gaussian), but parametrized slightly differently. However, in my experience, there are far fewer concentration distributions available, this is not too critical due to an interesting result in turbulent mass transfer for jets[^6]
 
 $$ { C \over C_{max} } = \left( v_z \over v_{z,max} \right)^{Sc_t} $$
 
