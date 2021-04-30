@@ -432,25 +432,6 @@ At this point we have solved for the minimum vent diameter in three different wa
 In general the incompressible model will always *overestimate* the pressure drop across the vent, leading to a larger vent size, and the adiabatic flow will provide an *underestimate*, the true minimum would be somewhere between the two. This is seen much more clearly at vent diameters less than ~5in where the pressure drop is more significant, more analogous to relief piping for a pressure vessel than venting for an atmospheric storage tank. Of course all of this is assuming flow remains subsonic, if the pressure drop leads to sonic flow then things are quite different.
 
 
-```julia
-#hide
-
-pᵢₙ(D) = find_zero( p₁ -> p₁ - pₐ - 0.5*ΣK(ϵ/D,L/D,Re(D,Tₐ))*ρ((p₁ + pₐ)/2, Tₐ)*v(D)^2, pₐ)
-
-Dₗ, Dᵤ = ustrip(u"mm", 3.5inch), ustrip(u"mm", 8inch)
-
-incompressible(D) = ustrip(u"kPa", pᵢₙ(D*0.001u"m") - pₐ)
-isothermal(D) = ustrip(u"kPa", pᵢₜ( G(D*0.001u"m"), ϵ/(D*0.001u"m"), L/(D*0.001u"m"), Re(D*0.001u"m", Tₐ)) - pₐ)
-fanno(D) = ustrip(u"kPa", pfa(D*0.001u"m")[1] - pₐ)
-
-plot(title = "vent pressure drop", xlabel = "Vent Diameter (mm)", ylabel="Pressure Drop (kPa)", leg=:topright)
-plot!(incompressible, Dₗ, Dᵤ, lab = "incompressible")
-plot!(isothermal, Dₗ, Dᵤ, lab = "isothermal")
-plot!(fanno, Dₗ, Dᵤ, lab = "fanno")
-plot!(ustrip.(u"mm",[D0]), ustrip.(u"kPa",[pₘₐₓ - pₐ]), seriestype = :scatter, lab="minimum vent diameter")
-```
-
-
 ![svg](/images/sizing_a_gooseneck_example_files/output_29_0.svg)
 
 
