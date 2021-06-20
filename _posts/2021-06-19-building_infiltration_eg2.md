@@ -9,6 +9,7 @@ categories:
 tags:
   - building infiltration
   - hazard screening
+  - air dispersion modeling
 excerpt: This example uses a gaussian puff model and single zone building infiltration model to evaluate the impact of a chlorine release
 ---
 
