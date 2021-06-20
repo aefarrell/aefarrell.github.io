@@ -114,6 +114,7 @@ The dispersion parameters for puff models are not, in general, as well developed
 
 
 #### Dispersion parameters for a Gaussian puff model[^1]
+
 | Stability | $\sigma_x = \sigma_y$ | $\sigma_z$        | Max Windspeed |
 |:---------:|:---------------------:|:-----------------:|:-------------:| 
 | A         | $ 0.18 x^{0.92} $     | $ 0.60 x^{0.75} $ | 3 m/s         |
