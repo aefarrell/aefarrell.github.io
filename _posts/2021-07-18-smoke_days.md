@@ -52,12 +52,12 @@ ambient_data = @pipe data_file |>
 
 | Row | IntervalStart       | IntervalEnd         | MeasurementValue | MeasurementValue_1 | MeasurementValue_2 | MeasurementValue_3 |
 |:---:|:-------------------:|:-------------------:|:----------------:|:------------------:|:------------------:|:------------------:|
-|   1 │ 2000-10-20T00:00:00 | 2000-10-20T00:59:00 |          missing |            missing |            missing |                2.3 |
-|   2 │ 2000-10-20T01:00:00 | 2000-10-20T01:59:00 |          missing |            missing |            missing |                1.8 |
-|   3 │ 2000-10-20T02:00:00 | 2000-10-20T02:59:00 |          missing |            missing |            missing |                1.8 |
-|   4 │ 2000-10-20T03:00:00 | 2000-10-20T03:59:00 |          missing |            missing |            missing |                1.0 |
-|   5 │ 2000-10-20T04:00:00 | 2000-10-20T04:59:00 |          missing |            missing |            missing |                1.8 |
-|   6 │ 2000-10-20T05:00:00 | 2000-10-20T05:59:00 |          missing |            missing |            missing |                2.0 |
+|   1 | 2000-10-20T00:00:00 | 2000-10-20T00:59:00 |          missing |            missing |            missing |                2.3 |
+|   2 | 2000-10-20T01:00:00 | 2000-10-20T01:59:00 |          missing |            missing |            missing |                1.8 |
+|   3 | 2000-10-20T02:00:00 | 2000-10-20T02:59:00 |          missing |            missing |            missing |                1.8 |
+|   4 | 2000-10-20T03:00:00 | 2000-10-20T03:59:00 |          missing |            missing |            missing |                1.0 |
+|   5 | 2000-10-20T04:00:00 | 2000-10-20T04:59:00 |          missing |            missing |            missing |                1.8 |
+|   6 | 2000-10-20T05:00:00 | 2000-10-20T05:59:00 |          missing |            missing |            missing |                2.0 |
 
 
 ### Parsing the Data
@@ -120,9 +120,9 @@ end
 result_1hr = exceedences(ambient_data, limit=lim_1h)
 ```
 
-    Results: 53×6 DataFrame
-    
-    Summary: 
+    53×6 DataFrame
+
+
 |Row | variable   | mean    | min                 | median  | max               |
 |:--:|:----------:|:-------:|:-------------------:|:-------:|:-----------------:|
 |  1 │ start_date |         | 2001-05-24T11:00:00 |         |2019-05-31T15:00:00|
