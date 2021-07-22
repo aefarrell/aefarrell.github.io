@@ -125,12 +125,12 @@ result_1hr = exceedences(ambient_data, limit=lim_1h)
 
 |Row | variable   | mean    | min                 | median  | max               |
 |:--:|:----------:|:-------:|:-------------------:|:-------:|:-----------------:|
-|  1 │ start_date |         | 2001-05-24T11:00:00 |         |2019-05-31T15:00:00|
-|  2 │ end_date   |         | 2001-05-24T12:59:00 |         |2019-05-31T15:59:00|
-|  3 │ month      | 5.84906 | 1                   | 7.0     | 12                |
-|  4 │ year       | 2011.15 | 2001                | 2010.0  | 2019              |
-|  5 │ duration   | 3.85126 | 0.983333            | 1.98333 | 26.9833           |
-|  6 │ max_conc   | 135.9   | 80.3                | 93.9    | 867.0             |
+|  1 | start_date |         | 2001-05-24T11:00:00 |         |2019-05-31T15:00:00|
+|  2 | end_date   |         | 2001-05-24T12:59:00 |         |2019-05-31T15:59:00|
+|  3 | month      | 5.84906 | 1                   | 7.0     | 12                |
+|  4 | year       | 2011.15 | 2001                | 2010.0  | 2019              |
+|  5 | duration   | 3.85126 | 0.983333            | 1.98333 | 26.9833           |
+|  6 | max_conc   | 135.9   | 80.3                | 93.9    | 867.0             |
 
 Over the past 20yrs there were 53 periods with the pm2.5 concentration above the limit, these range from 1hr to 27hrs long and a max concentration observed of 867μg/m³
 
