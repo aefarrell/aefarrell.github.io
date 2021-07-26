@@ -15,7 +15,7 @@ excerpt: This example uses the Baker-Strehlow-Tang model to evaluate the consequ
 
 # VCE Example - Butane Vapour Cloud
 
-In a [previous post](https://selenized.github.io/2020/11/20/butane_leak_example/) I worked through estimating the airborne quantity of butane due to a leak from a storage sphere. That example stopped at estimating the total quantity released, here I would like to go further into the potential for a vapour cloud explosion.
+In a [previous post](https://aefarrell.github.io/2020/11/20/butane_leak_example/) I worked through estimating the airborne quantity of butane due to a leak from a storage sphere. That example stopped at estimating the total quantity released, here I would like to go further into the potential for a vapour cloud explosion.
 
 As a recap the scenario is a leak from a butane storage sphere, the leak is 10ft above grade and results in cloud of mostly aerosolized butane that is initially below ambient temperature. The scenario parameters and results are summarized below.
 

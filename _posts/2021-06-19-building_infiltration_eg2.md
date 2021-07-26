@@ -15,7 +15,7 @@ excerpt: This example uses a gaussian puff model and single zone building infilt
 
 # Building Infiltration Example -- Chlorine Release
 
-In [a previous notebook](https://selenized.github.io/2021/05/22/building_infiltration_example/), I explored building infiltration due to forest fire smoke and noted that ambient conditions would impact the scenario, in this scenario I continue exploring building infiltration and examine the sensitivity of infiltration to changes in ambient conditions. In this case the scenario is a release of chlorine from a storage cylinder creating a cloud that moves downwind to a building. We would like to know what impact this has on the interior conditions of the building while also taking the opportunity to evaluate the impact of changes in ambient weather conditions.
+In [a previous notebook](https://aefarrell.github.io/2021/05/22/building_infiltration_example/), I explored building infiltration due to forest fire smoke and noted that ambient conditions would impact the scenario, in this scenario I continue exploring building infiltration and examine the sensitivity of infiltration to changes in ambient conditions. In this case the scenario is a release of chlorine from a storage cylinder creating a cloud that moves downwind to a building. We would like to know what impact this has on the interior conditions of the building while also taking the opportunity to evaluate the impact of changes in ambient weather conditions.
 
 
 
@@ -35,7 +35,7 @@ The building is a small one story structure 100m downwind of the release point. 
 
 ### Weather Parameters
 
-For neutrally buoyant gaussian dispersion a class *F* Pasquill stability is [the worst case scenario](https://selenized.github.io/2020/12/12/worst_case_weather/), this leads to the least dispersion and thus greatest concentrations downwind. The windspeed is initially assumed to be 1.5 m/s.
+For neutrally buoyant gaussian dispersion a class *F* Pasquill stability is [the worst case scenario](https://aefarrell.github.io/2020/12/12/worst_case_weather/), this leads to the least dispersion and thus greatest concentrations downwind. The windspeed is initially assumed to be 1.5 m/s.
 
 |             |                 |
 |------------:|-----------------|
@@ -76,7 +76,7 @@ u   = 1.5      # windspeed m/s
 
 ### Gaussian Puff Model
 
-The simplest model for a neutrally buoyant cloud is a [gaussian disperison model](https://selenized.github.io/2020/12/05/gaussian_dispersion_example/), in this case because the cylinder is assumed to fail catastrophically the release can be treated as instantaneous and so we use a gaussian puff model.
+The simplest model for a neutrally buoyant cloud is a [gaussian disperison model](https://aefarrell.github.io/2020/12/05/gaussian_dispersion_example/), in this case because the cylinder is assumed to fail catastrophically the release can be treated as instantaneous and so we use a gaussian puff model.
 
 It is often worth-while to estimate the initial dimensions of the cloud and then calculate a *virtual* emission point from which the release is assumed to take place. This is especially useful if the area immediately around the release point is of interest as the gaussian model assumes all of the mass is initially concentrated in a single point. However for a simple screening just using the default dispersion model is likely fine, and more conservative. The model gives the concentration as a gaussian distribution in the x, y, and z directions, while also adding in a term to account for ground reflection (mass cannot disperse below groundlevel)[^1]
 
@@ -111,7 +111,7 @@ end
 
 ### Dispersion Parameters
 
-The dispersion parameters for puff models are not, in general, as well developed as for plume models, the following values were interpolated from a sparser set of correlations and it is worth keeping in mind. It is also worth noting that the dispersion parameters are where the impact of different windspeeds will be made most apparent as [stability is a function of windspeed](https://selenized.github.io/2020/12/12/worst_case_weather/).
+The dispersion parameters for puff models are not, in general, as well developed as for plume models, the following values were interpolated from a sparser set of correlations and it is worth keeping in mind. It is also worth noting that the dispersion parameters are where the impact of different windspeeds will be made most apparent as [stability is a function of windspeed](https://aefarrell.github.io/2020/12/12/worst_case_weather/).
 
 
 #### Dispersion parameters for a Gaussian puff model[^1]
@@ -169,7 +169,7 @@ Clearly this release presents a serious hazard, one would have to travel downwin
 
 ### Single Zone Model
 
-The [single zone model](https://selenized.github.io/2021/05/22/building_infiltration_example/) assumes the air within the builiding is generally well mixed and well described by a single concentration. This is approximately true over long timescales, however in the situation of the brief pulse of chlorine passing over the building this assumption may breakdown and is a critical weakness of the discussion that follows.
+The [single zone model](https://aefarrell.github.io/2021/05/22/building_infiltration_example/) assumes the air within the builiding is generally well mixed and well described by a single concentration. This is approximately true over long timescales, however in the situation of the brief pulse of chlorine passing over the building this assumption may breakdown and is a critical weakness of the discussion that follows.
 
 Very likely in the ~10s it takes for the cloud to pass very little of it will have had time to diffuse into the interior space of the building and the interior mixing (or lack thereof) will be a significant slow step in the overall mass transfer.
 
@@ -341,7 +341,7 @@ this is a gaussian in time, let $\mu = \frac{x}{u}$ and $\sigma_t = \frac{\sigma
 
 $$ c_{o}(t) = { C_1 \over u } { 1 \over { \sqrt{2 \pi} \sigma_t } }\exp \left( -\frac{1}{2} \left( {t - \mu} \over \sigma_t \right)^2 \right) $$
 
-suppose the Laplace transform of this is $C_{o}(s)$, and [taking the Laplace transform](https://selenized.github.io/2021/05/22/building_infiltration_example/#a-control-systems-approach) of the ODE we arrive at
+suppose the Laplace transform of this is $C_{o}(s)$, and [taking the Laplace transform](https://aefarrell.github.io/2021/05/22/building_infiltration_example/#a-control-systems-approach) of the ODE we arrive at
 
 $$ C_{i}(s) = { \lambda \over {s + \lambda} } C_{o}(s) $$
 

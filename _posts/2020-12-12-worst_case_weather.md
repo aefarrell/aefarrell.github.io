@@ -14,11 +14,11 @@ excerpt: This example considers the impact of different Pasquill stability class
 
 # Air Dispersion Model - Worst Case Meterological Conditions
 
-In a [previous post](https://selenized.github.io/2020/12/05/gaussian_dispersion_example/) I modeled an example of a plume from an elevated stack. In that example I assumed very stable conditions and a low windspeed -- pasquill stability class F and a windspeed of 1.5m/s -- as the worst case. This was an error!
+In a [previous post](https://aefarrell.github.io/2020/12/05/gaussian_dispersion_example/) I modeled an example of a plume from an elevated stack. In that example I assumed very stable conditions and a low windspeed -- pasquill stability class F and a windspeed of 1.5m/s -- as the worst case. This was an error!
 
 For neutrally buoyant releases at or near ground-level that is a common "worst case", for example when considering the potential impact due to a vapour cloud explosion. But for elevated stacks, releasing a buoyant plume, a class D stability with a moderate windspeed is often recommended. I thought it would be interesting to explore how the maximum concentration at the point of interest -- an elevated work area downwind of the stack -- varies with stability class and windspeed.
 
-I am not going to repeat all of the assumptions and working out of the previous notebook, the important results are in the source code for this post. I have also re-defined some of the functions to be a little more re-useable and to represent other stability cases not covered in the original notebook. See the jupyter notebook [here](https://nbviewer.jupyter.org/github/selenized/selenized.github.io/blob/main/_notebooks/2020-12-12-worst_case_weather.ipynb).
+I am not going to repeat all of the assumptions and working out of the previous notebook, the important results are in the source code for this post. I have also re-defined some of the functions to be a little more re-useable and to represent other stability cases not covered in the original notebook. See the jupyter notebook [here](https://nbviewer.jupyter.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2020-12-12-worst_case_weather.ipynb).
 
 
 
@@ -148,7 +148,7 @@ Below is a contour plot showing the downwind concentration at a 2m elevation -- 
 
 ## Multiple Concentrations
 
-Previously, in [the discussion of the occupational exposure limit](https://selenized.github.io/2020/12/05/gaussian_dispersion_example/#the-concentration-of-interest) I noted that, in general, one would have to account for the impact of multiple substances in the flue gas, though in that particular example I was only modeling carbon monoxide and I just moved on. I think I left the impression that one would have to model each substance separately and, at least with this simple gaussian dispersion model, that is very much not the case.
+Previously, in [the discussion of the occupational exposure limit](https://aefarrell.github.io/2020/12/05/gaussian_dispersion_example/#the-concentration-of-interest) I noted that, in general, one would have to account for the impact of multiple substances in the flue gas, though in that particular example I was only modeling carbon monoxide and I just moved on. I think I left the impression that one would have to model each substance separately and, at least with this simple gaussian dispersion model, that is very much not the case.
 
 Consider for some substance *i* being released with in-stack concentration $C_{s,i}$, we can define a dimensionless "dilution" $\chi$ as
 
