@@ -36,15 +36,16 @@ using CSV, DataFrames, Statistics, Pipe, Plots
 # | 1    |  100   |  50     | ... |   0     |
 # |  :   |    :   |    :    |  :  |   :     |
 # |  m   |   30   |   160   | ... |   1     |
-# and returns a length m vector with the relative change for each year
+# and returns a length m vector with the relative 
+# change for each year
 
 function seat_change(df)
     
     # the first election seat change is undefined
     changes = [NaN]
-    
+
+    # for each election, starting with the second
     for i in 2:nrow(df)
-        # starting with the second election
         prev = df[i-1, Not(:YEAR)]
         prev_total = sum(prev)
         
@@ -55,7 +56,6 @@ function seat_change(df)
         
         # for each party, calculate the absolute difference
         for j in 1:length(curr)
-            
             prev_pct = prev[j]/prev_total
             curr_pct = curr[j]/curr_total
             Δseats += abs(curr_pct - prev_pct)
@@ -105,7 +105,7 @@ Plotting the results gives us some interesting years to think about, such as 191
 There have been periods of low change, the red-line on the plot indicates a change of less than 10%, but none as low as 2021. I do find it interesting that in the late 1800s and the early 1900s we had successive governments with very little change in overall composition but after 1908 things are a lot more variable.
 
 
-![svg](images/federal_election_files/output_6_0.svg)
+![svg](/images/federal_election_files/output_6_0.svg)
 
 
 
