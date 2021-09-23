@@ -131,7 +131,7 @@ sort!(lowest, [:Change]);
 
 This is an exceptionally low change, the next lowest year (1940) had &gt;2&times; as many seats change hands. Also, the last time the overall seat change was even close to this low was decades ago, the next previous year with a relative change &lt;10% was 1965 and in that case &gt;3&times; as many seats changed hands.
 
-This might result may change, as of right now several ridings are still too-close to call without mail in ballots, but for some of those any change in results will actually lower the overall change in seats, not increase it. For example Edmonton Center is currently undecided with the Liberal candidate ahead, but if it changes then the incumbent Conservative would win and the overall relative change would go down.
+This result may change, as of right now several ridings are still too-close to call without mail in ballots, but for some of those if they flip it will actually lower the overall change in seats, not increase it. For example Edmonton Center is currently undecided with the Liberal candidate ahead, but if it flips to the incumbent Conservative the overall relative change for this election would go down.
 
 
 ---
