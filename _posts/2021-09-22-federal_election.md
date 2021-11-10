@@ -5,7 +5,7 @@ toc_label: "contents"
 toc_sticky: true
 comments: true
 categories:
-  - analysis
+  - data
 tags:
   - elections
 excerpt: This post looks at the recent federal election and to what extent the low change in overall seats per party is exceptional.

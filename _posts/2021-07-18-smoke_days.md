@@ -5,7 +5,7 @@ toc_label: "contents"
 toc_sticky: true
 comments: true
 categories:
-  - analysis
+  - data
 tags:
   - air quality
 excerpt: This post looks at the recent wildfire smoke in the city and seeks to answer whether or not this recurring phenomenon is a recent thing or not.
