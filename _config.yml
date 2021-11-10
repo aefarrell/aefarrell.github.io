@@ -46,14 +46,14 @@ author:
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/selenized"
+      url: "https://github.com/aefarrell"
 
 
 footer:
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/selenized/selenized.github.io"
+      url: "https://github.com/aefarrell/aefarrell.github.io"
 
 
 defaults:
