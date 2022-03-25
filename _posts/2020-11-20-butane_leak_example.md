@@ -46,7 +46,7 @@ As a simple scenario suppose a leak from a butane storage sphere. These are a fa
 [^2]: 
     There are lots of ways of generating leak scenarios, from the very specific leaks from particular propagating events to simple rules of thumb. The *Chemical Exposure Index* gives the following rules for determining a leak scenario for a vessel:
     A rupture based on the largest diameter process pipe attached to the vessel using the following:
-    For anything less than 2in a a full bore rupture (i.e. the full diameter of the pipe)
+    For anything less than 2in a full bore rupture (i.e. the full diameter of the pipe)
     For between 2 and 4in assume a rupture area equal to that of a 2in diameter pipe
     For >4in assume a rupture area equal to 20% of the pipe cross section area
     
@@ -54,6 +54,8 @@ As a simple scenario suppose a leak from a butane storage sphere. These are a fa
 
 
 ```julia
+using Unitful: ustrip, @u_str
+
 ft = ustrip(u"m", 1u"ft")     # unit conversion ft->m
 inch = ustrip(u"m", 1u"inch") # unit conversion inch->m
 psi = ustrip(u"Pa", 1u"psi")  # unit conversion psi->Pa
@@ -66,7 +68,7 @@ hᵣ = 10ft    # height of release point
 
 pₐ= 14.7psi     # atmospheric pressure in Pa absolute
 p = 250psi + pₐ # pressure of the butane in Pa absolute
-Tᵣ= 25 + 273.15 # the release temperature in K
+Tᵣ= 25 + 273.15; # the release temperature in K
 ```
 
 Some relevant thermodynamic properties of butane
@@ -75,14 +77,33 @@ Some relevant thermodynamic properties of butane
 ```julia
 # From Perry's, 8th edition
 
-Mw = 58.122                                                                  # molar mass of butane, kg/kmol
-Tcr = 425.12                                                                 # critical temperature, K
-Tb = -0.6 + 273.15                                                           # the normal boiling point of butane, K
-pˢ(T) = exp(66.343 - 4363.2/T - 7.046*log(T) + 9.4509e-6*T^2)                # vapour pressure in Pa, T in K
-ρₗ(T) = Mw*( 1.0677/0.27188^(1+ (1-T/425.12)^0.28688) )                      # density in kg/m^3, T in K
-cₚ(T) = 191030 - 1675*T + 12.5*T^2 - 0.03874*T^3 + 4.6121e-5*T^4             # heat capacity in J/kmol/K, T in K
-ΔHᵥ(T) = 3.6238e7*(1-(T/Tcr))^(0.8337 - 0.82274*(T/Tcr) + 0.39613*(T/Tcr)^2) # latent heat in J/kmol, T in K
-σ(T) = 0.05196*(1-(T/Tcr))^(1.2181)                                          # surface tension, N/m
+R = 8.31446261815324 # universal gas constant, J/mol/K
+
+# Air
+MWₐᵢᵣ = 28.960
+ρa(T) = (pₐ*MWₐᵢᵣ)/(R*T)/1000
+μₐ(T) = (1.425e-6*T^0.5039)/(1 + 108.3/T)
+
+
+# Butane
+Mw = 58.122        # molar mass of butane, kg/kmol
+Tcr = 425.12       # critical temperature, K
+Tb = -0.6 + 273.15 # the normal boiling point of butane, K
+
+# vapour pressure in Pa, T in K
+pˢ(T) = exp(66.343 - (4363.2/T) - 7.046*log(T) + 9.4509e-6*T^2)
+
+# density in kg/m^3, T in K
+ρₗ(T) = Mw*( 1.0677/0.27188^(1+ (1-T/425.12)^0.28688) )
+
+# heat capacity in J/kmol/K, T in K
+cₚ(T) = 191030 - 1675*T + 12.5*T^2 - 0.03874*T^3 + 4.6121e-5*T^4
+
+# latent heat in J/kmol, T in K
+ΔHᵥ(T) = 3.6238e7*(1-(T/Tcr))^(0.8337 - 0.82274*(T/Tcr) + 0.39613*(T/Tcr)^2)
+
+# surface tension, N/m
+σ(T) = 0.05196*(1-(T/Tcr))^(1.2181);
 ```
 
 The vapour pressure of butane at the release temperature is above atmospheric pressure and so the butane in the storage sphere will be a liquid.
@@ -92,7 +113,11 @@ The vapour pressure of butane at the release temperature is above atmospheric pr
 pˢ(Tᵣ)>pₐ
 ```
 
+
+
+
     true
+
 
 
 ## The Release Rate
@@ -100,7 +125,6 @@ pˢ(Tᵣ)>pₐ
 Since the vapour pressure within the vessel is greater than atmospheric, at ambient temperature, the butane within the storage sphere is a liquid. In general one would have to account for flashing and two-phase flow during the release, however for very short discharge distances (<10cm) there is typically not enough time for the liquid to flash during discharge[^3], over the thickness of a hole this especially true. The butane discharged from the tank will be a stream of liquid initially and the simple Bernoulli equation for a liquid jet can be used[^4].
 
 $$ Q_l = c_d \rho_l A_h \sqrt{ 2 \left( p - p_a \over \rho_l \right) + 2gh_l } = c_d \rho_l { {\pi \over 4} d_h^2} \sqrt{ 2 \left( p - p_a \over \rho_l \right) + 2gh_l } $$
-
 
 Where $Q_l$ is the mass flow of liquid discharged through the hole (in kg/s), $c_d$ is the discharge coefficient which can be assumed to be 0.61[^5], $g$ is the acceleration due to gravity $9.81 m/s^2$ and the rest are as defined earlier. I am assuming, here, that the hole is circular for simplicity.
 
@@ -117,8 +141,8 @@ Where $Q_l$ is the mass flow of liquid discharged through the hole (in kg/s), $c
 
 ```julia
 cd = 0.61
-g = 9.81 # m/s^2
-Qₗ = cd * ρₗ(Tᵣ) * π/4 * dₕ^2 * √( 2*(p - pₐ)/ρₗ(Tᵣ) + 2*g*hₗ )
+g  = 9.81 # m/s^2
+Qₗ = cd*ρₗ(Tᵣ)*(π/4)*(dₕ^2)*√( 2*(p - pₐ)/ρₗ(Tᵣ) + 2*g*hₗ )
 ```
 
     56.31092763613714
@@ -179,9 +203,26 @@ and solving at the critical Weber number $We_c = 12$, assuming $\rho_g = \rho_a$
 
 $$ u_d = { Q_l \over { c_d A_h \rho_l} } = { Q_l \over {c_d \frac{\pi}{4} d_h^2 \rho_l} }$$
 
+
+```julia
+# the cloud temperature, assumed to be the boiling point
+Tc = Tb
+
+# critical Weber number
+We = 12                                  
+
+# release velocity, m/s
+ud = Qₗ/( cd * (π/4)*dₕ^2 * ρₗ(Tᵣ)) 
+
+# droplet size, m, due to aerodynamic breakup
+da = ( σ(Tc) * We)/(ρa(Tc) * ud^2)  
+```
+
+    2.188550597862162e-5
+
 The diameter of droplets from flashing breakup can be calculated from the following empirical correlation[^8] and the mean droplet diameter is simply the smallest of either the aerodynamic or flashing diameter[^9] In almost all cases that are relevant for release modeling capillary breakup is not significant.
 
-$$ d_p = { {0.03} \over {10 + 4.0 \cdot (T - T_b)} }$$
+$$ d_p = { {0.03} \over {10 + 4.0 \cdot (T - T_b) } }$$
 
 ![image.png](/images/butane_leak_example_files/att2.png)
 
@@ -194,25 +235,13 @@ $$ d_p = { {0.03} \over {10 + 4.0 \cdot (T - T_b)} }$$
 
 
 ```julia
-Tc = Tb                                  # the cloud temperature, assumed to be the boiling point
-
-We = 12                                  # critical Weber number
-
-R = 8.31446261815324                     # universal gas constant, J/mol/K
-MWₐᵢᵣ = 28.960                           # molar weight air, kg/kmol
-ρa(T) = (pₐ*MWₐᵢᵣ)/(R*T)/1000            # density of air, ideal gas law, kg/m^3
-
-ud = Qₗ/( cd * (π/4)*dₕ^2 * ρₗ(Tᵣ))      # release velocity, m/s
-
-da = ( σ(Tc) * We)/(ρa(Tc) * ud^2)       # droplet size, m, due to aerodynamic breakup
-
-df = (0.03)/(10 + 4*(Tᵣ-Tb))                   # droplet size, m, due to flashing breakup
+# droplet size, m, due to flashing breakup
+df = (0.03)/(10 + 4*(Tᵣ-Tb))                   
 
 dₚ = min(da, df)
 ```
 
     2.188550597862162e-5
-
 
 
 ### The RELEASE model
@@ -224,6 +253,15 @@ The RELEASE model uses a distribution of droplet sizes to determine, based on a 
 The critical diameter is a function of a *critical velocity* which is calculated from a model of the spray jet with a tuning parameter $\beta$ which captures the expansion of the jet. The default value for $\beta$ is given to be 4.46° [^10]
 
 $$ u_c = u_d \tan \beta $$
+
+
+```julia
+# the default value given by RELEASE is 4.46°
+β = deg2rad(4.46)
+uc = ud * tan(β) # critical velocity, m/s
+```
+
+    6.197367132394693
 
 The critical diameter is found by solving the balance of buoyant and drag forces on a droplet
 
@@ -253,21 +291,23 @@ This relationship will have to be solved numerically to get the critical diamete
     this could be an opportunity for improvement to the RELEASE model as liquid droplets and bubbles do not experience drag in the same way as solids, due to internal flows that can dissipate energy
 
 
+
 ```julia
-β = deg2rad(4.46)                         # the default value given by RELEASE is 4.46°, converted here to radians
-uc = ud * tan(β)                          # critical velocity, m/s
+using Roots: find_zero
 
-ρg(T) = (pₐ * Mw)/(R * T)/1000            # ideal gas law, kg/m^3
-μₐ(T) = (1.425e-6*T^0.5039)/(1 + 108.3/T) # viscosity of air, from Perry's, Pa*s
+ρg(T) = (pₐ * Mw)/(R * T)/1000  # ideal gas law, kg/m^3
 
-Re(d) = ρg(Tc) * uc * d / μₐ(Tc)          # the Reynold's number at the release temperature
-CD(d) = 0.4 + (24/Re(d)) + 6/(1-√(Re(d))) # the drag coefficient
+# the Reynold's number at the release temperature
+Re(d) = ρg(Tc) * uc * d / μₐ(Tc)
 
+# the drag coefficient
+CD(d) = 0.4 + (24/Re(d)) + 6/(1-√(Re(d))) 
+
+# critical diameter
 dc = find_zero( d ->   (ρₗ(Tc) - ρg(Tc))*g*d - 0.75*CD(d)*ρg(Tc) * uc^2, (0.1*dₚ, 10*dₚ))
 ```
 
-    0.00014250630981793827
-
+    0.00014250630981793824
 
 
 #### Aerosol Fraction
@@ -278,20 +318,17 @@ $$ f_a = { {F_m \left( d_c \right)} \over {F_m \left( \infty \right)} } $$
 
 Where $F_m(d)$ is the cumulative mass distribution function for droplets. This is based on a log-normal distribution and is given as
 
-$$ F_m \left( d \right) = \left( \frac{\pi}{6} \rho_l d_p^3 \right) \int_0^t { t^2 \over {\sqrt{2 \pi} \log{\sigma_G} } }{\exp \left( -\frac{1}{2} \left( \log{t} \over \log{\sigma_G} \right)^2 \right)} dt$$
+$$ F_m \left( d \right) = \left( \frac{\pi}{6} \rho_l d_p^3 \right) \int_0^t { t^2 \over {\sqrt{2 \pi} \log{\sigma_G} } } {\exp \left( -\frac{1}{2} \left( \log{t} \over \log{\sigma_G} \right)^2 \right)} dt$$
 
 Where $t = d/d_p$ and $\sigma_G$ is another tuning parameter (the default value given is 1.8).
 
-
-![svg](/images/butane_leak_example_files/output_18_0.svg)
-
-
+![svg](/images/butane_leak_example_files/output_23_0.svg)
 
 With a change of variables $z = \log{t}$ and $s = \log{\sigma_g}$ the cumulative mass distribution function [can be integrated](https://www.wolframalpha.com/input/?i=integrate+%281%2F%28sqrt%282*pi%29*s%29%29*exp%283z%29*exp%28-%281%2F2%29*%28z%2Fs%29%5E2%29+dz):
-
-$$ F_m \left( d \right) = \left( \frac{\pi}{6} \rho_l d_p^3 \right) \int_{-\infty}^z { 1 \over {\sqrt{2 \pi} s} }{\exp \left( 3z \right) \exp \left(-\frac{1}{2} \left( z \over s \right)^2 \right)} dz = \left( \frac{\pi}{6} \rho_l d_p^3 \right) \frac{-1}{2} \exp \left( 9s^2 \over 2 \right) \left[ \mathrm{erf} \left( {3s^2 - z} \over {\sqrt{2} s} \right) \right]_{-\infty}^z $$
-
-$$F_m \left( d \right) = \left( \frac{\pi}{6} \rho_l d_p^3 \right) \exp \left( 9 \left( \log{\sigma_G} \right)^2 \over 2 \right) \frac{1}{2} \left[ 1 - \mathrm{erf} \left( {3 \left( \log{\sigma_G} \right)^2 - \log{d} + \log{d_p} } \over {\sqrt{2} \log{\sigma_G} } \right) \right]$$
+$$ F_m \left( d \right) = \left( \frac{\pi}{6} \rho_l d_p^3 \right) \int_{-\infty}^z { 1 \over {\sqrt{2 \pi} s} }{\exp \left( 3z \right) \exp \left(-\frac{1}{2} \left( z \over s \right)^2 \right)} dz
+\\= \left( \frac{\pi}{6} \rho_l d_p^3 \right) \frac{-1}{2} \exp \left( 9s^2 \over 2 \right) \left[ \mathrm{erf} \left( {3s^2 - z} \over {\sqrt{2} s} \right) \right]_{-\infty}^z
+\\= \left( \frac{\pi}{6} \rho_l d_p^3 \right) \exp \left( 9 \left( \log{\sigma_G} \right)^2 \over 2 \right) 
+\\\times \frac{1}{2} \left[ 1 - \mathrm{erf} \left( {3 \left( \log{\sigma_G} \right)^2 - \log{d} + \log{d_p} } \over {\sqrt{2} \log{\sigma_G} } \right) \right]$$
 
 where $\mathrm{erf}\left( x \right)$ is the error function. Finally the aerosol fraction is:
 
@@ -303,7 +340,9 @@ The RELEASE code uses this formula and also does a check for extreme cases, defa
 
 
 ```julia
-function RELEASE_fa(dc, dp, σG)
+using SpecialFunctions: erf
+
+function RELEASE_fa(dc, dp; σG=1.8)
     if (dp/dc) >= exp(σG)
         # checks for where erf(x) ~ 1
         return 0.0
@@ -316,19 +355,16 @@ function RELEASE_fa(dc, dp, σG)
 end
 ```
 
-
 ```julia
-σG = 1.8                     # default value given by RELEASE
-fₐ = RELEASE_fa(dc, dₚ, σG)  # calculates the aerosol fraction using the RELEASE method
+fₐ = RELEASE_fa(dc, dₚ)  # calculates the aerosol fraction using the RELEASE method
 ```
 
     0.9227949810754577
 
 
 ```julia
-Qₐ(t) = fₐ*(Qₗ - Qᵥ(t))
+Qₐ(t) = fₐ*(Qₗ - Qᵥ(t));
 ```
-
 
 ## Pool Evaporation
 
@@ -354,17 +390,20 @@ In practice the area of the pool will be limited to be at most the dyked area. F
 
 
 ```julia
-Tₗ = Tb      # the liquid temperature, taken to be the boiling point
+# the liquid temperature, taken to be the boiling point
+Tₗ = Tb
 
+# mass flow to the pool, kg/s
 Qₚ(t) = Qₗ - Qᵥ(t) - Qₐ(t)
 
-Aₚᵤ(t) = (π/4) * √((2048/81) * (Qₚ(t)/ρₗ(Tₗ)) * t^3 ) # Unconfined pool area, m^2
+# unconstrained pool area, m^2
+Aₚᵤ(t) = (π/4) * √((2048/81) * (Qₚ(t)/ρₗ(Tₗ)) * t^3 )
 
-Aₚ(t) = min( Aₚᵤ(t) , Ad)                             # Pool area, restricted to at most dyked area, m^2
+# Pool area, restricted to at most dyked area, m^2
+Aₚ(t) = min( Aₚᵤ(t) , Ad)
 ```
 
-![svg](/images/butane_leak_example_files/output_25_0.svg)
-
+![svg](/images/butane_leak_example_files/output_30_0.svg)
 
 In general the evaporation rate is derived from a heat balance accounting for the heat transfer from the ground, from the ambient air, and from solar flux, however in this case a simplifying assumption is that the majority of the heat transfered to the liquid is from the ground.
 
@@ -387,21 +426,22 @@ One thing worth noting is that the pool area equation does not take into account
 
 
 ```julia
-# Thermal properties of concrete from: Bejan, A., Kraus, A. D., Heat Transfer Handbook, John Wiley & Sons, 2003
-k = 1.28     # concrete, W/m/K
-α = 6.6e-7   # concrete, m^2/s
+# Thermal properties of concrete 
+# A. Bejan, Kraus, A. D., Heat Transfer Handbook, John Wiley & Sons, 2003
+k = 1.28     # W/m/K
+α = 6.6e-7   # m^2/s
 
-Tₛ = Tᵣ      # surface temperature, taken to be the ambient temperature
+# surface temperature, taken to be the ambient temperature
+Tₛ = Tᵣ      
 
+# evaporative flux, kg/s/m^2
 Gₑ(t) = (Mw/ΔHᵥ(Tₗ)) * k * (Tₛ - Tₗ) / √(π*α*t)
 
-Qₑ(t) = min( Gₑ(t)*Aₚ(t), Qₚ(t))
+# evaporation rate, kg/s
+Qₑ(t) = min( Gₑ(t)*Aₚ(t), Qₚ(t));
 ```
 
-
-![svg](/images/butane_leak_example_files/output_28_0.svg)
-
-
+![svg](/images/butane_leak_example_files/output_33_0.svg)
 
 ## Airborne Quantity
 
@@ -419,27 +459,28 @@ One could try to integrate this analytically, but for re-useability of code it's
 
 
 ```julia
-td = 10*60 # release duration of 10 minutes
+using QuadGK: quadgk
 
-Qaq(t) = Qᵥ(t) + Qₐ(t) + Qₑ(t) # total airborne release rate is the sum of the individual mechanism release rates, in kg/s
+# release duration of 10 minutes, seconds
+td = 10*60 
 
-maq, err = quadgk(Qaq, 0, td)  # total airborne quantity is the integral over time
+# total airborne release rate is the sum of the individual 
+# mechanism release rates, in kg/s
+Qaq(t) = Qᵥ(t) + Qₐ(t) + Qₑ(t) 
+
+# total airborne quantity is the integral over time
+maq, err = quadgk(Qaq, 0, td)  
 ```
 
     (31737.218210630544, 0.0001443387234871807)
-
 
 ```julia
 maq <= Qₗ*td
 ```
 
-
     true
 
-
-![svg](/images/butane_leak_example_files/output_32_0.svg)
-
-
+![svg](/images/butane_leak_example_files/output_37_0.svg)
 
 It is often insightful to compare the airborne quantity to the case where there was no secondary containment, i.e. the pool could expand without bound.
 
@@ -453,6 +494,9 @@ maqu, err = quadgk(Qaqu, 0, td)
 
     (33426.49125139247, 0.00031720986663685835)
 
+
+    With secondary containment    31.737 t 
+    Without secondary containment 33.426 t 
 
 
 In this case the secondary containment reduced the overall airborne quantity by ~5%, and we wouldn't expect it to be hugely important for this example as most of the mass of the vapour cloud came from the flashing of the liquid immediately upon release and from entrained droplets.
