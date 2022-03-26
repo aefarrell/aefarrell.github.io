@@ -33,6 +33,8 @@ Additionally I am assuming ambient conditions of 25°C and 1atm
 
 
 ```julia
+using Unitful
+
 W = uconvert(u"GJ/s", 300u"GJ/hr")
 hₛ = 10u"m"   # stack height
 Dₛ = 2u"m"    # stack diameter
@@ -49,7 +51,7 @@ Tₐ = 298.15u"K"    # ambient temperature, 25°C
 Prior to any dispersion modeling, the following parameters need to be collected:
 + the mass emission rate of the species, carbon monoxide, in kg/s
 + the concentration of interest, in this case the occupational exposure limit of carbon monoxide in kg/m3
-+ the wind-speed and atmospheric stability
++ the windspeed and atmospheric stability
 + the *effective* stack height, in m
 
 ### Mass Emission Rate
@@ -72,9 +74,14 @@ EF = uconvert(u"kg/m^3", 84*1e-6u"lb/ft^3")
 Q = EF * W / HV # mass emission rate in kg/s
 ```
 
+
+
+
     0.002950437713234783 kg s^-1
 
-This gives a mass flow rate of carbon monoxide in the plume, but we will also need some sense of how large the plume is in general, i.e. what is the volumetric flow-rate of stack gas exiting the stack?
+
+
+This gives a mass flow rate of carbon monoxide in the plume, but we will also need some sense of how large the plume is in general, i.e. what is the volumetric flowrate of stack gas exiting the stack?
 
 ### Volumetric Flow Rate of Flue Gas
 
@@ -102,7 +109,12 @@ Vₛᵒ = Fw * (20.9 / (20.9*(1-Bwa) - pct_O2)) * W
 Vₛᵒ = upreferred(Vₛᵒ)
 ```
 
+
+
+
     30.385903267077627 m^3 s^-1
+
+
 
 The actual volumetric flow rate can be calculated assuming the ideal gas law
 
@@ -114,7 +126,8 @@ Where the standard conditions of Method 19 are $T^o = 20 \mathrm{C}$ and $p^o = 
 
 
 ```julia
-@unit mmHg "mm Hg" MillimetersMercury 133.322387415u"Pa" false # Unitful doesn't know what "mm Hg" is
+# Unitful doesn't know what "mm Hg" is
+@unit mmHg "mm Hg" MillimetersMercury 133.322387415u"Pa" false 
 
 Tᵒ = uconvert(u"K", 20u"°C")
 pᵒ = uconvert(u"kPa", 760mmHg)
@@ -122,7 +135,11 @@ pᵒ = uconvert(u"kPa", 760mmHg)
 Vₛ = (Tₛ / Tᵒ) * (pᵒ / pₐ) * Vₛᵒ
 ```
 
+
+
+
     46.6438970432218 m^3 s^-1
+
 
 
 ### The Concentration of Interest
@@ -151,7 +168,7 @@ For carbon monoxide there are three concentrations of interest[^niosh] worth con
 ```julia
 TWA = uconvert(u"kg/m^3", 40u"mg/m^3")
 Ceil = uconvert(u"kg/m^3", 229u"mg/m^3")
-IDLH = uconvert(u"kg/m^3", 1380u"mg/m^3")
+IDLH = uconvert(u"kg/m^3", 1380u"mg/m^3");
 ```
 
 We can check if the stack gas concentration at the exit exceeds the TWA. If it does not exceed the TWA then there is no reason to proceed with the calculations as a worker could work *in the stack* and not exceed the limits and they certainly would not exceed the limits after the plume mixed with ambient air.
@@ -161,12 +178,14 @@ We can check if the stack gas concentration at the exit exceeds the TWA. If it d
 uconvert(u"mg/m^3", Q/Vₛᵒ)
 ```
 
+
     97.0988977125952 mg m^-3
 
 
 ```julia
 Q/Vₛᵒ > TWA
 ```
+
 
     true
 
@@ -177,7 +196,7 @@ The concentration in the flue gas is above the limit for long term work exposure
 
 The ambient conditions impact the release in some obvious ways and in some non-obvious ways. Obviously the wind-speed impacts how far the plume is moved, through advection. Somewhat non-obviously the ambient conditions also govern how high the plume will rise due to buoyancy as well as the extent of mixing as the plume moves through the air.
 
-Suppose a wind-speed of 1.5m/s at the stack height, just arbitrarily.
+Suppose a windspeed of 1.5m/s at the stack height, just arbitrarily.
 
 
 ```julia
@@ -186,6 +205,8 @@ uₛ = 1.5u"m/s"
 
     1.5 m s^-1
 
+
+
 ### Atmospheric Stability
 
 The atmospheric stability relates to the vertical mixing of the air due to a temperature gradient, during the day air temperature decreases with elevation and this temperature gradient induces a vertical flow that leads to vertical mixing.
@@ -193,7 +214,7 @@ The atmospheric stability relates to the vertical mixing of the air due to a tem
 ![image.png](/images/gaussian_dispersion_example_files/att1.png)
 
 This is captured by the atmospheric stability parameter $s$ which is given by[^isc-1]
-
+ 
 $$ s = \frac{g}{T_a} { \partial \theta \over \partial z } $$
 
 Where $ \partial \theta \over \partial z $ is the lapse rate in K/m
@@ -208,11 +229,13 @@ The "worst-case" is the case with the least mixing and corresponds to a class F 
 
 
 ```julia
-pasquill_stability = "F"
+# acceleration due to gravity
+g = 9.80616u"m/s^2"
 
-g = 9.80616u"m/s^2" # acceleration due to gravity
-Γ = 0.035u"K/m"     # default lapse rate for class F
+# default lapse rate for class F
+Γ = 0.035u"K/m"
 
+# stability parameter
 s = (g/Tₐ) * Γ
 ```
 
@@ -227,7 +250,7 @@ As a first check, verify that stack down-wash will not be relevant. For low mome
 
 Where $v_s$ is the stack exit velocity and is calculated from the volumetric flow as
 
-$$ v_s = { V_s \over A_s} = { V_s \over \frac{\pi}{4} D^2 } $$
+$$ v_s = { V_s \over A_s} = { V_s \over \frac{\pi}{4} D^2 } $$ 
 
 
 ```julia
@@ -236,7 +259,12 @@ vₛ = Vₛ / ((π/4)*Dₛ^2)
 vₛ > 1.5uₛ
 ```
 
+
+
+
     true
+
+
 
 The following assumes a *stable* plume rise, recall that Pasquill stability class F corresponds to very stable conditions.
 
@@ -254,6 +282,7 @@ $$ T_s - T_a = \Delta T \gt \left( \Delta T \right)_c = 0.019582 T_s v_s \sqrt{s
 ```
 
     true
+
 
 In this case buoyant plume rise is dominant, and the stable plume rise equation is[^isc-5]
 
@@ -293,31 +322,31 @@ Fb = g * vₛ * Dₛ^2 * (Tₛ - Tₐ) / (4Tₛ)
 xf = 2.0715*uₛ/√(s)
 ```
 
+
     91.58199372993636 m
 
 
 ```julia
-function Δh(x; Fb, u, s)
-    xf = 2.0715*u/√(s)
-
+function Δh(x)
+    xf = 2.0715*uₛ/√(s)
+    
     if x < xf
-        return 1.60*(Fb*x^2/u^3)^(1/3)
+        return 1.60*(Fb*x^2/uₛ^3)^(1/3)
     else
-        return 2.6*(Fb/(u*s))^(1/3)
+        return 2.6*(Fb/(uₛ*s))^(1/3)
     end
-
-end
-
-Δh(x) = Δh(x, Fb=Fb, u=uₛ, s=s)
+    
+end;
 ```
 
-![svg](/images/gaussian_dispersion_example_files/output_27_0.svg)
+![svg](/images/gaussian_dispersion_example_files/output_26_0.svg)
 
 
 
 Plume rise is impacted by the wind-speed at the stack height, as the following plot shows, but with several large caveats. For one the model for plume rise given is not defined at no wind-speed and for very low wind-speeds the value should be treated with suspicion. Similarly for very large wind-speeds the assumption of stable rise is likely quite invalid.
 
-![svg](/images/gaussian_dispersion_example_files/output_29_0.svg)
+
+![svg](/images/gaussian_dispersion_example_files/output_28_0.svg)
 
 
 
@@ -408,13 +437,13 @@ $$ C = {Q \over 2 \pi u \sigma_{y} \sigma_{z} } \exp \left[ -\frac{1}{2} \left( 
 
 ## Pasquill-Gifford Model
 
-The $\sigma_{y}$ and $\sigma_{z}$ are functions of the downwind distance *x*. In the derivation of the model they were assumes to be linear in *x* however in practice they are typically of the form:
+The $\sigma_{y}$ and $\sigma_{z}$ are functions of the downwind distance *x*. In the derivation of the model they were assumed to be linear in *x* however in practice they are typically of the form:
 
 $$ \sigma_{y} = a x^{b} $$
 
 $$ \sigma_{z} = c x^{d} $$
 
-With the constants tabulated based on the [Pasquill stability class criteria](https://en.wikipedia.org/wiki/Outline_of_air_pollution_dispersion#Characterization_of_atmospheric_turbulence).
+With the constants tabulated based on the [Pasquill stability class criteria](https://en.wikipedia.org/wiki/Outline_of_air_pollution_dispersion#Characterization_of_atmospheric_turbulence). 
 
 These particular correlations come from *Lees'*[^lee] and are for a Pasquill stability class F
 
@@ -426,14 +455,6 @@ These particular correlations come from *Lees'*[^lee] and are for a Pasquill sta
 ```julia
 σy(x) = 0.067*x^0.90
 
-function σy(x::Quantity)::Quantity
-    x = ustrip(u"m", x)
-    return σy(x)*1u"m"
-end
-```
-
-
-```julia
 function σz(x)
     if x < 500.0
         return 0.057*x^0.80
@@ -442,14 +463,27 @@ function σz(x)
         # 10^(1.91 - 1.37*log10(x) - 0.119*log10(x)^2)
         return 10^(-1.91 + 1.37*log10(x) - 0.119*log10(x)^2)
     end
-end
-
-function σz(x::Quantity)::Quantity
-    x = ustrip(u"m", x)
-    return σz(x)*1u"m"
-end
+end;
 ```
 
+These correlations are currently not unit-aware, so we can add that using a macro
+
+
+```julia
+# this macro adds a method to handle units
+macro correl(f, in_unit, out_unit)
+    quote
+        function $(esc(f))(x::Quantity)::Quantity
+            x = ustrip($in_unit, x)
+            res = $f(x)
+            return res*$out_unit
+        end
+    end
+end
+
+σy = @correl(σy, u"m", u"m")
+σz = @correl(σz, u"m", u"m");
+```
 
 ![svg](/images/gaussian_dispersion_example_files/output_37_0.svg)
 
@@ -465,24 +499,23 @@ $$ \sigma_{ye}^2 = \left( \Delta h \over 3.5 \right)^2 + \sigma_y^2 $$
 
 and the final model of concentration is given in respect to the effective stack height
 
-$$ C = {Q \over 2 \pi u \sigma_{ye} \sigma_{ze} } \exp \left[ -\frac{1}{2} \left( y \over \sigma_{ye} \right)^2 \right] \left\{ \exp \left[ -\frac{1}{2} \left( { z -h_e } \over \sigma_{ze} \right)^2 \right] + \exp \left[ -\frac{1}{2} \left( { z + h_e } \over \sigma_{ze} \right)^2 \right] \right\} $$
+$$ C = {Q \over 2 \pi u \sigma_{ye} \sigma_{ze} } \exp \left[ -\frac{1}{2} \left( y \over \sigma_{ye} \right)^2 \right] 
+\\ \times \left\{ \exp \left[ -\frac{1}{2} \left( { z -h_e } \over \sigma_{ze} \right)^2 \right] + \exp \left[ -\frac{1}{2} \left( { z + h_e } \over \sigma_{ze} \right)^2 \right] \right\} $$
 
 [^ap5-2]: *Fundamentals of Air Pollution, 5th ed.* pgs 696-697 equations 27.19 and 27.20
 
 
 ```julia
-function C(x, y, z; Q, u, hₛ, Δh::Function, σy::Function, σz::Function)
+function C(x, y, z)
     hₑ  = hₛ + Δh(x)
     σyₑ = √( (Δh(x)/3.5)^2 + σy(x)^2 )
     σzₑ = √( (Δh(x)/3.5)^2 + σz(x)^2 )
-
-    C = (Q/(2*π*u*σyₑ*σzₑ)) *
+    
+    C = (Q/(2*π*uₛ*σyₑ*σzₑ)) *
          exp(-0.5*(y/σyₑ)^2) *
          ( exp(-0.5*((z-hₑ)/σzₑ)^2) + exp(-0.5*((z+hₑ)/σzₑ)^2) )
-
+    
 end
-
-C(x,y,z) = C(x,y,z, Q=Q, u=uₛ, hₛ=hₛ, Δh=Δh, σy=σy, σz=σz)
 ```
 
 
@@ -495,7 +528,6 @@ There are two cases worth considering
 The first case would be very conservative and the stack plume would immediately point directly down-wind, at the stack height, this is far more likely to impact the work platform and any workers on the ground, though it is also quite unrealistic.
 
 *Note* the following contour plots max out at the time-weighted-average concentration, shown in mg/m^3
-
 
 
 ![svg](/images/gaussian_dispersion_example_files/output_41_0.svg)
@@ -517,12 +549,15 @@ In this model the plume clearly rises significantly and, as it goes, mixes into 
 uconvert(u"mg/m^3",C(x₁, 0u"m", h₁))
 ```
 
+
     0.0014282911474771348 mg m^-3
+
 
 
 ```julia
 C(x₁, 0u"m", h₁) > TWA
 ```
+
 
     false
 
@@ -537,5 +572,4 @@ This also assumes no other sources of carbon monoxide, both at the facility surr
 
 I think that, while modeling like this might be informative about the potential hazards, it is always good practise to develop a monitoring plan for the work area that includes the flue gases and any other potential substances to ensure workers on the scaffolding are not being exposed.
 
-
-----
+---

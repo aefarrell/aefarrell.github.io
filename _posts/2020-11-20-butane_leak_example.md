@@ -106,14 +106,12 @@ cₚ(T) = 191030 - 1675*T + 12.5*T^2 - 0.03874*T^3 + 4.6121e-5*T^4
 σ(T) = 0.05196*(1-(T/Tcr))^(1.2181);
 ```
 
-The vapour pressure of butane at the release temperature is above atmospheric pressure and so the butane in the storage sphere will be a liquid.
+The vapour pressure of butane at the release temperature is below the storage pressure, so the butane in the storage sphere will be a liquid.
 
 
 ```julia
-pˢ(Tᵣ)>pₐ
+pˢ(Tᵣ)<p
 ```
-
-
 
 
     true
@@ -122,7 +120,7 @@ pˢ(Tᵣ)>pₐ
 
 ## The Release Rate
 
-Since the vapour pressure within the vessel is greater than atmospheric, at ambient temperature, the butane within the storage sphere is a liquid. In general one would have to account for flashing and two-phase flow during the release, however for very short discharge distances (<10cm) there is typically not enough time for the liquid to flash during discharge[^3], over the thickness of a hole this especially true. The butane discharged from the tank will be a stream of liquid initially and the simple Bernoulli equation for a liquid jet can be used[^4].
+Since the vapour pressure within the vessel is below the storage pressure, at ambient temperature, the butane within the storage sphere is a liquid. In general one would have to account for flashing and two-phase flow during the release, however for very short discharge distances (<10cm) there is typically not enough time for the liquid to flash during discharge[^3], over the thickness of a hole this especially true. The butane discharged from the tank will be a stream of liquid initially and the simple Bernoulli equation for a liquid jet can be used[^4].
 
 $$ Q_l = c_d \rho_l A_h \sqrt{ 2 \left( p - p_a \over \rho_l \right) + 2gh_l } = c_d \rho_l { {\pi \over 4} d_h^2} \sqrt{ 2 \left( p - p_a \over \rho_l \right) + 2gh_l } $$
 
@@ -330,7 +328,8 @@ $$ F_m \left( d \right) = \left( \frac{\pi}{6} \rho_l d_p^3 \right) \int_{-\inft
 
 \\= \left( \frac{\pi}{6} \rho_l d_p^3 \right) \frac{-1}{2} \exp \left( 9s^2 \over 2 \right) \left[ \mathrm{erf} \left( {3s^2 - z} \over {\sqrt{2} s} \right) \right]_{-\infty}^z
 
-\\= \left( \frac{\pi}{6} \rho_l d_p^3 \right) \exp \left( 9 \left( \log{\sigma_G} \right)^2 \over 2 \right) \times \frac{1}{2} \left[ 1 - \mathrm{erf} \left( {3 \left( \log{\sigma_G} \right)^2 - \log{d} + \log{d_p} } \over {\sqrt{2} \log{\sigma_G} } \right) \right] $$
+\\= \left( \frac{\pi}{6} \rho_l d_p^3 \right) \exp \left( 9 \left( \log{\sigma_G} \right)^2 \over 2 \right)
+\\ \times \frac{1}{2} \left[ 1 - \mathrm{erf} \left( {3 \left( \log{\sigma_G} \right)^2 - \log{d} + \log{d_p} } \over {\sqrt{2} \log{\sigma_G} } \right) \right] $$
 
 where $\mathrm{erf}\left( x \right)$ is the error function. Finally the aerosol fraction is:
 
