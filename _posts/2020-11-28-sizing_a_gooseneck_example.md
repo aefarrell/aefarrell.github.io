@@ -22,6 +22,8 @@ When determining the required venting for aboveground storage tanks it is typica
 
 It's not uncommon, though, for tanks to have gooseneck vents constructed from piping. This is fairly normal for tanks holding water, or other non-volatile substances, where the tank is open to atmosphere and there are no dangerous vapours that need to be managed. The gooseneck itself is merely to keep rain, and wildlife, out of the tank.
 
+<!--more-->
+
 Sizing the gooseneck to match the required venting involves performing some simple compressible flow calculations, which is fairly straight-forward to set up in a generalized way such that, beyond this motivating example, it can be extended to lots of other problems. Though it isn't at all uncommon, in this particular case, for the flow calculations to be done assuming an incompressible fluid as, over the length of the gooseneck, the pressure drop is typically slight and the compressibility of the gas (air usually) is not important.
 
 With that in mind, I am going to work through the problem in stages of escalating complexity, very likely the most complicated (fanno flow) is overkill for this specific example but it's worth putting it all down as the same tools can be used for compressible flow calculations through many piping situations.
@@ -47,35 +49,43 @@ At this point I am going to set up the equations with no knowledge of what the f
 
 
 ```julia
+using Unitful: @u_str, uconvert, ustrip, upreferred
+
 # Setting up some convenient unit conversions
-SCFH = uconvert(u"m^3/s", 1u"ft^3/hr") # unit conversion scfh -> sm^3/s
-psi = uconvert(u"Pa", 1u"psi")         # unit conversion psi->Pa
-ft = uconvert(u"m", 1u"ft")            # unit conversion ft->m
-inch = uconvert(u"m", 1u"inch")        # unit conversion inch->m
-mm = uconvert(u"m", 1u"mm")            # unit conversion mm->m
+SCFH = uconvert(u"m^3/s", 1u"ft^3/hr")
+psi = uconvert(u"Pa", 1u"psi")
+ft = uconvert(u"m", 1u"ft")
+inch = uconvert(u"m", 1u"inch")
+mm = uconvert(u"m", 1u"mm")
 
 # Given in the scenario, now converted to SI
 Q = 200e3SCFH
 pₐ = 14.696psi
 pₘₐₓ = 1psi + pₐ
 L = 3ft
-ϵ = 0.0457mm
+ϵ = 0.0457mm;
 ```
 
 I am assuming, for simplicity, that ambient conditions are standard conditions.
 
 
 ```julia
+# Universal gas constant to more digits than are at all necessary
+R = 8.31446261815324u"Pa*m^3/mol/K"
+
+# Standard conditions, 15°C 
+Tₐ = 288.15u"K"
+
 # Some useful physical properties of air
-R = 8.31446261815324u"Pa*m^3/mol/K" # Universal gas constant to more digits than are at all necessary
-Tₐ = 288.15u"K"                     # Standard conditions, 15°C 
-Mw = 0.02896u"kg/mol"               # Molar weight of air, from Perry's
-k = 1.4                             # Ratio of heat capacities, Cp/Cv, ideal gas
+Mw = 0.02896u"kg/mol"  # Molar weight of air, from Perry's
+k = 1.4                # Ratio of heat capacities, Cp/Cv, ideal gas
 
-ρ(p, T) = (p * Mw)/(R * T)          # density of air, ideal gas law, kg/m^3
-μ(T) = 1u"Pa*s"*(1.425e-6*ustrip(u"K",T)^0.5039)/(1 + 108.3/ustrip(u"K",T)) # viscosity of air, from Perry's
+# density of air, ideal gas law, kg/m^3
+ρ(p, T) = (p * Mw)/(R * T)
+
+# viscosity of air, from Perry's
+μ(T) = 1u"Pa*s"*(1.425e-6*ustrip(u"K",T)^0.5039)/(1 + 108.3/ustrip(u"K",T));
 ```
-
 
 ### Frictional head loss
 
@@ -97,11 +107,7 @@ The Darcy friction factor generally depends on which regime the flow is in, lami
 
 [^2]: See Crane's page A-30 for the K factors for pipe entrances, exits, and pipe bends
 
-
-
-![svg](/images/sizing_a_gooseneck_example_files/output_7_0.svg)
-
-
+![svg](/images/sizing_a_gooseneck_example_files/output_6_0.svg)
 
 The black line conservatively takes the max of either the laminar or turbulent friction factor in the transitional region $2100 \le Re \le 4000$. The Churchill correlation fits the general curve well for both the turbulent and laminar region, and provides reasonable values in the transitional region.
 
@@ -131,9 +137,8 @@ end
 
 fT(κ) = 0.25/log10(κ/3.7)^2
 
-ΣK(κ,l,Re) = 0.5 + f(κ,Re)*l + 14*fT(κ) + 14*fT(κ) + fT(κ) + 1.0
+ΣK(κ,l,Re) = 0.5 + f(κ,Re)*l + 14*fT(κ) + 14*fT(κ) + fT(κ) + 1.0;
 ```
-
 
 ### The Reynolds number
 
@@ -154,15 +159,19 @@ $$ Re = \frac{G D}{\mu} $$
 The only parameter in the Reynolds number which is not a constant is the viscosity, $\mu$, which is mostly dependent upon temperature and not pressure. So, to a very good first approximation, the Reynolds number is only a function of temperature. Which is very convenient.
 
 
-
 ```julia
-m = Q*ρ(pₐ, Tₐ)      # mass flow, recall Q is at standard state so is not a function of temperature or pressure
+# mass flow, recall Q is at standard state so is not a function of 
+# temperature or pressure
+m = Q*ρ(pₐ, Tₐ)
 
+# mass velocity
 G(D) = (4*m)/(π*D^2)
 
-Re(D, T) = upreferred(G(D)*D/μ(T)) # upreferred promotes derived units to combos of base units, e.g. Pa -> kg/m/s^2
+# Reynold's number
+# upreferred promotes derived units to combos of base units
+# e.g. converts Pa -> kg/m/s^2
+Re(D, T) = upreferred(G(D)*D/μ(T));
 ```
-
 
 ## Incompressible Flow
 
@@ -205,16 +214,21 @@ Which can be solved algebraically for $D$, where $\rho$ is taken at the average 
 
 
 ```julia
+using Roots: find_zero, Brent
+
 v(D) = Q / ((π/4)*D^2)
 
-Dᵢₙ(Dₗ, Dᵤ) = find_zero( D -> pₘₐₓ - pₐ - 0.5*ΣK(ϵ/D,L/D,Re(D,Tₐ))*ρ((pₘₐₓ + pₐ)/2, Tₐ)*v(D)^2, (Dₗ, Dᵤ), Roots.A42())
+Dᵢₙ(Dₗ, Dᵤ) = find_zero( 
+    (D) -> pₘₐₓ - pₐ - 0.5*ΣK(ϵ/D,L/D,Re(D,Tₐ))*ρ((pₘₐₓ + pₐ)/2, Tₐ)*v(D)^2,
+    (Dₗ, Dᵤ), # Lower and upper bracket of the root
+    Brent() ) # Solve using Brent's method
 
 D0 = Dᵢₙ(4inch, 12inch)
 
 uconvert(u"inch", D0)
 ```
 
-    6.497118827423375 inch
+    6.497118827423374 inch
 
 
 At this point one would typically stop for this example, compressible flow calculations are probably unnecessary.
@@ -242,9 +256,7 @@ $$ \frac{T_2}{T_1} = \left( p_1 \over p_2 \right)^{ {1-k} \over k}$$
 (pₘₐₓ/pₐ)^((1-k)/k)
 ```
 
-
     0.9813670503935878
-
 
 So we expect even in the most extreme case the temperature change is ~2%, justifying the assumption that the venting is isothermal.
 
@@ -259,25 +271,27 @@ The only unknown is *p<sub>1</sub>*, which can be solved for numerically.
 [^5]: *Perry's* pg 6-23 equation 6-114, this equation also neglects changes in elevation
 
 
-
 ```julia
-pᵢₜ(G,κ,l,Re) = find_zero(p -> p^2 - G^2 * (R*Tₐ/Mw) * (ΣK(κ,l,Re) + 2*log(p/pₐ)) - pₐ^2, pₘₐₓ) # solves the isothermal flow equation with an initial guess p₁=pₘₐₓ
+pᵢₜ(G,κ,l,Re) = find_zero(
+    p -> p^2 - G^2 * (R*Tₐ/Mw) * (ΣK(κ,l,Re) + 2*log(p/pₐ)) - pₐ^2, 
+    pₘₐₓ); # initial guess
 ```
 
 At this point we can write a simple function to solve for the minimum diameter that meets our requirement that $p_1 \le p_{max}$.
 
 
 ```julia
-Dᵢₜ(Dₗ, Dᵤ) = find_zero( D -> pₘₐₓ - pᵢₜ( G(D), ϵ/D, L/D, Re(D, Tₐ)), (Dₗ, Dᵤ), Roots.A42())
+Dᵢₜ(Dₗ, Dᵤ) = find_zero( 
+    D -> pₘₐₓ - pᵢₜ( G(D), ϵ/D, L/D, Re(D, Tₐ)), 
+    (Dₗ, Dᵤ), # Lower and upper bracket of the root
+    Brent() ) # Solve using Brent's method
 
 D1 = Dᵢₜ(4inch, 12inch)
 
 uconvert(u"inch", D1)
 ```
 
-
     6.491472166277518 inch
-
 
 
 ### Adiabatic (Fanno) Flow
@@ -311,7 +325,7 @@ $$ Fa = \left( \frac{fL^{*} }{D} \right) = \frac{1 - Ma^{2} }{kMa^{2} } + \frac{
 
 Where I am defining $Fa$ to be the Fanno parameter. The Fanno parameter is calculated from some point in the flow path through to the critical point, where flow goes sonic. The critical point can be a hypothetical point, assuming the pipe is infinite, or it can be real. In this case I am assuming the flow within the vent will remain subsonic.
 
-It is worth noting that elbows near the exit of a pipe may choke the flow even though the $Ma < 1$ due to the nonuniform velocity profile in the elbow. By the design of this gooseneck we know this is the case and should keep that in mind when evaluating the results.
+It is worth noting that elbows near the exit of a pipe may choke the flow even though the $Ma &lt; 1$ due to the nonuniform velocity profile in the elbow. By the design of this gooseneck we know this is the case and should keep that in mind when evaluating the results.
 
 For two points along a pipe, 1 and 2, the difference between their Fanno parameters is the frictional loss between those two points[^8]
 
@@ -362,11 +376,17 @@ While that looks complicated, each step is fairly easy. In my experience, with s
 
 
 ```julia
+# Fanno parameter
 Fa(Ma) = ((1-Ma^2)/(k*Ma^2)) + ((k+1)/(2k))*log( ((k+1)*Ma^2) / (2 + (k+1)*Ma^2))
 
-Ma(G, p, T) = upreferred((G/p)*√((R*T)/(k*Mw)))  # upreferred(...) ensures units cancel appropriately and the Ma is unitless
+# Mach number
+# upreferred(...) ensures units cancel appropriately and the Ma is unitless
+Ma(G, p, T) = upreferred((G/p)*√((R*T)/(k*Mw)))  
 
-T2(T₁, Ma₁, G, p) = find_zero(T₂ -> (2 + (k-1)*Ma₁^2)*T₁ - (2 + (k-1)*Ma(G, p, T₂)^2)*T₂, T₁)
+
+T2(T₁, Ma₁, G, p) = find_zero(
+    T -> (2 + (k-1)*Ma₁^2)*T₁ - (2 + (k-1)*Ma(G, p, T)^2)*T,
+    T₁) # Use the isothermal case as an initial guess
 
 
 function pfa(D)
@@ -392,7 +412,7 @@ function pfa(D)
         # Steps 3 - 6
         Fa₂ = Fa(Ma₂)
         Fa₁ = Fa₂ + ΣK(κᵢ,lᵢ,Reᵢ)
-        Ma₁ = find_zero(x -> Fa₁ - Fa(x), Ma₁)
+        Ma₁ = find_zero(x -> Fa₁ - Fa(x), (Ma₂ + Ma₁)/2)
         T₂ = T2(Tₐ, Ma₁, Gᵢ, pₐ)
         
         # Check if pressure has converged
@@ -404,25 +424,27 @@ function pfa(D)
        
     # if the loop failed to converge, let me know
     if i >= max_count
-        println("iterations exceeded max count")
-        println("remaining error is $err")
+        error_msg = "iterations exceeded max count, remaining error is $err"
+        error(error_msg)
     end
     
-    return p₁ⁿᵉʷ, T₂
-end
+    return p₁ⁿᵉʷ
+end;
 ```
 
 
 ```julia
-Dfa(Dₗ, Dᵤ) = find_zero( D -> pₘₐₓ - pfa(D)[1], (Dₗ, Dᵤ), Roots.A42())
+Dfa(Dₗ, Dᵤ) = find_zero( 
+    D -> pₘₐₓ - pfa(D), 
+    (Dₗ, Dᵤ), # Lower and upper bracket of the root
+    Brent() ) # Solve using Brent's method
 
 D2 = Dfa(4inch, 12inch)
 
 uconvert(u"inch", D2)
 ```
 
-
-    6.485474802835815 inch
+    6.485474802835819 inch
 
 
 ## Minimum Diameter
@@ -431,8 +453,7 @@ At this point we have solved for the minimum vent diameter in three different wa
 
 In general the incompressible model will always *overestimate* the pressure drop across the vent, leading to a larger vent size, and the adiabatic flow will provide an *underestimate*, the true minimum would be somewhere between the two. This is seen much more clearly at vent diameters less than ~5in where the pressure drop is more significant, more analogous to relief piping for a pressure vessel than venting for an atmospheric storage tank. Of course all of this is assuming flow remains subsonic, if the pressure drop leads to sonic flow then things are quite different.
 
-
-![svg](/images/sizing_a_gooseneck_example_files/output_29_0.svg)
+![svg](/images/sizing_a_gooseneck_example_files/output_28_0.svg)
 
 
 ## Concluding Remarks
@@ -441,8 +462,6 @@ Often things like compressible flow can be intimidating since these problems, ev
 
 The big one being all the `find_zero()` calls that rely on the initial guess being a good one, or the bracketed values actually bracketing the answer. It's more than possible to supply a terrible initial guess, especially for pipe diameter, and have the root solver fail outright. Adding some code to check that guesses are within the domains of functions would be a start, e.g. catching attempts to take `log(0)` and returning `-Inf` or something to ensure that the root-finding algorithms respect function domains. This also presents an opportunity to generate better default values, programatically, prior to solving. As opposed to me just picking reasonable numbers off the top of my head and having everything work out because I'm lucky.
 
-Relatedly there is a lot of room to fiddle around with which root finding algorithm is employed, this intersects with a design decision I made early on to use the library `Unitful` to track units throughout and ensure unit consistency. Unfortunately it does not play nicely with all root finding algorithms, for example the Brent method, as implemented in the `Roots` library, threw a bunch of arcane errors related to unit consistency when I tried using it. To get around this one could add a step to strip out units before solving and then add them back in after.
+Relatedly there is a lot of room to fiddle around with which root finding algorithm is employed.
 
 ---
-
-

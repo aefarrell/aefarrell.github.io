@@ -325,10 +325,12 @@ Where $t = d/d_p$ and $\sigma_G$ is another tuning parameter (the default value 
 ![svg](/images/butane_leak_example_files/output_23_0.svg)
 
 With a change of variables $z = \log{t}$ and $s = \log{\sigma_g}$ the cumulative mass distribution function [can be integrated](https://www.wolframalpha.com/input/?i=integrate+%281%2F%28sqrt%282*pi%29*s%29%29*exp%283z%29*exp%28-%281%2F2%29*%28z%2Fs%29%5E2%29+dz):
+
 $$ F_m \left( d \right) = \left( \frac{\pi}{6} \rho_l d_p^3 \right) \int_{-\infty}^z { 1 \over {\sqrt{2 \pi} s} }{\exp \left( 3z \right) \exp \left(-\frac{1}{2} \left( z \over s \right)^2 \right)} dz
+
 \\= \left( \frac{\pi}{6} \rho_l d_p^3 \right) \frac{-1}{2} \exp \left( 9s^2 \over 2 \right) \left[ \mathrm{erf} \left( {3s^2 - z} \over {\sqrt{2} s} \right) \right]_{-\infty}^z
-\\= \left( \frac{\pi}{6} \rho_l d_p^3 \right) \exp \left( 9 \left( \log{\sigma_G} \right)^2 \over 2 \right) 
-\\\times \frac{1}{2} \left[ 1 - \mathrm{erf} \left( {3 \left( \log{\sigma_G} \right)^2 - \log{d} + \log{d_p} } \over {\sqrt{2} \log{\sigma_G} } \right) \right]$$
+
+\\= \left( \frac{\pi}{6} \rho_l d_p^3 \right) \exp \left( 9 \left( \log{\sigma_G} \right)^2 \over 2 \right) \times \frac{1}{2} \left[ 1 - \mathrm{erf} \left( {3 \left( \log{\sigma_G} \right)^2 - \log{d} + \log{d_p} } \over {\sqrt{2} \log{\sigma_G} } \right) \right] $$
 
 where $\mathrm{erf}\left( x \right)$ is the error function. Finally the aerosol fraction is:
 
@@ -356,7 +358,8 @@ end
 ```
 
 ```julia
-fₐ = RELEASE_fa(dc, dₚ)  # calculates the aerosol fraction using the RELEASE method
+# calculates the aerosol fraction using the RELEASE method
+fₐ = RELEASE_fa(dc, dₚ)
 ```
 
     0.9227949810754577
@@ -453,7 +456,7 @@ $$ Q_{aq} \left( t \right) = Q_v \left( t \right) + Q_a \left( t \right) + Q_e \
 
 $$ m_{aq} = \int_0^{t_d} Q_{aq} \left( t \right) dt = \int_0^{t_d} Q_v \left( t \right) + Q_a \left( t \right) + Q_e \left( t \right) dt $$
 
-One could try to integrate this analytically, but for re-useability of code it's a better idea to integrate numerically -- then different models for each of the rates can be swapped in and out with ease. A quick sanity check is to make sure that the total airborne quantity is less than the total quantity released, i.e. $Q_l \cdot t_d$.
+One could try to integrate this analytically, but for re-useability of code it's a better idea to integrate numerically -- then different models for each of the rates can be swapped in and out with ease.
 
 [^15]: *Guidelines for Consequence Analysis of Chemical Releases* pg 22
 
@@ -473,6 +476,8 @@ maq, err = quadgk(Qaq, 0, td)
 ```
 
     (31737.218210630544, 0.0001443387234871807)
+
+A quick sanity check is to make sure that the total airborne quantity is less than the total quantity released, i.e. $Q_l \cdot t_d$.
 
 ```julia
 maq <= Qₗ*td
@@ -495,13 +500,9 @@ maqu, err = quadgk(Qaqu, 0, td)
     (33426.49125139247, 0.00031720986663685835)
 
 
-    With secondary containment    31.737 t 
-    Without secondary containment 33.426 t 
-
-
 In this case the secondary containment reduced the overall airborne quantity by ~5%, and we wouldn't expect it to be hugely important for this example as most of the mass of the vapour cloud came from the flashing of the liquid immediately upon release and from entrained droplets.
 
-## Closing remarks
+## Closing Remarks
 
 There are always trade offs to be made with model accuracy, model complexity, and the shear amount of data required to run the models (often overlooked unless you're the flunky tasked with finding all of these constants). This notebook aimed at creating a simple screening model and made several simplifications along the way. One thing I tried to avoid, though, is the use of gross "rules of thumb" and any pre-calculating of constants. I see this fairly often in older works because, likely, the calculations were being done by hand and this greatly speeds that up. I don't think the justification for it is still valid, though, for a few reasons. For one many very rough rules of thumb were developed to avoid iterative solutions, but with modern computers there's really no reason to, the numerical solutions in this notebook took fractions of a second to calculate on my laptop. For another much of the work collecting constants and pre-calculating things simply makes it harder to validate formulas. With a notebook like this not only can I properly typeset the formula more-or-less as presented in the reference (while keeping a consistent nomenclature) but I can also fairly transparently type that into Julia, making it very clear what the code is doing, step by step, and where those formulae came from. This should make it very easy to verify that I haven't made a typo, for example. In my experience with some older excel tools that used a lot of pre-calculated re-arranged equations, it was often entirely not obvious how the reference (if there is one given at all) lead to the final equations in the spreadsheet and verifying that the spreadsheet worked as intended without some written down derivation could take hours.
 
