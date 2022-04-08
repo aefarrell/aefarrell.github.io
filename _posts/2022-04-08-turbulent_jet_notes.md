@@ -104,7 +104,16 @@ The equations of motion, in the z direction, simplifies to
 $$ \bar{v}_r {\partial \bar{v}_z \over \partial r} + \bar{v}_z {\partial \bar{v}_z \over \partial z} = - {1 \over \rho r} {\partial \left( r \bar{\tau}_{rz} \right) \over \partial r } $$
 
 
-[^boundarylayer]: The boundary layer approximation is that $ $ { \partial^2 \bar{v}_z \over \partial z^2 } \ll { \partial^2 \bar{v}_z \over \partial r^2 } $ supposing $ \bar{\tau}_{z z} \propto { \partial \bar{v}_z \over \partial z } $ and $ \bar{\tau}_{r z} \propto {\partial \bar{v}_z \over \partial r} $ we find $ { \partial \bar{\tau}_{z z} \over \partial z } \propto {\partial^2 \bar{v}_z \over \partial z^2} \ll { \partial r \bar{\tau}_{r z} \over \partial r} \propto {\partial^2 \bar{v}_z \over \partial r^2} $ and thus we can assume the free turbulence is dominated by $ \bar{\tau}_{r z} $ and $ { \partial \bar{\tau}_{z z} \over \partial z} \approx 0 $
+[^boundarylayer]: The boundary layer approximation is that 
+    $$ { \partial^2 \bar{v}_z \over \partial z^2 } \ll { \partial^2 \bar{v}_z \over \partial r^2 } $$
+    If we suppose that
+    $$ \bar{\tau}_{z z} \propto { \partial \bar{v}_z \over \partial z } $$
+    and 
+    $$ \bar{\tau}_{r z} \propto {\partial \bar{v}_z \over \partial r} $$
+    we find 
+    $$ { \partial \bar{\tau}_{z z} \over \partial z } \propto {\partial^2 \bar{v}_z \over \partial z^2} \ll { \partial r \bar{\tau}_{r z} \over \partial r} \propto {\partial^2 \bar{v}_z \over \partial r^2} $$
+    and thus we can assume the free turbulence is dominated by 
+    $$ \bar{\tau}_{r z} $ and $ { \partial \bar{\tau}_{z z} \over \partial z} \approx 0 $$
 
 ### Equation of Continuity
 
