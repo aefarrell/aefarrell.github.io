@@ -433,7 +433,8 @@ However what we want is a generalized equation with the emissions released at so
 
 One way to capture this is to integrate *z* from $-\infty$ to $\infty$ (recall that the release point is at the origin) and introduce a *mirror image* of the stack shifted *2h* below. The ground being the x-y plane at *z = -h*. By symmetry the portion of the mirror-plume extending up above this plane is the same as the portion of the plume that, in this simple model, has extended below the ground. By adding the stack and the mirror-stack together and shifting the z-coordinate so *z = 0* is the ground, ground reflection is captured and the expression for a release point at elevation *h* is given by
 
-$$ C = {Q \over 2 \pi u \sigma_{y} \sigma_{z} } \exp \left[ -\frac{1}{2} \left( y \over \sigma_{y} \right)^2 \right] \left\{ \exp \left[ -\frac{1}{2} \left( { z -h } \over \sigma_{z} \right)^2 \right] + \exp \left[ -\frac{1}{2} \left( { z + h } \over \sigma_{z} \right)^2 \right] \right\} $$
+$$ C = {Q \over 2 \pi u \sigma_{y} \sigma_{z} } \exp \left[ -\frac{1}{2} \left( y \over \sigma_{y} \right)^2 \right] 
+\\ \times \left\{ \exp \left[ -\frac{1}{2} \left( { z -h } \over \sigma_{z} \right)^2 \right] + \exp \left[ -\frac{1}{2} \left( { z + h } \over \sigma_{z} \right)^2 \right] \right\} $$
 
 ## Pasquill-Gifford Model
 

@@ -9,6 +9,7 @@ categories:
 tags:
   - air dispersion modeling
   - hazard screening
+  - turbulent jets
 excerpt: This example uses a simple turbulent jet model to evaluate the consequences of an acetylene leak
 ---
 
