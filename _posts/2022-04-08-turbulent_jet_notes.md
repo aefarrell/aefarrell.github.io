@@ -106,14 +106,16 @@ $$ \bar{v}_r {\partial \bar{v}_z \over \partial r} + \bar{v}_z {\partial \bar{v}
 
 [^boundarylayer]: The boundary layer approximation is that 
     $$ { \partial^2 \bar{v}_z \over \partial z^2 } \ll { \partial^2 \bar{v}_z \over \partial r^2 } $$
-    If we suppose that
+    and if we suppose that
     $$ \bar{\tau}_{z z} \propto { \partial \bar{v}_z \over \partial z } $$
     and 
     $$ \bar{\tau}_{r z} \propto {\partial \bar{v}_z \over \partial r} $$
     we find 
     $$ { \partial \bar{\tau}_{z z} \over \partial z } \propto {\partial^2 \bar{v}_z \over \partial z^2} \ll { \partial r \bar{\tau}_{r z} \over \partial r} \propto {\partial^2 \bar{v}_z \over \partial r^2} $$
     and thus we can assume the free turbulence is dominated by 
-    $$ \bar{\tau}_{r z} $ and $ { \partial \bar{\tau}_{z z} \over \partial z} \approx 0 $$
+    $$ \bar{\tau}_{r z} $$
+    and
+    $$ { \partial \bar{\tau}_{z z} \over \partial z} \approx 0 $$
 
 ### Equation of Continuity
 
@@ -273,7 +275,11 @@ Some references define the system such that $ { F^{\prime} \over \phi } \ge 0 $ 
 
 
 
-[^init]: From the boundary conditions we know *F'(0) = 0* but what about *F''*? Taking the ratio $ { \bar{v}_z \over \bar{v}_{z,max} }_{r=0} = - {F^{\prime} \over \phi }_{\phi=0} = 1$ we find ${F^{\prime} \over \phi } = -1$ at *&phi; = 0* and, from the boundary conditions, $F^{\prime \prime} = {F^{\prime} \over \phi } $ at *&phi; = 0*, therefore *F''(0) = -1*
+[^init]: From the boundary conditions we know *F'(0) = 0* but what about *F''*? Taking the ratio 
+    $$ { \bar{v}_z \over \bar{v}_{z,max} }_{r=0} = - {F^{\prime} \over \phi }_{\phi=0} = 1 $$
+    we find ${F^{\prime} \over \phi } = -1$ at *&phi; = 0* and, from the boundary conditions, 
+    $$ F^{\prime \prime} = {F^{\prime} \over \phi } $$
+    at *&phi; = 0*, therefore *F''(0) = -1*
 
 
 ```julia
