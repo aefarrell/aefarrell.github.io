@@ -90,7 +90,8 @@ Where $\mathbf{ \bar{\tau} }$ is the turbulent stress and includes the [Reynolds
 
 With the z component, in cylindrical coordinates[^bird]
 
-$$ \rho \left( {\partial \over \partial t} \bar{v}_z + \bar{v}_r {\partial \bar{v}_z \over \partial r} + {\bar{v}_\theta \over r} {\partial \bar{v}_z \over \partial \theta} + \bar{v}_z {\partial \bar{v}_z \over \partial z} \right) = - {\partial \bar{p} \over \partial z} - {1 \over r} {\partial \left( r \bar{\tau}_{rz} \right) \over \partial r } - {1 \over r} {\partial \bar{\tau}_{\theta z} \over \partial \theta } - {\partial \bar{\tau}_{z z} \over \partial z } + \rho g_z$$
+$$ \rho \left( {\partial \over \partial t} \bar{v}_z + \bar{v}_r {\partial \bar{v}_z \over \partial r} + {\bar{v}_\theta \over r} {\partial \bar{v}_z \over \partial \theta} + \bar{v}_z {\partial \bar{v}_z \over \partial z} \right) 
+\\ = - {\partial \bar{p} \over \partial z} - {1 \over r} {\partial \left( r \bar{\tau}_{rz} \right) \over \partial r } - {1 \over r} {\partial \bar{\tau}_{\theta z} \over \partial \theta } - {\partial \bar{\tau}_{z z} \over \partial z } + \rho g_z$$
 
 Making the assumptions:
 1. Zero pressure gradient ( ${\partial p \over \partial z} = 0$ )
