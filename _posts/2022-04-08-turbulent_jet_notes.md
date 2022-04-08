@@ -97,14 +97,14 @@ Making the assumptions:
 1. Steady state ( ${\partial \over \partial t} \left( \cdots \right) = 0$ )
 1. Axisymmetric ( ${\partial \over \partial \theta} \left( \cdots \right) = 0$ )
 1. Effect of gravity can be neglected ( $ \rho g_z \approx 0$ )
-1. Within the jet $ | v_z | \gg | v_r | $ and, by boundarly layer approximation, $ \bar{\tau}_{z z} $ can be neglected[^boundarylayer]
+1. Within the jet $ \mid v_z \mid \gg \mid v_r \mid $ and, by boundarly layer approximation, $ \bar{\tau}_{z z} $ can be neglected[^boundarylayer]
 
 The equations of motion, in the z direction, simplifies to
 
 $$ \bar{v}_r {\partial \bar{v}_z \over \partial r} + \bar{v}_z {\partial \bar{v}_z \over \partial z} = - {1 \over \rho r} {\partial \left( r \bar{\tau}_{rz} \right) \over \partial r } $$
 
 
-[^boundarylayer]: The bounary layer approximation is that $ { \partial^2 \bar{v}_z \over \partial z^2 } \ll { \partial^2 \bar{v}_z \over \partial r^2 } $. Supposing $ \bar{\tau}_{z z} \propto { \partial \bar{v}_z \over \partial z } $ and $ \bar{\tau}_{r z} \propto {\partial \bar{v}_z \over \partial r} $ we find $ { \partial \bar{\tau}_{z z} \over \partial z } \propto {\partial^2 \bar{v}_z \over \partial z^2} \ll { \partial r \bar{\tau}_{r z} \over \partial r} \propto {\partial^2 \bar{v}_z \over \partial r^2} $ and thus we can assume the free turbulence is dominated by $ \bar{\tau}_{r z} $ and $ { \partial \bar{\tau}_{z z} \over \partial z} \approx 0 $
+[^boundarylayer]: The bounary layer approximation is that $ { \partial^2 \bar{v}_z \over \partial z^2 } \ll { \partial^2 \bar{v}_z \over \partial r^2 } $ supposing $ \bar{\tau}_{z z} \propto { \partial \bar{v}_z \over \partial z } $ and $ \bar{\tau}_{r z} \propto {\partial \bar{v}_z \over \partial r} $ we find $ { \partial \bar{\tau}_{z z} \over \partial z } \propto {\partial^2 \bar{v}_z \over \partial z^2} \ll { \partial r \bar{\tau}_{r z} \over \partial r} \propto {\partial^2 \bar{v}_z \over \partial r^2} $ and thus we can assume the free turbulence is dominated by $ \bar{\tau}_{r z} $ and $ { \partial \bar{\tau}_{z z} \over \partial z} \approx 0 $
 
 ### Equation of Continuity
 
