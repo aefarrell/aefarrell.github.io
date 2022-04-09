@@ -83,8 +83,11 @@ tag_archive:
   type: liquid
   path: /tags/
 
-comments:
-  provider: "disqus"
-  disqus:
-    shortname: "selenizeds"
+repository: "aefarrell/aefarrell.github.io"
 
+comments:
+  provider: "utterances"
+  utterances:
+    theme: "github-light"
+    issue_term: "pathname"
+    label: "comment"
