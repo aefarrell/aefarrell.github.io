@@ -10,7 +10,10 @@ tags:
   - air dispersion modeling
   - explosion
   - hazard screening
-excerpt: This example uses the Baker-Strehlow-Tang model to evaluate the consequences of a vapour cloud explosion.
+tagline: "Using the Baker-Strehlow-Tang model for a vapour cloud explosion."
+header:
+  overlay_image: /images/chuttersnap-unsplash-header.jpg
+  caption: "Photo by [CHUTTERSNAP](https://unsplash.com/@chuttersnap?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/)"
 ---
 
 # VCE Example - Butane Vapour Cloud

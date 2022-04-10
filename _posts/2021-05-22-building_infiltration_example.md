@@ -9,7 +9,10 @@ categories:
 tags:
   - building infiltration
   - hazard screening
-excerpt: This example uses a single zone building infiltration model to evaluate the impact of forest fire smoke.
+tagline: "Single zone building infiltration of forest fire smoke"
+header:
+  overlay_image: /images/smoke_days_files/matt-palmer-unsplash.jpg
+  caption: "Photo by [Matt Palmer](https://unsplash.com/@mattpalmer?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/)"
 ---
 
 

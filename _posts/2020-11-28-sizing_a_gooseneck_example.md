@@ -9,7 +9,10 @@ categories:
 tags:
   - piping
   - flow
-excerpt: This example considers the design of a gooseneck vent for an atmospheric storage tank, modeling the flow as an incompressible fluid as well as considering two simple compressible flow cases.
+tagline: "Calculating the minimum diameter in incompressible, isothermal, and adiabatic flow situations"
+header:
+  overlay_image: /images/chuttersnap-unsplash-header.jpg
+  caption: "Photo by [CHUTTERSNAP](https://unsplash.com/@chuttersnap?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/)"
 ---
 
 # Compressible Flow Example - Sizing a goose neck vent

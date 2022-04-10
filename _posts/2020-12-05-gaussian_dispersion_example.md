@@ -1,5 +1,5 @@
 ---
-title: "Air Dispersion Example - Gaussian Dispersion Model of Stack Emissions"
+title: "Air Dispersion Example - Stack Emissions"
 toc: true
 toc_label: "contents"
 toc_sticky: true
@@ -13,10 +13,10 @@ tags:
 tagline: "A gaussian plume dispersion example"
 header:
   overlay_image: /images/gaussian_dispersion_example_files/veeterzy-unsplash-header.jpg
-  caption: "Photo by [veeterzy](https://unsplash.com/@veeterzy?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/s/photos/pipes-industrial?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)"
+  caption: "Photo by [veeterzy](https://unsplash.com/@veeterzy?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/)"
 ---
 
-# Air Dispersion Example - Gaussian Dispersion Model of Stack Emissions
+# Air Dispersion Example - Stack Emissions
 
 This is an interesting example that came up in conversation with another engineer related to a construction project happening at an existing facility. Imagine construction involving scaffolding and workers at an elevation that potentially puts them within the plume of an existing stack -- say from an adjacent boiler. If the facility is still operating while this construction work happens then it is possible that workers will be exposed to combustion products in excess of the occupational exposure limits. The operating boiler does not have to be all that close-by for the plume -- which is very visible this time of year in the cold weather -- to envelope a similarly tall set of scaffolding.
 

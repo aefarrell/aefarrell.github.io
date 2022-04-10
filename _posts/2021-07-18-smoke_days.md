@@ -5,10 +5,13 @@ toc_label: "contents"
 toc_sticky: true
 comments: true
 categories:
-  - data
+  - notes
 tags:
   - air quality
-excerpt: This post looks at the recent wildfire smoke in the city and seeks to answer whether or not this recurring phenomenon is a recent thing or not.
+tagline: "Frequency of forest fire smoke events"
+header:
+  overlay_image: /images/smoke_days_files/matt-palmer-unsplash.jpg
+  caption: "Photo by [Matt Palmer](https://unsplash.com/@mattpalmer?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/)"
 ---
 
 # Smoke Days

@@ -5,11 +5,14 @@ toc_label: "contents"
 toc_sticky: true
 comments: true
 categories:
-  - examples
+  - notes
 tags:
   - air dispersion modeling
   - atmospheric stability
-excerpt: This example considers the impact of different Pasquill stability classes and windspeeds on a gaussian dispersion model of a plume from an elevated stack.
+tagline: "Evaluating the impacts of different wind conditions on a gaussian plume"
+header:
+  overlay_image: /images/gaussian_dispersion_example_files/veeterzy-unsplash-header.jpg
+  caption: "Photo by [veeterzy](https://unsplash.com/@veeterzy?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/)"
 ---
 
 # Air Dispersion Model - Worst Case Meterological Conditions

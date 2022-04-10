@@ -7,10 +7,15 @@ comments: true
 categories:
   - examples
 tags:
+  - chemical releases
   - air dispersion modeling
   - hazard screening
   - turbulent jets
-excerpt: This example uses a simple turbulent jet model to evaluate the consequences of an acetylene leak
+tagline: "Estimating the explosive mass"
+header:
+  overlay_image: /images/chuttersnap-unsplash-header.jpg
+  overlay_filter: 0.25
+  caption: "Photo by [CHUTTERSNAP](https://unsplash.com/@chuttersnap?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/)"
 ---
 
 

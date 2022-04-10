@@ -12,7 +12,7 @@ tags:
 tagline: "Notes on turbulent jets and velocity profiles."
 header:
   overlay_image: /images/chuttersnap-unsplash-header.jpg
-  caption: "Photo by [CHUTTERSNAP](https://unsplash.com/@chuttersnap?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/s/photos/industrial?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)"
+  caption: "Photo by [CHUTTERSNAP](https://unsplash.com/@chuttersnap?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/)"
 ---
 
 # Turbulent Jets

@@ -5,10 +5,13 @@ toc_label: "contents"
 toc_sticky: true
 comments: true
 categories:
-  - data
+  - notes
 tags:
   - elections
-excerpt: This post looks at the recent federal election and to what extent the low change in overall seats per party is exceptional.
+tagline: "An analysis of how exceptionally little changed."
+header:
+  overlay_image: /images/federal_election_files/chris-desort-unsplash.jpg
+  caption: "Photo by [Chris DeSort](https://unsplash.com/@desort_design?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/)"
 ---
 
 # The 2021 Canadian Federal Election

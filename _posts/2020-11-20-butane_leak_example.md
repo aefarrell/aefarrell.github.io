@@ -1,5 +1,5 @@
 ---
-title: "Chemical Release Screening Example - Airborne Quantity from a Butane leak"
+title: "Chemical Release Screening Example - Butane leak"
 toc: true
 toc_label: "contents"
 toc_sticky: true
@@ -9,10 +9,13 @@ categories:
 tags:
   - hazard screening
   - chemical releases
-excerpt: This example calculates the airborne quantity of butane released from a leak at a butane storage sphere, considering flashing, aerosol entrainment, and pool boiling.
+tagline: "Estimating the airborne quantity."
+header:
+  overlay_image: /images/chuttersnap-unsplash-header.jpg
+  caption: "Photo by [CHUTTERSNAP](https://unsplash.com/@chuttersnap?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/)"
 ---
 
-# Chemical Release Screening Example - Airborne Quantity from a Butane leak
+# Chemical Release Screening Example - Butane leak
 
 A routine practice of process safety is to model scenarios for different chemiccal hazards present at a plant. Often there are more plausible scenarios than there is the time or resources to model at the highest level of fidelity, the more complex models take time to set up and run and often there are only so many software licenses available. There needs to be some prioritization and screening. It's fairly typical, especially for larger companies, to have screening tools that an engineer can use which incorporate simpler models and make conservative estimates to get a *first guess* at the impact of a given hazard, if this crosses a pre-set threshold then it is escalated to a more in depth level of modeling, drilling down to more and more detailed analysis as required.
 
