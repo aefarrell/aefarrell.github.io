@@ -1,5 +1,5 @@
 ---
-title: "Air Dispersion Model - Worst Case Meterological Conditions"
+title: "Worst Case Meterological Conditions"
 toc: true
 toc_label: "contents"
 toc_sticky: true
@@ -9,13 +9,13 @@ categories:
 tags:
   - air dispersion modeling
   - atmospheric stability
-tagline: "Evaluating the impacts of different wind conditions on a gaussian plume"
+tagline: "The worst case weather conditions for air dispersion modeling"
 header:
   overlay_image: /images/gaussian_dispersion_example_files/veeterzy-unsplash-header.jpg
   caption: "Photo by [veeterzy](https://unsplash.com/@veeterzy?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/)"
 ---
 
-# Air Dispersion Model - Worst Case Meterological Conditions
+# Worst Case Meterological Conditions
 
 In a [previous post](https://aefarrell.github.io/2020/12/05/gaussian_dispersion_example/) I modeled an example of a plume from an elevated stack. In that example I assumed very stable conditions and a low windspeed -- pasquill stability class F and a windspeed of 1.5m/s -- as the worst case. This was an error!
 
