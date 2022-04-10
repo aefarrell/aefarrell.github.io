@@ -4,12 +4,18 @@ toc: true
 toc_label: "contents"
 toc_sticky: true
 comments: true
+header:
+  overlay_image: /images/chuttersnap-unsplash-header.jpg
+  caption: "Photo by <a href="https://unsplash.com/@chuttersnap?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">CHUTTERSNAP</a> on <a href="https://unsplash.com/s/photos/industrial?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>"
+
+excerpt: This is a set of notes outlining how different models of turbulent jet velocity profiles are derived.
+
 categories:
   - notes
+
 tags:
   - turbulent jets
   - chemical releases
-excerpt: This is a set of notes outlining how different models of turbulent jet velocity profiles are derived.
 ---
 
 # Turbulent Jets
@@ -201,6 +207,7 @@ $$ J = \rho v_0^2 {\pi \over 4} d_0^2 = 2 \pi \rho k^2 I $$
 $$ k = \sqrt{1 \over 8 I } v_0 d_0 $$
 
 **Note** I've played a little fast and loose with the definition of $\bar{v}_z$ in that I am implicitly assuming $f(\xi) = {-F^{\prime}(\xi) \over \xi}$ which isn't strictly true, there can be scaling factor. In practise all of these are collected together into one constant so it doesn't matter, but that is something to be aware of as the definition of *k* here is really $k\times \mathrm{const}$ where $\mathrm{const} = {-F^{\prime}(\xi) \over \xi} \div f(\xi) $
+{: .notice}
 
 ## Prandtl Mixing Length
 
