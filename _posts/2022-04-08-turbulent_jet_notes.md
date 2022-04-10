@@ -4,15 +4,13 @@ toc: true
 toc_label: "contents"
 toc_sticky: true
 comments: true
+excerpt: This is a set of notes outlining how different models of turbulent jet velocity profiles are derived.
 header:
+  image: /images/chuttersnap-unsplash-header.jpg
   overlay_image: /images/chuttersnap-unsplash-header.jpg
   caption: "Photo by <a href="https://unsplash.com/@chuttersnap?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">CHUTTERSNAP</a> on <a href="https://unsplash.com/s/photos/industrial?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>"
-
-excerpt: This is a set of notes outlining how different models of turbulent jet velocity profiles are derived.
-
 categories:
   - notes
-
 tags:
   - turbulent jets
   - chemical releases
