@@ -203,7 +203,7 @@ $$ J = \rho v_0^2 {\pi \over 4} d_0^2 = 2 \pi \rho k^2 I $$
 
 $$ k = \sqrt{1 \over 8 I } v_0 d_0 $$
 
-**Note** I've played a little fast and loose with the definition of $\bar{v}_z$ in that I am implicitly assuming $f(\xi) = {-F^{\prime}(\xi) \over \xi}$ which isn't strictly true, there can be scaling factor. In practise all of these are collected together into one constant so it doesn't matter, but that is something to be aware of as the definition of *k* here is really $k\times \mathrm{const}$ where $\mathrm{const} = {-F^{\prime}(\xi) \over \xi} \div f(\xi) $
+**Note**  I've played a little fast and loose with the definition of $\bar{v}_z$ in that I am implicitly assuming $f(\xi) = {-F^{\prime}(\xi) \over \xi}$ which isn't strictly true, there can be scaling factor. In practise all of these are collected together into one constant so it doesn't matter, but that is something to be aware of as the definition of *k* here is really $k\times \mathrm{const}$ where $\mathrm{const} = {-F^{\prime}(\xi) \over \xi} \div f(\xi) $
 {: .notice}
 
 ## Prandtl Mixing Length
@@ -274,7 +274,8 @@ $$ {d \mathbf{u} \over dt }_{t=0} = \begin{bmatrix} 0 \\ -1 \\ 0 \end{bmatrix}$$
 
 Putting that together, the ODE can be integrated easily.
 
-**NOTE** Because of how $\bar{v}_z$ and $\bar{v}_r$ were defined $ -{ F^{\prime} \over \phi } \ge 0 $, i.e. $ { F^{\prime} \over \phi } \le 0 $. For the signs to work out, $ F \le 0 $ and $ F^{\prime} \le 0 $ (since $F F^{\prime} \ge 0$).
+**Note**  Because of how $\bar{v}_z$ and $\bar{v}_r$ were defined $ -{ F^{\prime} \over \phi } \ge 0 $, i.e. $ { F^{\prime} \over \phi } \le 0 $. For the signs to work out, $ F \le 0 $ and $ F^{\prime} \le 0 $ (since $F F^{\prime} \ge 0$).
+{: .notice}
 
 Some references define the system such that $ { F^{\prime} \over \phi } \ge 0 $ and basically everything is flipped. To make this change simply flip the sign in front of the square root and change the initial value of *F''* from -1 to 1.
 

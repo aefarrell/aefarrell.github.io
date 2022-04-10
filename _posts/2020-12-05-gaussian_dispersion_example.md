@@ -10,7 +10,10 @@ tags:
   - hazard screening
   - chemical releases
   - air dispersion modeling
-excerpt: This example considers a construction project at an existing facility with scaffolding and workers at an elevation that potentially puts them within the plume of an existing stack. Gaussian dispersion modeling is used to evaluate the potential hazard.
+tagline: "A gaussian plume dispersion example"
+header:
+  overlay_image: /images/gaussian_dispersion_example_files/veeterzy-unsplash-header.jpg
+  caption: "Photo by [veeterzy](https://unsplash.com/@veeterzy?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/s/photos/pipes-industrial?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)"
 ---
 
 # Air Dispersion Example - Gaussian Dispersion Model of Stack Emissions
@@ -222,6 +225,7 @@ Where $ \partial \theta \over \partial z $ is the lapse rate in K/m
 The "worst-case" is the case with the least mixing and corresponds to a class F [Pasquill stability](https://en.wikipedia.org/wiki/Outline_of_air_pollution_dispersion#Characterization_of_atmospheric_turbulence), i.e. very stable, which has a corresponding default lapse rate of ${ \partial \theta \over \partial z } = 0.035 K/m$[^isc-2]
 
 **Addendum:** this isn't entirely true. For neutrally buoyant plumes released at ground level, or in this case level with the elevated work platform, class F is likely the worst case. For buoyant plumes released at elevation the minimal vertical dispersion with stable atmospheres means the bulk of the plume will rise and be dispersed far above the ground and another class and wind-speed should be considered. See *Guidelines for Use of Vapour Cloud Dispersion Models, 2nd Ed.* section 5.8 for more details
+{: .notice}
 
 [^isc-1]: *EPA-454/B-95-003b User's Guide for the ISC3 Dispersion Models*, 1995 page 1-9 equation 1-17
 
