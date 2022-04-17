@@ -1,5 +1,5 @@
 ---
-title: "GasDispersions.jl"
+title: "GasDispersion.jl"
 excerpt: "A julia package for dispersion modeling of chemical releases"
 header:
   overlay_image: /images/gaussian_dispersion_example_files/veeterzy-unsplash-header.jpg
@@ -15,6 +15,9 @@ gallery:
   - url: https://nbviewer.org/github/aefarrell/GasDispersion.jl/blob/main/examples/02_britter_mcquaid.ipynb
     image_path: /images/projects/gasdispersion_brittermcquaid.jpg
     alt: "Britter-McQuaid dense gas dispersion"
+  - url: https://nbviewer.org/github/aefarrell/GasDispersion.jl/blob/main/examples/03_simple_jet.ipynb
+    image_path: /images/projects/gasdispersion_simplejet.svg
+    alt: "Simple turbulent jet dispersion"
 comments: false
 ---
 
