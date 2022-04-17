@@ -17,7 +17,7 @@ header:
 
 # Turbulent Jets
 
-In [a previous post](https://aefarrell.github.io/2021/04/10/turbulent_jet_example/) I worked through a chemical release modeled as a turbulent jet and, while I mentioned there were several ways modeling the jet, I didn't go into any of them. I'm taking the opportunity here to collect my notes on turbulent jets, some different ways of modeling the jets, and the relative performance of each approach.
+In [a previous post](https://aefarrell.github.io/2021/04/10/turbulent_jet_example/) I worked through a chemical release modeled as a turbulent jet and while I mentioned there were several ways modeling the jet, I didn't go into any of them. I'm taking the opportunity here to collect my notes on turbulent jets, some different ways of modeling the jets, and the relative performance of each approach.
 
 ## Observations on Turbulent Jets
 
@@ -25,16 +25,16 @@ We are considering a submerged circular jet, issuing from a surface, with the co
 
 $$ Re = { \rho_j v_0 d_0 \over \mu_j } $$
 
-We are also considering the case where the densities of the two fluids are similar, wherey by "similar" we mean 
+We are also considering the case where the densities of the two fluids are similar, where we take "similar" to mean 
 $$ \frac{1}{4} \le { \rho_{a} \over \rho_{j} } \le 4 $$
 
 Where subscript *a* indicates the ambient fluid and *j* the jet. For much the experimental data the jet and ambient fluid are the same fluid, e.g. a jet of air into air or water into water.
 
-Circular turbulent jets expand by entraining ambient fluid, tracing out a cone defined by a jet angle $\alpha \approx 15-25^\circ$. The mixing layer penetrates into the jet forming the potential core, inside is pure jet material and outside is mixed. After approximately 6 diameters the region is fully developed.
+Turbulent jets expand by entraining ambient fluid, tracing out a cone defined by a jet angle $\alpha \approx 15-25^\circ$. The mixing layer penetrates into the jet forming the potential core, inside is pure jet material and outside is mixed. After approximately 6 diameters the region is fully developed.
 
 ![image.png](/images/turbulent_jet_notes_files/att1.png)
 
-Empirical approximations of the velocity profiles are often given with respect to this jet angle or, equivalently, the slope of the line (i.e. $\tan \frac{\alpha}{2}$). A related way of parametrizing the jet is in terms of a width parameter *b*. Typically this is the width of the velocity profile at half-height $b_{1/2}$ (though not always). With a constant jet angle and a self-similar velocity profile the width of the velocity profile is directly proportional to the downstream distance $ b_{1/2} = \tan \left( \frac{\alpha_{1/2} }{2} \right) z = c z$.
+Empirical approximations of the velocity profile are often given with respect to this jet angle or, equivalently, the slope of the line (i.e. $\tan \frac{\alpha}{2}$). A related way of parameterizing the jet is in terms of a width parameter *b*. Typically this is the width of the velocity profile at half-height $b_{1/2}$ (though not always). With a constant jet angle and a self-similar velocity profile the width is directly proportional to the downstream distance $ b_{1/2} = \tan \left( \frac{\alpha_{1/2} }{2} \right) z = c z$.
 
 Where the value of *c* is can be found in the literature
 
@@ -51,12 +51,9 @@ Where the value of *c* is can be found in the literature
 
 [^rajaratnam]: N. Rajaratnam, *Turbulent Jets*, Elsevier, Amsterdam (1974)
 
-At this point it is common to introduce a variable $ \xi = {r \over b_{1/2} }$ or $ \xi = {r \over z }$ where we are taking advantage of the fact that $ b_{1/2} \propto z $. This is a *scaled* radial distance, using the width at half-height as a characteristic length. It is important to keep track of which definition of &xi; is being used as they differ by a scaling factor. The reason for this change of variables is the observation that the *shape* of the velocity profile is the same at any downstream point, it is merely scaled down in height and wider as one travels downstream. Thas is:
-$$ { \bar{v}_z \over \bar{v}_{max} } = f \left( \xi \right) $$
+At this point it is common to introduce a variable $ \xi = {r \over b_{1/2} }$ or $ \xi = {r \over z }$ where we are taking advantage of the fact that $ b_{1/2} \propto z $. This is a *scaled* radial distance, using the width at half-height as a characteristic length. It is important to keep track of which definition of &xi; is being used as they differ by a scaling factor. The reason for this change of variables is the observation that the *shape* of the velocity profile is the same at any downstream point, it is merely scaled down in height and wider as one travels downstream. That is $ { \bar{v}_z \over \bar{v}_{max} } = f \left( \xi \right) $ is the same for all downstream distances (in the region where the jet is fully developed).
 
-is the same for all downstream distances (in the region where the jet is fully developed).
-
-Another important observation is that the centerline velocity, the max velocity in the jet, decays with the inverse of the downstream distance, i.e.
+Another important observation is that the center-line velocity, the max velocity in the jet, decays with the inverse of the downstream distance, i.e.
 
 $$ \bar{v}_{max} \propto z^{-1} $$
 
@@ -66,11 +63,11 @@ $$ \bar{v}_z = { \mathrm{const} \over z } f \left( \xi \right)$$
 
 ## Modeling Turbulent Jets
 
-To set up our system we consider the case of a jet issuing from a point on an infinite surface into a quiescent medium, and that the jet and medium have the same density. This is a major simplification, but it makes the math easier to deal with. The coordinate system is centered at this point and all momentum in the jet ultimately comes from the origin as well.
+To set up our system we consider the case of a jet coming out of a point on an infinite surface into a quiescent medium, and that the jet and medium have the same density. This is a major simplification, but it makes the math easier to deal with. The coordinate system is centered at this point and all momentum in the jet ultimately comes from the origin.
 
 The boundary conditions for the problem are:
-1. at the centerline, *r=0*, the velocity is entirely in the z-directly
-1. at the centerline, *r=0*, the velocity in the z-direction is at a maximum
+1. at the center-line, *r=0*, the velocity is entirely in the z-directly
+1. at the center-line, *r=0*, the velocity in the z-direction is at a maximum
 1. as the radius increases, *r &rarr; &infin;* , the velocity in the z-direction goes to zero
 
 ### Time Averaged Values
@@ -136,7 +133,7 @@ Making the assumptions:
 1. Axisymmetric ( ${\partial \over \partial \theta} \left( \cdots \right) = 0$ )
 1. Incompressible ( ${\partial \rho \over \partial z} = {\partial \rho \over \partial r} = {\partial \rho \over \partial \theta} = 0 $ )
 
-The equation of continuity simplfies to
+The equation of continuity simplifies to
 
 $$ {1 \over r} {\partial r \bar{v}_r \over \partial r} + {\partial \bar{v}_z \over \partial z} = 0 $$
 
@@ -150,13 +147,13 @@ and
 
 $$ \bar{v}_r = {1 \over r} {\partial \psi \over \partial z} $$
 
-This definition ensures that the equation of continuity is satisfied. Supose that $ \psi = k z F\left(\xi\right) $, where *F* is a unitless function of $\xi = \frac{r}{z}$ and $k$ is a constant with units $ [\![ \mathrm{length} ]\!]^2 \times [\![ \mathrm{time} ]\!]^{-1} $, then
+This definition ensures that the equation of continuity is satisfied. Suppose that $ \psi = k z F\left(\xi\right) $, where *F* is a unitless function of $\xi = \frac{r}{z}$ and $k$ is a constant with units $ [[ \mathrm{length} ]]^2 \times [[ \mathrm{time} ]]^{-1} $, then
 
 $$ \bar{v}_z = -{1 \over r} {\partial \xi \over \partial r} {\partial \psi \over \partial \xi}
 = -{1 \over r} {1 \over z} {k z F^{\prime} } \\
 \\= -{k \over z} {F^{\prime} \over \xi} = { \mathrm{const} \over z } f \left( \xi \right)$$
 
-Which matches what we expect from observations of a jet (which is why we supposed that form of the stream function in the first place). We can use this definition to work out some other useful terms
+Which matches what we expect from the empirical observations (which is why we supposed that form of the stream function in the first place). We can use this definition to work out some other useful terms
 
 $$ {\partial \bar{v}_z \over \partial z} = {k \over z^2} F^{\prime \prime} $$
 
@@ -197,13 +194,13 @@ $$ J = \int_{0}^{2\pi} \int_{0}^{\infty} \rho \bar{v}_z^2 r dr d\theta \\
      = 2 \pi \rho \bar{v}_{z,max}^2 \int_{0}^{\infty} \left( \bar{v}_z \over \bar{v}_{z,max} \right)^2 r dr \\
      = 2 \pi \rho k^2 \int_{0}^{\infty} \left( f\left( \xi \right) \right)^2 \xi d \xi $$
      
-Taking the integral to be *I*, and equating the initial momentul flux with the momentum flux at point *z*
+Taking the integral to be *I*, and equating the initial momentum flux with the momentum flux at point *z*
 
 $$ J = \rho v_0^2 {\pi \over 4} d_0^2 = 2 \pi \rho k^2 I $$
 
 $$ k = \sqrt{1 \over 8 I } v_0 d_0 $$
 
-**Note**  I've played a little fast and loose with the definition of $\bar{v}_z$ in that I am implicitly assuming $f(\xi) = {-F^{\prime}(\xi) \over \xi}$ which isn't strictly true, there can be scaling factor. In practise all of these are collected together into one constant so it doesn't matter, but that is something to be aware of as the definition of *k* here is really $k\times \mathrm{const}$ where $\mathrm{const} = {-F^{\prime}(\xi) \over \xi} \div f(\xi) $
+**Note**  I've played a little fast and loose with the definition of $\bar{v}_z$ in that I am implicitly assuming $f(\xi) = {-F^{\prime}(\xi) \over \xi}$ which isn't strictly true, there can be scaling factor. In practice all of these are collected together into one constant so it doesn't matter, but that is something to be aware of as the definition of *k* here is really $k\times \mathrm{const}$ where $\mathrm{const} = {-F^{\prime}(\xi) \over \xi} \div f(\xi) $
 {: .notice}
 
 ## Prandtl Mixing Length
@@ -234,7 +231,7 @@ $$ \left( k \over z \right)^2 { d \over d \xi } \left( F F^{\prime} \over \xi \r
 
 $$ \left( k \over z \right)^2 { d \over d \xi } \left( F F^{\prime} \over \xi \right) = c^2 z^2 \left( \left( \partial \bar{v}_{z} \over \partial r \right)^2 + 2r \left( \partial \bar{v}_{z} \over \partial r \right) \left( \partial^2 \bar{v}_{z} \over \partial r^2 \right) \right) $$
 
-Subsituting in the expressions for $ {\partial \bar{v}_z \over \partial r} $ and $ {\partial^2 \bar{v}_z \over \partial r^2} $ we arrive at
+Substituting in the expressions for $ {\partial \bar{v}_z \over \partial r} $ and $ {\partial^2 \bar{v}_z \over \partial r^2} $ we arrive at
 
 $$ \left( k \over z \right)^2 { d \over d \xi } \left( F F^{\prime} \over \xi \right) = c^2 \left(k \over z \right)^2 \left( 1 \over \xi \right)\left( F^{\prime \prime} - { F^{\prime} \over \xi } \right) \left(  2 F^{\prime \prime \prime} - 3 { F^{\prime \prime} \over \xi } + { F^{\prime} \over \xi^2 }\right) $$
 
@@ -256,7 +253,7 @@ $$ F^{\prime \prime} = { F^{\prime} \over \phi } + \sqrt{ F F^{\prime} } $$
 
 Which is in a form that can be solved numerically.
 
-[^consts]: parametrizing this in terms of *a* is the standard way of presenting the problem
+[^consts]: parameterizing this in terms of *a* is the standard way of presenting the problem
 
 ### Solving the ODE
 
@@ -438,13 +435,13 @@ $$ \left( k \over z \right)^2 { d \over d \xi } \left( F F^{\prime} \over \xi \r
 
 $$ \left( k \over z \right)^2 { d \over d \xi } \left( F F^{\prime} \over \xi \right) = - \varepsilon \left( \left( \partial \bar{v}_{rz} \over \partial r \right) + r \left( \partial^2 \bar{v}_{rz} \over \partial r^2 \right) \right) $$
 
-Subsituting in the expressions for $ {\partial \bar{v}_z \over \partial r} $ and $ {\partial^2 \bar{v}_z \over \partial r^2} $ we arrive at
+Substituting in the expressions for $ {\partial \bar{v}_z \over \partial r} $ and $ {\partial^2 \bar{v}_z \over \partial r^2} $ we arrive at
 
 $$ \left( k \over z \right)^2 { d \over d \xi } \left( F F^{\prime} \over \xi \right) = { k \varepsilon \over z^2} \left( F^{\prime \prime \prime} - { F^{\prime \prime} \over \xi } + { F^{\prime} \over \xi^2 }  \right) $$
 
 $$ \left( k \over z \right)^2 { d \over d \xi } \left( F F^{\prime} \over \xi \right) = { k \varepsilon \over z^2} { d \over d \xi } \left( F^{\prime \prime} - { F^{\prime} \over \xi } \right) $$
 
-at this point we note that *k* and &epsilon; have the same units of $ [\![ \mathrm{length} ]\!]^2 \times [\![ \mathrm{time} ]\!]^{-1} $ and are independent of *z* and &xi;, so we propose that $ \varepsilon = c k $ where *c* is some unknown constant of proportionality.
+at this point we note that *k* and &epsilon; have the same units of $ [[ \mathrm{length} ]]^2 \times [[ \mathrm{time} ]]^{-1} $ and are independent of *z* and &xi;, so we propose that $ \varepsilon = c k $ where *c* is some unknown constant of proportionality.
 
 $$ \left( k \over z \right)^2 { d \over d \xi } \left( F F^{\prime} \over \xi \right) = c \left( k \over z \right)^2 { d \over d \xi } \left( F^{\prime \prime} - { F^{\prime} \over \xi } \right) $$
 
@@ -468,7 +465,7 @@ By applying the boundary conditions we find the constant of integration is zero,
 
 $$ c \xi F^{\prime} = \frac{1}{2} F^2 -  2c F $$
 
-Which is seperable
+Which is separable
 
 $$ \int { d \xi \over \xi} = \int { c \over {\frac{1}{2} F^2 -  2c F} } dF $$
 
@@ -512,7 +509,7 @@ $$ \frac{1}{2} =  \left( 1 + \left( {C_2 \over 2} { b_{1/2} \over z }\right)^2 \
 
 $$ C_2 = 2 \sqrt{\sqrt{2}-1} \frac{z}{ b_{1/2} } $$
 
-using the same parametrization as above we get
+using the same parameterization as above we get
 
 
 ```julia
@@ -544,7 +541,7 @@ $$ \bar{v}_z = 6.57 { v_0 d_0 \over z} \left( 1 + 57.6 \xi^2 \right)^{-2} $$
 
 ## Empirical Velocity Profiles
 
-Perhaps the most widely used turbulent jet model is simply an emipirical gaussian fit to the data. These are easy to use -- no solving of ODEs required -- and fitting them to data is relatively straight forward. There is no real theoretical basis that I am aware of, merely based on the observation that a gaussian functio fits the velocity profile well.
+Perhaps the most widely used turbulent jet model is simply an empiirical gaussian fit to the data. These are easy to use -- no solving of ODEs required -- and fitting them to data is relatively straight forward. There is no real theoretical basis that I am aware of, merely based on the observation that a gaussian function fits the velocity profile well.
 
 $$ f \left( \xi \right) = \exp \left( -c \xi^2 \right) $$
 
@@ -566,7 +563,7 @@ $$ \frac{1}{2} =  \exp \left( - c  \left( \frac{ b_{1/2} }{z} \right)^2 \right) 
 
 $$ c = \ln \left( 2 \right) \left( \frac{z}{ b_{1/2} } \right)^2 $$
 
-using the same parametrization as above we get
+using the same parameterization as above we get
 
 
 ```julia
@@ -600,7 +597,7 @@ $$ \bar{v}_z = 6.94 { v_0 d_0 \over z} \exp\left( -193.0 \xi^2 \right) $$
 
 ## Comparing the Models
 
-At this point two models of velocity were derived using different models of the free turbulent stress and one purely empirical model was introduced. Each of these models uses a different set of parameters, and have different strengths and weaknesses in terms of useability. To compare them like-for-like we can scale each to the same width at half height, which is shown below along with some measured data[^pope]
+At this point two models of velocity were derived using different models of the free turbulent stress and one purely empirical model was introduced. Each of these models uses a different set of parameters, and have different strengths and weaknesses in terms of usability. To compare them like-for-like we can scale each to the same width at half height, which is shown below along with some measured data[^pope]
 
 We can also calculate a Mean Square Error (MSE) and evaluate which model is a better fit to the observed velocity profile.
 
@@ -626,7 +623,7 @@ Suppose we are looking at a velocity profile far enough downstream to be in the 
 ![svg](/images/turbulent_jet_notes_files/output_48_0.svg)
 
 
-Note that in the region near the centerline the three models are no longer particularly close to one another and the eddy viscosity and prandtl mixing length models have changed places. Relative to the predicted $v_{max}$ the the eddy viscosity model stays high when compared to the prandtl mixing length model, however the eddy viscosity model predicts a lower $v_{max}$ such that the effect is entirely reversed.
+Note that in the region near the center-line the three models are no longer particularly close to one another and the eddy viscosity and prandtl mixing length models have changed places. Relative to the predicted $v_{max}$ the the eddy viscosity model stays high when compared to the prandtl mixing length model, however the eddy viscosity model predicts a lower $v_{max}$ such that the effect is entirely reversed.
 
 It's also worth noting that the gaussian fit and the prandtl mixing length model track one another reasonably well. I have a gaussian fit *of* the Tollmien tabulated results used in some papers when a smooth interpolation of the intermediate values is required and this suggests that may not be a bad idea. Though, to me, just solving the ode is easier, on a modern machine it takes milliseconds or less, and a good ode package like `DifferentialEquations.jl` provides a higher-order interpolation for free.
 
