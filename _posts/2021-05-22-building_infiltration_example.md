@@ -525,4 +525,8 @@ y_fit, t_fit, _ = lsim(model_tf, u, t)
 
 ![svg](/images/building_infiltration_example_files/output_57_0.svg)
 
+
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2021-05-22-building_infiltration_example.ipynb)
+{: .notice--info}
+
 ---

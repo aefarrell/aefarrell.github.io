@@ -633,4 +633,9 @@ This comparison has been done with each of the model parameters set based on a s
 
 All of this work was to determine the *velocity* field, which is not necessarily what anyone cares about. In a release scenario, for example, it is concentration that is most relevant. For a heat transfer application, perhaps, you may care about the temperature field instead. However, with the velocity field the concentrations, temperatures, total entrained flow, etc. can be easily derived.
 
+
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-04-08-turbulent_jet_notes.ipynb)
+{: .notice--info}
+
+
 ---

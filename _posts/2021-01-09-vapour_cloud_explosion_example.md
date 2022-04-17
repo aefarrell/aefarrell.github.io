@@ -620,4 +620,7 @@ The last parameter worth investigating is the explosive energy, a significant po
 ![svg](/images/vapour_cloud_explosion_example_files/output_54_0.svg)
 
 
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2021-01-09-vapour_cloud_explosion_example.ipynb)
+{: .notice--info}
+
 ----

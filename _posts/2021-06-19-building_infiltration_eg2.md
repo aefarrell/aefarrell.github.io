@@ -560,4 +560,8 @@ The worst case indoor concentration far exceeded the ERPG-3 limit, however it wa
 
 These two examples cover two extremes of building infiltration, the forest fire smoke looked at enormous clouds that take hours to pass and this chlorine example covers very concentrated clouds which pass in under a minute. Most real scenarios at a chemical plant or other facility are likely to be between these extremes, but the same tools would apply. 
 
+
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2021-06-19-building_infiltration_eg2.ipynb)
+{: .notice--info}
+
 ---

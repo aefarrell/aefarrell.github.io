@@ -235,4 +235,8 @@ One big weakness to the model as presented here is that it does not take into ac
 
 This limitation would, for me, motivate exploring more detailed models of gas build up in enclosed spaces
 
+
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2021-04-10-turbulent_jet_example.ipynb)
+{: .notice--info}
+
 ---

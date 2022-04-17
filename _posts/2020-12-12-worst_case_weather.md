@@ -240,4 +240,8 @@ end
 
 Where we convert the input to the expected units, whatever they may be, evaluate the function in a unitless way, then tack on the expected output units at the end. Now when we use *f(x)* in contexts without units, for example when plotting *f(x)*, it works as expected and if we pass a value of *x* with units attached we get the unit conversion/checking that we want from `Unitful`.
 
+
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2020-12-12-worst_case_weather.ipynb)
+{: .notice--info}
+
 ---

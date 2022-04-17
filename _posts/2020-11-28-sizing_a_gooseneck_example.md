@@ -467,4 +467,9 @@ The big one being all the `find_zero()` calls that rely on the initial guess bei
 
 Relatedly there is a lot of room to fiddle around with which root finding algorithm is employed.
 
+
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2020-11-28-sizing_a_gooseneck_example.ipynb)
+{: .notice--info}
+
+
 ---

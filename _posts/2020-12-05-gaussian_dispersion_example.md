@@ -577,4 +577,8 @@ This also assumes no other sources of carbon monoxide, both at the facility surr
 
 I think that, while modeling like this might be informative about the potential hazards, it is always good practise to develop a monitoring plan for the work area that includes the flue gases and any other potential substances to ensure workers on the scaffolding are not being exposed.
 
+
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2020-12-05-gaussian_dispersion_example.ipynb)
+{: .notice--info}
+
 ---

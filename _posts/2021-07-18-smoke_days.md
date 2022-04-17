@@ -184,4 +184,8 @@ I would like to see a longer dataset. The dataset I was looking at was relativel
 
 Finally I picked pm2.5s since that is the variable responsible for the high risk AQHI levels, but there could be much better proxies for wildfire smoke that have better datasets. I can't think of anything off the top of my head, but I'm a chemical engineer not an air quality expert.
 
+
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2021-07-18-smoke_days.ipynb)
+{: .notice--info}
+
 ---
