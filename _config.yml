@@ -40,9 +40,10 @@ feed:
   excerpt_only: true
 
 author:
-  name   : "allan"
-  avatar : "/assets/images/bio-photo.jpg"
-  bio    : "I'm a chemical engineer living in Edmonton, Alberta, Canada. My interests tend towards process safety and hazard analysis."
+  name: "allan"
+  avatar: "/assets/images/bio-photo.jpg"
+  bio: "A chemical engineer living in Canada."
+  location: "Edmonton, AB"
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
