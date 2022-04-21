@@ -259,15 +259,15 @@ Which is in a form that can be solved numerically.
 
 We can solve the ODE and perform the integral needed for the momentum balance at the same time. First we define a vector *u* such that:
 
-$$ \mathbf{u} =  \begin{bmatrix} u_{1} \\ u_{2} \\ u_{3} \end{bmatrix} = \begin{bmatrix} F \\ F^{\prime} \\ a^{-2} I \end{bmatrix}$$
+$$ \mathbf{u} =  \begin{bmatrix} u_{1} \\ u_{2} \end{bmatrix} = \begin{bmatrix} F \\ F^{\prime} \end{bmatrix}$$
 
-Note that, because of the change of variables, $ I = a^2 \int_0^{\infty} { \left( F^{\prime} \right)^2 \over \phi} d\phi $, i.e. we've taken the constant *a* outside of the ODE. The ODE then becomes:
+The ODE then becomes:
 
-$$ {d \mathbf{u} \over dt } = \begin{bmatrix} F^{\prime} \\ F^{\prime \prime} \\ { \left(F^{\prime}\right)^2 \over \phi }  \end{bmatrix}  = \begin{bmatrix} u_{2} \\ \frac{ u_{2} }{t} + \sqrt{ u_{1} u_{2} } \\ { u_{2}^2 \over t} \end{bmatrix} $$
+$$ {d \mathbf{u} \over dt } = \begin{bmatrix} F^{\prime} \\ F^{\prime \prime} \end{bmatrix}  = \begin{bmatrix} u_{2} \\ \frac{ u_{2} }{t} + \sqrt{ u_{1} u_{2} } \end{bmatrix} $$
 
 Which has a singularity at *t=0*, but one that can be easily dealt with by setting the initial value of the derivatives to[^init]
 
-$$ {d \mathbf{u} \over dt }_{t=0} = \begin{bmatrix} 0 \\ -1 \\ 0 \end{bmatrix}$$
+$$ {d \mathbf{u} \over dt }_{t=0} = \begin{bmatrix} 0 \\ -1 \end{bmatrix}$$
 
 Putting that together, the ODE can be integrated easily.
 
@@ -275,7 +275,7 @@ Putting that together, the ODE can be integrated easily.
 {: .notice}
 
 Some references define the system such that $ { F^{\prime} \over \phi } \ge 0 $ and basically everything is flipped. To make this change simply flip the sign in front of the square root and change the initial value of *F''* from -1 to 1.
-
+{: .notice}
 
 
 [^init]: From the boundary conditions we know *F'(0) = 0* but what about *F''*? Taking the ratio 
@@ -290,21 +290,19 @@ using StaticArrays
 using DifferentialEquations: ODEProblem, Tsit5, solve, TerminateSteadyState
 
 function sys(u,p,t)
-    u₁, u₂, u₃ = u[1], u[2], u[3]
+    u₁, u₂ = u[1], u[2]
     if t > 0.0
         du₁ = u₂
         du₂ = u₂/t + √(max((u₁*u₂),0))
-        du₃ = u₂^2/t
     else
         du₁ = 0.0
         du₂ = -1.0
-        du₃ = 0.0
     end
     
-    return SA[du₁; du₂; du₃]
+    return SA[du₁; du₂]
 end
 
-u0    = SA[0.0; 0.0; 0.0]
+u0    = SA[0.0; 0.0]
 tspan = (0.0, 6.0)
 prob  = ODEProblem(sys, u0, tspan)
 sol   = solve(prob, Tsit5(), dtmax=0.1, cb=TerminateSteadyState())
@@ -405,11 +403,27 @@ with the value of the integral coming directly from the ode solver
 
 
 ```julia
-I = a^2 * sol[3, end]
+using NumericalIntegration: integrate
+
+ϕ, F′ = sol.t, sol[2,:]
+
+# trim any unphysical values
+F′[F′.>0] .= 0.0
+
+function integrand(ϕ, F′)
+    if ϕ>0
+        return F′^2/ϕ
+    else
+        return 0
+    end
+end
+
+I = integrate(ϕ, integrand.(ϕ, F′))
+I = a^2 * I
 ```
 
 
-    0.00257636622844765
+    0.002573069044757039
 
 
 Allowing us to write the velocity profile as
