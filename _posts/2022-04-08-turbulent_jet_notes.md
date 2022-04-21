@@ -245,7 +245,7 @@ By applying the boundary conditions we find the constant of integration is zero,
 
 $$ F F^{\prime} = c^2 \left( F^{\prime \prime} - { F^{\prime} \over \xi } \right)^2 $$
 
-Making the substitution $ \phi = a^{-1} \xi $ where $ a = c^{2/3} $^[consts]
+Making the substitution^[consts] $ \phi = a^{-1} \xi $ where $ a = c^{2/3} $ 
 
 $$ F F^{\prime} = \left( F^{\prime \prime} - { F^{\prime} \over \phi } \right)^2 $$
 
