@@ -245,7 +245,7 @@ By applying the boundary conditions we find the constant of integration is zero,
 
 $$ F F^{\prime} = c^2 \left( F^{\prime \prime} - { F^{\prime} \over \xi } \right)^2 $$
 
-Making the substitution^[consts] $ \phi = a^{-1} \xi $ where $ a = c^{2/3} $ 
+Making the substitution^[prms] $ \phi = a^{-1} \xi $ where $ a = c^{2/3} $ 
 
 $$ F F^{\prime} = \left( F^{\prime \prime} - { F^{\prime} \over \phi } \right)^2 $$
 
@@ -253,7 +253,7 @@ $$ F^{\prime \prime} = { F^{\prime} \over \phi } + \sqrt{ F F^{\prime} } $$
 
 Which is in a form that can be solved numerically.
 
-[^consts]: parameterizing this in terms of *a* is the standard way of presenting the problem
+[^prms]: parameterizing this in terms of *a* is the standard way of presenting the problem
 
 ### Solving the ODE
 
