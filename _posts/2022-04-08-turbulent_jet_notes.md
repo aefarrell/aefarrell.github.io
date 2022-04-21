@@ -274,9 +274,6 @@ Putting that together, the ODE can be integrated easily.
 **Note**  Because of how $\bar{v}_z$ and $\bar{v}_r$ were defined $ -{ F^{\prime} \over \phi } \ge 0 $, i.e. $ { F^{\prime} \over \phi } \le 0 $. For the signs to work out, $ F \le 0 $ and $ F^{\prime} \le 0 $ (since $F F^{\prime} \ge 0$).
 {: .notice}
 
-Some references define the system such that $ { F^{\prime} \over \phi } \ge 0 $ and basically everything is flipped. To make this change simply flip the sign in front of the square root and change the initial value of *F''* from -1 to 1.
-{: .notice}
-
 
 [^init]: From the boundary conditions we know *F'(0) = 0* but what about *F''*? Taking the ratio 
     $$ { \bar{v}_z \over \bar{v}_{z,max} }_{r=0} = - {F^{\prime} \over \phi }_{\phi=0} = 1 $$
