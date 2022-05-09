@@ -353,7 +353,7 @@ where
 
 $$I_c = \int_0^{\infty} \left(\bar{v}_z \over \bar{v}_{z,max} \right)^{Sc+1} \xi d\xi$$
 
-[recalling that](https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#momentum-balance) $k = {v_0 d_0 \over \sqrt{8I} }$ where $I = \int_0^{\infty} \left(\bar{v}_z \over \bar{v}_{z,max} \right)^{2} \xi d\xi$
+[recalling that](https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#momentum-balance) $k = {v_0 d_0 \over \sqrt{8I} }$ where $$I = \int_0^{\infty} \left(\bar{v}_z \over \bar{v}_{z,max} \right)^{2} \xi d\xi$$
 
 we can simplify this to
 
@@ -579,6 +579,7 @@ k_Q = -√(8/I)*F∞
 
 
 For the eddy viscosity model this can be worked out analytically to be
+
 $$k_Q = {4\sqrt{3} \over C_2}$$
 
 
@@ -596,6 +597,7 @@ k_Q = 4*√3/C₂
 
 
 The Gaussian model can also be worked out analytically, giving
+
 $$k_Q = {4 \over \sqrt{2 c} }$$
 
 
