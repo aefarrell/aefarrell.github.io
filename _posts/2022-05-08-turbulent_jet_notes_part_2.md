@@ -26,8 +26,10 @@ For hazard identification, among other purposes, what one often wants is not the
 
 Suppose the concentration of a species *A* is *c<sub>A</sub>*, for the sake of simplicity let this be a time-averaged concentration done in a way that is consistent with Reynold's averaging.
 
+
 **Note:** the concentration is given in units of $[[ quantity ]] \times [[length]]^{-3}$, e.g. kmol/m³
 {: .notice}
+
 
 The continuity equation for species A is given by[^bird]
 
@@ -35,8 +37,10 @@ $$ {\mathrm{D} \over \mathrm{D}t} c_A = - \nabla \cdot \mathbf{J}_A + r_A $$
 
 where **J** is the molar flux and *r* is the rate of reaction.
 
+
 **Note:** the molar flux  **J** is the *time averaged* molar flux and is the sum of both viscous and turbulent terms. $\mathbf{J}_A = \mathbf{J}_A^{(v)} + \mathbf{J}_A^{(t)}$
 {: .notice}
+
 
 In cylindrical coordinates this is:
 
@@ -86,6 +90,7 @@ Putting this into the equation of continuity for *A* and doing some re-arranging
 $${ k k_c \over z^2 } {d \over d\xi} \left(F g\right) = { k k_c \over z^2 } a_c^3 {d \over d\xi}\left(g^{\prime}F^{\prime\prime} - {g^{\prime}F^{\prime} \over \xi} \right)$$
 
 Canceling some terms and integrating both sides gives us
+
 $$ F g = a_c^3 \left(g^{\prime}F^{\prime\prime} - {g^{\prime}F^{\prime} \over \xi} \right) + \mathrm{const} $$
 
 Where we can see from the [boundary conditions](https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#boundary-conditions) that the constant of integration is zero. We can separate F and g
@@ -196,8 +201,10 @@ Where, rather pleasingly, the constant ${\left(a \over a_c\right)^{3} }$ works o
 
 $$ {\left(a \over a_c\right)^{3} } = \left( l \over l_c \right)^2 $$
 
-**Note:** suppose an "equivalent" eddy viscosity for the Prandtl mixing length model of $\varepsilon = -l^2 \left\vert \partial \bar{v}_z \over \partial r \right\vert$ and eddy diffusivity of $\mathscr{D}_{AB} = -l_c^2 \left\vert \partial \bar{v}_z \over \partial r \right\vert$, the turbulent [Schmidt number](https://en.wikipedia.org/wiki/Schmidt_number) is then $\mathrm{Sc} = {\varepsilon \over \mathscr{D}_{AB} } = \left( l \over l_c \right)^2$, making the final result ${c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Sc}$
+
+**Note:** suppose an "equivalent" eddy viscosity for the Prandtl mixing length model of $$\varepsilon = -l^2 \left\vert \partial \bar{v}_z \over \partial r \right\vert$$ and eddy diffusivity of $$\mathscr{D}_{AB} = -l_c^2 \left\vert \partial \bar{v}_z \over \partial r \right\vert$$ the turbulent [Schmidt number](https://en.wikipedia.org/wiki/Schmidt_number) is then $$\mathrm{Sc} = {\varepsilon \over \mathscr{D}_{AB} } = \left( l \over l_c \right)^2$$ making the final result $${c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Sc}$$
 {: .notice}
+
 
 We can now plot the concentration profile along with the velocity profile and see that the two profiles have a similar shape, with the concentration profile stretched to be wider. Concentration spreads out more than velocity.
 
@@ -251,8 +258,10 @@ and, looking back on the definition of *f(&xi;)* from the eddy viscosity model, 
 
 $$ {c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{\varepsilon \over \mathscr{D}_{AB} } $$
 
-**Note:** the turbulent [Schmidt number](https://en.wikipedia.org/wiki/Schmidt_number) is defined as the ratio of the eddy viscosity to the eddy diffusivity $\mathrm{Sc} = {\varepsilon \over \mathscr{D}_{AB} }$ making the final result ${c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Sc}$
+
+**Note:** the turbulent [Schmidt number](https://en.wikipedia.org/wiki/Schmidt_number) is defined as the ratio of the eddy viscosity to the eddy diffusivity $$\mathrm{Sc} = {\varepsilon \over \mathscr{D}_{AB} }$$ making the final result $${c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Sc}$$
 {: .notice}
+
 
 We can plot the concentration and velocity profiles for the eddy diffusivity model as well, and it is a similar story. The shapes of the profiles are the same but the concentration profile is stretched, such that concentration "spreads out" more than velocity does.
 
@@ -291,7 +300,8 @@ or
 
 $$ {c_A \over c_{A,max} } = \left({\bar{v}_z \over \bar{v}_{z,max} }\right)^{\left(\beta \over \beta_c\right)^2} $$
 
-**Note:** we can argue, in a manner analogous to the Prandtl mixing length theory, that the eddy viscosity is proportional to the characteristic length squared, and similarly for the eddy diffusivity and thus the turbulent [Schmidt number](https://en.wikipedia.org/wiki/Schmidt_number) is then $\mathrm{Sc} = {\varepsilon \over \mathscr{D}_{AB} } = \left( b_{1/2} \over b_{1/2,c} \right)^2 = \left( \beta \over \beta_c \right)^2$, thus making the final result ${c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Sc}$.
+
+**Note:** we can argue, in a manner analogous to the Prandtl mixing length theory, that the eddy viscosity is proportional to the characteristic length squared, and similarly for the eddy diffusivity and thus the turbulent [Schmidt number](https://en.wikipedia.org/wiki/Schmidt_number) is then $$\mathrm{Sc} = {\varepsilon \over \mathscr{D}_{AB} } = \left( b_{1/2} \over b_{1/2,c} \right)^2 = \left( \beta \over \beta_c \right)^2$$ thus making the final result $${c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Sc}$$
 {: .notice}
 
 
@@ -324,31 +334,41 @@ where I declared the constant *Sc* to be the turbulent Schmidt number. There are
 Throughout all of this there has been a constant *k<sub>c</sub>* floating around, unaddressed. In practice this is usually a free-parameter determined by fitting with experimental data. However it can also be determined by a mass balance.
 
 The total molar flux through any plane *z=m* is the same for all *m* (in the region of fully developed flow),  which is to say
+
 $$ n_A = \int_0^{2\pi} \int_0^{\infty}  c_A \bar{v}_z r dr d\theta = \mathrm{const} $$
 
 We also know what total molar flux is from the initial conditions of the jet
+
 $$ n_A = c_0 v_0 {\pi \over 4} d_0^2 $$
 
 and we can write the integral for any downstream distance *z* 
+
 $$ n_A = 2\pi \int_0^{\infty}  c_A \bar{v}_z r dr = 2 \pi k k_c \int_0^{\infty} \left(\bar{v}_z \over \bar{v}_{z,max} \right)^{Sc+1} \xi d\xi $$
 
 and so we can write *k<sub>c</sub>* in terms of the other parameters
+
 $$ k_c = { c_0 v_0 d_0^2 \over 8 k I_c } $$
 
-where $I = \int_0^{\infty} \left(\bar{v}_z \over \bar{v}_{z,max} \right)^{Sc+1} \xi d\xi$
+where 
+
+$$I_c = \int_0^{\infty} \left(\bar{v}_z \over \bar{v}_{z,max} \right)^{Sc+1} \xi d\xi$$
 
 [recalling that](https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#momentum-balance) $k = {v_0 d_0 \over \sqrt{8I} }$ where $I = \int_0^{\infty} \left(\bar{v}_z \over \bar{v}_{z,max} \right)^{2} \xi d\xi$
 
 we can simplify this to
+
 $$ k_c = \sqrt{I \over 8 I_c^2} c_0 d_0 $$
 
 or
+
 $$ {c_A \over c_0} = \sqrt{I \over 8 I_c^2} {d_0 \over z} \left(\bar{v}_z \over \bar{v}_{z,max} \right)^{Sc} $$
 
 These integrals can get difficult to solve analytically -- except for the Gaussian case which is fairly simple -- but are very easy to estimate numerically.
 
+
 **Note:** it is worth keeping in mind when using the empirical constants provided in the literature that they are often fitted parameters and as such mass and momentum conservation is not necessarily guaranteed.
 {: .notice}
+
 
 As an example, suppose we wish to calculate the constant for the Prandtl mixing length model, we have already imported the solution to the ode for the velocity profile and it is a simple matter to numerically integrate (using the trapezoidal rule) the two integrals in question.
 
@@ -453,6 +473,7 @@ In most practical cases I've encountered, by far the easiest approach is to use 
 
 $$ {c_A \over c_0} = k_2 {d_0 \over z} \sqrt{ \rho_a \over \rho_j} \exp \left( - \left(k_2 {r \over z} \right)^2 \right) $$
 
+
 | Jet                | Re        | $k_2$ | $k_3$ |
 |:------------------:|:---------:|:-----:|:-----:|
 | CO₂                | 50 000    | 5.4   | 9.2   |
@@ -499,32 +520,41 @@ The volumetric flow-rate of the jet grows with the downstream distance, as the j
 $$ Q = \int_0^{2\pi} \int_0^{\infty} \bar{v}_z r dr d\theta $$
 
 recalling [the definition](https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#stokes-stream-function) of $\bar{v}_z$ in terms of the function *F* and making the change of variables to &xi;
+
 $$ Q = \int_0^{2\pi} \int_0^{\infty} {-k \over z} {F^{\prime} \over \xi} (z \xi) z d\xi d\theta \\
 = 2 \pi k z \int_0^{\infty} -F^{\prime} d\xi \\
 = 2 \pi k z \left[ -F\left(\xi\right) \right]_{0}^{\infty} $$
 
 let's define the limit
+
 $$ \lim_{\xi \to \infty} F\left(\xi\right) = F_{\infty}$$
 
 and recall that from boundary conditions *F(0)=0*, so
+
 $$ \left[ -F\left(\xi\right) \right]_{0}^{\infty} = -F_{\infty} $$
 
 recalling the definition of *k*
+
 $$ k = {v_0 d_0 \over \sqrt{8 I} }$$
 
 and putting it all together we get
+
 $$ Q = -{ 2 \pi \over \sqrt{8 I} } F_{\infty} v_0 d_0 z  $$
 
 It is often more convenient to put things in in dimensionless terms, so let
+
 $$ Q_0 = {\pi \over 4} v_0 d_0^2 $$
 
 which gives us
+
 $$ {Q \over Q_0} = - \sqrt{8 \over I} F_{\infty} {z \over d_0} $$
 
 we can define a new constant *k<sub>Q</sub>*
+
 $$ k_Q = - \sqrt{8 \over I} F_{\infty} $$
 
 and finally
+
 $$ {Q \over Q_0} = k_Q {z \over d_0} $$
 
 Where $k_Q$ is some constant defined by the particular model and the corresponding model parameter.

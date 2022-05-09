@@ -51,7 +51,7 @@ Where the value of *c* is can be found in the literature
 
 [^rajaratnam]: N. Rajaratnam, *Turbulent Jets*, Elsevier, Amsterdam (1974)
 
-At this point it is common to introduce a variable $\xi = {r \over b_{1/2} }$ or $\xi = {r \over z }$ where we are taking advantage of the fact that $ b_{1/2} \propto z $. This is a *scaled* radial distance, using the width at half-height as a characteristic length. It is important to keep track of which definition of &xi; is being used as they differ by a scaling factor. The reason for this change of variables is the observation that the *shape* of the velocity profile is the same at any downstream point, it is merely scaled down in height and wider as one travels downstream. That is ${ \bar{v}_z \over \bar{v}_{max} } = f \left( \xi \right)$ is the same for all downstream distances (in the region where the jet is fully developed).
+At this point it is common to introduce a variable $\xi = {r \over b_{1/2} }$ or $\xi = {r \over z }$ where we are taking advantage of the fact that $ b_{1/2} \propto z $. This is a *scaled* radial distance, using the width at half-height as a characteristic length. It is important to keep track of which definition of &xi; is being used as they differ by a scaling factor. The reason for this change of variables is the observation that the *shape* of the velocity profile is the same at any downstream point, it is merely scaled down in height and wider as one travels downstream. That is $${ \bar{v}_z \over \bar{v}_{max} } = f \left( \xi \right)$$ is the same for all downstream distances (in the region where the jet is fully developed).
 
 Another important observation is that the center-line velocity, the max velocity in the jet, decays with the inverse of the downstream distance, i.e.
 
