@@ -7,7 +7,7 @@ comments: true
 categories:
   - notes
 tags:
-  - air dispersion modeling
+  - dispersion modeling
   - atmospheric stability
 tagline: "The worst case weather conditions for air dispersion modeling"
 header:

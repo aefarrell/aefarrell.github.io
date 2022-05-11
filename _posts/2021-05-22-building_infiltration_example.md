@@ -9,6 +9,7 @@ categories:
 tags:
   - building infiltration
   - hazard screening
+  - air quality
 tagline: "Single zone building infiltration of forest fire smoke"
 header:
   overlay_image: /images/smoke_days_files/matt-palmer-unsplash.jpg

@@ -8,7 +8,7 @@ categories:
   - examples
 tags:
   - chemical releases
-  - air dispersion modeling
+  - dispersion modeling
   - hazard screening
   - turbulent jets
 tagline: "Estimating the explosive mass"
@@ -19,7 +19,7 @@ header:
 ---
 
 
-# Turbulent Jet Example - Acetylene Leak
+# Turbulent Jet Example
 
 In previous examples I discussed release scenarios involving vapour clouds spreading over a large area, carried by the wind. In those examples the momentum of the jet of fluid was not very important relative to the ambient wind conditions and could be ignored. In this example I am looking at the opposite extreme, a release from a pressure vessel inside a building where the momentum of the jet dominates.
 
@@ -31,61 +31,115 @@ Consider, for an example, a leak from an acetylene cylinder inside a large build
 
 
 ```julia
+using Unitful: @u_str, ustrip
+
 inch = ustrip(u"m", 1u"inch") # unit conversion inch->m
 psi = ustrip(u"Pa", 1u"psi")  # unit conversion psi->Pa
 
-dₕ = 0.25inch   # Diameter of the hole, in m
+p₂ = 14.7psi   # atmospheric pressure, Pa absolute
+T₂ = 25+273.15 # ambient temperature, K
 
-pₐ= 14.7psi     # atmospheric pressure in Pa absolute
-p = 15psi + pₐ  # pressure of the acetylene in Pa absolute
-Tᵣ= 25 + 273.15 # the release temperature in K
+d  = 0.25inch  # diameter of the hole, m
+p₁ = 15psi+p₂ # pressure of the acetylene, Pa absolute
+T₁ = T₂        # the release temperature, K
 ```
+
+
+
+
+    298.15
+
+
+
+We can look up some properties of acetylene in Perry's[^perrys]
+
+[^perrys]: R.H. Perry, D.W. Green (eds) *Perry's Chemical Engineer's Handbook, 8th ed.*, McGraw-Hill, New York (2008)
 
 
 ```julia
-R = 8.31446261815324  # universal gas constant, J/mol/K
+# universal gas constant, J/mol/K
+R = 8.31446261815324 
 
-MW = 26.038  # molar mass of acetylene, kg/kmol
+# ideal gas density, kg/m³
+ρ(p,T;MW) = (p*MW)/(R*T)/1000
+
+# gas viscosity correlation, Pa*s
+μ(T;C) = (C[1]*T^(C[2]))/(1+(C[3]/T)+(C[4]/T^2)) 
+
+# Properties of Acetylene
+MWⱼ = 26.037 # molar mass, kg/kmol
 LEL = 0.025  # Lower explosive limit, vol/vol
-μ = 10.4e-6  # viscosity of acetylene gas at 300K, Pa*s
-ρ(T) = (pₐ*MW)/(R*T)/1000 # density of acetylene, ideal gas law, kg/m^3
+k   = 1.26   # ratio cp/cv at 15C
+μⱼ  = μ(T₁;C=[1.2025e-6,0.4952,291.4,0])
+ρ₁  = ρ(p₁,T₁;MW=MWⱼ)
 
-MWₐᵢᵣ = 28.960  # molar weight air, kg/kmol
-ρₐ(T) = (pₐ*MWₐᵢᵣ)/(R*T)/1000 # density of air, ideal gas law, kg/m^3
-
+# Properties of Air
+MWₐ = 28.960  # molar mass, kg/kmol
+ρ₂  = ρ(p₂,T₂;MW=MWₐ)
 ```
+
+
+
+
+    1.1840386427594014
+
+
 
 ## The Release Rate
 
-The simplest way of estimating the release rate is using the Bernoulli equation for a jet[^2]
+The simplest way of estimating the release rate is using the Bernoulli equation for a gaseous jet[^ccps]
 
-$$ Q_0 = c_d A_h \sqrt{ 2 \left( p - p_a \over \rho \right) } = c_d { {\pi \over 4} d_h^2} \sqrt{ 2 \left( p - p_a \over \rho \right) } $$
+$$ u = c_d \sqrt{ \left(p_1 \over \rho_1\right) \left( 2 k \over k-1 \right) \left[ \left(p_2 \over p_1\right)^{2 \over k} - \left(p_2 \over p_1\right)^{k-1 \over k} \right]} $$
 
-Where $Q_0$ is the volumetric flow of acetylene discharged through the hole (in m³/s), $c_d$ is the discharge coefficient which can be assumed to be 0.61[^3], and the rest are as defined earlier. I am assuming, here, that the hole is circular for simplicity.
+for non-choked flow and
 
-[^2]: *Guidelines for Use of Vapour Cloud Dispersion Models, 2nd Ed.*, Center for Chemical Process Safety, American Institute of Chemical Engineers, New York, 1996
+$$ u = c_d \sqrt{ \left(p_1 \over \rho_1\right) k \left( 2 \over k+1 \right)^{k+1 \over k-1}} $$
 
-[^3]: *Guidelines for Consequence Analysis of Chemical Releases*, Center for Chemical Process Safety, American Institute of Chemical Engineers, New York, 1999
+for choked flow, which occurs when
+
+$$ \left(p_2 \over p_1 \right) \lt \left( 2 \over k+1 \right)^{k \over k-1} $$
+
+Where *u* is initial velocity of acetylene discharged through the hole (in m/s), *c<sub>d</sub>* is the discharge coefficient which can be assumed to be 0.61[^ccps], and the rest are as defined earlier. I am assuming, here, that the hole is circular for simplicity.
+
+[^ccps]: *Guidelines for Consequence Analysis of Chemical Releases*, Center for Chemical Process Safety, New York (1999)
 
 
 ```julia
-cd = 0.61
-Q₀ = cd * π/4 * dₕ^2 * √( 2*(p - pₐ)/ρ(Tᵣ) )
+(p₂/p₁) < (2/(k+1))^(k/(k-1))
 ```
 
-    0.008515297292624617
 
 
 
-## Jet Behaviour
+    true
 
-To model the concentration profile I am going to assume a turbulent jet, from a circular hole, mixing with air. In this case the density of air and acetylene are similar and so a simple turbulent jet model is appropriate. If there was a significant difference in densities then a density correction would be needed, however for many applications "close" means a ratio of ambient to jet densities between[^4]
+
+
+Therefore the flow is choked and
+
+
+```julia
+c_d = 0.61
+
+u = c_d * √( (p₂/ρ₁)*k*(2/(k+1))^((k+1)/(k-1)) )
+```
+
+
+
+
+    87.3871341243016
+
+
+
+## Jet Behavior
+
+To model the concentration profile I am going to assume a turbulent jet, from a circular hole, mixing with air. In this case the density of air and acetylene are similar and so a simple turbulent jet model is appropriate. If there was a significant difference in densities then a density correction would be needed, however for many applications "close" means a ratio of ambient to jet densities between[^poleshaw]
 
 $$ \frac{1}{4} \le { \rho_{a} \over \rho_{j} } \le 4 $$
 
 Where subscript *a* indicates the ambient fluid and *j* the jet.
 
-Circular turbulent jets expand by entraining ambient fluid, tracing out a cone defined by a jet angle $\alpha \approx 15-25^\circ$. The mixing layer penetrates into the jet forming the potential cone, inside is pure jet material and outside is mixed. After approximately 6 hole diameters the region is fully developed.[^5]
+Circular turbulent jets expand by entraining ambient fluid, tracing out a cone defined by a jet angle $\alpha \approx 15-25^\circ$. The mixing layer penetrates into the jet forming the potential cone, inside is pure jet material and outside is mixed. After approximately 6 hole diameters the region is fully developed.[^harnby]
 
 ![image.png](/images/turbulent_jet_example_files/att1.png)
 
@@ -93,75 +147,86 @@ Empirical approximations of the velocity, and concentration, profiles are often 
 
 Another important factor is the Reynolds number, the jet is fully turbulent when $Re \gt 2000$, where the Reynolds number is calculated with respect to the initial jet velocity and jet diameter (i.e. the hole diameter)
 
-$$ Re = { \rho u d_h \over \mu } $$
+$$ Re = { \rho u d \over \mu } $$
 
-[^4]: Poleshaw, Yury V., Golub, V. V., *Jets*, [Thermopedia](https://www.thermopedia.com/content/903/)
+[^poleshaw]: Y.V. Poleshaw, V.V. Golub, *Jets*, [Thermopedia](https://www.thermopedia.com/content/903/)
 
-[^5]: Harnby, N., Edwards, M.F., Nienow, A. W., *Mixing in the Process Industries, 2nd Ed.*, Elsevier, 1992
-
-
-```julia
-u = Q₀ / (π/4 * dₕ^2)
-```
-
-    268.88246631895174
+[^harnby]: N. Harnby, M.F. Edwards, A.W. Nienow, *Mixing in the Process Industries, 2nd Ed.*, Elsevier, Amsterdam (1992)
 
 
 ```julia
-Re = ρ(Tᵣ) * u * dₕ / μ
+0.25 < (ρ₂/ρ₁) < 4
 ```
 
-    174774.39626709497
 
 
-```julia
-Re > 2000
-```
 
     true
 
-So the jet, in this case, is fully turbulent which guides the choice of models we have available to us.
+
+
+
+```julia
+Re = ρ₁*u*d/μⱼ
+
+Re > 2000
+```
+
+
+
+
+    true
+
+
+
+The densities are within the appropriate range and the flow is fully turbulent, so the turbulent jet model requirements are satisfied.
 
 ### Velocity and Concentration distributions
 
-There are many different empirical velocity distributions as well as velocity distributions derived from theories of turbulent mixing available in various references. Mostly of the same general type (gaussian), but parametrized slightly differently. However, in my experience, there are far fewer concentration distributions available, this is not too critical due to an interesting result in turbulent mass transfer for jets[^6]
+There are many different empirical velocity distributions as well as velocity distributions derived from theories of turbulent mixing available in various references. Mostly of the same general type (gaussian), but parametrized slightly differently. However, in my experience, there are far fewer concentration distributions available, this is not too critical due to an interesting result in turbulent mass transfer for jets[^bird]
 
 $$ { C \over C_{max} } = \left( v_z \over v_{z,max} \right)^{Sc_t} $$
 
 That is, at a given distance *z* away from the hole, the concentration profile is the velocity profile raised to the power $Sc_t$ -- the turbulent Schmidt number. Experimentally this is approximately 0.7. Note also that $C_{max}$ and $v_{z,max}$ are taken at the centerline. Physically this means that the concentration profile, at a given downstream distance, is wider than the velocity distribution; concentration expands more.
 
-[^6]: Bird, R. B., Stewart, W. E., Lightfoot, E. N., *Transport Phenomena, 2nd ed.*, John Wiley & Sons, 2007
+[^bird]: R.B. Bird, W.E. Stewart, E.N. Lightfoot, *Transport Phenomena, 2nd ed.*, John Wiley & Sons, New York (2007)
 
-A similar way of capturing the same phenomenon that is often seen with empirical velocity distributions is to define a width parameter $b$ and note that the equivalent width for the concentration profile is $1.17b$[^7] and substitute in accordingly.
+A similar way of capturing the same phenomenon that is often seen with empirical velocity distributions is to define a width parameter $b$ and note that the equivalent width for the concentration profile is $1.17b$[^kutz] and substitute in accordingly.
 
-[^7]: Kutz, M., *Handbook of Environmental Engineering*, John Wiley & Sons, 2018
+[^kutz]: M. Kutz, *Handbook of Environmental Engineering*, John Wiley & Sons, New York (2018)
 
-In this example I am using the empirical concentration given in *Lee's*[^8] for simplicity
+In this example I am using the empirical concentration given in *Lee's*[^lees] for simplicity
 
 $$ {C \over C_0 } = k_2 \left( d_h \over z \right) \left( \rho_z \over \rho_0 \right)^{0.5} \exp \left( - \left( k_3 r \over z \right)^2 \right) $$
 
 Note also the ratio of densities, the density $\rho_z$ is the density of the jet at some distance *z* and it is common to conservatively take this as $\rho_a$, similarly the density $\rho_0$ is the initial jet density and is taken as $\rho_j$
 
-[^8]: Mannan, S., *Lee's Loss Prevention in the Process Industries, 4th ed.*, Elsevier, 2012
+[^lees]: S. Mannan, *Lee's Loss Prevention in the Process Industries, 4th ed.*, Elsevier, Amsterdam (2012)
 
-The parameters $k_2$ and $k_3$ are empirically derived for the particular jet and $k_2$ is a function of Reynolds number below $ Re \lt 20000 $ [^9]. The conservative values suggested are *6* and *5* respectively.
+The parameters $k_2$ and $k_3$ are empirically derived for the particular jet and $k_2$ is a function of Reynolds number below $ Re \lt 20000 $ [^long]. The conservative values suggested are *6* and *5* respectively.
 
-[^9]: Long, V.D., *Estimation of the Extent of Hazard Areas Around a Vent*, Chem. Process Hazard, II, 6, 1963
+[^long]: V.D. Long, *Estimation of the Extent of Hazard Areas Around a Vent*, Chem. Process Hazard, II, 6 (1963)
 
 
 ```julia
-function C(r, z; C₀=1.0, k₂=6, k₃=5, d=dₕ, ρz=ρₐ(Tᵣ), ρ₀=ρ(Tᵣ))
+function C(r, z; C₀=1.0, k₂=6, k₃=5, d=d, ρz=ρ₂, ρ₀=ρ₁)
     C = C₀ * k₂ * (d/z) * √(ρz/ρ₀) * exp(-(k₃*r/z)^2)
 end
 ```
 
-![svg](/images/turbulent_jet_example_files/output_14_0.svg)
+    
+![svg](/images/turbulent_jet_example_files/output_15_0.svg)
+    
+
 
 
 At this point it is worth pointing out that the model of the jet is independent of the discharge rate. The concentration profile is only a function of the hole diameter and the fluid density. The velocity in the jet, and the amount of air entrained in the jet, do depend strongly on the initial discharge rate but in such a way that the concentration does not. As the jet velocity increases proportionally more air is entrained and the concentration profile remains constant.
 
 
-![svg](/images/turbulent_jet_example_files/output_16_0.svg)
+
+    
+![svg](/images/turbulent_jet_example_files/output_17_0.svg)
+    
 
 
 
@@ -171,60 +236,74 @@ Now that we have a model of the jet, showing the concentration of acetylene, the
 
 The most obvious way to do this is to integrate over the jet, using cylindrical coordinates for convenience
 
-$$ m_e = \int \rho_j C(r,z) dV = 2\pi \rho_j \int_{0}^{\infty} \int_{0}^{\infty} C(r,z) r dr dz $$
+$$ m_e = \int \rho_j C(r,z) dV = 2\pi \rho_1 \int_{0}^{\infty} \int_{0}^{\infty} C(r,z) r dr dz $$
 
 Except that we define the explosive mass to be the volume where $ C > \frac{1}{2} LEL $. A lazy way to do this is to define a function that equals $C$ if it is $ \gt \frac{1}{2} LEL $ and zero otherwise.
 
-The potential core region is poorly described by this model, and the closer to the origin of the jet the more unphysical the results: giving concentrations greater than 100% and being undefined completely at the origin. One way of hand waving this away is to chop off any concentrations above 100%.
+The potential core region is poorly described by this model, and the closer to the origin of the jet the more un-physical the results: giving concentrations greater than 100% and being undefined completely at the origin. One way of hand waving this away is to chop off any concentrations above 100%.
 
 
 ```julia
-function f(v; lim=0.5*LEL)
+function igrd(v; lim=0.5*LEL)
     r, z = v
-    conc = C(r,z)
     
-    if z == 0
-        result = 1.0
-    elseif conc > 1.0
-        result = 1.0
-    elseif conc < lim
-        result = 0.0
+    if z>0
+        c = C(r,z)
+        c = c<lim ? 0 : min(1,c)
     else
-        result = conc
+        c = 0
     end
-    
-    return r*result
+
+    return r*c
 end
 ```
+
+
 
 Integrating over some plausible bounds, taken by looking at the plots above, gives the volume of acetylene.
 
 
 ```julia
-I, err = hcubature(f, [0, 0], [0.25, 1.7], atol = 1e-8)
+using HCubature: hcubature
+
+I, err = hcubature(igrd, [0, 0], [0.25, 2.0], atol = 1e-8)
 ```
 
-    (0.0007367693893152862, 9.999943298543674e-9)
+
+
+
+    (0.0004640485256758591, 9.999730630894895e-9)
+
 
 
 Which can be plugged into the equation to calculate the final explosive mass.
 
 
 ```julia
-mₑ = 2*π*ρ(Tᵣ)*I
+mₑ = 2*π*ρ₁*I
 ```
 
-    0.004928177978823539
 
 
-To give a sense of how much this is, the explosive mass is equivalent to ~0.5s of discharge at the steady state discharge rate.
+
+    0.006271055467578433
+
+
+
+To give a sense of how much this is, the explosive mass is equivalent to ~1s of discharge at the steady state discharge rate.
 
 
 ```julia
-mₑ / (ρ(Tᵣ)*Q₀)
+m = (π/4)*ρ₁*d^2*u
+
+mₑ/m
 ```
 
-    0.5436402796805507
+
+
+
+    1.0535579699633446
+
 
 
 ## Conclusions

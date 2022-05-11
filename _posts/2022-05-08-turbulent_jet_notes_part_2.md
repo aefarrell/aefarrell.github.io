@@ -7,7 +7,7 @@ comments: true
 categories:
   - notes
 tags:
-  - chemical releases
+  - dispersion modeling
   - turbulent jets
 tagline: "Calculating concentrations, temperatures, and flow rates"
 header:

@@ -7,8 +7,7 @@ comments: true
 categories:
   - examples
 tags:
-  - piping
-  - flow
+  - pipe flow
 tagline: "Calculating the minimum diameter in incompressible, isothermal, and adiabatic flow situations"
 header:
   overlay_image: /images/chuttersnap-unsplash-header.jpg

@@ -8,8 +8,7 @@ categories:
   - examples
 tags:
   - hazard screening
-  - chemical releases
-  - air dispersion modeling
+  - dispersion modeling
 tagline: "A gaussian plume dispersion example"
 header:
   overlay_image: /images/gaussian_dispersion_example_files/veeterzy-unsplash-header.jpg

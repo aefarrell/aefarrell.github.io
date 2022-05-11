@@ -7,7 +7,7 @@ comments: true
 categories:
   - examples
 tags:
-  - air dispersion modeling
+  - dispersion modeling
   - building infiltration
   - hazard screening
 tagline: "Single zone building infiltration model with an instantaneous release"

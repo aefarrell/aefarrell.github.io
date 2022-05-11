@@ -8,7 +8,7 @@ categories:
   - notes
 tags:
   - turbulent jets
-  - chemical releases
+  - dispersion modeling
 tagline: "Notes on turbulent jets and velocity profiles."
 header:
   overlay_image: /images/chuttersnap-unsplash-header.jpg
