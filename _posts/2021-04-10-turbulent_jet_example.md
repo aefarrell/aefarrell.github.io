@@ -46,12 +46,6 @@ T₁ = T₂        # the release temperature, K
 ```
 
 
-
-
-    298.15
-
-
-
 We can look up some properties of acetylene in Perry's[^perrys]
 
 [^perrys]: R.H. Perry, D.W. Green (eds) *Perry's Chemical Engineer's Handbook, 8th ed.*, McGraw-Hill, New York (2008)
@@ -80,21 +74,15 @@ MWₐ = 28.960  # molar mass, kg/kmol
 ```
 
 
-
-
-    1.1840386427594014
-
-
-
 ## The Release Rate
 
-The simplest way of estimating the release rate is using the Bernoulli equation for a gaseous jet[^ccps]
+We can model the release as a gas jet[^ccps] where the gas is ideal and the expansion through the jet is an isentropic process.
 
 $$ u = c_d \sqrt{ \left(p_1 \over \rho_1\right) \left( 2 k \over k-1 \right) \left[ \left(p_2 \over p_1\right)^{2 \over k} - \left(p_2 \over p_1\right)^{k-1 \over k} \right]} $$
 
 for non-choked flow and
 
-$$ u = c_d \sqrt{ \left(p_1 \over \rho_1\right) k \left( 2 \over k+1 \right)^{k+1 \over k-1}} $$
+$$ u = c_d \sqrt{ \left(p_1 \over \rho_1\right) k \left( 2 \over k+1 \right)^{k+1 \over k-1} } $$
 
 for choked flow, which occurs when
 
@@ -132,6 +120,26 @@ u = c_d * √( (p₂/ρ₁)*k*(2/(k+1))^((k+1)/(k-1)) )
 
 
 
+The density at the orifice is reduced, through the expansion and, for an isentropic process, is related to the pressure by
+
+$$ {\rho_o \over \rho_1} = \left( p_o \over p_1 \right)^{1 \over k} $$
+
+Where subscript *o* indicates at the orifice. At this point, after the expansion $p_o = p_2$ and
+
+$$ \rho_o = \rho_1 \left( p_o \over p_1 \right)^{1 \over k} $$
+
+
+```julia
+ρₒ = ρ₁*(p₂/p₁)^(1/k)
+```
+
+
+
+
+    1.2307940295609565
+
+
+
 ## Jet Behavior
 
 To model the concentration profile I am going to assume a turbulent jet, from a circular hole, mixing with air. In this case the density of air and acetylene are similar and so a simple turbulent jet model is appropriate. If there was a significant difference in densities then a density correction would be needed, however for many applications "close" means a ratio of ambient to jet densities between[^poleshaw]
@@ -156,7 +164,7 @@ $$ Re = { \rho u d \over \mu } $$
 
 
 ```julia
-0.25 < (ρ₂/ρ₁) < 4
+0.25 < (ρ₂/ρₒ) < 4
 ```
 
 
@@ -168,7 +176,7 @@ $$ Re = { \rho u d \over \mu } $$
 
 
 ```julia
-Re = ρ₁*u*d/μⱼ
+Re = ρₒ*u*d/μⱼ
 
 Re > 2000
 ```
@@ -198,9 +206,9 @@ A similar way of capturing the same phenomenon that is often seen with empirical
 
 In this example I am using the empirical concentration given in *Lee's*[^lees] for simplicity
 
-$$ {C \over C_0 } = k_2 \left( d_h \over z \right) \left( \rho_z \over \rho_0 \right)^{0.5} \exp \left( - \left( k_3 r \over z \right)^2 \right) $$
+$$ {C \over C_0 } = k_2 \left( d_h \over z \right) \left( \rho_z \over \rho_o \right)^{0.5} \exp \left( - \left( k_3 r \over z \right)^2 \right) $$
 
-Note also the ratio of densities, the density $\rho_z$ is the density of the jet at some distance *z* and it is common to conservatively take this as $\rho_a$, similarly the density $\rho_0$ is the initial jet density and is taken as $\rho_j$
+Note also the ratio of densities, the density $\rho_z$ is the density of the jet at some distance *z* and it is common to conservatively take this as $\rho_a$.
 
 [^lees]: S. Mannan, *Lee's Loss Prevention in the Process Industries, 4th ed.*, Elsevier, Amsterdam (2012)
 
@@ -210,13 +218,13 @@ The parameters $k_2$ and $k_3$ are empirically derived for the particular jet an
 
 
 ```julia
-function C(r, z; C₀=1.0, k₂=6, k₃=5, d=d, ρz=ρ₂, ρ₀=ρ₁)
-    C = C₀ * k₂ * (d/z) * √(ρz/ρ₀) * exp(-(k₃*r/z)^2)
+function C(r, z; C₀=1.0, k₂=6, k₃=5, d=d, ρz=ρ₂, ρₒ=ρₒ)
+    C = C₀ * k₂ * (d/z) * √(ρz/ρₒ) * exp(-(k₃*r/z)^2)
 end
 ```
 
     
-![svg](/images/turbulent_jet_example_files/output_15_0.svg)
+![svg](/images/turbulent_jet_example_files/output_17_0.svg)
     
 
 
@@ -224,9 +232,8 @@ end
 At this point it is worth pointing out that the model of the jet is independent of the discharge rate. The concentration profile is only a function of the hole diameter and the fluid density. The velocity in the jet, and the amount of air entrained in the jet, do depend strongly on the initial discharge rate but in such a way that the concentration does not. As the jet velocity increases proportionally more air is entrained and the concentration profile remains constant.
 
 
-
     
-![svg](/images/turbulent_jet_example_files/output_17_0.svg)
+![svg](/images/turbulent_jet_example_files/output_19_0.svg)
     
 
 
@@ -237,7 +244,7 @@ Now that we have a model of the jet, showing the concentration of acetylene, the
 
 The most obvious way to do this is to integrate over the jet, using cylindrical coordinates for convenience
 
-$$ m_e = \int \rho_j C(r,z) dV = 2\pi \rho_1 \int_{0}^{\infty} \int_{0}^{\infty} C(r,z) r dr dz $$
+$$ m_e = \int \rho C(r,z) dV = 2\pi \rho_o \int_{0}^{\infty} \int_{0}^{\infty} C(r,z) r dr dz $$
 
 Except that we define the explosive mass to be the volume where $ C > \frac{1}{2} LEL $. A lazy way to do this is to define a function that equals $C$ if it is $ \gt \frac{1}{2} LEL $ and zero otherwise.
 
@@ -260,7 +267,6 @@ end
 ```
 
 
-
 Integrating over some plausible bounds, taken by looking at the plots above, gives the volume of acetylene.
 
 
@@ -273,7 +279,7 @@ I, err = hcubature(igrd, [0, 0], [0.25, 2.0], atol = 1e-8)
 
 
 
-    (0.0004640485256758591, 9.999730630894895e-9)
+    (0.0008207940258726464, 9.999922827914883e-9)
 
 
 
@@ -281,21 +287,21 @@ Which can be plugged into the equation to calculate the final explosive mass.
 
 
 ```julia
-mₑ = 2*π*ρ₁*I
+mₑ = 2*π*ρₒ*I
 ```
 
 
 
 
-    0.006271055467578433
+    0.006347452155224944
 
 
 
-To give a sense of how much this is, the explosive mass is equivalent to ~1s of discharge at the steady state discharge rate.
+To give a sense of how much this is, the explosive mass is equivalent to ~2s of discharge at the steady state discharge rate.
 
 
 ```julia
-m = (π/4)*ρ₁*d^2*u
+m = (π/4)*ρₒ*d^2*u
 
 mₑ/m
 ```
@@ -303,7 +309,7 @@ mₑ/m
 
 
 
-    1.0535579699633446
+    1.863499267446143
 
 
 
@@ -314,6 +320,7 @@ Turbulent jet mixing is a much simpler model for estimating releases, especially
 One big weakness to the model as presented here is that it does not take into account the enclosed space. If the assumption is that the warehouse is large and ignition sources are numerous then that likely doesn't matter, the acetylene leak will ignite before it has a chance to accumulate. However it will grossly underestimate the potential explosive mass that could develop as the acetylene disperses through the air of warehouse, since the model presumes the ambient air has no acetylene in it and is effectively infinite in extent.
 
 This limitation would, for me, motivate exploring more detailed models of gas build up in enclosed spaces
+
 
 
 For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2021-04-10-turbulent_jet_example.ipynb)
