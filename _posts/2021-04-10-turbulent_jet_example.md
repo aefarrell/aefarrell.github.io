@@ -76,9 +76,9 @@ MWₐ = 28.960  # molar mass, kg/kmol
 
 ## The Release Rate
 
-We can model the release as a gas jet[^ccps] where the gas is ideal and the expansion through the jet is an isentropic process.
+We can model the release as a gas jet[^ccps] where the gas is ideal and the expansion through the jet is an isentropic process[^ccps2].
 
-$$ u = c_d \sqrt{ \left(p_1 \over \rho_1\right) \left( 2 k \over k-1 \right) \left[ \left(p_2 \over p_1\right)^{2 \over k} - \left(p_2 \over p_1\right)^{k-1 \over k} \right]} $$
+$$ u = c_d \sqrt{ \left(p_1 \over \rho_1\right) \left( 2 k \over k-1 \right) \left[ \left(p_2 \over p_1\right)^{2 \over k} - \left(p_2 \over p_1\right)^{k+1 \over k} \right]} $$
 
 for non-choked flow and
 
@@ -91,6 +91,8 @@ $$ \left(p_2 \over p_1 \right) \lt \left( 2 \over k+1 \right)^{k \over k-1} $$
 Where *u* is initial velocity of acetylene discharged through the hole (in m/s), *c<sub>d</sub>* is the discharge coefficient which can be assumed to be 0.61[^ccps], and the rest are as defined earlier. I am assuming, here, that the hole is circular for simplicity.
 
 [^ccps]: *Guidelines for Consequence Analysis of Chemical Releases*, Center for Chemical Process Safety, New York (1999)
+
+[^ccps2]: Note that the CCPS reference has a mistake in equation 2.16, the version given here is correct
 
 
 ```julia
