@@ -1,6 +1,6 @@
 ---
 title: "Turbulent Jet Example - Acetylene Leak"
-last_modified_at: 2022-05-10
+last_modified_at: 2022-05-13
 toc: true
 toc_label: "contents"
 toc_sticky: true
@@ -41,10 +41,9 @@ p₂ = 14.7psi   # atmospheric pressure, Pa absolute
 T₂ = 25+273.15 # ambient temperature, K
 
 d  = 0.25inch  # diameter of the hole, m
-p₁ = 15psi+p₂ # pressure of the acetylene, Pa absolute
+p₁ = 15psi+p₂  # pressure of the acetylene, Pa absolute
 T₁ = T₂        # the release temperature, K
 ```
-
 
 We can look up some properties of acetylene in Perry's[^perrys]
 
@@ -78,17 +77,17 @@ MWₐ = 28.960  # molar mass, kg/kmol
 
 We can model the release as a gas jet[^ccps] where the gas is ideal and the expansion through the jet is an isentropic process[^ccps2].
 
-$$ u = c_d \sqrt{ \left(p_1 \over \rho_1\right) \left( 2 k \over k-1 \right) \left[ \left(p_2 \over p_1\right)^{2 \over k} - \left(p_2 \over p_1\right)^{k+1 \over k} \right]} $$
+$$ G = \rho u = c_d \sqrt{ \rho_1 p_1 \left( 2 k \over k-1 \right) \left[ \left(p_2 \over p_1\right)^{2 \over k} - \left(p_2 \over p_1\right)^{k+1 \over k} \right]} $$
 
 for non-choked flow and
 
-$$ u = c_d \sqrt{ \left(p_1 \over \rho_1\right) k \left( 2 \over k+1 \right)^{k+1 \over k-1} } $$
+$$ G = c_d \sqrt{ \rho_1 p_1 k \left( 2 \over k+1 \right)^{k+1 \over k-1} } $$
 
 for choked flow, which occurs when
 
 $$ \left(p_2 \over p_1 \right) \lt \left( 2 \over k+1 \right)^{k \over k-1} $$
 
-Where *u* is initial velocity of acetylene discharged through the hole (in m/s), *c<sub>d</sub>* is the discharge coefficient which can be assumed to be 0.61[^ccps], and the rest are as defined earlier. I am assuming, here, that the hole is circular for simplicity.
+Where *G* is the mass velocity of acetylene discharged through the hole (in kg/m²/s), *c<sub>d</sub>* is the discharge coefficient which can be assumed to be 0.61[^ccps], and the rest are as defined earlier. I am assuming, here, that the hole is circular for simplicity.
 
 [^ccps]: *Guidelines for Consequence Analysis of Chemical Releases*, Center for Chemical Process Safety, New York (1999)
 
@@ -96,7 +95,7 @@ Where *u* is initial velocity of acetylene discharged through the hole (in m/s),
 
 
 ```julia
-(p₂/p₁) < (2/(k+1))^(k/(k-1))
+(p₂/p₁) < (2/(k+1))^(k/(k-1)) 
 ```
 
 
@@ -112,13 +111,13 @@ Therefore the flow is choked and
 ```julia
 c_d = 0.61
 
-u = c_d * √( (p₂/ρ₁)*k*(2/(k+1))^((k+1)/(k-1)) )
+G = c_d * √(ρ₁*p₁*k*(2/(k+1))^((k+1)/(k-1)) )
 ```
 
 
 
 
-    87.3871341243016
+    267.1556913840265
 
 
 
@@ -142,6 +141,22 @@ $$ \rho_o = \rho_1 \left( p_o \over p_1 \right)^{1 \over k} $$
 
 
 
+The velocity at the orifice, i.e. after the gas has expanded, is then
+
+$$ u_o = {G \over \rho_o} $$
+
+
+```julia
+uₒ = G/ρₒ
+```
+
+
+
+
+    217.05962571115586
+
+
+
 ## Jet Behavior
 
 To model the concentration profile I am going to assume a turbulent jet, from a circular hole, mixing with air. In this case the density of air and acetylene are similar and so a simple turbulent jet model is appropriate. If there was a significant difference in densities then a density correction would be needed, however for many applications "close" means a ratio of ambient to jet densities between[^poleshaw]
@@ -158,7 +173,7 @@ Empirical approximations of the velocity, and concentration, profiles are often 
 
 Another important factor is the Reynolds number, the jet is fully turbulent when $Re \gt 2000$, where the Reynolds number is calculated with respect to the initial jet velocity and jet diameter (i.e. the hole diameter)
 
-$$ Re = { \rho u d \over \mu } $$
+$$ Re = { \rho u d \over \mu } = { G d \over \mu }$$
 
 [^poleshaw]: Y.V. Poleshaw, V.V. Golub, *Jets*, [Thermopedia](https://www.thermopedia.com/content/903/)
 
@@ -178,7 +193,7 @@ $$ Re = { \rho u d \over \mu } $$
 
 
 ```julia
-Re = ρₒ*u*d/μⱼ
+Re = G*d/μⱼ
 
 Re > 2000
 ```
@@ -226,7 +241,7 @@ end
 ```
 
     
-![svg](/images/turbulent_jet_example_files/output_17_0.svg)
+![svg](/images/turbulent_jet_example_files/output_19_0.svg)
     
 
 
@@ -234,8 +249,9 @@ end
 At this point it is worth pointing out that the model of the jet is independent of the discharge rate. The concentration profile is only a function of the hole diameter and the fluid density. The velocity in the jet, and the amount of air entrained in the jet, do depend strongly on the initial discharge rate but in such a way that the concentration does not. As the jet velocity increases proportionally more air is entrained and the concentration profile remains constant.
 
 
+
     
-![svg](/images/turbulent_jet_example_files/output_19_0.svg)
+![svg](/images/turbulent_jet_example_files/output_21_0.svg)
     
 
 
@@ -269,6 +285,7 @@ end
 ```
 
 
+
 Integrating over some plausible bounds, taken by looking at the plots above, gives the volume of acetylene.
 
 
@@ -299,11 +316,11 @@ mₑ = 2*π*ρₒ*I
 
 
 
-To give a sense of how much this is, the explosive mass is equivalent to ~2s of discharge at the steady state discharge rate.
+To give a sense of how much this is, the explosive mass is equivalent to ~1s of discharge at the steady state discharge rate.
 
 
 ```julia
-m = (π/4)*ρₒ*d^2*u
+m = G*(π/4)*d^2
 
 mₑ/m
 ```
@@ -311,7 +328,7 @@ mₑ/m
 
 
 
-    1.863499267446143
+    0.7502356087241902
 
 
 
