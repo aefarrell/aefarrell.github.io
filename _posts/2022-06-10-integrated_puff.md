@@ -107,6 +107,7 @@ Recall that a single Gaussian puff is the product of 3 Gaussian distributions
 $$ c \left(x,y,z,t \right) = m \Delta t \cdot g_x(x, t) \cdot g_y(y) \cdot g_z(z) $$
 
 with
+
 $$ g_x(x,t) = {1 \over \sqrt{2\pi} \sigma_x } \exp \left( -\frac{1}{2} \left( x-u t \over \sigma_x \right)^2 \right) $$
 
 $$ g_y(y) = {1 \over \sqrt{2\pi} \sigma_y } \exp \left( -\frac{1}{2} \left( y \over \sigma_y \right)^2 \right) $$
@@ -177,6 +178,7 @@ This suggests a next step, taking the limit as $n \to \infty$
 ## Integrated puffs
 
 Returning to our model of multiple puffs
+
 $$ c(x,y,z,t) = \sum_{i=0}^{n}  m \frac{\Delta t}{n} \cdot g_x(x, t-\frac{i}{n}\Delta t) \cdot g_y(y) \cdot g_z(z) $$
 
 We can re-arrange this and take the limit as $n \to \infty$
@@ -191,20 +193,18 @@ $$ \mathrm{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x \exp \left( -t^2 \right) dt $
 For the integral of the *x component* of the Gaussian puff we have
 $$ \int_{t-\Delta t}^{t} g_x(x, t^{\prime}) dt^{\prime} = \int_{t-\Delta t}^{t} {1 \over \sqrt{2\pi} \sigma_x } \exp \left( -\frac{1}{2} \left( x-u t^{\prime} \over \sigma_x \right)^2 \right) dt^{\prime}$$
 
-making the substitution 
-$$\xi = { {x - u t^{\prime} } \over \sqrt{2} \sigma_x} $$
+making the substitution $$\xi = { {x - u t^{\prime} } \over \sqrt{2} \sigma_x} $$
 
 we get
+
 $$ \int_{t-\Delta t}^{t} g_x(x, t^{\prime}) dt^{\prime} = {-1 \over \sqrt{\pi} u} \int_{a}^{b} \exp \left( -\xi^2 \right) d\xi \\
 = {-1 \over \sqrt{\pi} u} \left[ \frac{\sqrt{\pi}}{2} \mathrm{erf}(b) - \frac{\sqrt{\pi}}{2} \mathrm{erf}(a) \right] \\
 = \frac{1}{2u} \left( \mathrm{erf}(a) - \mathrm{erf}(b) \right)$$
 
-where
-$$ a = { {x - u (t-\Delta t)} \over \sqrt{2} \sigma_x } \\
-b = { {x - u t} \over \sqrt{2} \sigma_x } $$
+where $$a = { {x - u (t-\Delta t)} \over \sqrt{2} \sigma_x }$$, $$b = { {x - u t} \over \sqrt{2} \sigma_x } $$
 
 
-**Note** This model and the sum of puffs model both naively include contributions from releases that haven't happened yet, e.g. at t=5 only the contribution of material released at times t&le;5 should be included, but without any correction the other parts of the release would be included causing slight errors in the vicinity of the release point at t&lt;&Delta;t. The solution is simply to take the duration of the release to be the minimum of either the elapsed time (i.e. when the release is still "happening") or the total release duration.
+**Note** This model and the sum of puffs model both naively include contributions from releases that haven't happened yet, e.g. at t=1 only the contribution of material released at times t&le;1 should be included, but without any correction the other parts of the release would be included causing slight errors in the vicinity of the release point at t&lt;&Delta;t. The solution is simply to take the duration of the release to be the minimum of either the elapsed time (i.e. when the release is still "happening") or the total release duration.
 {: .notice}
 
 
@@ -224,7 +224,7 @@ intpuff(x,y,z,t; m, Δt) = m*gy(x,y)*gz(x,z)*∫gx(x,t,Δt)
 ![gif](/images/integrated_puff_files/output_12_0.gif)
 
 
-This release model has some convenient properties: clearly as $\Delta t \to 0$ it becomes a Gaussian puff again, but on the other side as $\Delta t \to \infty$ also limits to the Gaussian plume.
+This release model has some convenient properties: clearly as $\Delta t \to 0$ it becomes a Gaussian puff again, but also as $\Delta t \to \infty$ also limits to the Gaussian plume.
 
 **Note** This is somewhat hand-wavy but a release of infinite duration is an event that began an infinite amount of time in the past and continues an infinite amount into the future, so the term $\frac{1}{2u} \left( \mathrm{erf}(a) - \mathrm{erf}(b) \right)$ goes in the limit to $\frac{1}{2u} \left( \mathrm{erf}(\infty) - \mathrm{erf}(-\infty) \right) = \frac{1}{u}$ resulting in a concentration profile of $ c \left(x,y,z,t \right) = \frac{m}{u} \cdot g_y(y) \cdot g_z(z) $, which is exactly a plume model
 {: .notice}
