@@ -406,7 +406,7 @@ Where *C* is calculated at the entrance conditions and *&rho;* = *1/v*.
 
 From this the temperature at the exit can be backed out using the ideal gas law, and used to update the Reynolds number.
 
-This makes the whole calculation somewhat more complicated, and I think that added complication makes the simplification that *K<sub>f</sub>* is constant pointless -- that assumption does not make *the math* in any case.
+This makes the whole calculation somewhat more complicated, and I think that added complication makes the simplification that *K<sub>f</sub>* is constant pointless -- that assumption does not make *the math* easier in any case.
 
 
 ```julia
