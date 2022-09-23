@@ -623,4 +623,8 @@ I think the big take-away is that the isentropic flow model is not a very good a
 
 The big elephant in the room is that, in practice, no actual gas flow is perfectly ideal or perfectly adiabatic, nor is the friction factor truly a constant. These assumptions play a big role in the overall model error, and being overly fussy about some of the details of different adiabatic ideal gas models may amount to nothing in practice.
 
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-09-23-adiabatic-compressible-flow.ipynb)
+{: .notice--info}
+
+
 ---
