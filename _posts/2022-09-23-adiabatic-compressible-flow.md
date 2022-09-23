@@ -74,7 +74,7 @@ T₁ = 288.15 #K
 + Air is an ideal gas, Z=1
 + The ratio of heat capacities, &gamma; is constant
 + Heat loss is negligible, &Delta;q=0
-+ Flow is steady state, $\dot{m}_{in} = \dot{m}_{out}$
++ Flow is steady state, $$\dot{m}_{in} = \dot{m}_{out}$$
 + Flow is turbulent, &alpha;=1
 + Flow is horizontal, &Delta;z=0
 + Friction factor is constant along the length
@@ -102,7 +102,7 @@ $$ \mathrm{Re} = { {G D} \over \mu } $$
 
 Where only the viscosity is a function of temperature, and for most gases only weakly so.
 
-[^massvel]: This is a consequence of the steady state assumption, $\dot{m}_{in} = G_{in} A = G_{out} A = \dot{m}_{out}$
+[^massvel]: This is a consequence of the steady state assumption, $$\dot{m}_{in} = G_{in} A = G_{out} A = \dot{m}_{out}$$
 
 
 ```julia
