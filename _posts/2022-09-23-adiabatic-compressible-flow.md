@@ -319,7 +319,7 @@ $$ K = \left(\frac{1 - Ma_1^2}{\gamma Ma_1^2}\right) - \left(\frac{1 - Ma_2^2}{\
 
 Then, making the substitution:
 
-$$\left(v_1 \over v_2\right)^2 = { {Ma_1^2 \left( 1 + { {\gamma-1}\over 2} Ma_2^2 \right)} \over {Ma_1^2 \left( 1 + { {\gamma-1}\over 2} Ma_2^2 \right)} }$$
+$$\left(v_1 \over v_2\right)^2 = { {Ma_1^2 \left( 1 + { {\gamma-1}\over 2} Ma_2^2 \right)} \over {Ma_2^2 \left( 1 + { {\gamma-1}\over 2} Ma_1^2 \right)} }$$
 
 we get:
 
