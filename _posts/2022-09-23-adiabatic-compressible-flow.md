@@ -319,7 +319,7 @@ $$ K = \left(\frac{1 - Ma_1^2}{\gamma Ma_1^2}\right) - \left(\frac{1 - Ma_2^2}{\
 
 Then, making the substitution:
 
-$$\left(v_1 \over v_2\right)^2 = { {Ma_1^2 \left( 1 + { {\gamma-1}\over 2} Ma_2^2 \right)} \over {Ma_1^2 \left( 1 + { {\gamma-1}\over 2} Ma_2^2 \right)} }$$
+$$\left(v_1 \over v_2\right)^2 = { {Ma_1^2 \left( 1 + { {\gamma-1}\over 2} Ma_2^2 \right)} \over {Ma_2^2 \left( 1 + { {\gamma-1}\over 2} Ma_1^2 \right)} }$$
 
 we get:
 
@@ -406,7 +406,7 @@ Where *C* is calculated at the entrance conditions and *&rho;* = *1/v*.
 
 From this the temperature at the exit can be backed out using the ideal gas law, and used to update the Reynolds number.
 
-This makes the whole calculation somewhat more complicated, and I think that added complication makes the simplification that *K<sub>f</sub>* is constant pointless -- that assumption does not make *the math* in any case.
+This makes the whole calculation somewhat more complicated, and I think that added complication makes the simplification that *K<sub>f</sub>* is constant pointless -- that assumption does not make *the math* easier in any case.
 
 
 ```julia
@@ -619,8 +619,12 @@ They are basically indistinguishable. However, this is not at all implying that 
 
 ## Final Thoughts
 
-I think the big take-away is that the isentropic flow model is not a very good approximation of Fanno flow and references that suggest that it is are in error. The other big take-away may be that, at least when calculating mass flow rates, the isothermal model is often better than one would expect: it does well at low pressure drops and also for long lines where *K</sub>f</sub>* is large. In practice, when the flow conditions are within the range of available *Y* factors, the modified Darcy equation is the easiest to use and gives excellent agreement with the full Fanno model, however when the situation is outside of that range and *Y* factors have to be calculated it is not a time-saver.
+I think the big take-away is that the isentropic flow model is not a very good approximation of Fanno flow and references that suggest that it is are in error. The other big take-away may be that, at least when calculating mass flow rates, the isothermal model is often better than one would expect: it does well at low pressure drops and also for long lines where *K<sub>f</sub>* is large. In practice, when the flow conditions are within the range of available *Y* factors, the modified Darcy equation is the easiest to use and gives excellent agreement with the full Fanno model, however when the situation is outside of that range and *Y* factors have to be calculated it is not a time-saver.
 
 The big elephant in the room is that, in practice, no actual gas flow is perfectly ideal or perfectly adiabatic, nor is the friction factor truly a constant. These assumptions play a big role in the overall model error, and being overly fussy about some of the details of different adiabatic ideal gas models may amount to nothing in practice.
+
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-09-23-adiabatic-compressible-flow.ipynb)
+{: .notice--info}
+
 
 ---
