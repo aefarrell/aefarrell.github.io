@@ -188,6 +188,7 @@ The system doesn't recover the original energy supply until the hydrogen content
 The whole point of doing this is to decrease the carbon emissions associated with space heating (plus the other uses of household natural gas, but mostly space heating). So it is worth circling back to answer the question: does this actually do that? and by how much?
 
 The dominant greenhouse gas associated with combustion is carbon dioxide, and the carbon dioxide emissions from combustion are fairly easy to calculate from stoichiometry, for a generic hydrocarbon the combustion equation is
+
 $$ C_n H_m + \left( n + {m \over 4} \right) O_2 \rightarrow n CO_2 + {m \over 2} H_2 O $$
 
 If we presume the natural gas is mostly methane and *n*&approx;1, then there is one mole of carbon dioxide produced per mole of natural gas delivered (assuming perfectly complete combustion). When combusting hydrogen there is no carbon dioxide produced, and so the moles of carbon dioxide produced from the combustion of a blended hydrogen fuel gas is
@@ -442,7 +443,7 @@ Another way of looking at this is to pick a required heat rate and look at the p
 All of this has been done assuming the ideal gas case. The next logical step is to start incorporating non-ideal gas models, say a cubic equation of state, and so on.
 
 
-For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook]()
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-11-10-hydrogen_blending.ipynb)
 {: .notice--info}
 
 
