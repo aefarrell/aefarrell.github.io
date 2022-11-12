@@ -191,7 +191,7 @@ The dominant greenhouse gas associated with combustion is carbon dioxide, and th
 
 $$ C_n H_m + \left( n + {m \over 4} \right) O_2 \rightarrow n CO_2 + {m \over 2} H_2 O $$
 
-If we presume the natural gas is mostly methane and *n*&approx;1, then there is one mole of carbon dioxide produced per mole of natural gas delivered (assuming perfectly complete combustion). When combusting hydrogen there is no carbon dioxide produced, and so the moles of carbon dioxide produced from the combustion of a blended hydrogen fuel gas is
+If we presume the natural gas is mostly methane and *n*≈1, then there is one mole of carbon dioxide produced per mole of natural gas delivered (assuming perfectly complete combustion). When combusting hydrogen there is no carbon dioxide produced, and so the moles of carbon dioxide produced from the combustion of a blended hydrogen fuel gas is
 
 $$ \dot{n}_{CO_2} = \left( 1 - x_{H_2} \right) \dot{n}_{FG} $$
 
