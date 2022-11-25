@@ -66,7 +66,7 @@ $$ \bar{v}_z = { \mathrm{const} \over z } f \left( \xi \right)$$
 To set up our system we consider the case of a jet coming out of a point on an infinite surface into a quiescent medium, and that the jet and medium have the same density. This is a major simplification, but it makes the math easier to deal with. The coordinate system is centered at this point and all momentum in the jet ultimately comes from the origin.
 
 The boundary conditions for the problem are:
-1. at the center-line, *r=0*, the velocity is entirely in the z-directly
+1. at the center-line, *r=0*, the velocity is entirely in the z-direction
 1. at the center-line, *r=0*, the velocity in the z-direction is at a maximum
 1. as the radius increases, *r &rarr; &infin;* , the velocity in the z-direction goes to zero
 
@@ -75,6 +75,7 @@ The boundary conditions for the problem are:
 Since we are concerned with turbulent flow, we can employ [Reynolds decomposition](https://en.wikipedia.org/wiki/Reynolds_decomposition) to transform the velocities like so
 
 $$ v_z = \bar{v}_z + v^{\prime}_{z} $$
+
 $$ v_r = \bar{v}_r + v^{\prime}_{r} $$
 
 where $\bar{v}$ is the time-smoothed velocity and $v^{\prime}$ is an instantaneous deviation such that $\bar{v^{\prime} } = 0$ and the time-averaging operator follows the [Reynolds criteria](https://en.wikipedia.org/wiki/Reynolds_operator).
@@ -334,7 +335,7 @@ end
 
 ### Comparison with Tollmien
 
-The classic treatment of the Prandtl mixing length model is from Tollmien[^tollmien] in which, instead of solving numerically in the way shown above, the ODE is further transformed and a series expansion which used to generate a table of results. More often than not it is these tabulated values, or similar ones[^rajaratnam2], that are presented as the solution to the model.
+The classic treatment of the Prandtl mixing length model is from Tollmien[^tollmien] in which, instead of solving numerically in the way shown above, the ODE is further transformed and a series expansion is used to generate a table of results. More often than not it is these tabulated values, or similar ones[^rajaratnam2], that are presented as the solution to the model.
 
 We can easily compare the result here with the tabulated values and verify for ourselves that we have indeed solved the right differential equation. Though by solving numerically in this way we can control the level of precision and easily generate smooth interpolations. In my opinion, this makes using the ODE solution far more convenient than the tabulated values.
 
@@ -473,11 +474,11 @@ $$ \frac{1}{2} F^2 = c \left( \xi F^{\prime} -  2 F \right) + \mathrm{const}$$
 
 By applying the boundary conditions we find the constant of integration is zero, thus
 
-$$ c \xi F^{\prime} = \frac{1}{2} F^2 -  2c F $$
+$$ c \xi F^{\prime} = \frac{1}{2} F^2 +  2c F $$
 
 Which is separable
 
-$$ \int { d \xi \over \xi} = \int { c \over {\frac{1}{2} F^2 -  2c F} } dF $$
+$$ \int { d \xi \over \xi} = \int { c \over {\frac{1}{2} F^2 +  2c F} } dF $$
 
 Integrating one last time
 
@@ -551,7 +552,7 @@ $$ \bar{v}_z = 6.57 { v_0 d_0 \over z} \left( 1 + 57.6 \xi^2 \right)^{-2} $$
 
 ## Empirical Velocity Profiles
 
-Perhaps the most widely used turbulent jet model is simply an empiirical gaussian fit to the data. These are easy to use -- no solving of ODEs required -- and fitting them to data is relatively straight forward. There is no real theoretical basis that I am aware of, merely based on the observation that a gaussian function fits the velocity profile well.
+Perhaps the most widely used turbulent jet model is simply an empirical gaussian fit to the data. These are easy to use -- no solving of ODEs required -- and fitting them to data is relatively straight forward. There is no real theoretical basis that I am aware of, merely based on the observation that a gaussian function fits the velocity profile well.
 
 $$ f \left( \xi \right) = \exp \left( -c \xi^2 \right) $$
 
@@ -635,7 +636,7 @@ Suppose we are looking at a velocity profile far enough downstream to be in the 
 
 Note that in the region near the center-line the three models are no longer particularly close to one another and the eddy viscosity and prandtl mixing length models have changed places. Relative to the predicted $v_{max}$ the the eddy viscosity model stays high when compared to the prandtl mixing length model, however the eddy viscosity model predicts a lower $v_{max}$ such that the effect is entirely reversed.
 
-It's also worth noting that the gaussian fit and the prandtl mixing length model track one another reasonably well. I seen have a gaussian fit *of* the Tollmien tabulated results used in some papers when a smooth interpolation of the intermediate values is required and this suggests that may not be a bad idea. Though, to me, just solving the ode is easier. On a modern machine it takes milliseconds or less and a good ode package like `DifferentialEquations.jl` provides a higher-order interpolation for free.
+It's also worth noting that the gaussian fit and the prandtl mixing length model track one another reasonably well. I have seen a gaussian fit *of* the Tollmien tabulated results used in some papers when a smooth interpolation of the intermediate values is required and this suggests that may not be a bad idea. Though, to me, just solving the ode is easier. On a modern machine it takes milliseconds or less and a good ode package like `DifferentialEquations.jl` provides a higher-order interpolation for free.
 
 This comparison has been done with each of the model parameters set based on a shared width. However there are as many different ways of arriving at the model parameters as there are datasets to fit against. There is a wide spread in tabulated values in the literature and so the predictions of two independently arrived at models can be quite different due all of these factors coming together.
 
