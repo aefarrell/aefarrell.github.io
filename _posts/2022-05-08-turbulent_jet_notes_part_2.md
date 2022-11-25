@@ -286,15 +286,15 @@ where I am introducing the constant *&beta;* to represent the spreading constant
 
 We can then write the velocity distribution as
 
-$$ f\left(\xi\right) = \exp \left( -c \xi^2 \right) = \exp \left( -\log{2} \left(\xi \over \beta\right)^2 \right) = exp^{- \log 2 \left(\xi \over \beta\right)^2}$$
+$$ f\left(\xi\right) = \exp \left( -c \xi^2 \right) = \exp \left( -\log{2} \left(\xi \over \beta\right)^2 \right) = \exp \left(- \log 2 \left(\xi \over \beta\right)^2 \right)$$
 
 The concentration distribution is similarly defined empirically in terms of a half-width, $b_{1/2,c}$ and entirely analogously we end up with a distribution
 
-$$ g\left(\xi\right) = exp^{-\log 2 \left(\xi \over \beta_c\right)^2}$$
+$$ g\left(\xi\right) = \exp \left( -\log 2 \left(\xi \over \beta_c\right)^2 \right)$$
 
 where *&beta;<sub>c</sub>* is the spreading constant for the concentration profile. But it's fairly easy to see that this is equivalent to
 
-$$ g\left(\xi\right) = exp^{-\log 2 \left(\xi \over \beta\right)^2 \left(\beta \over \beta_c\right)^2} = f\left(\xi\right)^{\left(\beta \over \beta_c\right)^2} $$
+$$ g\left(\xi\right) = \exp \left( -\log 2 \left(\xi \over \beta\right)^2 \left(\beta \over \beta_c\right)^2 \right) = f\left(\xi\right)^{\left(\beta \over \beta_c\right)^2} $$
 
 or
 
@@ -507,7 +507,7 @@ It is also worth noting that the concentration model breaks down when *z&lt;k<su
 
 ## Temperature
 
-The temperature profiles follow directly from the velocity profiles in an entirely analogous way concentration. The temperature profile is given by:
+The temperature profiles follow directly from the velocity profiles in an entirely analogous way to concentration. The temperature profile is given by:
 
 $$ {T - T_a \over T_0 - T_a} = k_T {d_0 \over z} \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Pr} $$
 
