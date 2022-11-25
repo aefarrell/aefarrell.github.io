@@ -85,7 +85,7 @@ $$ q = HHV \cdot Q_s = HHV \cdot {\pi \over 4} D^2 \sqrt{P_1 \over \rho_1} \sqrt
 
 This looks like a lot however most of that is a constant, i.e. it is a function of the *system* and not the gas moving through it. 
 
-$$ q = \sqrt{ HHV \over \rho_1} \times \textrm{a constant} $$
+$$ q = { HHV \over \sqrt{\rho_1} } \times \textrm{a constant} $$
 
 So, assuming a constant pressure drop, along an identical pipe, with fully developed turbulent flow (i.e. *K* is constant) the ratio of heat delivered by hydrogen to that of natural gas is given by:
 
