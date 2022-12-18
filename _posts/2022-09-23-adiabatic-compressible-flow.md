@@ -27,7 +27,7 @@ As a brief review of some common references: Crane's[^Crane] gives a graphical m
 
 Another part of this confusion is differences in how the problem is being approached -- or what problem, exactly, one is trying to solve. Typically the isothermal and isentropic flow models are presented as ways to solve for the flowrate given the pressure drop between two points, whereas the Fanno flow model is often given in terms of the Mach number and one is solving for the pressure drop. If you have the Mach number, rather obviously, you already know the flow, and it is often left as an exercise for the reader to figure out how to use the Fanno flow model to *solve* for flow.
 
-Given all of that, I thought it may be worthwhile to unpack these various approaches to adiabatic flow, and see how the perform relative to one another.
+Given all of that, I thought it may be worthwhile to unpack these various approaches to adiabatic flow, and see how they perform relative to one another.
 
 [^Crane]: *TP410M Flow of Fluids*, Crane Co., Stamford, Connecticut (2013)
 
@@ -96,7 +96,7 @@ Mw = 0.02896 # kg/mol
 μ(T) = (1.425e-6*T^0.5039)/(1+108.3/T); # Pa⋅s
 ```
 
-The mass velocity, *G* = *&rho;u*, in a pipe with constant cross-sectional area is constant[^massvel], and the Reynold's number can be written in terms of *G* as:
+The mass velocity, *G* = *&rho;u*, in a pipe with constant cross-sectional area at steady state is constant[^massvel], and the Reynold's number can be written in terms of *G* as:
 
 $$ \mathrm{Re} = { {G D} \over \mu } $$
 
@@ -225,7 +225,7 @@ The integral $\int {dP \over v}$ is where the reversible and irreversible models
 
 ## Reversible Adiabatic Flow (Isentropic Flow)
 
-Typically the isentropic flow model comes as a consequence of examining non-isothermal flow more generally, where one assumes *Pv<sup>k</sup>* is constant with *k* being a function of heat transfer (for the isothermal case *k*=1). The adiabatic case is then taken to be when *k*=*&gamma;*. I think this is the greatest source of vaguery and confusion in the various sources I've looked at, Coulson and Richardson's emphasizes that this is only an approximation as this equates to assuming an isentropic path, but many other sources either don't make the distinction or only hint at it.
+Typically the isentropic flow model comes as a consequence of examining non-isothermal flow more generally, where one assumes *Pv<sup>k</sup>* is constant with *k* being a function of heat transfer (for the isothermal case *k*=1). The adiabatic case is then taken to be when *k*=*&gamma;*. I think this is the greatest source of vaguery and confusion in the various sources I've looked at. Coulson and Richardson's emphasizes that this is only an approximation as this equates to assuming an isentropic path, but many other sources either don't make the distinction or only hint at it.
 
 $$ Pv^\gamma = P_1 v_1^\gamma $$
 
@@ -293,7 +293,7 @@ ṁ_i = isentropic_flow(P₁, Kf)*A
 
 ## Irreversible Adiabatic Flow (Fanno Flow)
 
-The integration for Fanno flow is decidedly more tedious, as a sketch start with the invariant (which comes from taking an energy balance for an ideal gas):
+The integration for Fanno flow is decidedly more tedious. As a sketch, start with the invariant (which comes from taking an energy balance for an ideal gas):
 
 $$ {1 \over 2} \left( Gv \right)^2 + {\gamma \over {\gamma -1} } Pv = \textrm{a constant}$$
 
@@ -343,7 +343,7 @@ An obvious simplifying assumption is to estimate the exit temperature using the 
 
 $$ {T_2 \over T_1} = \left( P_2 \over P_1 \right)^{ {\gamma-1} \over \gamma} $$
 
-If we were assuming *K<sub>f</sub>* is constant, then we could estimate the density at the exit using the relationship for isentropic flow. Then the mass velocity could be calculated directly, with no numerical methods required. In the more general case, the flow still needs to be calculated iteratively as the friction factor is a function of the flow (Reynolds number).
+If we were assuming *K<sub>f</sub>* is constant, then using this assumption to estimate the density at the exit allows for a direct calcuation of the mass velocity, no numerical methods required. In the more general case, the flow still needs to be calculated iteratively as the friction factor is a function of the flow (Reynolds number).
 
 
 
@@ -476,7 +476,7 @@ The approximation produces reasonable results in this case, especially at higher
 
 $$ G = Y \sqrt{ { 2 \rho_1 \Delta P } \over K } $$
 
-Where the expansion factor, *Y*, is read off of a chart. This is great if you are working things out by hand, but can present some challenges when calculating things on a computer. Ludwig's[^Ludwig] provides a complicated series of equations to iteratively calculate the *Y* curves yourself, but I think if you are expending that level of effort then you really are not saving anything over using the Fanno model above. A much simpler approach is either interpolate the critical expansion factor, *Y<sub>cr</sub>*, and critical pressure ratio, *q<sub>cr</sub>*, from the values given in Crane's or use a correlation for them (that's what I will use). Though this adds the wrinkle of only being able to use *Y* factors for gases with the same *&gamma;* as what is either tabulated or available in a correlation.
+Where the expansion factor, *Y*, is read off of a chart. This is great if you are working things out by hand, but can present some challenges when calculating things on a computer. Ludwig's[^Ludwig] provides a complicated series of equations to iteratively calculate the *Y* curves yourself, but I think if you are expending that level of effort then you really are not saving anything over using the Fanno model above. A much simpler approach is to either interpolate the critical expansion factor, *Y<sub>cr</sub>*, and critical pressure ratio, *q<sub>cr</sub>*, from the values given in Crane's or use a correlation for them (that's what I will use). Though this adds the wrinkle of only being able to use *Y* factors for gases with the same *&gamma;* as what is either tabulated or available in a correlation.
 
 The actual *Y* value then comes from a simple linear relationship (where $q={ {\Delta P} \over P_1}$ )
 
@@ -621,7 +621,7 @@ They are basically indistinguishable. However, this is not at all implying that 
 
 I think the big take-away is that the isentropic flow model is not a very good approximation of Fanno flow and references that suggest that it is are in error. The other big take-away may be that, at least when calculating mass flow rates, the isothermal model is often better than one would expect: it does well at low pressure drops and also for long lines where *K<sub>f</sub>* is large. In practice, when the flow conditions are within the range of available *Y* factors, the modified Darcy equation is the easiest to use and gives excellent agreement with the full Fanno model, however when the situation is outside of that range and *Y* factors have to be calculated it is not a time-saver.
 
-The big elephant in the room is that, in practice, no actual gas flow is perfectly ideal or perfectly adiabatic, nor is the friction factor truly a constant. These assumptions play a big role in the overall model error, and being overly fussy about some of the details of different adiabatic ideal gas models may amount to nothing in practice.
+The big elephant in the room is that, in practice, no actual gas flow is perfectly ideal or perfectly adiabatic, nor is the friction factor truly a constant. These assumptions play a big role in the overall model error, and being fussy about some of the details of different adiabatic ideal gas models may amount to nothing in practice.
 
 For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-09-23-adiabatic-compressible-flow.ipynb)
 {: .notice--info}
