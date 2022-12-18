@@ -94,7 +94,7 @@ $$ \tilde{ \mathbf{A} } = \mathbf{U}^{*} \mathbf{A} \mathbf{U} = \mathbf{U}^{*} 
 Which then allows us to *reconstruct* the matrix **A** on demand while only needing to store the matrices **&Atilde;** and **U**, by the following
 $$ \mathbf{A} = \mathbf{U} \tilde{ \mathbf{A} } \mathbf{U}^{*} $$
 
-This is useful when *n*&gg;*m* as **U** is *n*&times;*m* and **&Atilde;** is *m*&times;*m*. For this example this has reduced the memory requirement to ~108MB, a &gt;99.8% reduction
+This is useful when *n* &gt; &gt; *m* as **U** is *n*&times;*m* and **&Atilde;** is *m*&times;*m*. For this example this has reduced the memory requirement to ~108MB, a &gt;99.8% reduction
 
 
 ```julia
@@ -107,6 +107,7 @@ size_A_exact/size_A_naive
 ```
 
 Returning to the original problem, we have a sequence of discrete snapshots arranged in a matrix such that each column, *k*, is the vector **x**<sub>k</sub>. Our aim, then, is to find the *best fit* matrix **A** for the linear system
+
 $$ \mathbf{x}_{k+1} = \mathbf{A} \mathbf{x}_k $$
 
 for all **x**<sub>k</sub> in our data set. Or in other words, to find the *best fit* matrix **A** for the system
@@ -116,6 +117,7 @@ $$ \mathbf{X}_{2} = \mathbf{A} \mathbf{X}_{1} $$
 where **X**<sub>1</sub> is the matrix of all of the vectors **x**<sub>k</sub> and **X**<sub>2</sub> is the matrix of the corresponding **x**<sub>k+1</sub>'s.
 
 Though, using DMD, we will instead calculate **&Atilde;** and **U**, leaving us with
+
 $$ \mathbf{x}_{k+1} = \mathbf{U} \mathbf{ \tilde{A} } \mathbf{U}^{*} \mathbf{x}_k $$
 
 To start, we divide the data set into **X**<sub>1</sub> and **X**<sub>2</sub>
@@ -182,12 +184,13 @@ So it would be very convenient if we could get those eigenvalues and eigenvector
 
 Recall, by definition, the projection matrix **&Atilde;** is [unitarily similar](https://en.wikipedia.org/wiki/Matrix_similarity) to **A**, which means the eigenvalues are identical. The eigenvectors of **A** can also be recovered from properties of **&Atilde;**: Suppose **&Atilde;** has the eigendecomposition **W&Lambda;W**<sup>-1</sup>
 
-$$ \mathbf{ \tilde{A} } \mathbf{W} = \mathbf{W} \mathbf{\Lambda} $$
-$$ \mathbf{U}^{*} \mathbf{A} \mathbf{U} \mathbf{W} = \mathbf{W} \mathbf{\Lambda} $$
-$$ \mathbf{U} \mathbf{U}^{*} \mathbf{A} \mathbf{U} \mathbf{W} = \mathbf{U} \mathbf{W} \mathbf{\Lambda} $$
-$$ \mathbf{A} \mathbf{\Phi} = \mathbf{\Phi} \mathbf{\Lambda} $$
+$$ \mathbf{ \tilde{A} } \mathbf{W} = \mathbf{W} \mathbf{\Lambda} \\
+\mathbf{U}^{*} \mathbf{A} \mathbf{U} \mathbf{W} = \mathbf{W} \mathbf{\Lambda} \\
+\mathbf{U} \mathbf{U}^{*} \mathbf{A} \mathbf{U} \mathbf{W} = \mathbf{U} \mathbf{W} \mathbf{\Lambda} \\
+\mathbf{A} \mathbf{\Phi} = \mathbf{\Phi} \mathbf{\Lambda} $$
 
 where
+
 $$ \mathbf{\Phi} = \mathbf{U} \mathbf{W} $$
 
 This is what is given in the original DMD, however more recent work recommends using
@@ -395,9 +398,11 @@ end
 ```
 
 One consequence of truncation, however, is that the resulting matrix **U**<sub>r</sub> is only semi-unitary, in particular
+
 $$ \mathbf{U}_{r}^{*} \mathbf{U}_{r} = \mathbf{I}_{r \times r} $$
 
 but
+
 $$ \mathbf{U}_{r} \mathbf{U}_{r}^{*} \ne \mathbf{I}_{n \times n} $$
 
 This leads to a complication as the matrix **U** is required to be unitary, in particular when recovering **A** from the projection matrix **&Atilde;**, and also when recovering the eigenvalues and eigenvectors of **A** from **&Atilde;**.
@@ -625,7 +630,9 @@ Using the compression matrix from above, we can generate a compressed DMD
 ![gif](/images/dynamic_mode_decomposition_files/output_38_0.gif)
 
 
-**Note** While we can reconstruct the eigenvalues and eigenvectors quite successfully, I don't believe we adequately reconstruct **U**, and so this really only works for the *continuous* system. The reconstruction of **U** strongly depends on **C** being unitary and I don't think that condition can be relaxed {: .notice}
+
+**Note:** While we can reconstruct the eigenvalues and eigenvectors quite successfully, I don't believe we adequately reconstruct **U**, and so this really only works for the *continuous* system. The reconstruction of **U** strongly depends on **C** being unitary and I don't think that condition can be relaxed
+{: .notice}
 
 The compressed DMD does not actually reduce the storage size of any of the matrices, it is more a technique to speed up the calculation of the SVD. Compressed DMD and reduced DMD can be combined: first by compressing the *n*&times;*m* matrix **X** to a *k*&times;*m* matrix **X**<sub>c</sub> and then finding the best rank *r* approximation to the compressed matrix by truncating the SVD to the *r* largest singular values. The reduction step reduces the memory requirements and, if truncated SVD is used as well, this could significantly improve performance for enormous systems.
 
@@ -641,7 +648,8 @@ Conveniently the flow past a cylinder example is on that table (that definitely 
 
 We modify the best fit such that we are looking for the **A** matrix that minimizes
 
-$$ \| \mathbf{ A X } - \mathbf{Y} \|_{F} \textrm{ subject to } \mathbf{A}^{*} \mathbf{A} = \mathbf{I} $$
+$$ \| \mathbf{ A X } - \mathbf{Y} \|_{F} \\
+\textrm{ subject to } \mathbf{A}^{*} \mathbf{A} = \mathbf{I} $$
 
 For which the standard solution is to define a matrix **M**
 
