@@ -49,6 +49,9 @@ ny = Int(read(file, "ny"))
 n, m = size(data)
 ```
 
+  (89351, 151)
+
+
 The data set, `data`, has already been processed into the form we need: each column represents a "frame" of the animation. We can walk through the matrix, taking each column and re-shaping it back into a 2D array, and recover the original flow as a movie.
 
 ![gif](/images/dynamic_mode_decomposition_files/output_2_0.gif)
@@ -59,6 +62,9 @@ The data set has the property that the number of data points at each time step, 
 ```julia
 size_A_naive = n*n*8
 ```
+
+  63868809608
+
 
 ## Exact DMD
 
@@ -101,10 +107,15 @@ This is useful when *n* &gt; &gt; *m* as **U** is *n*&times;*m* and **&Atilde;**
 size_A_exact = (n*m + m*m)*8
 ```
 
+  108118416
+
 
 ```julia
 size_A_exact/size_A_naive
 ```
+
+  0.0016928202774340957
+
 
 Returning to the original problem, we have a sequence of discrete snapshots arranged in a matrix such that each column, *k*, is the vector **x**<sub>k</sub>. Our aim, then, is to find the *best fit* matrix **A** for the linear system
 
@@ -156,6 +167,9 @@ Ã = U'*YVΣ⁻¹
 
 size(Ã)
 ```
+
+  (150, 150)
+
 
 We can then calculate the predicted **x**<sub>k+1</sub>'s, without ever having to actually compute (or store) **A**
 
@@ -294,6 +308,9 @@ d = DMD(data)
 d.Φ == Φ && d.Λ == Diagonal(Λ)
 ```
 
+  true
+
+
 If you were to build this into a larger project, it would be worthwhile to define some actual unit tests to validate that the DMD is working properly.
 
 ### Discrete System
@@ -323,6 +340,9 @@ ds = DiscreteSys(d)
 # This produces the same result as before
 X̂₂_exact == ds(X₁)
 ```
+
+  true
+
 
 ### Continuous System
 
@@ -354,6 +374,9 @@ cs = ContinuousSys(d, X₁[:,1]);
 # This produces the same result as before
 x̂(150) == cs(150)
 ```
+
+  true
+
 
 ### Large Systems
 
@@ -422,10 +445,16 @@ X̂₂_45 = ds_45(X₁)
 norm(X₂ - X̂₂_45) # Frobenius norm
 ```
 
+  0.005459307491383062
+
+
 
 ```julia
 norm(X₂ - X̂₂_exact)
 ```
+
+  0.0005597047465277092
+
 
 An alternative is to specify how much of the variance in the original data set needs to be captured. The singular values are a measure of the variance in the data, and so keeping the top *p* percent of the total variance equates to keeping the top *p* percent of the sum of all of the singular values.
 
@@ -492,6 +521,9 @@ r = 14
 size_A_reduced = (n*r + r*r)*8
 ```
 
+  10008880
+
+
 To recover the (approximate) **A** matrix we only need to store 10MB, a ~91% reduction over the exact DMD
 
 
@@ -499,12 +531,17 @@ To recover the (approximate) **A** matrix we only need to store 10MB, a ~91% red
 size_A_reduced/size_A_exact
 ```
 
+  0.09257331331972159
+
+
 and a >99.98% reduction of the naive case (recall the naive approach of storing the entire **A** matrix would take ~64GB)
 
 
 ```julia
 size_A_reduced/size_A_naive
 ```
+
+  0.00015670998193688458
 
 ### Truncated SVD and Large Systems
 
@@ -735,10 +772,15 @@ We can compare the Frobenius norm of the actual data versus the predicted, and i
 norm(X₂ - X̂₂_pi, 2)
 ```
 
+  18.35684111920036
+
 
 ```julia
 norm(X₂ - X̂₂_exact, 2)
 ```
+
+  0.0005597047465277092
+
 
 The main reason why you would pursue physics informed DMD, though, is not necessarily to generate a better fit as much as to generate better (or more physically realistic) dynamic modes.
 
@@ -763,5 +805,8 @@ Below are several good references giving more details into the derivations, appl
 
 + Baddoo, Peter J., Benjamin Herrmann, Beverley J. McKeon, J. Nathan Kutz, Steven L. Brunton. "Physics-informed dynamic mode decomposition (piDMD)." (2021) [arXiv:2112.04307](https://arxiv.org/abs/2112.04307) with code available on [github](https://github.com/baddoo/piDMD)
 
+
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-12-18-dynamic_mode_decomposition.ipynb)
+{: .notice--info}
 
 ---
