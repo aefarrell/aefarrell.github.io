@@ -1,5 +1,6 @@
 ---
 title: "Building Infiltration Example -- Chlorine Release"
+last_modified_at: 2023-01-08
 toc: true
 toc_label: "contents"
 toc_sticky: true
@@ -92,23 +93,26 @@ $$ c_{puff}(x,y,z,t) = { m \over { (2 \pi)^{3/2} \sigma_x \sigma_y \sigma_z } }
 
 [^1]: *Guidelines for use of Vapour Cloud Dispersion Models, 2nd ed.*, Center for Chemical Process Safety, American Institute of Chemical Engineers, New York, 1996
 
-The parameters σx, σy, and σz are generally found using empirically derived correlations that are functions of the downwind distance, *x* and atmospheric stability.
+The parameters σx, σy, and σz are generally found using empirically derived correlations that are functions of the downwind distance to the center of the puff *x<sub>c</sub>* and atmospheric stability.
 
 
 ```julia
 function c_puff(x,y,z,t; # point in space
                 m, u, h, # parameters of the problem
                 σx::Function, σy::Function, σz::Function)
-    sx = σx(x)
-    sy = σy(x)
-    sz = σz(x)
+    xc = u*t # center of the cloud
+    sx = σx(xc)
+    sy = σy(xc)
+    sz = σz(xc)
     
     C1 = m / ( (2*π)^(1.5) * sx * sy * sz )
-    C2 = exp(-0.5*((x-u*t)/sx)^2)
+    C2 = exp(-0.5*((x-xc)/sx)^2)
     C3 = exp(-0.5*(y/sy)^2)
     C4 = ( exp(-0.5*((z-h)/sz)^2) + exp(-0.5*((z+h)/sz)^2) )
     
-    return C1*C2*C3*C4
+    c = C1*C2*C3*C4
+    
+    return isnan(c) ? 0.0 : c
 end
 ```
 
@@ -143,7 +147,7 @@ The dispersion parameters for puff models are not, in general, as well developed
 
 The outdoor concentration can be calculated at any point using the above equations and below is an animation showing the cloud moving from the release point down to the location of the center of the building. The horizontal slice is at 1m elevation, and the vertical slice is at 0m crosswind distance, the center planes of the cloud.
 
-As is clear, for a very stable cloud the dispersion is small relative to the distance traveled (the cross wind distance is exagerated for visibility) and the bulk of the mass of chlorine is contained in a 10m diameter ball by the time it reaches the building.
+As is clear, for a very stable cloud the dispersion is small relative to the distance traveled (the cross wind distance is exaggerated for visibility) and the bulk of the mass of chlorine is contained in a 10m diameter ball by the time it reaches the building.
 
 
 ![gif](/images/building_infiltration_eg2_files/tmp.gif)
@@ -173,7 +177,7 @@ Clearly this release presents a serious hazard, one would have to travel downwin
 
 ### Single Zone Model
 
-The [single zone model](https://aefarrell.github.io/2021/05/22/building_infiltration_example/) assumes the air within the builiding is generally well mixed and well described by a single concentration. This is approximately true over long timescales, however in the situation of the brief pulse of chlorine passing over the building this assumption may breakdown and is a critical weakness of the discussion that follows.
+The [single zone model](https://aefarrell.github.io/2021/05/22/building_infiltration_example/) assumes the air within the building is generally well mixed and well described by a single concentration. This is approximately true over long timescales, however in the situation of the brief pulse of chlorine passing over the building this assumption may breakdown and is a critical weakness of the discussion that follows.
 
 Very likely in the ~10s it takes for the cloud to pass very little of it will have had time to diffuse into the interior space of the building and the interior mixing (or lack thereof) will be a significant slow step in the overall mass transfer.
 
@@ -184,9 +188,9 @@ $$\frac{d}{dt} c_i(t) = f \left( c_i, \lambda, t \right) = \lambda \cdot \left( 
 [^2]: *Lees' Loss Prevention in the Process Industries, 4th Ed.*, 2012, Elsevier, Section 15.51
 
 
-Where *cᵢ* is the inside concentration, *cₒ* the outside concentration, and *λ* the natural ventillation rate of the building. 
+Where *cᵢ* is the inside concentration, *cₒ* the outside concentration, and *λ* the natural ventilation rate of the building. 
 
-The natural ventillation rate itself is a function of windspeed, the temperature difference between inside and outside, and how leaky the building is. 
+The natural ventilation rate itself is a function of windspeed, the temperature difference between inside and outside, and how leaky the building is. 
 
 The model is defined in a more generic way for now as this will be more useful later.
 
@@ -200,7 +204,7 @@ f(g) = (cᵢ, λ, t) -> f(cᵢ, λ, t; cₒ=g)
 
 ### Simplified ASHRAE Model
 
-The last parameter we need to estimate before solving the problem is the ventillation rate, *λ*, which can be estimated using the simplified ASHRAE model[^4] 
+The last parameter we need to estimate before solving the problem is the ventilation rate, *λ*, which can be estimated using the simplified ASHRAE model[^4] 
 
 $$\lambda = \frac{Q}{V} \\
 Q = A_L \sqrt{ C_s \vert \Delta T \vert + C_w u^2 } \\
@@ -208,7 +212,7 @@ Q = A_L \sqrt{ C_s \vert \Delta T \vert + C_w u^2 } \\
 
 [^4]: *2017 ASHRAE Handbook - Fundamentals (SI Edition)*, Ch. 16
 
-Where $A_L$ and $V$ were given earlier, $C_s$ and $C_w$ are tabulated constants, $\Delta T$ is the difference between indoor and outdoor temperatures, in *K*, and *u* the windspeed, in m/s, and the ventillation rate is in s⁻¹.
+Where $A_L$ and $V$ were given earlier, $C_s$ and $C_w$ are tabulated constants, $\Delta T$ is the difference between indoor and outdoor temperatures, in *K*, and *u* the windspeed, in m/s, and the ventilation rate is in s⁻¹.
 
 In this case the indoor and outdoor temperature are assumed to be the same for simplicity.
 
@@ -221,7 +225,8 @@ In this case the indoor and outdoor temperature are assumed to be the same for s
 |       | 4           | 10.4×10⁻³| 13.7×10⁻³| 16.1×10⁻³|
 |       | 5           | 3.20×10⁻³| 4.20×10⁻³| 4.90×10⁻³|
 
-*Note* the constants have been adjusted such that the leak area is in m² whereas in the ASHRAE handbook it is in cm².
+**Note:** the constants have been adjusted such that the leak area is in m² whereas in the ASHRAE handbook it is in cm².
+{: .notice}
 
 With the shelter class defined as
 1. No obstructions or local shielding
@@ -312,11 +317,12 @@ sln_box2 = solve(prb_box2, Tsit5());
 
 In either the single point or averaged outdoor concentration models the indoor concentration rapidly rises above the ERPG-3 limit, which is very bad, and then slowly decays over time. In this case almost immediately after the cloud has passed the indoor space is more concentrated in Chlorine than the outside air. At the very least this suggests that the building is not a good shelter in place location, or at least a much more detailed analysis of building infiltration would be needed to show that it *was* a good shelter in place location.
 
-*Note* that the indoor concentrations are in mg/m³ wheras the outdoor concentration peaks in the kg/m³, so the building is doing something, it is reducing the indoor concentration by several orders of magnitude, it just isn't enough.
+**Note:** that the indoor concentrations are in mg/m³ whereas the outdoor concentration peaks in the kg/m³, so the building is doing something, it is reducing the indoor concentration by several orders of magnitude, it just isn't enough.
+{: .notice}
 
 ## Sensitivity
 
-For the scenario modeling I approached the problem in a very general way such that the methods for solving the indoor concentration didn't depend explicity upon the model of the outdoor concentration. Which is why it was solved numerically. This is a very useful way of approaching things, especially from a code re-use point of view.
+For the scenario modeling I approached the problem in a very general way such that the methods for solving the indoor concentration didn't depend explicitly upon the model of the outdoor concentration. Which is why it was solved numerically. This is a very useful way of approaching things, especially from a code re-use point of view.
 
 However, in this particular case, if we take the outdoor concentration to be simply the gaussian puff model at a single point then this ODE can be solved analytically and that is useful for exploring the system's sensitivity to windspeed, atmospheric stability, etc.
 
@@ -339,6 +345,9 @@ $$ c_{o}(x,y,z,t) = m C_x(x, t) C_y(x, y) C_z(x, z)$$
 
 and noting that only $C_x$ depends on time we can collect the other stuff into a big constant called $C_1$, giving us
 
+**Note:** I am assuming the dispersion parameters are all constant, this is not strictly true as they all depend upon the downwind location of the center of the puff, which is a function of time.
+{: .notice}
+
 $$ c_{o}(t) = C_1 { 1 \over { \sqrt{2 \pi} \sigma_x } }\exp \left( -\frac{1}{2} \left( {x - ut} \over \sigma_x \right)^2 \right) $$
 
 this is a gaussian in time, let $\mu = \frac{x}{u}$ and $\sigma_t = \frac{\sigma_x}{u}$
@@ -354,7 +363,7 @@ where $C_{i}(s)$ is the Laplace transform of $c_{i}(t)$, inverting the Laplace t
 $$ c_{i}(t) = { C_1 \over u } \int_{0}^{\infty} \lambda \exp \left( -\lambda \left(t - \tau \right) \right) 
 { 1 \over { \sqrt{2 \pi} \sigma_t } }\exp \left( -\frac{1}{2} \left( {\tau - \mu} \over \sigma_t \right)^2 \right) d\tau$$
 
-that is, the solution is the convolution of the exponential and gaussian times some constants. Conventiently for us this is a well known integral and we can just look up the answer in a book
+that is, the solution is the convolution of the exponential and gaussian times some constants. Conveniently for us this is a well known integral and we can just look up the answer in a book
 
 $$ c_{i}(t) = { C_1 \over u } \frac{\lambda}{2} \exp \left( \frac{\lambda}{2} \left( 2\mu + \lambda \sigma_t^2 - 2t \right) \right) \mathrm{erfc} \left( { \mu + \lambda \sigma_t^2 -t } \over { \sqrt{2} \sigma_t } \right) $$
 
@@ -385,7 +394,7 @@ function cᵢ(x,y,z,t;    # point in space
     c *= exp(0.5*λ*(2*μ+λ*σₜ^2-2*t))
     c *= erfc((μ+λ*σₜ^2-t)/(√(2)*σₜ))
     
-    return c
+    return isnan(c) ? 0.0 : c
 end
 ```
 
@@ -408,7 +417,7 @@ tₘₐₓ, cₘₐₓ
 ```
 
 
-    (70.04333860265841, 551.5422273514416)
+    (68.75985074200291, 526.7278076114225)
 
 
 An alternative is to make the approximation $\mathrm{erfc}(-x) \approx 2 H(x)$, where $H(x)$ is the Heaviside step function ( $\mathrm{erfc}(-x)$ runs from 0 to 2 and $H(x)$ runs from 0 to 1 hence the factor of 2)
@@ -447,10 +456,13 @@ end
 
     (66.66666666666667, 551.6845234598728)
 
+We can compare the solution from the ODE solver with the two approximations -- the convolution and the step-function approximation -- to convince ourselves that we are capturing the dynamics well.
+
+![svg](/images/building_infiltration_eg2_files/update_1.svg)
 
 ### Atmospheric stability
 
-The sensitivity to atmospheric stability, at the max windspeed given in the table of dispersion parameters above, is shown below. Clearly the indoor concentration depends strongly on the atmospheric stability, and that makes sense as more unstable conditions lead to far greater mixing and thus lower outdoor concentrations. This effect is far greater than any increase in ventillation rate due to the greater windspeeds.
+The sensitivity to atmospheric stability, at the max windspeed given in the table of dispersion parameters above, is shown below. Clearly the indoor concentration depends strongly on the atmospheric stability, and that makes sense as more unstable conditions lead to far greater mixing and thus lower outdoor concentrations. This effect is far greater than any increase in ventilation rate due to the greater windspeeds.
 
 
 ![svg](/images/building_infiltration_eg2_files/output_37_0.svg)
@@ -459,7 +471,7 @@ The sensitivity to atmospheric stability, at the max windspeed given in the tabl
 
 ### Windspeed
 
-Returning to the original scenario parameters we explore the impact of changing the windspeed, while assuming the atmospheric stability remains consant, in the figure below. In this case windspeed impacts both the parameters of the gaussian puff model and the natural ventillation rate in the single zone building infiltration model.
+Returning to the original scenario parameters we explore the impact of changing the windspeed, while assuming the atmospheric stability remains constant, in the figure below. In this case windspeed impacts both the parameters of the gaussian puff model and the natural ventilation rate in the single zone building infiltration model.
 
 
 ![svg](/images/building_infiltration_eg2_files/output_39_0.svg)
@@ -503,7 +515,7 @@ $$ { \lambda C_1 \over u } \exp \left( { \left( \lambda \sigma_t \right)^2 \over
 
 Which is independent of windspeed.
 
-We can perhaps see how small the effect is more clearly by directy varying the ratio ${ \sigma_t \over \tau}$ while keeping $\mu$ constant and looking at the response. The maximum indoor concentration does change, but only slightly.
+We can perhaps see how small the effect is more clearly by directly varying the ratio ${ \sigma_t \over \tau}$ while keeping $\mu$ constant and looking at the response. The maximum indoor concentration does change, but only slightly.
 
 
 
@@ -511,7 +523,7 @@ We can perhaps see how small the effect is more clearly by directy varying the r
 
 
 
-Which is not to say the model is insensitive to the natural ventillation rate, merely that for a given building the impact of changing windspeed on the ventillation rate is cancelled out by the change in the outdoor concentration profile.
+Which is not to say the model is insensitive to the natural ventilation rate, merely that for a given building the impact of changing windspeed on the ventilation rate is canceled out by the change in the outdoor concentration profile.
 
 ### Equivalent Leak Area
 
@@ -554,9 +566,9 @@ Again, this is all considering the instantaneous concentration and not consideri
 
 ## Final Remarks
 
-The results of the scenario speak to something the previous discussion noted, namely that after the cloud has passed the indoor concentration exceeds the outdoor concentration and so an important reponse, post release, is not just when to shelter in place but when to stop.
+The results of the scenario speak to something the previous discussion noted, namely that after the cloud has passed the indoor concentration exceeds the outdoor concentration and so an important response, post release, is not just when to shelter in place but when to stop.
 
-The worst case indoor concentration far exceeded the ERPG-3 limit, however it was still signifcantly lower exposure than had one been standing outside. But once the chlorine had leaked into the building it would take hours to fully clear purely by natural ventillation. At that point it would be far more prudent to leave the building and to turn the ventillation system back on. Identifying when this is the case is an interesting problem, because there are no guarantees that the emergency outside the building is fully resolved merely because the toxic release has passed. So one must balance the risks of sheltering in a place that is no longer safe versus evacuating into a potentially dangerous environment. In such a scenario it may be prudent to have indoor and outdoor air monitoring in the shelter in place location and a store of emergency escape respirators, though a better solution would be to move the shelter in place to a safer location.
+The worst case indoor concentration far exceeded the ERPG-3 limit, however it was still significantly lower exposure than had one been standing outside. But once the chlorine had leaked into the building it would take hours to fully clear purely by natural ventilation. At that point it would be far more prudent to leave the building and to turn the ventilation system back on. Identifying when this is the case is an interesting problem, because there are no guarantees that the emergency outside the building is fully resolved merely because the toxic release has passed. So one must balance the risks of sheltering in a place that is no longer safe versus evacuating into a potentially dangerous environment. In such a scenario it may be prudent to have indoor and outdoor air monitoring in the shelter in place location and a store of emergency escape respirators, though a better solution would be to move the shelter in place to a safer location.
 
 These two examples cover two extremes of building infiltration, the forest fire smoke looked at enormous clouds that take hours to pass and this chlorine example covers very concentrated clouds which pass in under a minute. Most real scenarios at a chemical plant or other facility are likely to be between these extremes, but the same tools would apply. 
 

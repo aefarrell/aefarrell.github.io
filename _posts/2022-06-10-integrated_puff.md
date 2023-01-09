@@ -1,5 +1,6 @@
 ---
 title: "Between a puff and a plume"
+last_modified_at: 2023-01-08
 toc: true
 toc_label: "contents"
 toc_sticky: true
@@ -118,15 +119,15 @@ where, for the sake of clarity, I've neglected the fact that the dispersion para
 
 
 ```julia
-gx(x, t) = exp((-1/2)*((x-u*t)/σx(x))^2)/(√(2π)*σx(x))
-gy(x, y) = exp((-1/2)*(y/σy(x))^2)/(√(2π)*σy(x))
-gz(x, z) = (exp((-1/2)*((z-h)/σz(x))^2)+exp((-1/2)*((z+h)/σz(x))^2))/(√(2π)*σz(x))
+gx(x, t) = exp((-1/2)*((x-u*t)/σx(u*t))^2)/(√(2π)*σx(u*t))
+gy(y, t) = exp((-1/2)*(y/σy(u*t))^2)/(√(2π)*σy(u*t))
+gz(z, t) = (exp((-1/2)*((z-h)/σz(u*t))^2)+exp((-1/2)*((z+h)/σz(u*t))^2))/(√(2π)*σz(u*t))
 ```
 
 
 
 ```julia
-c_pf(x,y,z,t; m, Δt) = m*Δt*gx(x,t)*gy(x,y)*gz(x,z)
+c_pf(x,y,z,t; m, Δt) = m*Δt*gx(x,t)*gy(y,t)*gz(z,t)
 ```
 
 
@@ -186,7 +187,13 @@ We can re-arrange this and take the limit as $n \to \infty$
 $$ c(x,y,z,t) = m\cdot g_y(y) \cdot g_z(z) \cdot \left( \lim_{n \to \infty} \sum_{i=0}^{n} g_x(x, t-\frac{i}{n}\Delta t) \frac{\Delta t}{n} \right) \\
 = m\cdot g_y(y) \cdot g_z(z) \cdot \int_{t-\Delta t}^{t} g_x(x, t^{\prime}) dt^{\prime}$$
 
-Where we have replaced the limit with the integral. This is an integral of a Gaussian, and so we expect the results to be in terms of the [error function](https://en.wikipedia.org/wiki/Error_function)
+Where we have replaced the limit with the integral. 
+
+**Note:** I am assuming the dispersion parameters are constants, though they are not in practice as they are correlated to the downwind distance to the center of any given puff. I am assuming for a small enough release this is approximately constant at least.
+{: .notice}
+
+
+This is an integral of a Gaussian, and so we expect the results to be in terms of the [error function](https://en.wikipedia.org/wiki/Error_function)
 
 $$ \mathrm{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x \exp \left( -t^2 \right) dt $$
 
@@ -213,12 +220,12 @@ using SpecialFunctions: erf
 
 function ∫gx(x,t,Δt)
     Δt = min(t,Δt)
-    a  = (x-u*(t-Δt))/(√2*σx(x))
-    b  = (x-u*t)/(√2*σx(x))
+    a  = (x-u*(t-Δt))/(√2*σx(u*(t-Δt)))
+    b  = (x-u*t)/(√2*σx(u*t))
     return erf(b,a)/(2u)
 end
 
-intpuff(x,y,z,t; m, Δt) = m*gy(x,y)*gz(x,z)*∫gx(x,t,Δt)
+intpuff(x,y,z,t; m, Δt) = m*gy(y,x/u)*gz(z,x/u)*∫gx(x,t,Δt)
 ```
 
 ![gif](/images/integrated_puff_files/output_12_0.gif)
@@ -237,7 +244,7 @@ This release model has some convenient properties: clearly as $\Delta t \to 0$ i
 
 ## Complications
 
-I've been casually treating the dispersion parameters, $\sigma_x, \sigma_y, \sigma_z$, as being constants that are independent of the model and any transformations on the model. Within the context of taking sums and doing integrals it is reasonable: at any point *x* they are constants. However, in practice, they depend upon the model.
+I've been casually treating the dispersion parameters, $\sigma_x, \sigma_y, \sigma_z$, as being constants that are independent of the model and any transformations on the model. Within the context of taking sums and doing integrals it is reasonable: within a reasonable radius of the center of a given puff they are nearly constant. However, in practice, they depend upon time through their dependence on the location of the puff center and are also functions of the model itself.
 
 The dispersion parameters for a plume model are not the same as for a puff, and so the nice smooth curve connecting the two doesn't really work. Not if you are strictly taking dispersion parameters as provided in standard references. It is not at all clear how to transition from the one set to the other either, in a smooth manner, to ensure that there is a smooth transition from puff to plume.
 
