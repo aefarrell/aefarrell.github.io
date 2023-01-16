@@ -115,7 +115,7 @@ $$ g_y(y) = {1 \over \sqrt{2\pi} \sigma_y } \exp \left( -\frac{1}{2} \left( y \o
 
 $$ g_z(z) = {1 \over \sqrt{2\pi} \sigma_z } \left[ \exp \left( -\frac{1}{2} \left( z-h \over \sigma_z \right)^2 \right) + \exp \left( -\frac{1}{2} \left( z+h \over \sigma_z \right)^2 \right) \right]$$
 
-where, for the sake of clarity, I've neglected the fact that the dispersion parameters &sigma; are themselves all functions of *x*.
+where, for the sake of clarity, I've neglected the fact that the dispersion parameters &sigma; are themselves all functions of *t* by being functions of the location of the center of the puff.
 
 
 ```julia
