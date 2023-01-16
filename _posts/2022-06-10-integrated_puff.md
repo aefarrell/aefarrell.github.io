@@ -1,6 +1,6 @@
 ---
 title: "Between a puff and a plume"
-last_modified_at: 2023-01-08
+last_modified_at: 2023-01-16
 toc: true
 toc_label: "contents"
 toc_sticky: true
@@ -249,6 +249,8 @@ I've been casually treating the dispersion parameters, $\sigma_x, \sigma_y, \sig
 The dispersion parameters for a plume model are not the same as for a puff, and so the nice smooth curve connecting the two doesn't really work. Not if you are strictly taking dispersion parameters as provided in standard references. It is not at all clear how to transition from the one set to the other either, in a smooth manner, to ensure that there is a smooth transition from puff to plume.
 
 That said, multiple puff models use the dispersion parameters for puffs and so using the puff parameters in the integrated puff model at least puts one in good company.
+
+**Update:** There is [a follow-up post](https://aefarrell.github.io/2023/01/15/intpuff2_successive_approximations/) that discusses the quality of these approximations in more detail.
 
 
 For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-06-10-integrated_puff.ipynb)
