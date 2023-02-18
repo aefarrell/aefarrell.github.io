@@ -28,7 +28,7 @@ Where **x** is the high dimensional state vector for the system. One key strengt
 
 ## Example: Flow Past a Cylinder
 
-As a motivating example, I am going to use the flow past a cylinder dataset from [Data-Driven Science and Engineering](http://databookuw.com), specifically the [matlab dataset](http://databookuw.com/DATA.zip). This dataset is the simulated vorticity for fluid flow past a cylinder. The vector **x** in this case is the vorticity at every point in the discretized flow field at a particular time; a two dimensional array of 89,351 pixels reshaped into a column vector. The data is a sequence of equally spaced snapshots of the flow field, and ultimately we wish to generate an linear system that best approximates this.
+As a motivating example, I am going to use the flow past a cylinder dataset from [Data-Driven Science and Engineering](http://databookuw.com), specifically the [matlab dataset](http://databookuw.com/DATA.zip). This dataset is the simulated vorticity for fluid flow past a cylinder. The vector **x** in this case is the vorticity at every point in the discretized flow field at a particular time; a two dimensional array of 89,351 pixels reshaped into a column vector. The data is a sequence of equally spaced snapshots of the flow field, and ultimately we wish to generate a linear system that best approximates this.
 
 The `MAT` package allows us to import data from matlab data files directly into julia
 
@@ -315,7 +315,7 @@ If you were to build this into a larger project, it would be worthwhile to defin
 
 ### Discrete System
 
-Since we have a DMD type to work with, we can also refactor how discrete systems are generated. In this case I have defined a `struct` for the discrete system, and then add a method such that any discrete system acts as a callable **x**<sub>k+1</sub>=*f*(**x**<sub>k</sub>)
+Since we have a DMD type to work with, we can also refactor how discrete systems are generated. In this case I have defined a `struct` for the discrete system, and then added a method such that any discrete system acts as a callable **x**<sub>k+1</sub>=*f*(**x**<sub>k</sub>)
 
 
 ```julia
@@ -346,7 +346,7 @@ X̂₂_exact == ds(X₁)
 
 ### Continuous System
 
-Similarly we can refactor the generation of continuous systems, first by defining a `struct` for the continuous system, then by adding a method **x**<sub>t</sub>=*f*(*t*). Theis requires a little more information: we need to keep track of the initial state of the system **x**<sub>0</sub> as well as the step size &Delta;*t*
+Similarly we can refactor the generation of continuous systems, first by defining a `struct` for the continuous system, then by adding a method **x**<sub>t</sub>=*f*(*t*). This requires a little more information: we need to keep track of the initial state of the system **x**<sub>0</sub> as well as the step size &Delta;*t*
 
 
 ```julia
@@ -384,7 +384,7 @@ I have been using the default tools in julia, which work well for small matrices
 
 ## Reduced DMD
 
-Whenever a problem involves computing the SVD of a matrix, dimensionality reduction hangs about in the shadows, winking suggestively. By the [Eckart-Young theorem](https://en.wikipedia.org/wiki/Low-rank_approximation#Proof_of_Eckart–Young–Mirsky_theorem_(for_Frobenius_norm)) we know that the best rank *r* approximation to a matrix **X**=**U&Sigma;V**<sup>T</sup> is the truncated SVD **X**<sub>r</sub>=**U**<sub>r</sub>**&Sigma;**<sub>r</sub>**V**<sub>r</sub><sup>T</sup>, i.e. the SVD truncated to the *r* largest singular values (and corresponding singular vectors). So an obvious step for dimensionality reduction in DMD is substitute a truncated SVD for the full SVD.
+Whenever a problem involves computing the SVD of a matrix, dimensionality reduction lurks about in the shadows, winking suggestively. By the [Eckart-Young theorem](https://en.wikipedia.org/wiki/Low-rank_approximation#Proof_of_Eckart–Young–Mirsky_theorem_(for_Frobenius_norm)) we know that the best rank *r* approximation to a matrix **X**=**U&Sigma;V**<sup>T</sup> is the truncated SVD **X**<sub>r</sub>=**U**<sub>r</sub>**&Sigma;**<sub>r</sub>**V**<sub>r</sub><sup>T</sup>, i.e. the SVD truncated to the *r* largest singular values (and corresponding singular vectors). So an obvious step for dimensionality reduction in DMD is substitute a truncated SVD for the full SVD.
 
 
 ```julia
@@ -673,7 +673,7 @@ Using the compression matrix from above, we can generate a compressed DMD
 
 The compressed DMD does not actually reduce the storage size of any of the matrices, it is more a technique to speed up the calculation of the SVD. Compressed DMD and reduced DMD can be combined: first by compressing the *n*&times;*m* matrix **X** to a *k*&times;*m* matrix **X**<sub>c</sub> and then finding the best rank *r* approximation to the compressed matrix by truncating the SVD to the *r* largest singular values. The reduction step reduces the memory requirements and, if truncated SVD is used as well, this could significantly improve performance for enormous systems.
 
-There is a related approach called *compressed sensing* DMD, in which the full state vector is not available in the first place. A much smaller dimensional set of measurements is sampled and the full state DMD generated using the same general idea as compressed DMD. It isn't that much of a leap from what is above, just with a convex optimization step added to reconstruct the actual state matrix for a given set of measurements.
+There is a related approach called *compressed sensing* DMD, in which the full state vector is not available in the first place. A much smaller dimension set of measurements is sampled and the full state DMD generated using the same general idea as compressed DMD. It isn't that much of a leap from what is above, just with a convex optimization step added to reconstruct the actual state matrix for a given set of measurements.
 
 ## Physics Informed DMD
 
