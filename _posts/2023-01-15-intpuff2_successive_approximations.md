@@ -63,7 +63,7 @@ $$ \sigma = { C^2 \over 2 } \left( u t \right)^{2-n} $$
 
 where *C* and *n* are some constants from Sutton, and in general the dispersion correlations are functions of travel time with a lot of discussion in the literature of *to what power*. The standard correlations for the dispersion parameters come from Slade [*Meteorology and Atomic Energy*](https://doi.org/10.2172/4492043) which gives some details on how the measurements were actually taken. It certainly seems to me that the downwind distance was to the cloud center, i.e. the experimenters measured the cloud dimensions at the downwind point to which it had traveled. Which makes the travel time and windspeed implicit.
 
-I think it is a reasonable confusion as the dispersion parameters for a continuous release, a Gaussian *plume* model, are indeed functions of the downwind distance to the point being calculated. It is also frequently the case that examples are given for the concentration at the plume center, in which case the downwind distance at the point being calculated *is* the downwind distance to the plume center.
+I think it is a reasonable confusion as the dispersion parameters for a continuous release, a Gaussian *plume* model, are indeed functions of the downwind distance to the point being calculated. It is also frequently the case that examples are given for the concentration at the cloud center, in which case the downwind distance at the point being calculated *is* the downwind distance to the cloud center.
 
 
 ## Dispersion nearly-constants
