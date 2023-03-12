@@ -39,7 +39,7 @@ Just to have some numbers to look at, I am going to use a scenario adapted from 
 
 The goal is to find the distance to the Lower Flammability Limit (LFL) which is 5%(v/v) and ultimately work out the extent of the plume and total explosive mass.
 
-[^CCPS:] Adapted from CCPS, *Guidelines for Consequence Analysis of Chemical Releases*, Center for Chemical Process Safety/AIChE (1999), pg 122.
+[^CCPS]: Adapted from CCPS, *Guidelines for Consequence Analysis of Chemical Releases*, Center for Chemical Process Safety/AIChE (1999), pg 122.
 
 
 ```julia
@@ -80,7 +80,7 @@ gₒ = g * (ρᵥ - ρₐ )/ ρₐ
 
 Then, using digitized curves[^CCPS2], work out the points for the linear interpolation in terms of $\beta = \log_{10}(x/D)$
 
-[^CCPS2:] CCPS, *Guidelines for Consequence Analysis of Chemical Releases*, Center for Chemical Process Safety/AIChE (1999) pg 118
+[^CCPS2]: CCPS, *Guidelines for Consequence Analysis of Chemical Releases*, Center for Chemical Process Safety/AIChE (1999) pg 118
 
 
 ```julia
@@ -252,7 +252,7 @@ A conservative approach to estimating the size of the upwind extent is to assume
 Alternatively one could "fit" a curve to hit the end points while also having the same power of *x*: $ L_H = L_{Ho} \left( {x + L_U} \over L_U \right)^{2/3} $ where *L<sub>U</sub>* &lt; *x* &lt; 0, this at least retains the same general shape and is the red curve in the figure below. I think this should be taken with the giant caveat that I don't know if insisting on the same power law is truly justified.
 
 
-[^TNO:] This is what the [TNO Yellow Book](https://repository.tno.nl/islandora/object/uuid:4928209c-5998-4261-9393-3d55073e6e87) does.
+[^TNO]: This is what the [TNO Yellow Book](https://repository.tno.nl/islandora/object/uuid:4928209c-5998-4261-9393-3d55073e6e87) does.
 
 
     
@@ -568,17 +568,15 @@ mₑ_cutoff/mₑ
 
 ## Final thoughts
 
-I think the error in the vertical extent may have limited the apparent utility of the Britter-McQuaid model. Most references I have do use the Britter-McQuaid model, noting that it is "reasonably simple to apply, and produces results which appear to be as good as more sophisticated models"[^CCPS3], however they either claim that it is *only* good for calculating *x<sub>n</sub>* or gloss over how it could be used for anything else. The CCPS references seem consistent in neglecting to mention at all that the model can also estimate the plume extent. So, while I can't imagine I'm the first person to have noticed that the given equation for *L<sub>V</sub>* doesn't work, I have yet to encounter anyone *actually admitting it*.
+I think the error in the vertical extent may have limited the apparent utility of the Britter-McQuaid model. Most references I have do use the Britter-McQuaid model, noting that it is "reasonably simple to apply, and produces results which appear to be as good as more sophisticated models"[^CCPS4], however they either claim that it is *only* good for calculating *x<sub>n</sub>* or gloss over how it could be used for anything else. The CCPS references seem consistent in neglecting to mention at all that the model can also estimate the plume extent. So, while I can't imagine I'm the first person to have noticed that the given equation for *L<sub>V</sub>* doesn't work, I have yet to encounter anyone *actually admitting it*.
 
 That said, the correction also seems obvious to me: one simply follows what is described in the text which is exactly how Britter and McQuaid calculated the cloud height for the instantaneous model (which is correct) in the same workbook. That the incorrect equation for *L<sub>V</sub>* is repeated in other references[^refs], with only the [TNO Yellow Book](https://repository.tno.nl/islandora/object/uuid:4928209c-5998-4261-9393-3d55073e6e87) making a correction, while still repeating a critical mistake, strikes me as very odd.
 
 The Britter-McQuaid model would seem to be the perfect fit for screening models, which are often only order of magnitude estimates at best anyways. It gives reasonable concentrations, plausible plume extents, and the explosive mass is ridiculously easy to calculate (slightly more tedious if you are using the 2/3 cut-off region but nothing that couldn't be worked out in advance if this was going to be incorporated into a routine calculation tool).
 
-[^CCPS3]: CCPS, *Guidelines for Consequence Analysis of Chemical Releases*, Center for Chemical Process Safety/AIChE (1999), pg 122
+[^CCPS4]: CCPS, *Guidelines for Consequence Analysis of Chemical Releases*, Center for Chemical Process Safety/AIChE (1999), pg 122
 
-[^refs]: For example:
-+ Frank P Lees, *Loss Prevention in the Process Industries, 2nd Ed.*, Butterworth-Heinemann, Oxford (1996)
-+ Joachim Casal, *Evaluation of the Effects of Consequences of Major Accidents in Industrial Plants, 2nd Ed.*, Elsevier, Amsterdam (2018)
+[^refs]: For example: Frank P Lees, *Loss Prevention in the Process Industries, 2nd Ed.*, Butterworth-Heinemann, Oxford (1996), and Joachim Casal, *Evaluation of the Effects of Consequences of Major Accidents in Industrial Plants, 2nd Ed.*, Elsevier, Amsterdam (2018)
 
 
 For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/tree/main/_notebooks/2023-03-12-Britter-McQuaid.ipynb)
