@@ -579,7 +579,7 @@ The Britter-McQuaid model would seem to be the perfect fit for screening models,
 [^refs]: For example: Frank P Lees, *Loss Prevention in the Process Industries, 2nd Ed.*, Butterworth-Heinemann, Oxford (1996), and Joachim Casal, *Evaluation of the Effects of Consequences of Major Accidents in Industrial Plants, 2nd Ed.*, Elsevier, Amsterdam (2018)
 
 
-For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/tree/main/_notebooks/2023-03-12-Britter-McQuaid.ipynb)
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2023-03-12-Britter-McQuaid.ipynb)
 {: .notice--info}
 
 
