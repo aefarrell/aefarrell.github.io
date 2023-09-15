@@ -87,12 +87,6 @@ Suppose my French press starts off at 95&deg;C and cools to 75&deg;C -- a sizabl
 $$ { { \Delta \mathscr{D} } \over \mathscr{D} } = { { \Delta T } \over T } $$
 
 
-```julia
-ΔT = 95 - 75;
-T = 95 + 273.15;
-@show ΔT; @show T; @show ΔT/T;
-```
-
     ΔT = 20
     T = 368.15
     ΔT / T = 0.054325682466385986
@@ -133,6 +127,7 @@ $$ K = \frac{ q^{*} }{ c^{*} } $$
 Where *q* is the concentration of solute in the solid phase and *c* is the concentration of solute in the liquid phase. This is equivalent to assuming that there are two first order processes happening
 
 $$ \mathrm{coffee}_{s} \xrightarrow{k_1} \mathrm{coffee}_{l} $$
+
 $$ \mathrm{coffee}_{l} \xrightarrow{k_2} \mathrm{coffee}_{s} $$
 
 At equilibrium the rates of these two processes are equal
