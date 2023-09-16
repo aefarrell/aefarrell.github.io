@@ -525,6 +525,9 @@ I think this is an interesting exploration of how one would go about building a 
 
 The next obvious step with this model is to build some datasets and fit some of these models to actual observed extractions. This could be a jumping off point for exploring how changes in different parameters impact the overall extraction or required brew time.
 
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2023-09-15-engineering_a_cup_of_coffee.ipynb)
+{: .notice--info}
+
 ## References
 
 + <a name="batali-2022">Batali</a>, Mackenzie E., Lik Xian Lim, Jiexin Liang, Sara E. Yeager, Ashley N. Thompson, Juliet Han, William D. Ristenpart, and Jean-Xavier Guinard. 2022. "Sensory Analysis of Full Immersion Coffee: Cold Brew Is More Floral, and Less Bitter, Sour, and Rubbery Than Hot Brew." *Foods*. 11, no. 16: 2440 [doi:10.3390/foods11162440](https://doi.org/10.3390/foods11162440) [ResearchGate](https://www.researchgate.net/publication/362703498)
