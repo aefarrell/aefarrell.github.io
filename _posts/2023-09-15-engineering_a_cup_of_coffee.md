@@ -104,7 +104,7 @@ $$ a_v = {S \over V} = { {4 \pi b^2} \over { \frac{4}{3} \pi b^3} } = {3 \over b
 
 where *b* is the radius of the particle. This leads immediately to the observation that, for the same dose of coffee, a finer grind leads to larger overall surface area and thus a faster rate of extraction. It also hints at why a uniform particle size distribution is important: a smaller particle has proportionately more surface area and will experience faster extraction than a larger particle, leading to the smallest particles (the fines) being *over extracted* while the largest particles (the boulders) are *under extracted*.
 
-Of course coffee grounds are not perfect spheres, they have a complex shape arising from the combination of cutting and brittle fracture that characterize the grinding process. The standard engineering approach is to assume that they are spheres anyways, since that is a simpler geometry to work with, and adjust for the non-sphericity with some sort of shape factor or other parameter. In the case of mass and heat transfer, typically that is the [Sauter mean diameter](https://en.wikipedia.org/wiki/Sauter_mean_diameter) or (Sauter mean radius), which is essentially the average diameter of the distribution of spheres that would have the same specific area as the actual particles. For an individual particle the Sauter radius is
+Of course coffee grounds are not perfect spheres, they have a complex shape arising from the combination of cutting and brittle fracture that characterize the grinding process. The standard engineering approach is to assume that they are spheres anyways, since that is a simpler geometry to work with, and adjust for the non-sphericity with some sort of shape factor or other parameter. In the case of mass and heat transfer, typically that is the [Sauter mean diameter](https://en.wikipedia.org/wiki/Sauter_mean_diameter) (or Sauter mean radius), which is essentially the average diameter of the distribution of spheres that would have the same specific area as the actual particles. For an individual particle the Sauter radius is
 
 $$ b_{s} = {3 \over a_v } $$
 
@@ -285,6 +285,7 @@ $$ \mathrm{Sh} = 2 + 0.552 \mathrm{Re}^{1/2} \mathrm{Sc}^{1/3} $$
 with *Re* the [Reynold's number](https://en.wikipedia.org/wiki/Reynolds_number) and *Sc* the [Schmidt number](https://en.wikipedia.org/wiki/Schmidt_number), then we have a correlation for the Biot number as a function of the Reynold's number.
 
 $$ \mathrm{Bi} = {\mathscr{D}_l \over \mathscr{D}_s} { 1 \over K } \left( 2 + 0.552 \mathrm{Re}^{1/2} \mathrm{Sc}^{1/3} \right) $$
+
 $$ \mathrm{Bi} = { 20 \over K } + { 5.52 \over K } \mathrm{Re}^{1/2} \mathrm{Sc}^{1/3} $$
 
 Where ${\mathscr{D}_s \over \mathscr{D}_l}$ = 0.1 is assumed from Schwartzberg ([1987](#schwartzberg-1987), 557). The Schmidt number, *Sc*, and equilibrium constant, *K*, can be calculated
