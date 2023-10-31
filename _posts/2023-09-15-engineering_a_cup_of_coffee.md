@@ -319,7 +319,7 @@ Regardless it is unlikely that $\mathrm{Bi}<0.001$ and thus the simple exponenti
 
 In the above I casually disregarded boundary conditions, focusing instead on refining the model. Before we move forward we should take a moment to clarify what the boundary conditions are.
 
-First off the coffee starts with a set of initial concentrations *q<sub>0</sub>* and *c<sub>0</sub>*, usually these would be the max concentration in the solid phase and zero respectively but they can be anything really. By disregarding the transfer through the thin film we impose another boundary condition: that at *r=b* the solid-phase concentration is at equilibrium with the concentration in the bulk liquid *q<sub>r=b</sub> = K c*
+First off the coffee starts with a set of initial concentrations *q<sub>0</sub>* and *c<sub>0</sub>*, usually these would be the max concentration in the solid phase and zero respectively but they can be anything really. By disregarding the transfer through the thin film we impose another boundary condition: that at *r = b* the solid-phase concentration is at equilibrium with the concentration in the bulk liquid *q<sub>r=b</sub> = K c*
 
 + *t = 0* : *q = q<sub>0</sub>* and *c = c<sub>0</sub>*
 + *r = b* : *q = K c*
@@ -464,7 +464,7 @@ extraction(t) = c(t)*Vₗ/mₛ
 
 ### Packaging the final result
 
-At this point we have enough to put together a struct to contain the parameters needed for the Carslaw and Jaeger model
+At this point we have enough to put together a `struct` to contain the parameters needed for the Carslaw and Jaeger model
 
 
 ```julia
