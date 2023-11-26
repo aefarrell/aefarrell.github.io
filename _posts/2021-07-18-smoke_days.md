@@ -5,7 +5,7 @@ toc_label: "contents"
 toc_sticky: true
 comments: true
 categories:
-  - notes
+  - miscellany
 tags:
   - air quality
 tagline: "Frequency of forest fire smoke events"

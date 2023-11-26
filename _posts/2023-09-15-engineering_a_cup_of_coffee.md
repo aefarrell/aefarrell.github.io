@@ -5,7 +5,7 @@ toc_label: "contents"
 toc_sticky: true
 comments: true
 categories:
-  - examples
+  - miscellany
 tags:
   - mass transfer
   - coffee

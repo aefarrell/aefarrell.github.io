@@ -5,7 +5,7 @@ toc_label: "contents"
 toc_sticky: true
 comments: true
 categories:
-  - notes
+  - miscellany
 tags:
   - elections
 tagline: "An analysis of how exceptionally little changed."
