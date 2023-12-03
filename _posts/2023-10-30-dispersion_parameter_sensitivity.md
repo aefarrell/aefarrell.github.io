@@ -181,7 +181,7 @@ The above was assuming no plume rise, however the relative differences are much 
 conc = plume(scn, GaussianPlume; plumerise=true);
 ```
 
-Plotted below is the same downwind concentration plot as above, but incorporating the Briggs' plume rise model. Since this leads to a greater overall dispersion, the concentration is much smaller (everything is well below the AAQO at ground level, which is good news). However this adds another dimension along which the models can vary: plume rise is a function of windspeed, and overally dispersion is a function of plume rise. These different sets of correlations lead to the plume rising to a different elevation, and also dispersing to a differing degree, magnifying the differences between them. In this case there is up to a ~30&times; difference between the max concentrations predicted between the urban and rural case.
+Plotted below is the same downwind concentration plot as above, but incorporating the Briggs' plume rise model. Since this leads to a greater overall dispersion, the concentration is much smaller (everything is well below the AAQO at ground level, which is good news). However this adds another dimension along which the models can vary: plume rise is a function of windspeed, and overall dispersion is a function of plume rise. These different sets of correlations lead to the plume rising to a different elevation, and also dispersing to a differing degree, magnifying the differences between them. In this case there is up to a ~30&times; difference between the max concentrations predicted between the urban and rural case.
 
 ![svg](/images/dispersion_parameter_sensitivity_files/output_39_0.svg)
 
