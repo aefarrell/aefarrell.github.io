@@ -1,11 +1,12 @@
 ---
 title: "Engineering a Cup of Coffee"
+last_modified_at: 2023-12-04
 toc: true
 toc_label: "contents"
 toc_sticky: true
 comments: true
 categories:
-  - miscellany
+  - examples
 tags:
   - mass transfer
   - coffee
@@ -367,9 +368,9 @@ $$ \tan(x) = { {3 x} \over { 3 + \alpha x^2 } } $$
 
 (the particular form shown here comes from Schwartzberg ([1987](#schwartzberg-1987), 554) )
 
-The first problem, when actually using this solution, is generating the roots of the equation. The equations has a repeated singularity and, in my experience, off-the-shelf root finding algorithms have trouble with that and will find spurious zeros in the vicinity of the singularities.
+The first problem, when actually using this solution, is generating the roots of the equation. The original equation has a repeated singularity and, in my experience, off-the-shelf root finding algorithms have trouble with that and will find spurious zeros in the vicinity of the singularities.
 
-A better approach is to re-write the equation in a different way
+A better approach is to re-write it in a different way
 
 $$ \tan(x) = { \sin(x) \over \cos(x) } $$
 
