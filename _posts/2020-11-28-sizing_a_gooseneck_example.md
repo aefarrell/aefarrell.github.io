@@ -1,6 +1,6 @@
 ---
 title: "Compressible Flow Example - Sizing a goose neck vent"
-last_modified_at: 2022-03-26
+last_modified_at: 2023-12-21
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -118,9 +118,6 @@ $$ f_T = { 0.25 \over { \left( \log \left( \kappa \over 3.7 \right) \right)^2 } 
 
 With these defined I can write a function that gives $\sum_j K_j$ for any $\kappa$, *l*, and *Re*
 
-<a name="fn-1"><strong>1</strong></a>: The equation here is given in terms of the darcy friction factor. [↩](#fnref-1)
-{: .notice }
-
 
 ```julia
 function f(κ, Re)
@@ -133,6 +130,9 @@ fT(κ) = 0.25/log10(κ/3.7)^2
 
 ΣK(κ,l,Re) = 0.5 + f(κ,Re)*l + 14*fT(κ) + 14*fT(κ) + fT(κ) + 1.0;
 ```
+
+<a name="fn-1"><strong>1</strong></a>: The equation here is given in terms of the darcy friction factor. [↩](#fnref-1)
+{: .notice }
 
 ### The Reynolds number
 
@@ -260,10 +260,6 @@ If we assume the system is at thermal equilibrium with the outside air, then $T 
 
 The only unknown is *p<sub>1</sub>*, which can be solved for numerically.
 
-<a name="fn-2"><strong>2</strong></a>: This equation also neglects changes in elevation. [↩](#fnref-2)
-{: .notice }
-
-
 ```julia
 pᵢₜ(G,κ,l,Re) = find_zero(
     p -> p^2 - G^2 * (R*Tₐ/Mw) * (ΣK(κ,l,Re) + 2*log(p/pₐ)) - pₐ^2, 
@@ -286,6 +282,9 @@ uconvert(u"inch", D1)
 
     6.491472166277518 inch
 
+
+<a name="fn-2"><strong>2</strong></a>: This equation also neglects changes in elevation. [↩](#fnref-2)
+{: .notice }
 
 ### Adiabatic (Fanno) Flow
 
@@ -347,24 +346,6 @@ Putting all of this together, the procedure for adiabatic ideal gas flow through
 1. Continue to iterate until $p_1$ stops changing
 
 While that looks complicated, each step is fairly easy. In my experience, with subsonic flow, this converges very quickly.
-
-{% capture footnotes-3-4 %}
-<a name="fn-3"><strong>3</strong></a>: derived for an ideal gas
-    
-    $$ G = \rho v = { {p  Mw} \over {R T} } v$$
-    
-    $$ c = \sqrt{ {k R T} \over Mw } $$
-    
-    $$ Ma = { v \over c } = G { {R T} \over {p  Mw} } \sqrt{ Mw \over {k R T} } = \frac{G}{p} \sqrt{ \frac{RT}{kMw} }$$
-
-[↩](#fnref-3)
-
-<a name="fn-4"><strong>4</strong></a>: Equation 6-116, taking two points and canceling out the stagnation temperature.[↩](#fnref-4)
-{% endcapture %}
-
-<div class="notice">
-  {{ footnotes-3-4 | markdownify }}
-</div>
 
 
 ```julia
@@ -437,6 +418,25 @@ uconvert(u"inch", D2)
 ```
 
     6.485474802835819 inch
+
+
+{% capture footnotes-3-4 %}
+<a name="fn-3"><strong>3</strong></a>: derived for an ideal gas
+    
+    $$ G = \rho v = { {p  Mw} \over {R T} } v$$
+    
+    $$ c = \sqrt{ {k R T} \over Mw } $$
+    
+    $$ Ma = { v \over c } = G { {R T} \over {p  Mw} } \sqrt{ Mw \over {k R T} } = \frac{G}{p} \sqrt{ \frac{RT}{kMw} }$$
+
+[↩](#fnref-3)
+
+<a name="fn-4"><strong>4</strong></a>: Equation 6-116, taking two points and cancelling out the stagnation temperature.[↩](#fnref-4)
+{% endcapture %}
+
+<div class="notice">
+  {{ footnotes-3-4 | markdownify }}
+</div>
 
 
 ## Minimum Diameter

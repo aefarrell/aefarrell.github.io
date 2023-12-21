@@ -39,22 +39,6 @@ As a simple scenario suppose a leak from a butane storage sphere. These are a fa
 
 ![image.png](/images/butane_leak_example_files/att1.png)
 
-{% capture footnotes-1-3 %}
-<a name="fn-1"><strong>1</strong></a>: If the vessel contained a mixture, for the purposes of screening, conservatively choosing the most volatile of the major components would be a reasonable assumption. These simplifications are suitable for screening purposes however if more in depth modeling is required then performing mixture flash calculations would have to be considered, which very quickly becomes a lot of work to set-up outside of a process simulator like Aspen [↩](#fnref-1)
-
-
-<a name="fn-2"><strong>2</strong></a>: There are lots of ways of generating leak scenarios, from the very specific leaks from particular propagating events to simple rules of thumb. The *Chemical Exposure Index* gives the following rules for determining a leak scenario for a vessel([AIChE/CCPS 1998](#ccps-1998])):
-> A rupture based on the largest diameter process pipe attached to the vessel using the following:
-> + For anything less than 2in a full bore rupture (i.e. the full diameter of the pipe)
-> + For between 2 and 4in assume a rupture area equal to that of a 2in diameter pipe
-> + For >4in assume a rupture area equal to 20% of the pipe cross section area[↩](#fnref-2)
-    
-<a name="fn-3"><strong>3</strong></a>: Picking the bottom also ensures the leak occurs at the highest pressure, which gives a larger release and is most conservative. Releases at higher elevations also tend to mix more thoroughly with the air and present less of a hazard to personnel on the ground, and possibly less of an explosion hazard depending on where one supposes the ignition sources are.[↩](#fnref-3)
-{% endcapture %}
-
-<div class="notice">
-  {{ footnotes-1-3 | markdownify }}
-</div>
 
 ```julia
 using Unitful: ustrip, @u_str
@@ -119,7 +103,22 @@ pˢ(Tᵣ)<p
 
     true
 
+{% capture footnotes-1-3 %}
+<a name="fn-1"><strong>1</strong></a>: If the vessel contained a mixture, for the purposes of screening, conservatively choosing the most volatile of the major components would be a reasonable assumption. These simplifications are suitable for screening purposes however if more in depth modeling is required then performing mixture flash calculations would have to be considered, which very quickly becomes a lot of work to set-up outside of a process simulator like Aspen [↩](#fnref-1)
 
+
+<a name="fn-2"><strong>2</strong></a>: There are lots of ways of generating leak scenarios, from the very specific leaks from particular propagating events to simple rules of thumb. The *Chemical Exposure Index* gives the following rules for determining a leak scenario for a vessel([AIChE/CCPS 1998](#ccps-1998])):
+> A rupture based on the largest diameter process pipe attached to the vessel using the following:
+> + For anything less than 2in a full bore rupture (i.e. the full diameter of the pipe)
+> + For between 2 and 4in assume a rupture area equal to that of a 2in diameter pipe
+> + For >4in assume a rupture area equal to 20% of the pipe cross section area[↩](#fnref-2)
+    
+<a name="fn-3"><strong>3</strong></a>: Picking the bottom also ensures the leak occurs at the highest pressure, which gives a larger release and is most conservative. Releases at higher elevations also tend to mix more thoroughly with the air and present less of a hazard to personnel on the ground, and possibly less of an explosion hazard depending on where one supposes the ignition sources are.[↩](#fnref-3)
+{% endcapture %}
+
+<div class="notice">
+  {{ footnotes-1-3 | markdownify }}
+</div>
 
 ## The Release Rate
 
@@ -133,6 +132,15 @@ Where $Q_l$ is the mass flow of liquid discharged through the hole (in kg/s), $c
 + Liquid release
 + Sharp edged hole with discharge coefficient of 0.61
 
+
+```julia
+cd = 0.61
+g  = 9.81 # m/s^2
+Qₗ = cd*ρₗ(Tᵣ)*(π/4)*(dₕ^2)*√( 2*(p - pₐ)/ρₗ(Tᵣ) + 2*g*hₗ )
+```
+
+    56.31092763613714
+
 {% capture footnotes-4-6 %}
 <a name="fn-4"><strong>4</strong></a>: See [AIChE/CCPS (1999)](#ccps-1999) page 37 for more of a disussion on two-phase discharge rates.[↩](#fnref-4)
 
@@ -144,14 +152,6 @@ Where $Q_l$ is the mass flow of liquid discharged through the hole (in kg/s), $c
 <div class="notice">
   {{ footnotes-4-6 | markdownify }}
 </div>
-
-```julia
-cd = 0.61
-g  = 9.81 # m/s^2
-Qₗ = cd*ρₗ(Tᵣ)*(π/4)*(dₕ^2)*√( 2*(p - pₐ)/ρₗ(Tᵣ) + 2*g*hₗ )
-```
-
-    56.31092763613714
 
 ## Flashing Fraction
 
@@ -165,9 +165,6 @@ where $f_v$ is the mass fraction that flashes and $Q_v$ is the mass flow of liqu
 + flashing occurs rapidly and is effectively adiabatic
 + heat capacity and latent heat taken at the release temperature
 
-<a name="fn-7"><strong>7</strong></a>: This can be easily derived, but the form given here is from [AIChE/CCPS (1996)](#ccps-1996) page 31, equation 4-14 [↩](#fnref-7)
-{: .notice }
-
 ```julia
 fᵥ = cₚ(Tᵣ)*(Tᵣ-Tb)/ΔHᵥ(Tᵣ) 
 ```
@@ -177,6 +174,10 @@ fᵥ = cₚ(Tᵣ)*(Tᵣ-Tb)/ΔHᵥ(Tᵣ)
 ```julia
 Qᵥ(t) = fᵥ*Qₗ
 ```
+
+<a name="fn-7"><strong>7</strong></a>: This can be easily derived, but the form given here is from [AIChE/CCPS (1996)](#ccps-1996) page 31, equation 4-14 [↩](#fnref-7)
+{: .notice }
+
 
 ## Aerosol Fraction
 
@@ -284,9 +285,6 @@ for simplicity the gas density $\rho_g$ can be calculated assuming an ideal gas,
 
 This relationship will have to be solved numerically to get the critical diameter, since the Reynolds number and thus drag coefficient is a function of the critical diameter. Which is fairly straight forward and in this case I use the bounds $0.1 \cdot d_p \le d_c \le 10 \cdot d_p$ as a very broad starting point.
 
-<a name="fn-8"><strong>8</strong></a>: This could be an opportunity for improvement to the RELEASE model as liquid droplets and bubbles do not experience drag in the same way as solids, due to internal flows that can dissipate energy [↩](#fnref-8)
-{: .notice }
-
 
 ```julia
 using Roots: find_zero
@@ -305,6 +303,9 @@ dc = find_zero( d ->   (ρₗ(Tc) - ρg(Tc))*g*d - 0.75*CD(d)*ρg(Tc) * uc^2, (0
 
     0.00014250630981793824
 
+
+<a name="fn-8"><strong>8</strong></a>: This could be an opportunity for improvement to the RELEASE model as liquid droplets and bubbles do not experience drag in the same way as solids, due to internal flows that can dissipate energy [↩](#fnref-8)
+{: .notice }
 
 #### Aerosol Fraction
 
@@ -335,9 +336,6 @@ $$ f_a = { {F_m \left( d_c \right)} \over {F_m \left( \infty \right)} } = \frac{
 
 The RELEASE code uses this formula and also does a check for extreme cases, defaulting to either 1 or 0.
 
-<a name="fn-9"><strong>9</strong></a>: The integration is not shown in the text, but the fortran code is included on the CD if one wants to verify the final result.[↩](#fnref-9)
-{: .notice }
-
 
 ```julia
 using SpecialFunctions: erf
@@ -366,6 +364,9 @@ fₐ = RELEASE_fa(dc, dₚ)
 ```julia
 Qₐ(t) = fₐ*(Qₗ - Qᵥ(t));
 ```
+
+<a name="fn-9"><strong>9</strong></a>: The integration is not shown in the text, but the fortran code is included on the CD if one wants to verify the final result.[↩](#fnref-9)
+{: .notice }
 
 ## Pool Evaporation
 
@@ -512,8 +513,8 @@ For a complete listing of code used to generate data and figures, please see the
 ## References
 
 + <a name="ccps-1996">AIChE/CCPS</a>. 1996. *Guidelines for Use of Vapour Cloud Dispersion Models, 2nd Ed.* New York: American Institute of Chemical Engineers
-+ <a name="ccps-1998">AIChE/CCPS</a>. 1998. *Dow's Chemical Exposure Index Guide* New York: American Institute of Chemical Engineers
-+ <a name="ccps-1999">AIChE/CCPS</a>. 1999. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers
++ <a name="ccps-1998">&#8212;&#8212;&#8212;</a>. 1998. *Dow's Chemical Exposure Index Guide* New York: American Institute of Chemical Engineers
++ <a name="ccps-1999">&#8212;&#8212;&#8212;</a>. 1999. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers
 + <a name="johnson-1999">Johnson</a>, David W. and John L. Woodward. 1999. *RELEASE - A Model with Data to Predict Aerosol Rainout in Accidental Releases*, New York: American Institute of Chemical Engineers
 + <a name="white-1974">White</a>, F.M. 1974. *Viscous Fluid Flow*. New York: McGraw-Hill, New York
 + <a name="woodward-1998">Woodward</a>, John L. 1998. *Estimating the Flammable Mass of a Vapour Cloud*, New York: American Institute of Chemical Engineers
