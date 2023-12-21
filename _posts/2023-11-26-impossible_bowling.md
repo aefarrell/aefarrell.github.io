@@ -34,7 +34,7 @@ While hanging out at the lanes a few obvious impossible scores got thrown out: a
 
 Maybe we can brute-force this and try every conceivable bowling game? However there are *a lot* of possible bowling games. As a first pass, there are thirty balls thrown in a game and each ball has *up to* fourteen possible pinfall scores (0 through 15 excluding 1 and 14). This would give *14<sup>30</sup>* possible bowling games. Even if it took a single nanosecond to evaluate each game that would take longer than the current age of the universe to work through.
 
-But that's not a great upper bound, it doesn't take into account the rules of bowling: you can only knock down up to five pins in any given frame, for example if the first ball is scores a *13* then the second ball doesn't get to choose from fourteen possibilities, it gets to chose from two: 0 and 2. Still, it is going to be a large number. The vast majority of those games are going to be completely redundant, since we are only looking for scores from 2 to 450.
+But that's not a great upper bound, it doesn't take into account the rules of bowling: you can only knock down up to five pins in any given frame, for example if the first ball scores a *13* then the second ball doesn't get to choose from fourteen possibilities, it gets to chose from two: 0 and 2. Still, it is going to be a large number. The vast majority of those games are going to be completely redundant, since we are only looking for scores from 2 to 450.
 
 ## Nothing fancy
 
@@ -66,7 +66,7 @@ basic_moves.reverse()
 
 Then I define a function that recursively walks through the tree of possible games, always picking the largest viable move at each frame. If it finds an answer it returns it (in reverse order), if it exhausts the possible moves then it returns an empty list.
 
-**Note:** this code stops once it has found a single valid solution, but it could be extended very easily to find *every* valid solution, however the space of possible games is *huge*.
+**Note:** this code stops once it has found a single valid solution, it could be extended very easily to find *every* valid solution, however the space of possible games is *huge*.
 {: .notice}
 
 
