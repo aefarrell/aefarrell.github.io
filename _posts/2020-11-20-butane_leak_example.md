@@ -26,7 +26,7 @@ More often than not I've seen these simple tools implemented as excel spreadshee
 
 ## The Scenario
 
-As a simple scenario suppose a leak from a butane storage sphere. These are a fairly common sight around refineries and facilities that process large quantities of hydrocarbons. This sphere is 40ft in diameter and operates under 250psig of pressure, containing primarily n-butane, which I will assume is entirely n-butane for simplicity[<sup>1</sup>](#fn-1). As for the leak itself I am supposing a leak area equivalent to a 2in rupture[<sup>2</sup>](#fn-2). The sphere doesn't sit directly on the ground, it is supported 10ft above a concrete pad which has a dyked area of 500ft². The leak itself at the bottom somewhere, suppose exactly at the bottom for simplicilty[<sup>3</sup>](#fn-3). Furthermore I am assuming the release occurs on a day with an ambient temperature of 25°C and that the tank contents and surroundings are at thermal equilibrium.
+As a simple scenario suppose a leak from a butane storage sphere. These are a fairly common sight around refineries and facilities that process large quantities of hydrocarbons. This sphere is 40ft in diameter and operates under 250psig of pressure, containing primarily n-butane, which I will assume is entirely n-butane for simplicity[<sup id="fnref-1">1</sup>](#fn-1). As for the leak itself I am supposing a leak area equivalent to a 2in rupture[<sup id="fnref-2">2</sup>](#fn-2). The sphere doesn't sit directly on the ground, it is supported 10ft above a concrete pad which has a dyked area of 500ft². The leak itself at the bottom somewhere, suppose exactly at the bottom for simplicilty[<sup id="fnref-3">3</sup>](#fn-3). Furthermore I am assuming the release occurs on a day with an ambient temperature of 25°C and that the tank contents and surroundings are at thermal equilibrium.
 
 **Key Assumptions**
 + Storage sphere with 40ft diameter
@@ -40,16 +40,16 @@ As a simple scenario suppose a leak from a butane storage sphere. These are a fa
 ![image.png](/images/butane_leak_example_files/att1.png)
 
 {% capture footnotes-1-3 %}
-<a name="fn-1"><strong>1</strong></a>: If the vessel contained a mixture, for the purposes of screening, conservatively choosing the most volatile of the major components would be a reasonable assumption. These simplifications are suitable for screening purposes however if more in depth modeling is required then performing mixture flash calculations would have to be considered, which very quickly becomes a lot of work to set-up outside of a process simulator like Aspen
+<a name="fn-1"><strong>1</strong></a>: If the vessel contained a mixture, for the purposes of screening, conservatively choosing the most volatile of the major components would be a reasonable assumption. These simplifications are suitable for screening purposes however if more in depth modeling is required then performing mixture flash calculations would have to be considered, which very quickly becomes a lot of work to set-up outside of a process simulator like Aspen [↩](#fnref-1)
 
 
 <a name="fn-2"><strong>2</strong></a>: There are lots of ways of generating leak scenarios, from the very specific leaks from particular propagating events to simple rules of thumb. The *Chemical Exposure Index* gives the following rules for determining a leak scenario for a vessel([AIChE/CCPS 1998](#ccps-1998])):
 > A rupture based on the largest diameter process pipe attached to the vessel using the following:
 > + For anything less than 2in a full bore rupture (i.e. the full diameter of the pipe)
 > + For between 2 and 4in assume a rupture area equal to that of a 2in diameter pipe
-> + For >4in assume a rupture area equal to 20% of the pipe cross section area
+> + For >4in assume a rupture area equal to 20% of the pipe cross section area[↩](#fnref-2)
     
-<a name="fn-3"><strong>3</strong></a>: Picking the bottom also ensures the leak occurs at the highest pressure, which gives a larger release and is most conservative. Releases at higher elevations also tend to mix more thoroughly with the air and present less of a hazard to personnel on the ground, and possibly less of an explosion hazard depending on where one supposes the ignition sources are.
+<a name="fn-3"><strong>3</strong></a>: Picking the bottom also ensures the leak occurs at the highest pressure, which gives a larger release and is most conservative. Releases at higher elevations also tend to mix more thoroughly with the air and present less of a hazard to personnel on the ground, and possibly less of an explosion hazard depending on where one supposes the ignition sources are.[↩](#fnref-3)
 {% endcapture %}
 
 <div class="notice">
@@ -123,22 +123,22 @@ pˢ(Tᵣ)<p
 
 ## The Release Rate
 
-Since the vapour pressure within the vessel is below the storage pressure, at ambient temperature, the butane within the storage sphere is a liquid. In general one would have to account for flashing and two-phase flow during the release, however for very short discharge distances (<10cm) there is typically not enough time for the liquid to flash during discharge[<sup>4</sup>](#fn-4), over the thickness of a hole this especially true. The butane discharged from the tank will be a stream of liquid initially and the simple Bernoulli equation for a liquid jet can be used[<sup>5</sup>](#fn-5).
+Since the vapour pressure within the vessel is below the storage pressure, at ambient temperature, the butane within the storage sphere is a liquid. In general one would have to account for flashing and two-phase flow during the release, however for very short discharge distances (<10cm) there is typically not enough time for the liquid to flash during discharge[<sup id="fnref-4">4</sup>](#fn-4), over the thickness of a hole this especially true. The butane discharged from the tank will be a stream of liquid initially and the simple Bernoulli equation for a liquid jet can be used[<sup id="fnref-5">5</sup>](#fn-5).
 
 $$ Q_l = c_d \rho_l A_h \sqrt{ 2 \left( p - p_a \over \rho_l \right) + 2gh_l } = c_d \rho_l { {\pi \over 4} d_h^2} \sqrt{ 2 \left( p - p_a \over \rho_l \right) + 2gh_l } $$
 
-Where $Q_l$ is the mass flow of liquid discharged through the hole (in kg/s), $c_d$ is the discharge coefficient which can be assumed to be 0.61[<sup>6</sup>](#fn-6), $g$ is the acceleration due to gravity $9.81 m/s^2$ and the rest are as defined earlier. I am assuming, here, that the hole is circular for simplicity.
+Where $Q_l$ is the mass flow of liquid discharged through the hole (in kg/s), $c_d$ is the discharge coefficient which can be assumed to be 0.61[<sup id="fnref-6">6</sup>](#fn-6), $g$ is the acceleration due to gravity $9.81 m/s^2$ and the rest are as defined earlier. I am assuming, here, that the hole is circular for simplicity.
 
 **Key Assumptions**
 + Liquid release
 + Sharp edged hole with discharge coefficient of 0.61
 
 {% capture footnotes-4-6 %}
-<a name="fn-4"><strong>4</strong></a>: See [AIChE/CCPS (1999)](#ccps-1999) page 37 for more of a disussion on two-phase discharge rates.
+<a name="fn-4"><strong>4</strong></a>: See [AIChE/CCPS (1999)](#ccps-1999) page 37 for more of a disussion on two-phase discharge rates.[↩](#fnref-4)
 
-<a name="fn-5"><strong>5</strong></a>: This is also known as Toricelli's equation and can be derived from a mechanical energy balance and is found in a lot of references (e.g. *Perry's*), the form of it I'm using here comes from [AIChE/CCPS (1996)](#ccps-1996) page 29 equation 4-10. This is really a function of time as the liquid height $h_l$ will decrease as it leaks out. Using the discharge rate at the start of the leak throughout the analysis is a conservative assumption, again for the purposes of a simplified screening case. For more detailed modeling one could make this explicitly a function of time and integrate over the release.
+<a name="fn-5"><strong>5</strong></a>: This is also known as Toricelli's equation and can be derived from a mechanical energy balance and is found in a lot of references (e.g. *Perry's*), the form of it I'm using here comes from [AIChE/CCPS (1996)](#ccps-1996) page 29 equation 4-10. This is really a function of time as the liquid height $h_l$ will decrease as it leaks out. Using the discharge rate at the start of the leak throughout the analysis is a conservative assumption, again for the purposes of a simplified screening case. For more detailed modeling one could make this explicitly a function of time and integrate over the release.[↩](#fnref-5)
 
-<a name="fn-6"><strong>6</strong></a>: From [AIChE/CCPS (1999)](#ccps-1999) page 27, for sharp edged orifices and Reynolds numbers greater than 30,000 the discharge coefficient approaches 0.61, and the exit velocity is independent of the hole size. For a simple screening calculation one could also use a coefficient of 1.0, though that may be excessively conservative (large over-estimates end up wasting time modeling later)
+<a name="fn-6"><strong>6</strong></a>: From [AIChE/CCPS (1999)](#ccps-1999) page 27, for sharp edged orifices and Reynolds numbers greater than 30,000 the discharge coefficient approaches 0.61, and the exit velocity is independent of the hole size. For a simple screening calculation one could also use a coefficient of 1.0, though that may be excessively conservative (large over-estimates end up wasting time modeling later)[↩](#fnref-6)
 {% endcapture %}
 
 <div class="notice">
@@ -155,7 +155,7 @@ Qₗ = cd*ρₗ(Tᵣ)*(π/4)*(dₕ^2)*√( 2*(p - pₐ)/ρₗ(Tᵣ) + 2*g*hₗ )
 
 ## Flashing Fraction
 
-Since the butane is significantly above it's normal boiling point, as the liquid stream exits the storage sphere it will flash. However not all of it will flash into a vapour as the quantity that can vapourize is limited by the available energy. A simplified model of flashing is to assume the process is so rapid that it is effectively adiabatic and, from a simple steady-state energy balance, one arrives at the following[<sup>7</sup>](#fn-7)
+Since the butane is significantly above it's normal boiling point, as the liquid stream exits the storage sphere it will flash. However not all of it will flash into a vapour as the quantity that can vapourize is limited by the available energy. A simplified model of flashing is to assume the process is so rapid that it is effectively adiabatic and, from a simple steady-state energy balance, one arrives at the following[<sup id="fnref-7">7</sup>](#fn-7)
 
 $$f_v = {Q_v \over Q_l} = { {c_p (T_r - T_b)} \over {\Delta H_v} }$$
 
@@ -165,7 +165,7 @@ where $f_v$ is the mass fraction that flashes and $Q_v$ is the mass flow of liqu
 + flashing occurs rapidly and is effectively adiabatic
 + heat capacity and latent heat taken at the release temperature
 
-<a name="fn-7"><strong>7</strong></a>: This can be easily derived, but the form given here is from [AIChE/CCPS (1996)](#ccps-1996) page 31, equation 4-14
+<a name="fn-7"><strong>7</strong></a>: This can be easily derived, but the form given here is from [AIChE/CCPS (1996)](#ccps-1996) page 31, equation 4-14 [↩](#fnref-7)
 {: .notice }
 
 ```julia
@@ -272,7 +272,7 @@ $$ \left( \rho_l - \rho_g \right) g \cdot \frac{\pi}{6} d_c^3 = \frac{1}{2} C_D 
 
 $$ \left( \rho_l - \rho_g \right) g \cdot d_c - \frac{3}{4} C_D \rho_g u_c^2 = 0$$
 
-Where $C_D$ is the drag coefficient, which for a solid sphere in viscous flow is given by this correlation([White 1974](#white-1974))[<sup>8</sup>](#fn-8)
+Where $C_D$ is the drag coefficient, which for a solid sphere in viscous flow is given by this correlation([White 1974](#white-1974))[<sup id="fnref-8">8</sup>](#fn-8)
 
 $$ C_D = 0.4 + {24 \over Re} + {6 \over {1 - \sqrt{Re} } } $$
 
@@ -284,7 +284,7 @@ for simplicity the gas density $\rho_g$ can be calculated assuming an ideal gas,
 
 This relationship will have to be solved numerically to get the critical diameter, since the Reynolds number and thus drag coefficient is a function of the critical diameter. Which is fairly straight forward and in this case I use the bounds $0.1 \cdot d_p \le d_c \le 10 \cdot d_p$ as a very broad starting point.
 
-<a name="fn-8"><strong>8</strong></a>: This could be an opportunity for improvement to the RELEASE model as liquid droplets and bubbles do not experience drag in the same way as solids, due to internal flows that can dissipate energy
+<a name="fn-8"><strong>8</strong></a>: This could be an opportunity for improvement to the RELEASE model as liquid droplets and bubbles do not experience drag in the same way as solids, due to internal flows that can dissipate energy [↩](#fnref-8)
 {: .notice }
 
 
@@ -513,7 +513,6 @@ For a complete listing of code used to generate data and figures, please see the
 
 + <a name="ccps-1996">AIChE/CCPS</a>. 1996. *Guidelines for Use of Vapour Cloud Dispersion Models, 2nd Ed.* New York: American Institute of Chemical Engineers
 + <a name="ccps-1998">AIChE/CCPS</a>. 1998. *Dow's Chemical Exposure Index Guide* New York: American Institute of Chemical Engineers
-+ <a name="ccps-1999">AIChE/CCPS</a>. 1999. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers
 + <a name="ccps-1999">AIChE/CCPS</a>. 1999. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers
 + <a name="johnson-1999">Johnson</a>, David W. and John L. Woodward. 1999. *RELEASE - A Model with Data to Predict Aerosol Rainout in Accidental Releases*, New York: American Institute of Chemical Engineers
 + <a name="white-1974">White</a>, F.M. 1974. *Viscous Fluid Flow*. New York: McGraw-Hill, New York
