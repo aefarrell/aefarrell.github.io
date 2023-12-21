@@ -2,7 +2,7 @@
 title: "Compressible Flow Example - Sizing a goose neck vent"
 last_modified_at: 2022-03-26
 toc: true
-toc_label: "contents"
+toc_label: "Contents"
 toc_sticky: true
 comments: true
 categories:
@@ -31,11 +31,6 @@ Sizing the gooseneck to match the required venting involves performing some simp
 
 With that in mind, I am going to work through the problem in stages of escalating complexity, very likely the most complicated (fanno flow) is overkill for this specific example but it's worth putting it all down as the same tools can be used for compressible flow calculations through many piping situations.
 
-The primary references I am using are:
-+ *TP410M Flow of Fluids*, Crane Co., Stamford, Connecticut, 2013
-+ *Perry's Chemical Engineers' Handbook, 8th ed.*
-
-
 ## The Scenario
 
 Suppose an atmospheric storage tank with a normal venting requirement, as calulated from API 2000 or the like, of 200&times;10³ SCFH and a max pressure of 1 psig. We wish to design a gooseneck vent that can handle that level of venting. Suppose that the gooseneck design we have in mind is a vertical length of pipe extending up from the tank roof, two 90° bends, and an exit covered with a mesh screen (to keep birds from nesting in it, yes this is a thing). The gooseneck is a constant diameter of pipe throughout.
@@ -44,12 +39,9 @@ For notation, the flow begins at the pipe entrance (1) and ends at the exit (2).
 
 ![image.png](/images/sizing_a_gooseneck_example_files/att3.jpg)
 
-For the pipe bends the bend radius to diameter ratio needs to be specified, I'm going to suppose $r/D = 1.5$. Another important parameter is the pipe roughness, $\epsilon$, which for commercial steel is $\epsilon = 0.0457 \mathrm{mm}$[^1]. At this point I could specify a length for the straight section of pipe, a fixed height above the tank roof that is independent of the final chosen diameter of the piping, or I could fix a design and scale the whole vent up and down as required. For simplicity I am going to assume 3ft of piping.
+For the pipe bends the bend radius to diameter ratio needs to be specified, I'm going to suppose $r/D = 1.5$. Another important parameter is the pipe roughness, $\epsilon$, which for commercial steel is $\epsilon = 0.0457 \mathrm{mm}$([Tilton 2007](#tilton-2007), 6-10). At this point I could specify a length for the straight section of pipe, a fixed height above the tank roof that is independent of the final chosen diameter of the piping, or I could fix a design and scale the whole vent up and down as required. For simplicity I am going to assume 3ft of piping.
 
 At this point I am going to set up the equations with no knowledge of what the final pipe diameter $D$ will be, then numerically solve for the minimum diameter that meets the requirements. The actual diameter will be the next largest NPS size pipe.
-
-[^1]: *Perry's* pg 6-10 table 6-1
-
 
 ```julia
 using Unitful: @u_str, uconvert, ustrip, upreferred
@@ -94,7 +86,7 @@ k = 1.4                # Ratio of heat capacities, Cp/Cv, ideal gas
 
 Regardless of the method of performing the compressible flow calculations, the frictional head loss in the piping needs to be accounted for. I am using the K factor method as it is convenient and K factors are tabulated for most everything in references such as Crane's TP-410. One thing to be very careful with is the difference between the Darcy and Fanning friction factors. I am using Crane's where everything is in terms of the Darcy friction factor, which is 4&times; the Fanning friction factor, but Perry's defaults to the Fanning friction factor.
 
-From Crane's I have the following K factors for each piece of the gooseneck[^2]
+From Crane's I have the following K factors for each piece of the gooseneck([Crane 2013](#crane-2013), A-30)
 + Entrance - $K_1 = 0.5$
 + Vertical Pipe - $K_2 = f \frac{L}{D}$
 + First 90° bend - $K_3 = 14 f_T$
@@ -108,13 +100,11 @@ For some notational convenience I am going to define the relative roughness $\ka
 
 The Darcy friction factor generally depends on which regime the flow is in, laminar, transitional, or turbulent. Since I don't want to be referring to a Moody diagram I want to use a single equation that operates over a wide range of Reynolds numbers and potentially in laminar and transitional flow regimes since I don't know *a priori* what the flow in the vent will be. There are equations like the Serghide correlation or Churchill correlation that attempt to fit a Moody diagram but in a more convenient to use manner.
 
-[^2]: See Crane's page A-30 for the K factors for pipe entrances, exits, and pipe bends
-
 ![svg](/images/sizing_a_gooseneck_example_files/output_6_0.svg)
 
 The black line conservatively takes the max of either the laminar or turbulent friction factor in the transitional region $2100 \le Re \le 4000$. The Churchill correlation fits the general curve well for both the turbulent and laminar region, and provides reasonable values in the transitional region.
 
-The Churchill correlation is[^3]
+The Churchill correlation is([Tilton 2007](#tilton-2007), 6-11)[<sup id="fnref-1">1</sup>](#fn-1)
 
 $$ f = 8 \left( \left( \frac{8}{Re} \right)^{12} + { 1 \over {\left( A+B \right)^{3/2} } } \right)^{1/12} $$
 
@@ -128,7 +118,8 @@ $$ f_T = { 0.25 \over { \left( \log \left( \kappa \over 3.7 \right) \right)^2 } 
 
 With these defined I can write a function that gives $\sum_j K_j$ for any $\kappa$, *l*, and *Re*
 
-[^3]: *Perry's* pg 6-11 equation 6-40, the equation here is given in terms of the darcy friction factor
+<a name="fn-1"><strong>1</strong></a>: The equation here is given in terms of the darcy friction factor. [↩](#fnref-1)
+{: .notice }
 
 
 ```julia
@@ -194,7 +185,7 @@ pₘₐₓ/pₐ
 
 Typically flows are considered incompressible if the density varies by less than ~5-10%, so this example (where the density varies by ~7%) is right in that range. You could justify it either way and it's more a function of how accurate the calculations need to be. Since, ultimately, we are solving for the pipe diameter and choosing the next largest pipe size it's probably fine to use an incompressible flow assumption. If anything the incompressible flow assumption will overestimate the pressure drop and thus lead to an over-sized pipe (erring on the side of caution)
 
-The mechanical energy balance for an incompressible fluid is[^4]
+The mechanical energy balance for an incompressible fluid is([Tilton 2007](#tilton-2007), 6-16)
 
 $$ p_1 - p_2 = \alpha_2 \frac{\rho v_2^2}{2} - \alpha_1 \frac{\rho v_1^2}{2} + \rho g \left( h_2 - h_1 \right) + \sum_j K_j \frac{\rho v^2}{2} $$
 
@@ -212,8 +203,6 @@ Where the velocity, $v$ is
 $$ v = \frac{Q}{A} = { Q \over { \frac{\pi}{4} D^2 } } $$
 
 Which can be solved algebraically for $D$, where $\rho$ is taken at the average pressure. That said it is easier to solve it numerically.
-
-[^4]: *Perry's* pg 6-16 equation 6-90
 
 
 ```julia
@@ -263,7 +252,7 @@ $$ \frac{T_2}{T_1} = \left( p_1 \over p_2 \right)^{ {1-k} \over k}$$
 
 So we expect even in the most extreme case the temperature change is ~2%, justifying the assumption that the venting is isothermal.
 
-The isothermal flow of an ideal gas going through a length of piping is[^5]
+The isothermal flow of an ideal gas going through a length of piping is([Tilton 2007](#tilton-2007), 6-23)[<sup id="fnref-2">2</sup>](#fn-2)
 
 $$ p_{1}^{2} = G^{2} \frac{RT}{Mw} \left[ \sum \limits_{j} K_{j} + 2\ln \frac{p_{1} }{p_{2} } \right] + p_{2}^{2} $$
 
@@ -271,7 +260,8 @@ If we assume the system is at thermal equilibrium with the outside air, then $T 
 
 The only unknown is *p<sub>1</sub>*, which can be solved for numerically.
 
-[^5]: *Perry's* pg 6-23 equation 6-114, this equation also neglects changes in elevation
+<a name="fn-2"><strong>2</strong></a>: This equation also neglects changes in elevation. [↩](#fnref-2)
+{: .notice }
 
 
 ```julia
@@ -304,16 +294,13 @@ Adiabatic flow of an ideal gas through a pipe, also called Fanno flow, is somewh
 
 There are a few ways of setting up the calculations. We could assume the gas exits at ambient conditions -- both ambient temperature and pressure -- or assume the tank starts at thermal equilibrium with the environment but at a higher pressure and the gas exits at ambient pressure and some other temperature -- less than ambient due to adiabatic expansion. The first set of assumptions is in some ways easier to calculate, but the second set of assumptions is more physically realistic, and consistent with the assumptions made when solving the isothermal case.
 
-One thing we should check before proceeding is whether or not the flow will be choked, essentially will the flow velocity reach $Ma = 1$, the following discussion assumes flow remains sub-sonic, and this is easy to check. The critical pressure, at which flow becomes sonic, is given by[^6]
+One thing we should check before proceeding is whether or not the flow will be choked, essentially will the flow velocity reach $Ma = 1$, the following discussion assumes flow remains sub-sonic, and this is easy to check. The critical pressure, at which flow becomes sonic, is given by([Tilton 2007](#tilton-2007), 6-23)
 
 $$ { p^o \over p_1 } = \left(2 \over k+1 \right)^{k \over {k-1} } $$
 
 with the criteria that flow is sub-sonic if
 
 $$ { p_2 \over p_1 } > { p^o \over p_1 } $$
-
-[^6]: *Perry's* pg 6-23 equation 6-119
-
 
 ```julia
 (pₐ / pₘₐₓ) > (2 / (k+1))^(k/(k-1))
@@ -322,7 +309,7 @@ $$ { p_2 \over p_1 } > { p^o \over p_1 } $$
     true
 
 
-The basic relation of Fanno flow that drives the equations is the relationship between the Fanno parameter and the Mach number[^7]
+The basic relation of Fanno flow that drives the equations is the relationship between the Fanno parameter and the Mach number([Tilton 2007](#tilton-2007), 6-24)
 
 $$ Fa = \left( \frac{fL^{*} }{D} \right) = \frac{1 - Ma^{2} }{kMa^{2} } + \frac{k+1}{2k} \ln \left( \frac{ \left( k+1 \right) Ma^{2} }{ 2+\left( k+1 \right) Ma^{2} } \right) $$
 
@@ -330,13 +317,13 @@ Where I am defining $Fa$ to be the Fanno parameter. The Fanno parameter is calcu
 
 It is worth noting that elbows near the exit of a pipe may choke the flow even though the $Ma &lt; 1$ due to the nonuniform velocity profile in the elbow. By the design of this gooseneck we know this is the case and should keep that in mind when evaluating the results.
 
-For two points along a pipe, 1 and 2, the difference between their Fanno parameters is the frictional loss between those two points[^8]
+For two points along a pipe, 1 and 2, the difference between their Fanno parameters is the frictional loss between those two points([Tilton 2007](#tilton-2007), 6-24)
 
 $$ Fa_1 - Fa_2 = \sum_{j} K_{j} $$
 
 Where the $K_j$ are usually evaluated at the *average* temperature ${ {T_1 + T_2} \over 2}$.
 
-The Mach number at some point *i* along the pipe, for an ideal gas, is given by[^9]
+The Mach number at some point *i* along the pipe, for an ideal gas, is given by[<sup id="fnref-3">3</sup>](#fn-3)
 
 $$ Ma_{i} = \frac{v}{c} = \frac{G}{p_{i} } \sqrt{ \frac{RT_{i} }{kMw} } $$
 
@@ -344,7 +331,7 @@ and the pressure can be calculated given a Mach number by re-arranging
 
 $$ p_{i} = \frac{G}{Ma_{i} } \sqrt{ \frac{RT_{i} }{kMw} } $$
 
-and for any two points along the pipe the temperatures are related by[^10]
+and for any two points along the pipe the temperatures are related by[<sup id="fnref-4">4</sup>](#fn-4)
 
 $$ T_{1} = T_{2} \frac{2 + \left( k-1 \right) Ma_{2}^{2} }{2 + \left( k-1 \right) Ma_{1}^{2} } $$
 
@@ -361,11 +348,8 @@ Putting all of this together, the procedure for adiabatic ideal gas flow through
 
 While that looks complicated, each step is fairly easy. In my experience, with subsonic flow, this converges very quickly.
 
-[^7]: *Perry's* pg 6-24 equation 6-123
-
-[^8]: *Perry's* pg 6-24 equation 6-124
-
-[^9]: derived for an ideal gas
+{% capture footnotes-3-4 %}
+<a name="fn-3"><strong>3</strong></a>: derived for an ideal gas
     
     $$ G = \rho v = { {p  Mw} \over {R T} } v$$
     
@@ -373,9 +357,14 @@ While that looks complicated, each step is fairly easy. In my experience, with s
     
     $$ Ma = { v \over c } = G { {R T} \over {p  Mw} } \sqrt{ Mw \over {k R T} } = \frac{G}{p} \sqrt{ \frac{RT}{kMw} }$$
 
+[↩](#fnref-3)
 
-[^10]: *Perry's* pg 6-23 equation 6-116, taking two points and canceling out the stagnation temperature
+<a name="fn-4"><strong>4</strong></a>: Equation 6-116, taking two points and canceling out the stagnation temperature.[↩](#fnref-4)
+{% endcapture %}
 
+<div class="notice">
+  {{ footnotes-3-4 | markdownify }}
+</div>
 
 
 ```julia
@@ -468,8 +457,10 @@ The big one being all the `find_zero()` calls that rely on the initial guess bei
 Relatedly there is a lot of room to fiddle around with which root finding algorithm is employed.
 
 
-For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2020-11-28-sizing_a_gooseneck_example.ipynb)
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2020-11-28-sizing_a_gooseneck_example.ipynb)
 {: .notice--info}
 
+## References
 
----
++ <a name="crane-2013">Crane</a>. 2013. *TP410M Flow of Fluids*. Stamford, Connecticut: Crane
++ <a name="tilton-2007">Tilton</a>, James N. 2007. "Fluid and Particle Dynamics" in *Perry's Chemical Engineers' Handbook, 8th ed.* Edited by Don W. Green, New York: McGraw Hill

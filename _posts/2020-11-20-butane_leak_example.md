@@ -308,7 +308,7 @@ dc = find_zero( d ->   (ρₗ(Tc) - ρg(Tc))*g*d - 0.75*CD(d)*ρg(Tc) * uc^2, (0
 
 #### Aerosol Fraction
 
-The aerosol fraction, in the RELEASE model, is the mass fraction of droplets with a diameter less than the critical diameter([Johnson and Woodward 1999](#johnson-1999), 58-60)[<sup>9</sup>](#fn-9)
+The aerosol fraction, in the RELEASE model, is the mass fraction of droplets with a diameter less than the critical diameter([Johnson and Woodward 1999](#johnson-1999), 58-60)[<sup id="fnref-9">9</sup>](#fn-9)
 
 $$ f_a = { {F_m \left( d_c \right)} \over {F_m \left( \infty \right)} } $$
 
@@ -335,7 +335,7 @@ $$ f_a = { {F_m \left( d_c \right)} \over {F_m \left( \infty \right)} } = \frac{
 
 The RELEASE code uses this formula and also does a check for extreme cases, defaulting to either 1 or 0.
 
-<a name="fn-9"><strong>9</strong></a>: The integration is not shown in the text, but the fortran code is included on the CD if one wants to verify the final result.
+<a name="fn-9"><strong>9</strong></a>: The integration is not shown in the text, but the fortran code is included on the CD if one wants to verify the final result.[↩](#fnref-9)
 {: .notice }
 
 
