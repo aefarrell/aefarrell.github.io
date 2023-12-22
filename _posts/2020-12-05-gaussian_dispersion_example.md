@@ -570,7 +570,7 @@ For a complete listing of code used to generate data and figures, please see the
 ## References
 
 + <a name="epa-1995a">EPA</a>. 1995a. *AP 42: Compilation of Air Emissions Factors, 5th ed*. Research Triangle Park, North Carolina: Environmental Protection Agency
-+ <a name="epa-1995b">&#8212;&#8212;&#8212;</a>. 1995b. *EPA-454/B-95-003b User's Guide for the ISC3 Dispersion Models*. Vol 2. Research Triangle Park, North Carolina: Environmental Protection Agency
-+ <a name="epa-2023">&#8212;&#8212;&#8212;</a>. 2023. *Method 19 - Determination of Sulfur Dioxide Removal Efficiency and Particulate Matter, Sulfur Dioxide, and Nitrogen Oxide Emission Rates*. Environmental Protection Agency. Accessed December 21, 2023. [https://www.epa.gov/sites/default/files/2017-08/documents/method_19.pdf](https://www.epa.gov/sites/default/files/2017-08/documents/method_19.pdf)
++ <a name="epa-1995b">&#8212;&#8212;&#8212;</a> 1995b. *EPA-454/B-95-003b User's Guide for the ISC3 Dispersion Models*. Vol 2. Research Triangle Park, North Carolina: Environmental Protection Agency
++ <a name="epa-2023">&#8212;&#8212;&#8212;</a> 2023. *Method 19 - Determination of Sulfur Dioxide Removal Efficiency and Particulate Matter, Sulfur Dioxide, and Nitrogen Oxide Emission Rates*. Environmental Protection Agency. Accessed December 21, 2023. [https://www.epa.gov/sites/default/files/2017-08/documents/method_19.pdf](https://www.epa.gov/sites/default/files/2017-08/documents/method_19.pdf)
 + <a name="lees-1996">Lees</a>, Frank P. 1996. *Loss Prevention in the Process Industries, 2nd ed.* Oxford: Butterworth-Heinemann
 + <a name="vallero-2014">Vallero</a>, Daniel. 2014. *Fundamentals of Air Pollution, 5th Ed.* Amsterdam: Elsevier

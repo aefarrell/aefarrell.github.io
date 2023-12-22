@@ -1,7 +1,8 @@
 ---
 title: "Worst Case Meterological Conditions"
+last_modified_at: 2023-12-21
 toc: true
-toc_label: "contents"
+toc_label: "Contents"
 toc_sticky: true
 comments: true
 categories:
@@ -157,7 +158,7 @@ Consider for some substance *i* being released with in-stack concentration $C_{s
 
 $$ \chi \left( x, y, z \right) = { C_i \left( x, y, z \right) \over C_{s,i} } $$
 
-Assuming the in-stack concentration to be simply the mass emission rate of *i* divided by the volumetric flow-rate[^state]
+Assuming the in-stack concentration to be simply the mass emission rate of *i* divided by the volumetric flow-rate[<sup id="fnref-1">1</sup>](#fn-1)
 
 $$ C_{s,i} = { Q_i \over V_s^o } $$
 
@@ -171,7 +172,7 @@ $$ \chi \left( x, y, z \right) = {V_s^o \over 2 \pi u \sigma_{ye} \sigma_{ze} } 
 
 If you have already done the modeling for a particular substance then calculate $\chi$ for the points of interest by dividing the concentrations by the in stack concentration, otherwise substitute the formula for $\chi$ given above for the concentration and model that instead.
 
-Then, when evaluating multiple substances, the test[^oel]
+Then, when evaluating multiple substances, the test[<sup id="fnref-2">2</sup>](#fn-2)
 
 $$ \sum_i {C_i \left( x, y, z \right) \over T_i } \lt 1 $$
 
@@ -187,13 +188,19 @@ Below are a series of contour plots showing the dilution $\chi$, where colours a
 
 *Note:* This is backwards to the usual way of defining dilution, where a $\chi$ of 5% would be a 95% dilution.
 
-[^state]: at standard state, because the concentrations given for the occupational exposure limits are given in terms of a volume at standard state. This is also a potential error in the original model as it does not correct the concentrations back to standard state, nor does it really track temperature to make that even possible, especially near the stack.
-
-[^oel]: from [CCOHS](https://www.ccohs.ca/oshanswers/hsprograms/occ_hygiene/occ_exposure_limits.html)
-
 
 ![svg](/images/worst_case_weather_files/output_17_0.svg)
 
+
+{% capture footnotes-1-2 %}
+<a name="fn-1"><strong>1</strong></a>: at standard state, because the concentrations given for the occupational exposure limits are given in terms of a volume at standard state. This is also a potential error in the original model as it does not correct the concentrations back to standard state, nor does it really track temperature to make that even possible, especially near the stack.[↩](#fnref-1)
+
+<a name="fn-2"><strong>2</strong></a>: from [CCOHS](https://www.ccohs.ca/oshanswers/hsprograms/occ_hygiene/occ_exposure_limits.html)[↩](#fnref-2)
+{% endcapture %}
+
+<div class="notice">
+  {{ footnotes-1-2 | markdownify }}
+</div>
 
 
 ## Thoughts on Code and Reusability
@@ -241,7 +248,6 @@ end
 Where we convert the input to the expected units, whatever they may be, evaluate the function in a unitless way, then tack on the expected output units at the end. Now when we use *f(x)* in contexts without units, for example when plotting *f(x)*, it works as expected and if we pass a value of *x* with units attached we get the unit conversion/checking that we want from `Unitful`.
 
 
-For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2020-12-12-worst_case_weather.ipynb)
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2020-12-12-worst_case_weather.ipynb)
 {: .notice--info}
 
----
