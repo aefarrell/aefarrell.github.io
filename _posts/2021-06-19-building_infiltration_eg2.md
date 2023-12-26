@@ -86,7 +86,7 @@ The simplest model for a neutrally buoyant cloud is a [gaussian disperison model
 It is often worth-while to estimate the initial dimensions of the cloud and then calculate a *virtual* emission point from which the release is assumed to take place. This is especially useful if the area immediately around the release point is of interest as the gaussian model assumes all of the mass is initially concentrated in a single point. However for a simple screening just using the default dispersion model is likely fine, and more conservative. The model gives the concentration as a gaussian distribution in the x, y, and z directions, while also adding in a term to account for ground reflection (mass cannot disperse below groundlevel)[<sup id="fnref-1">1</sup>](#fn-1)
 
 {% capture footnote-1 %}
-<a name="fn-1"><strong>1</strong></a>: AIChE ([1996])(#ccps-1996) [↩](#fnref-1)
+<a name="fn-1"><strong>1</strong></a>: AIChE ([1996](#ccps-1996)) [↩](#fnref-1)
 {% endcapture %}
 
 $$ c_{puff}(x,y,z,t) = { m \over { (2 \pi)^{3/2} \sigma_x \sigma_y \sigma_z } } 
@@ -141,7 +141,7 @@ The dispersion parameters for puff models are not, in general, as well developed
 
 
 {% capture footnote-2 %}
-<a name="fn-2"><strong>2</strong></a>: AIChE ([1996])(#ccps-1996) [↩](#fnref-2)
+<a name="fn-2"><strong>2</strong></a>: AIChE ([1996](#ccps-1996)) [↩](#fnref-2)
 {% endcapture %}
 
 
@@ -236,7 +236,7 @@ Q = A_L \sqrt{ C_s \vert \Delta T \vert + C_w u^2 } \\
 
 Where $A_L$ and $V$ were given earlier, $C_s$ and $C_w$ are tabulated constants, $\Delta T$ is the difference between indoor and outdoor temperatures, in *K*, and *u* the windspeed, in m/s, and the ventilation rate is in s⁻¹.
 
-In this case the indoor and outdoor temperature are assumed to be the same for simplicity.
+In this case the indoor and outdoor temperature are assumed to be the same for simplicity[<sup id="fnref-5">5</sup>](#fn-5)
 
 |       |Shelter Class| 1 Story  | 2 Story  | 3 Story  |
 |:-----:|:-----------:|:--------:|:--------:|:--------:|
@@ -247,8 +247,9 @@ In this case the indoor and outdoor temperature are assumed to be the same for s
 |       | 4           | 10.4×10⁻³| 13.7×10⁻³| 16.1×10⁻³|
 |       | 5           | 3.20×10⁻³| 4.20×10⁻³| 4.90×10⁻³|
 
-**Note:** the constants have been adjusted such that the leak area is in m² whereas in the ASHRAE handbook it is in cm².
-{: .notice}
+{% capture footnote-5 %}
+<a name="fn-5"><strong>5</strong></a>: the constants have been adjusted such that the leak area is in m² whereas in the ASHRAE handbook it is in cm² [↩](#fnref-5)
+{% endcapture %}
 
 With the shelter class defined as
 1. No obstructions or local shielding
@@ -274,6 +275,8 @@ For this scenario we are assuming the (one-story) building is isolated and there
 
 <div class="notice">
   {{ footnote-4 | markdownify }}
+
+  {{ footnote-5 | markdownify }}
 </div>
 
 ## Indoor Concentration
@@ -341,10 +344,15 @@ sln_box2 = solve(prb_box2, Tsit5());
 
 
 
-In either the single point or averaged outdoor concentration models the indoor concentration rapidly rises above the ERPG-3 limit, which is very bad, and then slowly decays over time. In this case almost immediately after the cloud has passed the indoor space is more concentrated in Chlorine than the outside air. At the very least this suggests that the building is not a good shelter in place location, or at least a much more detailed analysis of building infiltration would be needed to show that it *was* a good shelter in place location.
+In either the single point or averaged outdoor concentration models the indoor concentration rapidly rises above the ERPG-3 limit, which is very bad, and then slowly decays over time[<sup id="fnref-6">6</sup>](#fn-6). In this case almost immediately after the cloud has passed the indoor space is more concentrated in Chlorine than the outside air. At the very least this suggests that the building is not a good shelter in place location, or at least a much more detailed analysis of building infiltration would be needed to show that it *was* a good shelter in place location.
 
-**Note:** that the indoor concentrations are in mg/m³ whereas the outdoor concentration peaks in the kg/m³, so the building is doing something, it is reducing the indoor concentration by several orders of magnitude, it just isn't enough.
-{: .notice}
+{% capture footnote-6 %}
+<a name="fn-6"><strong>6</strong></a>: that the indoor concentrations are in mg/m³ whereas the outdoor concentration peaks in the kg/m³, so the building is doing something, it is reducing the indoor concentration by several orders of magnitude, it just isn't enough [↩](#fnref-6)
+{% endcapture %}
+
+<div class="notice">
+  {{ footnote-6 | markdownify }}
+</div>
 
 ## Sensitivity
 
@@ -369,10 +377,11 @@ $$ c_{o}(x,y,z,t) = m \left[{ \exp \left( -\frac{1}{2} \left( {x - ut} \over \si
 
 $$ c_{o}(x,y,z,t) = m C_x(x, t) C_y(x, y) C_z(x, z)$$
 
-and noting that only $C_x$ depends on time we can collect the other stuff into a big constant called $C_1$, giving us
+and noting that only $C_x$ depends on time we can collect the other stuff into a big constant called $C_1$, giving us[<sup id="fnref-7">7</sup>](#fn-7)
 
-**Note:** I am assuming the dispersion parameters are all constant, this is not strictly true as they all depend upon the downwind location of the center of the puff, which is a function of time.
-{: .notice}
+{% capture footnote-7 %}
+<a name="fn-7"><strong>7</strong></a>: I am assuming the dispersion parameters are all constant, this is not strictly true as they all depend upon the downwind location of the center of the puff, which is a function of time [↩](#fnref-7)
+{% endcapture %}
 
 $$ c_{o}(t) = C_1 { 1 \over { \sqrt{2 \pi} \sigma_x } }\exp \left( -\frac{1}{2} \left( {x - ut} \over \sigma_x \right)^2 \right) $$
 
@@ -485,6 +494,10 @@ end
 We can compare the solution from the ODE solver with the two approximations -- the convolution and the step-function approximation -- to convince ourselves that we are capturing the dynamics well.
 
 ![svg](/images/building_infiltration_eg2_files/update_1.svg)
+
+<div class="notice">
+  {{ footnote-7 | markdownify }}
+</div>
 
 ### Atmospheric stability
 

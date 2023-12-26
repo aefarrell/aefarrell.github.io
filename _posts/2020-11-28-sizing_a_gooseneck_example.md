@@ -371,11 +371,11 @@ The Mach number at some point *i* along the pipe, for an ideal gas, is given by[
 {% capture footnote-9 %}
 <a name="fn-9"><strong>9</strong></a>: derived for an ideal gas
     
-    $$ G = \rho v = { {p  Mw} \over {R T} } v$$
-    
-    $$ c = \sqrt{ {k R T} \over Mw } $$
-    
-    $$ Ma = { v \over c } = G { {R T} \over {p  Mw} } \sqrt{ Mw \over {k R T} } = \frac{G}{p} \sqrt{ \frac{RT}{kMw} }$$
+$$ G = \rho v = { {p  Mw} \over {R T} } v$$
+
+$$ c = \sqrt{ {k R T} \over Mw } $$
+
+$$ Ma = { v \over c } = G { {R T} \over {p  Mw} } \sqrt{ Mw \over {k R T} } = \frac{G}{p} \sqrt{ \frac{RT}{kMw} }$$
 
 [↩](#fnref-9)
 {% endcapture %}
