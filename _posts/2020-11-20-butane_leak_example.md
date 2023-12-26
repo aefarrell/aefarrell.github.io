@@ -28,6 +28,22 @@ More often than not I've seen these simple tools implemented as excel spreadshee
 
 As a simple scenario suppose a leak from a butane storage sphere. These are a fairly common sight around refineries and facilities that process large quantities of hydrocarbons. This sphere is 40ft in diameter and operates under 250psig of pressure, containing primarily n-butane, which I will assume is entirely n-butane for simplicity[<sup id="fnref-1">1</sup>](#fn-1). As for the leak itself I am supposing a leak area equivalent to a 2in rupture[<sup id="fnref-2">2</sup>](#fn-2). The sphere doesn't sit directly on the ground, it is supported 10ft above a concrete pad which has a dyked area of 500ft². The leak itself at the bottom somewhere, suppose exactly at the bottom for simplicilty[<sup id="fnref-3">3</sup>](#fn-3). Furthermore I am assuming the release occurs on a day with an ambient temperature of 25°C and that the tank contents and surroundings are at thermal equilibrium.
 
+{% capture footnote-1 %}
+<a name="fn-1"><strong>1</strong></a>: If the vessel contained a mixture, for the purposes of screening, conservatively choosing the most volatile of the major components would be a reasonable assumption. These simplifications are suitable for screening purposes however if more in depth modeling is required then performing mixture flash calculations would have to be considered, which very quickly becomes a lot of work to set-up outside of a process simulator like Aspen [↩](#fnref-1)
+{% endcapture %}
+
+{% capture footnote-2 %}
+<a name="fn-2"><strong>2</strong></a>: There are lots of ways of generating leak scenarios, from the very specific leaks from particular propagating events to simple rules of thumb. The *Chemical Exposure Index* gives the following rules for determining a leak scenario for a vessel([AIChE/CCPS 1998](#ccps-1998])):
+> A rupture based on the largest diameter process pipe attached to the vessel using the following:
+> + For anything less than 2in a full bore rupture (i.e. the full diameter of the pipe)
+> + For between 2 and 4in assume a rupture area equal to that of a 2in diameter pipe
+> + For >4in assume a rupture area equal to 20% of the pipe cross section area[↩](#fnref-2)
+{% endcapture %}
+
+{% capture footnote-3 %}    
+<a name="fn-3"><strong>3</strong></a>: Picking the bottom also ensures the leak occurs at the highest pressure, which gives a larger release and is most conservative. Releases at higher elevations also tend to mix more thoroughly with the air and present less of a hazard to personnel on the ground, and possibly less of an explosion hazard depending on where one supposes the ignition sources are.[↩](#fnref-3)
+{% endcapture %}
+
 **Key Assumptions**
 + Storage sphere with 40ft diameter
 + Sphere located on a concrete pad with 500ft² dyked area
@@ -103,30 +119,36 @@ pˢ(Tᵣ)<p
 
     true
 
-{% capture footnotes-1-3 %}
-<a name="fn-1"><strong>1</strong></a>: If the vessel contained a mixture, for the purposes of screening, conservatively choosing the most volatile of the major components would be a reasonable assumption. These simplifications are suitable for screening purposes however if more in depth modeling is required then performing mixture flash calculations would have to be considered, which very quickly becomes a lot of work to set-up outside of a process simulator like Aspen [↩](#fnref-1)
-
-
-<a name="fn-2"><strong>2</strong></a>: There are lots of ways of generating leak scenarios, from the very specific leaks from particular propagating events to simple rules of thumb. The *Chemical Exposure Index* gives the following rules for determining a leak scenario for a vessel([AIChE/CCPS 1998](#ccps-1998])):
-> A rupture based on the largest diameter process pipe attached to the vessel using the following:
-> + For anything less than 2in a full bore rupture (i.e. the full diameter of the pipe)
-> + For between 2 and 4in assume a rupture area equal to that of a 2in diameter pipe
-> + For >4in assume a rupture area equal to 20% of the pipe cross section area[↩](#fnref-2)
-    
-<a name="fn-3"><strong>3</strong></a>: Picking the bottom also ensures the leak occurs at the highest pressure, which gives a larger release and is most conservative. Releases at higher elevations also tend to mix more thoroughly with the air and present less of a hazard to personnel on the ground, and possibly less of an explosion hazard depending on where one supposes the ignition sources are.[↩](#fnref-3)
-{% endcapture %}
 
 <div class="notice">
-  {{ footnotes-1-3 | markdownify }}
+  {{ footnote-1 | markdownify }}
+
+  {{ footnote-2 | markdownify }}
+
+  {{ footnote-3 | markdownify }}
 </div>
 
 ## The Release Rate
 
 Since the vapour pressure within the vessel is below the storage pressure, at ambient temperature, the butane within the storage sphere is a liquid. In general one would have to account for flashing and two-phase flow during the release, however for very short discharge distances (<10cm) there is typically not enough time for the liquid to flash during discharge[<sup id="fnref-4">4</sup>](#fn-4), over the thickness of a hole this especially true. The butane discharged from the tank will be a stream of liquid initially and the simple Bernoulli equation for a liquid jet can be used[<sup id="fnref-5">5</sup>](#fn-5).
 
+{% capture footnote-4 %}
+<a name="fn-4"><strong>4</strong></a>: See AIChE/CCPS ([1999](#ccps-1999)) page 37 for more of a disussion on two-phase discharge rates.[↩](#fnref-4)
+{% endcapture %}
+
+{% capture footnote-5 %}
+<a name="fn-5"><strong>5</strong></a>: This is also known as Toricelli's equation and can be derived from a mechanical energy balance and is found in a lot of references (e.g. *Perry's*), the form of it I'm using here comes from AIChE/CCPS ([1996](#ccps-1996)) page 29 equation 4-10. This is really a function of time as the liquid height $h_l$ will decrease as it leaks out. Using the discharge rate at the start of the leak throughout the analysis is a conservative assumption, again for the purposes of a simplified screening case. For more detailed modeling one could make this explicitly a function of time and integrate over the release.[↩](#fnref-5)
+{% endcapture %}
+
+
 $$ Q_l = c_d \rho_l A_h \sqrt{ 2 \left( p - p_a \over \rho_l \right) + 2gh_l } = c_d \rho_l { {\pi \over 4} d_h^2} \sqrt{ 2 \left( p - p_a \over \rho_l \right) + 2gh_l } $$
 
 Where $Q_l$ is the mass flow of liquid discharged through the hole (in kg/s), $c_d$ is the discharge coefficient which can be assumed to be 0.61[<sup id="fnref-6">6</sup>](#fn-6), $g$ is the acceleration due to gravity $9.81 m/s^2$ and the rest are as defined earlier. I am assuming, here, that the hole is circular for simplicity.
+
+{% capture footnote-6 %}
+<a name="fn-6"><strong>6</strong></a>: From AIChE/CCPS ([1999](#ccps-1999)) page 27, for sharp edged orifices and Reynolds numbers greater than 30,000 the discharge coefficient approaches 0.61, and the exit velocity is independent of the hole size. For a simple screening calculation one could also use a coefficient of 1.0, though that may be excessively conservative (large over-estimates end up wasting time modeling later)[↩](#fnref-6)
+{% endcapture %}
+
 
 **Key Assumptions**
 + Liquid release
@@ -141,21 +163,23 @@ Qₗ = cd*ρₗ(Tᵣ)*(π/4)*(dₕ^2)*√( 2*(p - pₐ)/ρₗ(Tᵣ) + 2*g*hₗ )
 
     56.31092763613714
 
-{% capture footnotes-4-6 %}
-<a name="fn-4"><strong>4</strong></a>: See [AIChE/CCPS (1999)](#ccps-1999) page 37 for more of a disussion on two-phase discharge rates.[↩](#fnref-4)
 
-<a name="fn-5"><strong>5</strong></a>: This is also known as Toricelli's equation and can be derived from a mechanical energy balance and is found in a lot of references (e.g. *Perry's*), the form of it I'm using here comes from [AIChE/CCPS (1996)](#ccps-1996) page 29 equation 4-10. This is really a function of time as the liquid height $h_l$ will decrease as it leaks out. Using the discharge rate at the start of the leak throughout the analysis is a conservative assumption, again for the purposes of a simplified screening case. For more detailed modeling one could make this explicitly a function of time and integrate over the release.[↩](#fnref-5)
-
-<a name="fn-6"><strong>6</strong></a>: From [AIChE/CCPS (1999)](#ccps-1999) page 27, for sharp edged orifices and Reynolds numbers greater than 30,000 the discharge coefficient approaches 0.61, and the exit velocity is independent of the hole size. For a simple screening calculation one could also use a coefficient of 1.0, though that may be excessively conservative (large over-estimates end up wasting time modeling later)[↩](#fnref-6)
-{% endcapture %}
 
 <div class="notice">
-  {{ footnotes-4-6 | markdownify }}
+  {{ footnote-4 | markdownify }}
+
+  {{ footnote-5 | markdownify }}
+
+  {{ footnote-6 | markdownify }}
 </div>
 
 ## Flashing Fraction
 
 Since the butane is significantly above it's normal boiling point, as the liquid stream exits the storage sphere it will flash. However not all of it will flash into a vapour as the quantity that can vapourize is limited by the available energy. A simplified model of flashing is to assume the process is so rapid that it is effectively adiabatic and, from a simple steady-state energy balance, one arrives at the following[<sup id="fnref-7">7</sup>](#fn-7)
+
+{% capture footnote-7 %}
+<a name="fn-7"><strong>7</strong></a>: This can be easily derived, but the form given here is from AIChE/CCPS ([1996](#ccps-1996)) page 31, equation 4-14 [↩](#fnref-7)
+{% endcapture %}
 
 $$f_v = {Q_v \over Q_l} = { {c_p (T_r - T_b)} \over {\Delta H_v} }$$
 
@@ -175,8 +199,9 @@ fᵥ = cₚ(Tᵣ)*(Tᵣ-Tb)/ΔHᵥ(Tᵣ)
 Qᵥ(t) = fᵥ*Qₗ
 ```
 
-<a name="fn-7"><strong>7</strong></a>: This can be easily derived, but the form given here is from [AIChE/CCPS (1996)](#ccps-1996) page 31, equation 4-14 [↩](#fnref-7)
-{: .notice }
+<div class="notice">
+  {{ footnote-7 | markdownify }}
+</div>
 
 
 ## Aerosol Fraction
@@ -202,7 +227,11 @@ Aerodynamic breakup is correlated with the Weber number, which is the ratio of s
 
 $$ We = { { \rho_g u_d^2 d_p } \over \sigma } $$
 
-Where $\rho_g$ is the density of the gas, $u_d$ the discharge velocity, $d_p$ the mean droplet diameter, and $\sigma$ the surface tension. Experimentally, droplet breakup occurs at a critical Weber number between 12 and 22, and so the mean droplet size can be estimated by re-arranging([Woodward 1998](#woodward-1998), 49)
+Where $\rho_g$ is the density of the gas, $u_d$ the discharge velocity, $d_p$ the mean droplet diameter, and $\sigma$ the surface tension. Experimentally, droplet breakup occurs at a critical Weber number between 12 and 22, and so the mean droplet size can be estimated by re-arranging[<sup id="fnref-8">8</sup>](#fn-8)
+
+{% capture footnote-8 %}
+<a name="fn-8"><strong>8</strong></a>: Woodward ([1998](#woodward-1998)), page 49 [↩](#fnref-8)
+{% endcapture %}
 
 $$ d_p = { { \sigma We_c } \over {\rho_g u_d^2 } } $$
 
@@ -227,7 +256,15 @@ da = ( σ(Tc) * We)/(ρa(Tc) * ud^2)
 
     2.188550597862162e-5
 
-The diameter of droplets from flashing breakup can be calculated from the following empirical correlation([Woodward 1998](#woodward-1998), 50) and the mean droplet diameter is simply the smallest of either the aerodynamic or flashing diameter([Johnson and Woodward 1999](#johnson-1999), 64) In almost all cases that are relevant for release modeling capillary breakup is not significant.
+The diameter of droplets from flashing breakup can be calculated from the following empirical correlation[<sup id="fnref-9">9</sup>](#fn-9) and the mean droplet diameter is simply the smallest of either the aerodynamic or flashing diameter[<sup id="fnref-10">10</sup>](#fn-10) In almost all cases that are relevant for release modeling capillary breakup is not significant.
+
+{% capture footnote-9 %}
+<a name="fn-9"><strong>9</strong></a>: Woodward ([1998](#woodward-1998)), page 50 [↩](#fnref-9)
+{% endcapture %}
+
+{% capture footnote-10 %}
+<a name="fn-10"><strong>10</strong></a>: Johnson and Woodward ([1999](#johnson-1999)), page 64 [↩](#fnref-10)
+{% endcapture %}
 
 $$ d_p = { {0.03} \over {10 + 4.0 \cdot (T - T_b) } }$$
 
@@ -243,6 +280,14 @@ dₚ = min(da, df)
 
     2.188550597862162e-5
 
+<div class="notice">
+  {{ footnote-8 | markdownify }}
+
+  {{ footnote-9 | markdownify }}
+
+  {{ footnote-10 | markdownify }}
+</div>
+
 
 ### The RELEASE model
 
@@ -250,7 +295,13 @@ The RELEASE model uses a distribution of droplet sizes to determine, based on a 
 
 #### Critical diameter 
 
-The critical diameter is a function of a *critical velocity* which is calculated from a model of the spray jet with a tuning parameter $\beta$ which captures the expansion of the jet. The default value for $\beta$ is given to be 4.46° ([Johnson and Woodward 1999](#johnson-1999), 63)
+The critical diameter is a function of a *critical velocity* which is calculated from a model of the spray jet with a tuning parameter $\beta$ which captures the expansion of the jet. The default value for $\beta$ is given to be 4.46° [<sup id="fnref-11">11</sup>](#fn-11)
+
+{% capture footnote-11 %}
+<a name="fn-11"><strong>11</strong></a>: Johnson and Woodward ([1999](#johnson-1999)), page 63 [↩](#fnref-11)
+{% endcapture %}
+
+
 
 $$ u_c = u_d \tan \beta $$
 
@@ -273,7 +324,11 @@ $$ \left( \rho_l - \rho_g \right) g \cdot \frac{\pi}{6} d_c^3 = \frac{1}{2} C_D 
 
 $$ \left( \rho_l - \rho_g \right) g \cdot d_c - \frac{3}{4} C_D \rho_g u_c^2 = 0$$
 
-Where $C_D$ is the drag coefficient, which for a solid sphere in viscous flow is given by this correlation([White 1974](#white-1974))[<sup id="fnref-8">8</sup>](#fn-8)
+Where $C_D$ is the drag coefficient, which for a solid sphere in viscous flow is given by this correlation[<sup id="fnref-12">12</sup>](#fn-12)
+
+{% capture footnote-12 %}
+<a name="fn-12"><strong>12</strong></a>: White ([1974](#white-1974)), This could be an opportunity for improvement to the RELEASE model as liquid droplets and bubbles do not experience drag in the same way as solids, due to internal flows that can dissipate energy [↩](#fnref-12)
+{% endcapture %}
 
 $$ C_D = 0.4 + {24 \over Re} + {6 \over {1 - \sqrt{Re} } } $$
 
@@ -303,13 +358,19 @@ dc = find_zero( d ->   (ρₗ(Tc) - ρg(Tc))*g*d - 0.75*CD(d)*ρg(Tc) * uc^2, (0
 
     0.00014250630981793824
 
+<div class="notice">
+  {{ footnote-11 | markdownify }}
 
-<a name="fn-8"><strong>8</strong></a>: This could be an opportunity for improvement to the RELEASE model as liquid droplets and bubbles do not experience drag in the same way as solids, due to internal flows that can dissipate energy [↩](#fnref-8)
-{: .notice }
+  {{ footnote-12 | markdownify }}
+</div>
 
 #### Aerosol Fraction
 
-The aerosol fraction, in the RELEASE model, is the mass fraction of droplets with a diameter less than the critical diameter([Johnson and Woodward 1999](#johnson-1999), 58-60)[<sup id="fnref-9">9</sup>](#fn-9)
+The aerosol fraction, in the RELEASE model, is the mass fraction of droplets with a diameter less than the critical diameter[<sup id="fnref-13">13</sup>](#fn-13)
+
+{% capture footnote-13 %}
+<a name="fn-13"><strong>13</strong></a>: Johnson and Woodward ([1999](#johnson-1999)), pages 58-60. The integration is not shown in the text, but the fortran code is included on the CD if one wants to verify the final result.[↩](#fnref-13)
+{% endcapture %}
 
 $$ f_a = { {F_m \left( d_c \right)} \over {F_m \left( \infty \right)} } $$
 
@@ -365,8 +426,9 @@ fₐ = RELEASE_fa(dc, dₚ)
 Qₐ(t) = fₐ*(Qₗ - Qᵥ(t));
 ```
 
-<a name="fn-9"><strong>9</strong></a>: The integration is not shown in the text, but the fortran code is included on the CD if one wants to verify the final result.[↩](#fnref-9)
-{: .notice }
+<div class="notice">
+  {{ footnote-13 | markdownify }}
+</div>
 
 ## Pool Evaporation
 
@@ -378,7 +440,11 @@ Since this is a simple screening calculation, I will be avoiding all of that and
 + Simple model of pool spread
 + Evaporation of pool is driven by heat transferred from the ground by conduction
 
-A simple model of pool spread as a function of time is([Woodward 1998](#woodward-1998), 57)
+A simple model of pool spread as a function of time is[<sup id="fnref-14">14</sup>](#fn-14)
+
+{% capture footnote-14 %}
+<a name="fn-14"><strong>14</strong></a>: Woodward ([1998](#woodward-1998)), page 57 [↩](#fnref-14)
+{% endcapture %}
 
 $$ A_{pu}  = \frac{\pi}{4} \sqrt{\frac{2048}{81} {Q_{p} \over \rho_l} t^3} $$
 
@@ -407,7 +473,11 @@ Aₚ(t) = min( Aₚᵤ(t) , Ad)
 
 In general the evaporation rate is derived from a heat balance accounting for the heat transfer from the ground, from the ambient air, and from solar flux, however in this case a simplifying assumption is that the majority of the heat transfered to the liquid is from the ground.
 
-For a cryogenic liquid spilled on land a simple model of the evaporative flux $G_e$ in kg/s/m² is([AIChE/CCPS 1999](#ccps-1999), 63)
+For a cryogenic liquid spilled on land a simple model of the evaporative flux $G_e$ in kg/s/m² is[<sup id="fnref-15">15</sup>](#fn-15)
+
+{% capture footnote-15 %}
+<a name="fn-15"><strong>15</strong></a>:AIChE/CCPS ([1999](#ccps-1999)), page 63 [↩](#fnref-15)
+{% endcapture %}
 
 $$ G_e = { {Mw} \over {\Delta H_v} } { k \left( T_s - T_l \right) \over \sqrt{\pi \alpha t} } $$
 
@@ -440,9 +510,21 @@ Qₑ(t) = min( Gₑ(t)*Aₚ(t), Qₚ(t));
 
 ![svg](/images/butane_leak_example_files/output_33_0.svg)
 
+<div class="notice">
+  {{ footnote-14 | markdownify }}
+
+  {{ footnote-15 | markdownify }}
+</div>
+
 ## Airborne Quantity
 
-The total airborne quantity is the sum of the flashed vapour, the aerosolized droplets, and the vapour from pool evaporation. So far the calculation has been in terms of *rates*, but the *total* airborne quantity depends upon the release duration, $t_d$. There are lots of different ways of deciding on a release duration, in general the release duration of interest is the time it would take for a vapour cloud to find an ignition source -- for vapour cloud explosion scenarios -- or, more optimistically, the time it would take for the plant to respond and take some action to mitigate the hazard. A common default release duration is 10 minutes([AIChE/CCPS 1999](#ccps-1999), 22)
+The total airborne quantity is the sum of the flashed vapour, the aerosolized droplets, and the vapour from pool evaporation. So far the calculation has been in terms of *rates*, but the *total* airborne quantity depends upon the release duration, $t_d$. There are lots of different ways of deciding on a release duration, in general the release duration of interest is the time it would take for a vapour cloud to find an ignition source -- for vapour cloud explosion scenarios -- or, more optimistically, the time it would take for the plant to respond and take some action to mitigate the hazard. A common default release duration is 10 minutes[<sup id="fnref-16">16</sup>](#fn-16)
+
+{% capture footnote-16 %}
+<a name="fn-16"><strong>16</strong></a>: AIChE/CCPS ([1999](#ccps-1999)), page 22 [↩](#fnref-16)
+{% endcapture %}
+
+
 
 One common simplification is to take the vapour and aerosol rates to be a constant, and the pool evaporation rate as a constant at the final time $t_d$, then multiply by the total duration. An alternative is to integrate over time from 0 to $t_d$.
 
@@ -493,6 +575,10 @@ maqu, err = quadgk(Qaqu, 0, td)
 
 
 In this case the secondary containment reduced the overall airborne quantity by ~5%, and we wouldn't expect it to be hugely important for this example as most of the mass of the vapour cloud came from the flashing of the liquid immediately upon release and from entrained droplets.
+
+<div class="notice">
+  {{ footnote-16 | markdownify }}
+</div>
 
 ## Closing Remarks
 
