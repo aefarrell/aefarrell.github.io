@@ -1,7 +1,8 @@
 ---
 title: "Building Infiltration Example"
+last_modified_at: 2023-12-26
 toc: true
-toc_label: "contents"
+toc_label: "Contents"
 toc_sticky: true
 comments: true
 categories:
@@ -83,7 +84,11 @@ In this case I restricted the dataset to just the PM2.5 concentration, since tha
 
 ## Infiltration Models
 
-Building infiltration models can range from highly detailed CFD simulations of indoor airflow to simple "fully mixed" models that assume a single average indoor concentration. This second type is the easiest to use and a good start for screening scenarios. It is a simple differential equation that assumes the rate of infiltration is proportional to a ventilation rate, λ, and the concentration difference between the outside and inside air[^1].
+Building infiltration models can range from highly detailed CFD simulations of indoor airflow to simple "fully mixed" models that assume a single average indoor concentration. This second type is the easiest to use and a good start for screening scenarios. It is a simple differential equation that assumes the rate of infiltration is proportional to a ventilation rate, λ, and the concentration difference between the outside and inside air[<sup id="fnref-1">1</sup>](#fn-1).
+
+{% capture footnote-1 %}
+<a name="fn-1"><strong>1</strong></a>: Lees ([1996](#lees-1996)), section 15.51 [↩](#fnref-1)
+{% endcapture %}
 
 $$ \frac{d}{dt} c = f \left( c, \lambda, t \right) = \lambda \cdot \left( c_o(t) - c \right)$$
 
@@ -91,7 +96,6 @@ The outside concentration, $c_o$, can be a constant, but it is more usefully tho
 
 This model is for for a single zone or single cell building, where the interior air is assumed to be well mixed and at a single uniform pressure and concentration. This works well for houses, non-segmented industrial buildings, and small open plan commerical buildings. For much larger buildings, with many zones, there are multiple zone models of various scales of complexity.
 
-[^1]: *Lees' Loss Prevention in the Process Industries, 4th Ed.*, 2012, Elsevier, Section 15.51
 
 
 ```julia
@@ -109,6 +113,9 @@ f(c, λ, t; cₒ=zero) = λ*(cₒ(t) - c)
 f(g) = (c, λ, t) -> f(c, λ, t; cₒ=g)
 ```
 
+<div class="notice">
+  {{ footnote-1 | markdownify }}
+</div>
 
 ### Natural Ventilation
 
@@ -120,7 +127,11 @@ The following plot is for a building infiltration model showing a building with 
 
 ![image.png](/images/building_infiltration_example_files/att3.png)
 
-ASHRAE[^2] gives guidance on how to estimate the natural ventilation rate for single zone buildings, and a basic model of air leakage is
+ASHRAE[<sup id="fnref-2">2</sup>](#fn-2) gives guidance on how to estimate the natural ventilation rate for single zone buildings, and a basic model of air leakage is
+
+{% capture footnote-2 %}
+<a name="fn-2"><strong>2</strong></a>: ASHRAE ([2017](#ashrae-2017)), chapter 16 [↩](#fnref-2)
+{% endcapture %}
 
 $$ Q = A_L \sqrt{ C_s \vert \Delta T \vert + C_w u^2 }$$
 
@@ -134,7 +145,7 @@ This model effectively treats the leakage from the building like a leakage throu
 
 This is a lot of work for a simple building infiltration screening. However this may have already been done for the design of the building, as the air leakage is a critical component in a building's overall thermal efficiency. If the data already exists for a given building, for other purposes, then why not use it, but if it isn't readily available then it is more practical to use tabulated values for representative buildings.
 
-This can be tricky, though, as most tabulated values are for houses and how "leaky" a house is depends very strongly on where that house was constructed (and when). Many references, such as *Lees'* [^1] give values for British homes which are often much greater than equivalent values tabulated elsewhere for typical American and Canadian homes. Which could entirely be a function of local weather. The air tightness of a home where I live in Canada is probably a lot more important, especially on days when it is -30°C, than a similar home in the UK where such extremes are essentially unheard-of. Which is also putting aside the fact that commercial structures are quite different from houses and so these values may not be too representative either.
+This can be tricky, though, as most tabulated values are for houses and how "leaky" a house is depends very strongly on where that house was constructed (and when). Many references, such as *Lees'* give values for British homes which are often much greater than equivalent values tabulated elsewhere for typical American and Canadian homes. Which could entirely be a function of local weather. The air tightness of a home where I live in Canada is probably a lot more important, especially on days when it is -30°C, than a similar home in the UK where such extremes are essentially unheard-of. Which is also putting aside the fact that commercial structures are quite different from houses and so these values may not be too representative either.
 
 Typical values for Canadian homes in urban areas
 
@@ -158,7 +169,9 @@ In this model of building infiltration the ASHRAE model could be used and, with 
 
 This raises the obvious question of what impact windspeed has on the indoor concentration? At higher windspeeds the building ventilation rate is higher, and so more of what's outside ends up inside, however at higher windspeeds there is more mixing and the outdoor concentration will generally be lower. I would expect the effect of mixing would dominate, but this might be worth investigating further.
 
-[^2]: *2017 ASHRAE Handbook - Fundamentals (SI Edition)*, Ch. 16
+<div class="notice">
+  {{ footnote-2 | markdownify }}
+</div>
 
 ### Building Infiltration
 
@@ -527,7 +540,10 @@ y_fit, t_fit, _ = lsim(model_tf, u, t)
 ![svg](/images/building_infiltration_example_files/output_57_0.svg)
 
 
-For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2021-05-22-building_infiltration_example.ipynb)
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2021-05-22-building_infiltration_example.ipynb)
 {: .notice--info}
 
----
+## References
+
++ <a name="ashrae-2017">ASHRAE</a>. 2017. *2017 ASHRAE Handbook - Fundamentals (SI Edition).*
++ <a name="lees-1996">Lees</a>, Frank P. 1996. *Loss Prevention in the Process Industries, 2nd ed.* Oxford: Butterworth-Heinemann

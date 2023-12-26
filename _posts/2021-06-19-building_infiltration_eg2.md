@@ -1,8 +1,8 @@
 ---
 title: "Building Infiltration Example -- Chlorine Release"
-last_modified_at: 2023-01-08
+last_modified_at: 2023-12-26
 toc: true
-toc_label: "contents"
+toc_label: "Contents"
 toc_sticky: true
 comments: true
 categories:
@@ -83,7 +83,11 @@ u   = 1.5      # windspeed m/s
 
 The simplest model for a neutrally buoyant cloud is a [gaussian disperison model](https://aefarrell.github.io/2020/12/05/gaussian_dispersion_example/), in this case because the cylinder is assumed to fail catastrophically the release can be treated as instantaneous and so we use a gaussian puff model.
 
-It is often worth-while to estimate the initial dimensions of the cloud and then calculate a *virtual* emission point from which the release is assumed to take place. This is especially useful if the area immediately around the release point is of interest as the gaussian model assumes all of the mass is initially concentrated in a single point. However for a simple screening just using the default dispersion model is likely fine, and more conservative. The model gives the concentration as a gaussian distribution in the x, y, and z directions, while also adding in a term to account for ground reflection (mass cannot disperse below groundlevel)[^1]
+It is often worth-while to estimate the initial dimensions of the cloud and then calculate a *virtual* emission point from which the release is assumed to take place. This is especially useful if the area immediately around the release point is of interest as the gaussian model assumes all of the mass is initially concentrated in a single point. However for a simple screening just using the default dispersion model is likely fine, and more conservative. The model gives the concentration as a gaussian distribution in the x, y, and z directions, while also adding in a term to account for ground reflection (mass cannot disperse below groundlevel)[<sup id="fnref-1">1</sup>](#fn-1)
+
+{% capture footnote-1 %}
+<a name="fn-1"><strong>1</strong></a>: AIChE ([1996])(#ccps-1996) [↩](#fnref-1)
+{% endcapture %}
 
 $$ c_{puff}(x,y,z,t) = { m \over { (2 \pi)^{3/2} \sigma_x \sigma_y \sigma_z } } 
 \exp \left( -\frac{1}{2} \left( {x - ut} \over \sigma_x \right)^2 \right) 
@@ -91,7 +95,6 @@ $$ c_{puff}(x,y,z,t) = { m \over { (2 \pi)^{3/2} \sigma_x \sigma_y \sigma_z } }
 \times \left[ \exp \left( -\frac{1}{2} \left( {z - h} \over \sigma_z \right)^2 \right) 
 + \exp \left( -\frac{1}{2} \left( {z + h} \over \sigma_z \right)^2 \right)\right]$$
 
-[^1]: *Guidelines for use of Vapour Cloud Dispersion Models, 2nd ed.*, Center for Chemical Process Safety, American Institute of Chemical Engineers, New York, 1996
 
 The parameters σx, σy, and σz are generally found using empirically derived correlations that are functions of the downwind distance to the center of the puff *x<sub>c</sub>* and atmospheric stability.
 
@@ -116,13 +119,16 @@ function c_puff(x,y,z,t; # point in space
 end
 ```
 
+<div class="notice">
+  {{ footnote-1 | markdownify }}
+</div>
 
 ### Dispersion Parameters
 
 The dispersion parameters for puff models are not, in general, as well developed as for plume models, the following values were interpolated from a sparser set of correlations and it is worth keeping in mind. It is also worth noting that the dispersion parameters are where the impact of different windspeeds will be made most apparent as [stability is a function of windspeed](https://aefarrell.github.io/2020/12/12/worst_case_weather/).
 
 
-#### Dispersion parameters for a Gaussian puff model[^1]
+#### Dispersion parameters for a Gaussian puff model[<sup id="fnref-2">2</sup>](#fn-2)
 
 | Stability | $\sigma_x = \sigma_y$ | $\sigma_z$        | Max Windspeed |
 |:---------:|:---------------------:|:-----------------:|:-------------:| 
@@ -134,6 +140,11 @@ The dispersion parameters for puff models are not, in general, as well developed
 | F         | $ 0.02 x^{0.89} $     | $ 0.05 x^{0.61} $ | 3 m/s         |
 
 
+{% capture footnote-2 %}
+<a name="fn-2"><strong>2</strong></a>: AIChE ([1996])(#ccps-1996) [↩](#fnref-2)
+{% endcapture %}
+
+
 ```julia
 # Class F 
 
@@ -142,6 +153,9 @@ The dispersion parameters for puff models are not, in general, as well developed
 σz(x) = 0.05*x^0.61
 ```
 
+<div class="notice">
+  {{ footnote-2 | markdownify }}
+</div>
 
 ### Outdoor Concentration
 
@@ -181,11 +195,14 @@ The [single zone model](https://aefarrell.github.io/2021/05/22/building_infiltra
 
 Very likely in the ~10s it takes for the cloud to pass very little of it will have had time to diffuse into the interior space of the building and the interior mixing (or lack thereof) will be a significant slow step in the overall mass transfer.
 
-The single zone model, however, will work as a first pass at least, and in this model the interior concentration is related to the outside concentration by the following ODE[^2]
+The single zone model, however, will work as a first pass at least, and in this model the interior concentration is related to the outside concentration by the following ODE[<sup id="fnref-3">3</sup>](#fn-3)
+
+{% capture footnote-3 %}
+<a name="fn-3"><strong>3</strong></a>: Lees ([1996](#lees-1996)), section 15.51 [↩](#fnref-3)
+{% endcapture %}
+
 
 $$\frac{d}{dt} c_i(t) = f \left( c_i, \lambda, t \right) = \lambda \cdot \left( c_o(t) - c_i(t) \right) $$
-
-[^2]: *Lees' Loss Prevention in the Process Industries, 4th Ed.*, 2012, Elsevier, Section 15.51
 
 
 Where *cᵢ* is the inside concentration, *cₒ* the outside concentration, and *λ* the natural ventilation rate of the building. 
@@ -201,16 +218,21 @@ f(cᵢ, λ, t; cₒ=zero) = λ*(cₒ(t) - cᵢ)
 f(g) = (cᵢ, λ, t) -> f(cᵢ, λ, t; cₒ=g)
 ```
 
+<div class="notice">
+  {{ footnote-3 | markdownify }}
+</div>
 
 ### Simplified ASHRAE Model
 
-The last parameter we need to estimate before solving the problem is the ventilation rate, *λ*, which can be estimated using the simplified ASHRAE model[^4] 
+The last parameter we need to estimate before solving the problem is the ventilation rate, *λ*, which can be estimated using the simplified ASHRAE model [<sup id="fnref-4">4</sup>](#fn-4)
+
+{% capture footnote-4 %}
+<a name="fn-4"><strong>4</strong></a>: ASHRAE ([2017](#ashrae-2017)), chapter 16 [↩](#fnref-4)
+{% endcapture %}
 
 $$\lambda = \frac{Q}{V} \\
 Q = A_L \sqrt{ C_s \vert \Delta T \vert + C_w u^2 } \\
 \lambda = \frac{A_L}{V} \sqrt{ C_s \vert \Delta T \vert + C_w u^2 } $$
-
-[^4]: *2017 ASHRAE Handbook - Fundamentals (SI Edition)*, Ch. 16
 
 Where $A_L$ and $V$ were given earlier, $C_s$ and $C_w$ are tabulated constants, $\Delta T$ is the difference between indoor and outdoor temperatures, in *K*, and *u* the windspeed, in m/s, and the ventilation rate is in s⁻¹.
 
@@ -249,6 +271,10 @@ For this scenario we are assuming the (one-story) building is isolated and there
 
     7.249290622734888e-5
 
+
+<div class="notice">
+  {{ footnote-4 | markdownify }}
+</div>
 
 ## Indoor Concentration
 
@@ -573,7 +599,11 @@ The worst case indoor concentration far exceeded the ERPG-3 limit, however it wa
 These two examples cover two extremes of building infiltration, the forest fire smoke looked at enormous clouds that take hours to pass and this chlorine example covers very concentrated clouds which pass in under a minute. Most real scenarios at a chemical plant or other facility are likely to be between these extremes, but the same tools would apply. 
 
 
-For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2021-06-19-building_infiltration_eg2.ipynb)
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2021-06-19-building_infiltration_eg2.ipynb)
 {: .notice--info}
 
----
+## References
+
++ <a name="ccps-1996">AIChE/CCPS</a>. 1996. *Guidelines for Use of Vapour Cloud Dispersion Models, 2nd Ed.* New York: American Institute of Chemical Engineers
++ <a name="ashrae-2017">ASHRAE</a>. 2017. *2017 ASHRAE Handbook - Fundamentals (SI Edition).*
++ <a name="lees-1996">Lees</a>, Frank P. 1996. *Loss Prevention in the Process Industries, 2nd ed.* Oxford: Butterworth-Heinemann

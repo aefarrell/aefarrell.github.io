@@ -1,6 +1,6 @@
 ---
 title: "VCE Example - Butane Vapour Cloud"
-last_modified_at: 2023-12-21
+last_modified_at: 2023-12-26
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -78,7 +78,7 @@ There are two other important wind-speeds that will be needed, the *friction vel
 
 $$ {u \over u_r} = \left( h \over h_r \right)^p $$
 
-Where the parameter *p* is tabulated([AIChE/CCPS 1999](#ccps-1999), 83) here
+Where the parameter *p* is tabulated[<sup id="fnref-1">1</sup>](#fn-1) here
 
 | Stability | urban | rural | 
 |:---------:|:-----:|:-----:| 
@@ -88,6 +88,10 @@ Where the parameter *p* is tabulated([AIChE/CCPS 1999](#ccps-1999), 83) here
 | D         | 0.25  | 0.15  | 
 | E         | 0.40  | 0.35  | 
 | F         | 0.60  | 0.55  |
+
+{% capture footnote-1 %}
+<a name="fn-1"><strong>1</strong></a>: AIChE/CCPS ([1999](#ccps-1999)), page 83 [↩](#fnref-1)
+{% endcapture %}
 
 There are several ways to estimate the friction velocity, but a simple rule of thumb used in the EPA TSCREEN model is to assume
 
@@ -109,6 +113,10 @@ u₊ = 0.06 * u₁₀
 
     0.3459905806850393
 
+
+<div class="notice">
+  {{ footnote-1 | markdownify }}
+</div>
 
 
 ### Release Type
@@ -138,7 +146,11 @@ From prior experience, the distance to 1/2 LFL will likely be &lt;~200m and so a
 
 The second critical factor for determining which model to use is whether or not the cloud is significantly denser than air. Dense clouds slump and hug the ground to a far greater extent than neutrally buoyant clouds and models for neutral clouds can lead to significant overestimations of the size of the vapour cloud when used on a dense cloud.
 
-The relevant parameter for determining if a dense gas dispersion model should be used is the Richardson number, the ratio of the potential energy from the excess density to the kinetic energy from ambient turbulence. The Richardson number for continuous releases is defined as([AIChE/CCPS 1999](#ccps-1996), 50)
+The relevant parameter for determining if a dense gas dispersion model should be used is the Richardson number, the ratio of the potential energy from the excess density to the kinetic energy from ambient turbulence. The Richardson number for continuous releases is defined as[<sup id="fnref-2">2</sup>](#fn-2)
+
+{% capture footnote-2 %}
+<a name="fn-2"><strong>2</strong></a>: AIChE/CCPS ([1996](#ccps-1996)), page 50 [↩](#fnref-2)
+{% endcapture %}
 
 $$ \mathrm{Ri} = { { g_o V_r } \over { D_c u_{\star} } } $$
 
@@ -178,7 +190,11 @@ Ri > 50
 
 This suggests that a dense gas model should be used, which conforms to our expectations as the vapour cloud is significantly denser than the ambient air.
 
-An additional check([Britter and McQuaid 1988](#britter-1988)) is to use the criteria from the Britter-McQuaid model
+An additional check[<sup id="fnref-3">3</sup>](#fn-3) is to use the criteria from the Britter-McQuaid model
+
+{% capture footnote-3 %}
+<a name="fn-3"><strong>3</strong></a>: Britter and McQuaid ([1988](#britter-1988)) [↩](#fnref-3)
+{% endcapture %}
 
 $$ \left( g_o V_r \over { u_{10}^3 D} \right)^{1/3} \ge 0.15 $$
 
@@ -197,16 +213,29 @@ D = √(Vr/u₁₀)
 
     true
 
+<div class="notice">
+  {{ footnote-2 | markdownify }}
+
+  {{ footnote-3 | markdownify }}
+</div>
 
 ### Britter-McQuaid model
 
-The Britter-McQuaid model([Britter and McQuaid 1988](#britter-1988)) is a dense cloud dispersion model based on dimensional analysis and fitting to experimental data. It is given as a series of correlation curves for six different concentrations and the distance to the concentration of interest is interpolated from these. The concentrations represent a mean concentration over the whole cloud at that distance.
+The Britter-McQuaid model[<sup id="fnref-4">4</sup>](#fn-4) is a dense cloud dispersion model based on dimensional analysis and fitting to experimental data. It is given as a series of correlation curves for six different concentrations and the distance to the concentration of interest is interpolated from these. The concentrations represent a mean concentration over the whole cloud at that distance.
+
+{% capture footnote-4 %}
+<a name="fn-4"><strong>4</strong></a>: Britter and McQuaid ([1988](#britter-1988)) [↩](#fnref-4)
+{% endcapture %}
 
 This is one of the simpler models to use directly, and is appropriate for a screening case. Dense gas dispersion modeling is a large field with many different models that could be used and, like many things, as the models grow in detail they also grow in the number of parameters that must be provided. For the purposes of screening the limiting factor is often not computing power or model complexity *per se* as much as the information required to even run the models and the time needed to gather that information.
 
 *Note* the concentrations in this model are given in volume fraction and it is assumed that the in-cloud concentration of butane is 1.0 (i.e 100%) at the release point.
 
-The Britter-McQuaid curves can be approximated with a series of piece-wise linear functions([AIChE/CCPS 2000](#ccps-2000))
+The Britter-McQuaid curves can be approximated with a series of piece-wise linear functions[<sup id="fnref-5">5</sup>](#fn-5)
+
+{% capture footnote-5 %}
+<a name="fn-5"><strong>5</strong></a>: AIChE/CCPS ([2000](#ccps-2000)) [↩](#fnref-5)
+{% endcapture %}
 
 $$ \beta = m \alpha + b $$
 
@@ -363,6 +392,11 @@ Vₚₑₛ = 0.03 * xᵢ^3
 
     136857.23663150807
 
+<div class="notice">
+  {{ footnote-4 | markdownify }}
+
+  {{ footnote-5 | markdownify }}
+</div>
 
 ## Vapour Cloud Explosion
 
@@ -396,7 +430,11 @@ There are several ways of estimating explosive energy and all depend, in some wa
 
 In some references the entire volume of the cloud will be assumed butane, but that can be excessively conservative -- we are assuming the edge of the cloud to be 1/2 LFL or ~0.93% (v/v) butane so assuming it to be 100% butane in that region is a serious over-estimate.
 
-An alternative method([AIChE/CCPS 2010](#ccps-2010)) is to assume the cloud overall is at stoichiometric conditions. That is find the value of the stoichiometric concentration $\eta$
+An alternative method[<sup id="fnref-6">6</sup>](#fn-6) is to assume the cloud overall is at stoichiometric conditions. That is find the value of the stoichiometric concentration $\eta$
+
+{% capture footnote-6 %}
+<a name="fn-6"><strong>6</strong></a>: AIChE/CCPS ([2010](#ccps-2010)) [↩](#fnref-6)
+{% endcapture %}
 
 $$ \eta = { \textrm{moles fuel} \over \textrm{moles fuel + air} } = { n_f \over { n_f + \frac{n_o}{f_o} } } $$
 
@@ -433,6 +471,9 @@ Eₚₑₛ = η * nc * ΔHc
 
     5.0778644110258764e8
 
+<div class="notice">
+  {{ footnote-6 | markdownify }}
+</div>
 
 ### The BST model
 
@@ -448,8 +489,11 @@ $$ R = r \cdot \left( p_a \over E \right)^{1/3} $$
 
 where $E$ is the explosive energy and $r$ the distance from the explosion epicentre. Which in this case we can take as the centre of the cloud and estimate to be half-way to $x_i$
 
-A spreadsheet with the BST curves is provided along with the CCPS *Guidelines for Chemical Process Quantitative Risk Analysis* ([AIChE/CCPS 2000](#ccps-2000)) from which I've extracted just the positive overpressure curves as a csv.
+A spreadsheet with the BST curves is provided along with the CCPS *Guidelines for Chemical Process Quantitative Risk Analysis* [<sup id="fnref-7">7</sup>](#fn-7) from which I've extracted just the positive overpressure curves as a csv.
 
+{% capture footnote-7 %}
+<a name="fn-7"><strong>7</strong></a>: AIChE/CCPS ([2000](#ccps-2000)) [↩](#fnref-7)
+{% endcapture %}
 
 ```julia
 bst_curves = CSV.read("data/BST-curves.csv", DataFrame)
@@ -466,7 +510,11 @@ first(bst_curves, 5)
 ![svg](/images/vapour_cloud_explosion_example_files/output_37_0.svg)
 
 
-The following table([AIChE/CCPS 2010](#ccps-2010)) cross-references flame speed -- the key parameter of the BST curves -- with qualitative descriptors of fuel reactivity, density of surrounding process equipment, and degree of confinement
+The following table[<sup id="fnref-8">8</sup>](#fn-8) cross-references flame speed -- the key parameter of the BST curves -- with qualitative descriptors of fuel reactivity, density of surrounding process equipment, and degree of confinement
+
+{% capture footnote-8 %}
+<a name="fn-8"><strong>8</strong></a>: AIChE/CCPS ([2010](#ccps-2010)) [↩](#fnref-8)
+{% endcapture %}
 
 ![image.png](/images/vapour_cloud_explosion_example_files/att2.png)
 
@@ -499,7 +547,11 @@ The fuel reactivity categories are defined in terms of the laminar burning veloc
 | Medium     |  45 - 75 cm/s            | 
 | High       |  &gt; 75 cm/s            | 
 
-The best resource for finding these tabulated is Appendix D of [NFPA 68](https://www.nfpa.org/codes-and-standards/all-codes-and-standards/list-of-codes-and-standards/detail?code=68). For butane the laminar burning velocity is 45cm/s([NFPA 2018](#nfpa-2018), Table D.1(a)) and thus is *medium reactivity*
+The best resource for finding these tabulated is Appendix D of [NFPA 68](https://www.nfpa.org/codes-and-standards/all-codes-and-standards/list-of-codes-and-standards/detail?code=68). For butane the laminar burning velocity is 45cm/s[<sup id="fnref-9">9</sup>](#fn-9) and thus is *medium reactivity*
+
+{% capture footnote-9 %}
+<a name="fn-9"><strong>9</strong></a>: NFPA ([2018](#nfpa-2018)), Table D.1(a) [↩](#fnref-9)
+{% endcapture %}
 
 Returning to the table we find that the flame speed for a *medium reactivity fuel*, *medium obstacle density*, *3D case* is 0.44 (in terms of Mach number)
 
@@ -579,7 +631,13 @@ The plot below shows the *maximum positive overpressure* experienced at that dis
 
 ![svg](/images/vapour_cloud_explosion_example_files/output_46_0.svg)
 
+<div class="notice">
+  {{ footnote-7 | markdownify }}
 
+  {{ footnote-8 | markdownify }}
+
+  {{ footnote-9 | markdownify }}
+</div>
 
 ### Sensitivity
 
