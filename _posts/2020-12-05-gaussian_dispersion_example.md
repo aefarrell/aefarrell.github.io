@@ -61,7 +61,7 @@ Prior to any dispersion modeling, the following parameters need to be collected:
 
 The EPA has tabulated *emission factors* for most combustion products in [EPA AP-42](https://www.epa.gov/air-emissions-factors-and-quantification/ap-42-compilation-air-emissions-factors) and for a natural gas boiler it is *84 lb/10^6 SCF*[<sup id="fnref-1">1</sup>](#fn-1) with a reference higher heating value of *1020 MMBTU/10^6 SCF*.
 
-{$ capture footnote-1 %}
+{% capture footnote-1 %}
 <a name="fn-1"><strong>1</strong></a>: EPA ([1995a](#epa-1995a)), Table 1.4-1. The emission factor is relative to the volume of natural gas consumed not the volume of stack gas emitted[↩](#fnref-1)
 {% endcapture %}
 
