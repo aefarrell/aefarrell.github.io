@@ -1,7 +1,8 @@
 ---
 title: "Impossible bowling"
+last_modified_at: 2023-12-26
 toc: true
-toc_label: "contents"
+toc_label: "Contents"
 toc_sticky: true
 comments: true
 categories:
