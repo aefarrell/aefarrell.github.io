@@ -1,7 +1,8 @@
 ---
 title: "More on Turbulent Jets"
+last_modified_at: 2023-12-26
 toc: true
-toc_label: "contents"
+toc_label: "Contents"
 toc_sticky: true
 comments: true
 categories:
@@ -24,22 +25,26 @@ header:
 
 For hazard identification, among other purposes, what one often wants is not the velocity distribution of the jet, but the concentration profile. For example, suppose a vessel develops a small hole and a jet of process fluid is exiting out into the air, to determine how bad that is and what sort of hazard is presented (explosive, toxic, etc.) we first need to determine the concentration profile.
 
-Suppose the concentration of a species *A* is *c<sub>A</sub>*, for the sake of simplicity let this be a time-averaged concentration done in a way that is consistent with Reynold's averaging.
+Suppose the concentration of a species *A* is *c<sub>A</sub>*, for the sake of simplicity let this be a time-averaged concentration done in a way that is consistent with Reynold's averaging[<sup id="fnref-1">1</sup>](#fn-1).
+
+{% capture footnote-1 %}
+<a name="fn-1"><strong>1</strong></a>: Note the concentration is given in units of $[[ quantity ]] \times [[length]]^{-3}$, e.g. kmol/m³ [↩](#fnref-1)
+{% endcapture %}
 
 
-**Note:** the concentration is given in units of $[[ quantity ]] \times [[length]]^{-3}$, e.g. kmol/m³
-{: .notice}
+The continuity equation for species A is given by[<sup id="fnref-2">2</sup>](#fn-2)
 
-
-The continuity equation for species A is given by[^bird]
+{% capture footnote-2 %}
+<a name="fn-2"><strong>2</strong></a>: Bird, Stewart, and Lightfoot. *[Transport Phenomena](#bird-2007)*, 850. [↩](#fnref-2)
+{% endcapture %}
 
 $$ {\mathrm{D} \over \mathrm{D}t} c_A = - \nabla \cdot \mathbf{J}_A + r_A $$
 
-where **J** is the molar flux and *r* is the rate of reaction.
+where **J** is the molar flux and *r* is the rate of reaction[<sup id="fnref-3">3</sup>](#fn-3).
 
-
-**Note:** the molar flux  **J** is the *time averaged* molar flux and is the sum of both viscous and turbulent terms. $\mathbf{J}_A = \mathbf{J}_A^{(v)} + \mathbf{J}_A^{(t)}$
-{: .notice}
+{% capture footnote-3 %}
+<a name="fn-3"><strong>3</strong></a>: The molar flux  **J** is the *time averaged* molar flux and is the sum of both viscous and turbulent terms. $\mathbf{J}_A = \mathbf{J}_A^{(v)} + \mathbf{J}_A^{(t)}$ [↩](#fnref-3)
+{% endcapture %}
 
 
 In cylindrical coordinates this is:
@@ -50,7 +55,7 @@ $$ {\partial c_A \over \partial t}  + \bar{v}_r {\partial c_A \over \partial r} 
 Making the following assumptions:
 1. Steady state ( ${\partial \over \partial t} \left( \dots \right) = 0$ )
 1. Axisymmetric ( ${\partial \over \partial \theta} \left( \dots \right) = 0$ )
-1. [Boundary layer approximation](https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#fn:boundarylayer) ( $\vert {\partial c_A \over \partial z} \vert \ll \vert {\partial c_A \over \partial r} \vert $ )
+1. [Boundary layer approximation](https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#fn-2) ( $\vert {\partial c_A \over \partial z} \vert \ll \vert {\partial c_A \over \partial r} \vert $ )
 1. Non-reacting ( $r_A = 0$ )
 
 This simplifies down to
@@ -74,12 +79,21 @@ $${ k k_c \over z^2 } {d \over d\xi} \left(F g\right) = -{ \partial \over \parti
 
 Which gives us our path forward: find a model for $J_{A,r}$ and substitute into the right-hand side of the equation, integrate both sides and solve for *g* in terms of *F* and &xi;.
 
+<div class="notice">
+  {{ footnote-1 | markdownify }}
 
-[^bird]: B. R. Bird, W. E. Stewart, E. N. Lightfoot, *Transport Phenomena, 2nd Ed.*, John Wiley & Sons, New York (2007)
+  {{ footnote-2 | markdownify }}
+
+  {{ footnote-3 | markdownify }}
+</div>
 
 ### Prandtl mixing length models
 
-We are going to assume that the overall molar flux is proportional to the concentration gradient and some mixing length[^bird] *l*, that is
+We are going to assume that the overall molar flux is proportional to the concentration gradient and some mixing length[<sup id="fnref-4">4</sup>](#fn-4) *l*, that is
+
+{% capture footnote-4 %}
+<a name="fn-4"><strong>4</strong></a>: Bird, Stewart, and Lightfoot. *[Transport Phenomena](#bird-2007)*, 659. [↩](#fnref-4)
+{% endcapture %}
 
 $$ J_{A,r} = -l_c^2 \left\vert \partial \bar{v}_z \over \partial r \right\vert \left(\partial c_A \over \partial r \right)$$
 
@@ -197,13 +211,14 @@ and finally
 
 $$ { c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{\left(a \over a_c\right)^{3} }$$
 
-Where, rather pleasingly, the constant ${\left(a \over a_c\right)^{3} }$ works out to be the ratio of the mixing lengths, all squared
+Where, rather pleasingly, the constant ${\left(a \over a_c\right)^{3} }$ works out to be the ratio of the mixing lengths, all squared[<sup id="fnref-5">5</sup>](#fn-5)
 
 $$ {\left(a \over a_c\right)^{3} } = \left( l \over l_c \right)^2 $$
 
 
-**Note:** suppose an "equivalent" eddy viscosity for the Prandtl mixing length model of $$\varepsilon = -l^2 \left\vert \partial \bar{v}_z \over \partial r \right\vert$$ and eddy diffusivity of $$\mathscr{D}_{AB} = -l_c^2 \left\vert \partial \bar{v}_z \over \partial r \right\vert$$ the turbulent [Schmidt number](https://en.wikipedia.org/wiki/Schmidt_number) is then $$\mathrm{Sc} = {\varepsilon \over \mathscr{D}_{AB} } = \left( l \over l_c \right)^2$$ making the final result $${c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Sc}$$
-{: .notice}
+{% capture footnote-5 %}
+<a name="fn-5"><strong>5</strong></a>: Suppose an "equivalent" eddy viscosity for the Prandtl mixing length model of $$\varepsilon = -l^2 \left\vert \partial \bar{v}_z \over \partial r \right\vert$$ and eddy diffusivity of $$\mathscr{D}_{AB} = -l_c^2 \left\vert \partial \bar{v}_z \over \partial r \right\vert$$ the turbulent [Schmidt number](https://en.wikipedia.org/wiki/Schmidt_number) is then $$\mathrm{Sc} = {\varepsilon \over \mathscr{D}_{AB} } = \left( l \over l_c \right)^2$$ making the final result $${c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Sc}$$ [↩](#fnref-5)
+{% endcapture %}
 
 
 We can now plot the concentration profile along with the velocity profile and see that the two profiles have a similar shape, with the concentration profile stretched to be wider. Concentration spreads out more than velocity.
@@ -211,7 +226,11 @@ We can now plot the concentration profile along with the velocity profile and se
     
 ![svg](/images/turbulent_jet_notes_part_2_files/output_11_0.svg)
     
+<div class="notice">
+  {{ footnote-4 | markdownify }}
 
+  {{ footnote-5 | markdownify }}
+</div>
 
 
 ### Eddy diffusivity models
@@ -254,13 +273,14 @@ recalling that the constant *k* is related to the eddy diffusivity &varepsilon; 
 
 $$ {c_A \over c_{A,max} } = \left( g\left(\xi\right) \over g\left(0\right) \right) = \left(1 + \frac{1}{4} \left( C_2 \xi \right)^2 \right)^{-2{\varepsilon \over \mathscr{D}_{AB} } } $$
 
-and, looking back on the definition of *f(&xi;)* from the eddy viscosity model, we get
+and, looking back on the definition of *f(&xi;)* from the eddy viscosity model, we get[<sup id="fnref-6">6</sup>](#fn-6)
 
 $$ {c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{\varepsilon \over \mathscr{D}_{AB} } $$
 
 
-**Note:** the turbulent [Schmidt number](https://en.wikipedia.org/wiki/Schmidt_number) is defined as the ratio of the eddy viscosity to the eddy diffusivity $$\mathrm{Sc} = {\varepsilon \over \mathscr{D}_{AB} }$$ making the final result $${c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Sc}$$
-{: .notice}
+{% capture footnote-6 %}
+<a name="fn-6"><strong>6</strong></a>: The turbulent [Schmidt number](https://en.wikipedia.org/wiki/Schmidt_number) is defined as the ratio of the eddy viscosity to the eddy diffusivity $$\mathrm{Sc} = {\varepsilon \over \mathscr{D}_{AB} }$$ making the final result $${c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Sc}$$ [↩](#fnref-6)
+{% endcapture %}
 
 
 We can plot the concentration and velocity profiles for the eddy diffusivity model as well, and it is a similar story. The shapes of the profiles are the same but the concentration profile is stretched, such that concentration "spreads out" more than velocity does.
@@ -270,7 +290,9 @@ We can plot the concentration and velocity profiles for the eddy diffusivity mod
 ![svg](/images/turbulent_jet_notes_part_2_files/output_14_0.svg)
     
 
-
+<div class="notice">
+  {{ footnote-6 | markdownify }}
+</div>
 
 ### Gaussian models
 
@@ -296,19 +318,22 @@ where *&beta;<sub>c</sub>* is the spreading constant for the concentration profi
 
 $$ g\left(\xi\right) = \exp \left( -\log 2 \left(\xi \over \beta\right)^2 \left(\beta \over \beta_c\right)^2 \right) = f\left(\xi\right)^{\left(\beta \over \beta_c\right)^2} $$
 
-or
+or[<sup id="fnref-7">7</sup>](#fn-7)
 
 $$ {c_A \over c_{A,max} } = \left({\bar{v}_z \over \bar{v}_{z,max} }\right)^{\left(\beta \over \beta_c\right)^2} $$
 
 
-**Note:** we can argue, in a manner analogous to the Prandtl mixing length theory, that the eddy viscosity is proportional to the characteristic length squared, and similarly for the eddy diffusivity and thus the turbulent [Schmidt number](https://en.wikipedia.org/wiki/Schmidt_number) is then $$\mathrm{Sc} = {\varepsilon \over \mathscr{D}_{AB} } = \left( b_{1/2} \over b_{1/2,c} \right)^2 = \left( \beta \over \beta_c \right)^2$$ thus making the final result $${c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Sc}$$
-{: .notice}
+{% capture footnote-7 %}
+<a name="fn-7"><strong>7</strong></a>: We can argue, in a manner analogous to the Prandtl mixing length theory, that the eddy viscosity is proportional to the characteristic length squared, and similarly for the eddy diffusivity and thus the turbulent [Schmidt number](https://en.wikipedia.org/wiki/Schmidt_number) is then $$\mathrm{Sc} = {\varepsilon \over \mathscr{D}_{AB} } = \left( b_{1/2} \over b_{1/2,c} \right)^2 = \left( \beta \over \beta_c \right)^2$$ thus making the final result $${c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Sc}$$ [↩](#fnref-7)
+{% endcapture %}
 
 
     
 ![svg](/images/turbulent_jet_notes_part_2_files/output_16_0.svg)
     
-
+<div class="notice">
+  {{ footnote-7 | markdownify }}
+</div>
 
 
 ### Schmidt number
@@ -320,14 +345,19 @@ $${c_A \over c_{A,max} } = \left( \bar{v} \over \bar{v}_{z,max} \right)^{Sc} $$
 where I declared the constant *Sc* to be the turbulent Schmidt number. There are, of course, several ways of arriving at this value but literature generally gives $Sc \approx 0.7$. This also tends to be the same value given for the turbulent Prandtl number, which is convenient.
 
 
-| Sc    | Reference         |
-|:-----:|:------------------|
-| 0.7   | Bird, 2007[^bird] |
-| 0.73  | Kutz, 2018[^kutz] |
+| Sc    | Reference                                                   |
+|:-----:|:------------------------------------------------------------|
+| 0.7   | Bird ([2007](#bird-2007))                                   |
+| 0.73  | Kaye ([2018](#kaye-2018))[<sup id="fnref-8">8</sup>](#fn-8) |
 
 
+{% capture footnote-8 %}
+<a name="fn-8"><strong>8</strong></a>: Kaye gives the ratio $${b_c \over b} = 1.17$$ and taking $$Sc=\left(b \over b_c\right)^2 = 1.17^{-2} = 0.73$$ [↩](#fnref-8)
+{% endcapture %}
 
-[^kutz]: Kutz, M., *Handbook of Environmental Engineering*, John Wiley & Sons, New York (2018), gives the ratio $${b_c \over b} = 1.17$$ and taking $$Sc=\left(b \over b_c\right)^2 = 1.17^{-2} = 0.73$$
+<div class="notice">
+  {{ footnote-8 | markdownify }}
+</div>
 
 ### Mass balance
 
@@ -363,12 +393,11 @@ or
 
 $$ {c_A \over c_0} = \sqrt{I \over 8 I_c^2} {d_0 \over z} \left(\bar{v}_z \over \bar{v}_{z,max} \right)^{Sc} $$
 
-These integrals can get difficult to solve analytically -- except for the Gaussian case which is fairly simple -- but are very easy to estimate numerically.
+These integrals can get difficult to solve analytically -- except for the Gaussian case which is fairly simple -- but are very easy to estimate numerically[<sup id="fnref-9">9</sup>](#fn-9).
 
-
-**Note:** it is worth keeping in mind when using the empirical constants provided in the literature that they are often fitted parameters and as such mass and momentum conservation is not necessarily guaranteed.
-{: .notice}
-
+{% capture footnote-9 %}
+<a name="fn-9"><strong>9</strong></a>: It is worth keeping in mind, when using the empirical constants provided in the literature, that they are often fitted parameters and as such mass and momentum conservation is not necessarily guaranteed. [↩](#fnref-9)
+{% endcapture %}
 
 As an example, suppose we wish to calculate the constant for the Prandtl mixing length model, we have already imported the solution to the ode for the velocity profile and it is a simple matter to numerically integrate (using the trapezoidal rule) the two integrals in question.
 
@@ -465,11 +494,17 @@ We can combine the velocity and concentration profiles and get a sense of how th
 ![svg](/images/turbulent_jet_notes_part_2_files/output_26_0.svg)
     
 
-
+<div class="notice">
+  {{ footnote-9 | markdownify }}
+</div>
 
 ### Practical considerations
 
-In most practical cases I've encountered, by far the easiest approach is to use a standard Gaussian model with parameters from literature. That said, there is a lot of variability of recommended parameters and some thought needs to go into what the model is being used for. Consider the following table giving model parameters for various gaseous jets entering into air[^long]
+In most practical cases I've encountered, by far the easiest approach is to use a standard Gaussian model with parameters from literature. That said, there is a lot of variability of recommended parameters and some thought needs to go into what the model is being used for. Consider the following table giving model parameters for various gaseous jets entering into air[<sup id="fnref-10">10</sup>](#fn-10)
+
+{% capture footnote-10 %}
+<a name="fn-10"><strong>10</strong></a>: Long, "[Estimation of the Extent of Hazard Areas Around a Vent](#long-1963)," 7. [↩](#fnref-10)
+{% endcapture %}
 
 $$ {c_A \over c_0} = k_2 {d_0 \over z} \sqrt{ \rho_a \over \rho_j} \exp \left( - \left(k_2 {r \over z} \right)^2 \right) $$
 
@@ -489,12 +524,11 @@ $$ {c_A \over c_0} = k_2 {d_0 \over z} \sqrt{ \rho_a \over \rho_j} \exp \left( -
 | hot air            | ---       | 5.9   | 7.7   |
 
 
-Below is a plot showing the range of values this generates for the Gaussian jet model, along with the *recommended* parameters for use when estimating the extent of a hazardous area around a vent[^recommended]. The range of values is quite wide.
+Below is a plot showing the range of values this generates for the Gaussian jet model, along with the *recommended* parameters for use when estimating the extent of a hazardous area around a vent[<sup id="fnref-11">11</sup>](#fn-11). The range of values is quite wide.
 
-
-[^long]: Long, V.D., *Estimation of the Extent of Hazard Areas Around a Vent*, Chem. Process Hazard, II, 6, 1963 
-
-[^recommended]: Clearly the recommendation is a conservative approach, which is what you would want for a hazard analysis.
+{% capture footnote-11 %}
+<a name="fn-11"><strong>11</strong></a>: Clearly the recommendation is a conservative approach, which is what you would want for a hazard analysis. [↩](#fnref-11)
+{% endcapture %}
 
 
     
@@ -504,6 +538,11 @@ Below is a plot showing the range of values this generates for the Gaussian jet 
 
 
 It is also worth noting that the concentration model breaks down when *z&lt;k<sub>2</sub>*, it will register concentrations greater than is possible. The normal way of dealing with this is a so-called top-hat model: chop off any concentrations *c<sub>A</sub> &gt; c<sub>0</sub>*, though if the region of interest is primarily very close to the hole a different model should be used.
+
+<div class="notice">
+  {{ footnote-10 | markdownify }}
+  {{ footnote-11 | markdownify }}
+</div>
 
 ## Temperature
 
@@ -614,10 +653,11 @@ k_Q = 4/√(2*c)
 
 
 
-The literature[^rajaratnam] gives $k_Q = 0.32$ which compares well with the calculations above. Though it's worth noting that the eddy viscosity model over-predicts the volumetric flow rate quite noticeably, this is not surprising considering that it has fatter tails than either the Prandtl mixing length model or the Gaussian model. In the tails is where the eddy viscosity model no longer matches well with the observed data, so this is just a weakness of the model itself.
+The literature[<sup id="fnref-12">12</sup>](#fn-12) gives $k_Q = 0.32$ which compares well with the calculations above. Though it's worth noting that the eddy viscosity model over-predicts the volumetric flow rate quite noticeably, this is not surprising considering that it has fatter tails than either the Prandtl mixing length model or the Gaussian model. In the tails is where the eddy viscosity model no longer matches well with the observed data, so this is just a weakness of the model itself.
 
-
-[^rajaratnam]: N. Rajaratnam, *Turbulent Jets*, Elsevier, Amsterdam (1974)
+{% capture footnote-12 %}
+<a name="fn-12"><strong>12</strong></a>: Rajaratnam, *[Turbulent Jets](#rajaratnam-1974)* [↩](#fnref-12)
+{% endcapture %}
 
 ## Conclusions
 
@@ -626,8 +666,15 @@ This was just a brief tour of the different parameters that can be calculated fr
 If you are not fitting data, there is a wide range of parameters given in the literature and I think it is more important to find a set of parameters that work for the situation of interest -- for whichever model they were fit, but generally it is Gaussian -- than it is to fiddle around in the margins of whether or not one should use a Prandtl mixing length model versus an eddy viscosity model. Very often the answer is going to be Gaussian because that's what the best model in the literature was fit to.
 
 
-For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-05-08-turbulent_jet_notes_part_2.ipynb)
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-05-08-turbulent_jet_notes_part_2.ipynb)
 {: .notice--info}
 
+## References
 
----
++ <a name="bird-2007">Bird</a>, R. Byron, Warren E. Stewart, and Edwin N. Lightfoot. 2007. *Transport Phenomena, Revised 2nd ed.* Hoboken: John Wiley & Sons. [archive](https://archive.org/details/transportphenome0000bird_n8h5)
++ <a name="garde-2010">Garde</a>, R. J. 2010. *Turbulent Flows, 3rd Ed.* London: New Academic Science
++ <a name="kaye-2018">Kaye</a>, Nigel B., Abdul A. Khan, and Firat Y. Testik. 2018. "Environmental Fluid Mechanics" in *Handbook of Environmental Engineering*. Edited by Myer Kutz. New York: John Wiley & Sons
++ <a name="long-1963">Long</a>, V.D. "Estimation of the Extent of Hazard Areas Around a Vent," *Second Symposium On Chemical Process Hazards* (1963): 6-14
++ <a name="pope-2000">Pope</a>, Stephen B. 2000 *Turbulent Flows*. Cambridge: Cambridge University Press
++ <a name="rajaratnam-1974">Rajaratnam</a> N. 1974. *Turbulent Jets*. Amsterdam: Elsevier
++ <a name="tollmien-1926">Tollmien</a>, Walter.  "Berechnung turbulenter Ausbreitungsvorg&auml;nge," *Zeitschrift f&uuml;r angewandte Mathematik und Mechanik* *6*, (1926): 468-478. [doi:10.1002/zamm.19260060604](https://doi.org/10.1002/zamm.19260060604), reprinted and translated in [NACA-TM-1085](https://ntrs.nasa.gov/search?reportNumber=NACA-TM-1085)

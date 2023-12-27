@@ -1,7 +1,8 @@
 ---
 title: "Dynamic Mode Decomposition"
+last_modified_at: 2023-12-26
 toc: true
-toc_label: "contents"
+toc_label: "Contents"
 toc_sticky: true
 comments: true
 categories:
@@ -82,10 +83,16 @@ The solution to which is
 
 $$ \mathbf{A} = \mathbf{YX}^{\dagger} $$
 
-where **X<sup>&dagger;</sup>** is the [Moore-Penrose pseudoinverse](https://mathworld.wolfram.com/Moore-PenroseMatrixInverse.html) of **X**.
+where **X<sup>&dagger;</sup>** is the [Moore-Penrose pseudoinverse](https://mathworld.wolfram.com/Moore-PenroseMatrixInverse.html) of **X**.[<sup id="fnref-1">1</sup>](#fn-1)
 
-**Note:** I think this can be shown fairly easily by starting with the definition of the Frobenius norm $ \| \mathbf{ A X } - \mathbf{Y} \|_{F}^{2} = \mathrm{Tr}\left( \left(\mathbf{ A X } - \mathbf{Y}\right)\left(\mathbf{ A X } - \mathbf{Y} \right)^{T} \right) $ and finding the matrix **A** that minimizes that using standard [matrix calculus](https://en.wikipedia.org/wiki/Matrix_calculus), and some properties of the pseudoinverse.
-{: .notice}
+{% capture footnote-1 %}
+<a name="fn-9"><strong>9</strong></a>: I think this can be shown fairly easily by starting with the definition of the Frobenius norm $ \| \mathbf{ A X } - \mathbf{Y} \|_{F}^{2} = \mathrm{Tr}\left( \left(\mathbf{ A X } - \mathbf{Y}\right)\left(\mathbf{ A X } - \mathbf{Y} \right)^{T} \right) $ and finding the matrix **A** that minimizes that using standard [matrix calculus](https://en.wikipedia.org/wiki/Matrix_calculus), and some properties of the pseudoinverse. [↩](#fnref-1)
+{% endcapture %}
+
+<div class="notice">
+  {{ footnote-1 | markdownify }}
+</div>
+
 
 ### Singular Value Decomposition
 
@@ -145,10 +152,11 @@ X₁ = data[:, 1:end-1];
 X₂ = data[:, 2:end];
 ```
 
-Then compute the SVD of **X**<sub>1</sub>.
+Then compute the SVD of **X**<sub>1</sub>.[<sup id="fnref-2">2</sup>](#fn-2)
 
-**Note:** the `svd` function in julia returns the singular values in a `Vector`, but for later on it will be more convenient have this as a `Diagonal` matrix.
-{: .notice}
+{% capture footnote-2 %}
+<a name="fn-2"><strong>2</strong></a>: The `svd` function in julia returns the singular values in a `Vector`, but for later on it will be more convenient have this as a `Diagonal` matrix. [↩](#fnref-2)
+{% endcapture %}
 
 
 ```julia
@@ -182,7 +190,9 @@ As before, we can step through the matrix, extract each frame of the 2D flow fie
 
 ![gif](/images/dynamic_mode_decomposition_files/output_11_0.gif)
 
-
+<div class="notice">
+  {{ footnote-2 | markdownify }}
+</div>
 
 ### Dynamic Modes
 
@@ -661,19 +671,24 @@ We can generate a few different compressed DMDs to get a sense of how this impac
 
 ![svg](/images/dynamic_mode_decomposition_files/output_73_0.svg)
 
-Using the compression matrix from above, we can generate a compressed DMD
+Using the compression matrix from above, we can generate a compressed DMD[<sup id="fnref-3">3</sup>](#fn-3)
 
 
 ![gif](/images/dynamic_mode_decomposition_files/output_38_0.gif)
 
 
 
-**Note:** While we can reconstruct the eigenvalues and eigenvectors quite successfully, I don't believe we adequately reconstruct **U**, and so this really only works for the *continuous* system. The reconstruction of **U** strongly depends on **C** being unitary and I don't think that condition can be relaxed
-{: .notice}
+{% capture footnote-3 %}
+<a name="fn-3"><strong>3</strong></a>: While we can reconstruct the eigenvalues and eigenvectors quite successfully, I don't believe we adequately reconstruct **U**, and so this really only works for the *continuous* system. The reconstruction of **U** strongly depends on **C** being unitary and I don't think that condition can be relaxed. [↩](#fnref-3)
+{% endcapture %}
 
 The compressed DMD does not actually reduce the storage size of any of the matrices, it is more a technique to speed up the calculation of the SVD. Compressed DMD and reduced DMD can be combined: first by compressing the *n*&times;*m* matrix **X** to a *k*&times;*m* matrix **X**<sub>c</sub> and then finding the best rank *r* approximation to the compressed matrix by truncating the SVD to the *r* largest singular values. The reduction step reduces the memory requirements and, if truncated SVD is used as well, this could significantly improve performance for enormous systems.
 
 There is a related approach called *compressed sensing* DMD, in which the full state vector is not available in the first place. A much smaller dimension set of measurements is sampled and the full state DMD generated using the same general idea as compressed DMD. It isn't that much of a leap from what is above, just with a convex optimization step added to reconstruct the actual state matrix for a given set of measurements.
+
+<div class="notice">
+  {{ footnote-3 | markdownify }}
+</div>
 
 ## Physics Informed DMD
 
@@ -786,27 +801,19 @@ The main reason why you would pursue physics informed DMD, though, is not necess
 
 Similarly to compressed DMD, physics informed DMD can also be combined with reduced DMD. In this case there are two SVD steps but only the upper singular values of **X**, the **U** matrix, needs to be truncated. The second SVD proceeds without truncation.
 
-## References
-
-Below are several good references giving more details into the derivations, applications, and more:
-
-+ *[Data Driven Science and Engineering](http://databookuw.com)* by Steven L. Brunton and J. Nathan Kutz
->this an excellent resource for more than just the details of DMD (chapter 7). It is more than just a book as well: there are several videos of lectures going through all of the details.
-
-+ Schmid, Peter J. "Dynamic mode decomposition of numerical and experimental data." *Journal of Fluid Mechanics*, 656 (2010):5-28 doi:[10.1017/S0022112010001217](https://doi.org/10.1017/S0022112010001217)
-
-+ Tu, Jonathan H., Clarence W. Rowley, Dirk Martin Luchtenburg, Steven L. Brunton, J. Nathan Kutz. "On dynamic mode decomposition: Theory and applications." *Journal of Computational Dynamics*, 1 (2014): 391-421. doi:[10.3934/jcd.2014.1.391](https://doi.org/10.3934/jcd.2014.1.391)
-
-+ Brunton, Steven L., Joshua L. Proctor and J. Nathan Kutz. "Compressive sampling and dynamic mode decomposition." (2013) [arXiv:1312.5186](https://arxiv.org/abs/1312.5186)
-
-+ Brunton, Steven L., Joshua L. Proctor, Jonathan H. Tu, J. Nathan Kutz. "Compressed sensing and dynamic mode decomposition." *Journal of Computational Dynamics*, 2 (2015): 165-191. doi: [10.3934/jcd.2015002](https://www.aimsciences.org/article/doi/10.3934/jcd.2015002)
-
-+ Bai, Zhe, Eurika Kaiser, Joshua L. Proctor, J. Nathan Kutz, Steven L. Brunton. "Dynamic Mode Decomposition for Compressive System Identification." *AIAA Journal*, 58 (2020):561-574 doi:[10.2514/1.J057870](https://doi.org/10.2514/1.J057870)
-
-+ Baddoo, Peter J., Benjamin Herrmann, Beverley J. McKeon, J. Nathan Kutz, Steven L. Brunton. "Physics-informed dynamic mode decomposition (piDMD)." (2021) [arXiv:2112.04307](https://arxiv.org/abs/2112.04307) with code available on [github](https://github.com/baddoo/piDMD)
-
-
-For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-12-18-dynamic_mode_decomposition.ipynb)
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-12-18-dynamic_mode_decomposition.ipynb)
 {: .notice--info}
 
----
+## References
+
++ Baddoo, Peter J., Benjamin Herrmann, Beverley J. McKeon, J. Nathan Kutz, and Steven L. Brunton. "Physics-informed dynamic mode decomposition (piDMD)." (2021) [arXiv:2112.04307](https://arxiv.org/abs/2112.04307) with code available on [github](https://github.com/baddoo/piDMD)
++ Bai, Zhe, Eurika Kaiser, Joshua L. Proctor, J. Nathan Kutz, and Steven L. Brunton. "Dynamic Mode Decomposition for Compressive System Identification." *AIAA Journal*, 58 (2020):561-574 doi:[10.2514/1.J057870](https://doi.org/10.2514/1.J057870)
+
++ Brunton, Steven L. and J. Nathan Kutz. 2019. *[Data Driven Science and Engineering](http://databookuw.com)*. Cambridge: Cambridge University Press
+>this an excellent resource for more than just the details of DMD (chapter 7). It is more than just a book as well: there are several videos of lectures going through all of the details.
+
++ Brunton, Steven L., Joshua L. Proctor, and J. Nathan Kutz. "Compressive sampling and dynamic mode decomposition." (2013) [arXiv:1312.5186](https://arxiv.org/abs/1312.5186)
++ Brunton, Steven L., Joshua L. Proctor, Jonathan H. Tu, and J. Nathan Kutz. "Compressed sensing and dynamic mode decomposition." *Journal of Computational Dynamics*, 2 (2015): 165-191. doi: [10.3934/jcd.2015002](https://www.aimsciences.org/article/doi/10.3934/jcd.2015002)
++ Schmid, Peter J. "Dynamic mode decomposition of numerical and experimental data." *Journal of Fluid Mechanics*, 656 (2010):5-28 doi:[10.1017/S0022112010001217](https://doi.org/10.1017/S0022112010001217)
++ Tu, Jonathan H., Clarence W. Rowley, Dirk Martin Luchtenburg, Steven L. Brunton, and J. Nathan Kutz. "On dynamic mode decomposition: Theory and applications." *Journal of Computational Dynamics*, 1 (2014): 391-421. doi:[10.3934/jcd.2014.1.391](https://doi.org/10.3934/jcd.2014.1.391)
+

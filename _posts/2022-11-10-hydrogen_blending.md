@@ -1,7 +1,8 @@
 ---
 title: "Hydrogen Blending"
+last_modified_at: 2023-12-26
 toc: true
-toc_label: "contents"
+toc_label: "Contents"
 toc_sticky: true
 comments: true
 categories:
@@ -404,16 +405,21 @@ end
 
 This uses julia's multiple dispatch to handle two cases: for large Reynold's numbers where *K* is a constant, and for cases where K is a function of the Reynold's number (and thus the volumetric flowrate).
 
-The volumetric flowrate at standard state is then the flowrate from above, corrected to the reference pressure and temperature
+The volumetric flowrate at standard state is then the flowrate from above, corrected to the reference pressure and temperature[<sup id="fnref-1">1</sup>](#fn-1)
 
 
 ```julia
 Qₛ(x, T₁, P₁, P₂) = upreferred((P₁/Pᵣ)*(Tᵣ/T₁)*Q₁(x, T₁, P₁, P₂, Kf))
 ```
 
+{% capture footnote-1 %}
+<a name="fn-1"><strong>1</strong></a>: I have been using `upreferred` to force Unitful to cancel out and simplify units. [↩](#fnref-1)
+{% endcapture %}
 
-**Note** I have been using `upreferred` to force Unitful to cancel out and simplify units.
-{: .notice}
+<div class="notice">
+  {{ footnote-1 | markdownify }}
+</div>
+
 
 ### Heat rate
 
@@ -443,8 +449,9 @@ Another way of looking at this is to pick a required heat rate and look at the p
 All of this has been done assuming the ideal gas case. The next logical step is to start incorporating non-ideal gas models, say a cubic equation of state, and so on.
 
 
-For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-11-10-hydrogen_blending.ipynb)
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-11-10-hydrogen_blending.ipynb)
 {: .notice--info}
 
+## References
 
----
++ <a name="poling-2007">Poling</a>, Bruce E., George H. Thomson, Daniel G. Friend, Richard L. Rowley, and W. Vincent Wilding. 2007. "Physical and Chemical Data" in *Perry's Chemical Engineers' Handbook, 8th ed.* Edited by Don W. Green. New York: McGraw Hill

@@ -1,8 +1,8 @@
 ---
 title: "Between a puff and a plume"
-last_modified_at: 2023-01-16
+last_modified_at: 2023-12-26
 toc: true
-toc_label: "contents"
+toc_label: "Contents"
 toc_sticky: true
 comments: true
 categories:
@@ -19,7 +19,7 @@ header:
 
 In [previous](https://aefarrell.github.io/2020/12/05/gaussian_dispersion_example/) [examples](https://aefarrell.github.io/2021/06/19/building_infiltration_eg2/) I used both Gaussian plume and puff models for continuous and instantaneous releases, respectively, but what about the in-between cases? It is more commonly the case for a leak from a process vessel to be a prolonged, but finitely long, release.
 
-The guidance is to typically pick one or the other, depending upon the length of the release, or use a more complex model, e.g. the guidance in *Lees* [^Lees] is
+The guidance is to typically pick one or the other, depending upon the length of the release, or use a more complex model, e.g. the guidance in *Lees* [<sup id="fnref-1">1</sup>](#fn-1) is
 
 |                                               |                                    |
 |:---------------------------------------------:|:-----------------------------------|
@@ -27,24 +27,34 @@ The guidance is to typically pick one or the other, depending upon the length of
 | $$ 2 \sigma_x \lt u \Delta t \lt 5 \sigma_x$$ | Neither model entirely appropriate |
 | $$ u \Delta t \gt 5 \sigma_x $$               | Use plume model                    |
 
-Where *u* is the wind speed, *&Delta;t* the duration of the release, and $\sigma_x$ is the downwind dispersion evaluated at $$x = \frac{u \Delta t}{2}$$ 
+{% capture footnote-1 %}
+<a name="fn-1"><strong>1</strong></a>: Lees, *[Loss Prevention](#lees-1996),* 15/199. [↩](#fnref-1)
+{% endcapture %}
 
-**Note** These criteria drive one to using a plume model in most cases that are not *"instantaneous"*. Suppose $\sigma_x = \alpha x^\beta$ then the criteria for a puff is $u \Delta t \lt 2 \alpha^{1 \over 1-\beta}$ which, for a class D release with windspeed of 2m/s works out to $\Delta t \lt 5 \times  10^{-16} \mathrm{s}$. The criteria for a plume is $u \Delta t \gt 2 \left( 2.5 \alpha \right)^{1 \over 1-\beta}$ which works out to $\Delta t \gt 5 \times  10^{-11} \mathrm{s}$ for the same situation. So for any release of appreciable duration it will be a plume.
-{: .notice}
+Where *u* is the wind speed, *&Delta;t* the duration of the release, and $\sigma_x$ is the downwind dispersion evaluated at $$x = \frac{u \Delta t}{2}$$ [<sup id="fnref-2">2</sup>](#fn-2)
+
+{% capture footnote-2 %}
+<a name="fn-2"><strong>2</strong></a>: These criteria drive one to using a plume model in most cases that are not *"instantaneous"*. Suppose $\sigma_x = \alpha x^\beta$ then the criteria for a puff is $u \Delta t \lt 2 \alpha^{1 \over 1-\beta}$ which, for a class D release with windspeed of 2m/s works out to $\Delta t \lt 5 \times  10^{-16} \mathrm{s}$. The criteria for a plume is $u \Delta t \gt 2 \left( 2.5 \alpha \right)^{1 \over 1-\beta}$ which works out to $\Delta t \gt 5 \times  10^{-11} \mathrm{s}$ for the same situation. So for any release of appreciable duration it will be a plume. [↩](#fnref-2)
+{% endcapture %}
 
 An alternative approach is to evaluate the downwind dispersion at a particular point of interest *x<sub>1</sub>* and use the same criteria. This is much less strict than what *Lees* gives and is what I will do, it motivates investigating anything other than pure plume models.
 
 One approach in this in-between zone is to try both and pick the most conservative. But that can lead to extremely conservative results. An alternative might be to take a page from more complex models, such as [INTPUFF](https://cfpub.epa.gov/si/si_public_record_Report.cfm?Lab=ORD&dirEntryId=47242) and [SCIPUFF](http://www.scipuff.org/about/), and treat an intermediate release as a series of smaller puff releases.
 
-[^Lees]: Frank P Lees, *Loss Prevention in the Process Industries, 2nd Ed.*, Butterworth-Heinemann, Oxford (1996)
+<div class="notice">
+  {{ footnote-1 | markdownify }}
 
+  {{ footnote-2 | markdownify }}
+</div>
 
 ## Motivating example
 
-Suppose a release from a process vessel, say a jet of gas issuing from a hole, we suppose the release is a constant rate of *1kg/s* for *5s* just for some nice round numbers. The release is at ground level and the ambient conditions are class D with a *2m/s* windspeed. We have a point of interest *100m* down-wind of the release, this could be an inhabited building or the fence-line.
+Suppose a release from a process vessel, say a jet of gas issuing from a hole, we suppose the release is a constant rate of *1kg/s* for *5s* just for some nice round numbers. The release is at ground level and the ambient conditions are class D with a *2m/s* windspeed. We have a point of interest *100m* down-wind of the release, this could be an inhabited building or the fence-line[<sup id="fnref-3">3</sup>](#fn-3).
 
-**Note** We are also implicitly assuming the release is neutrally buoyant, and so a Gaussian dispersion model would be appropriate.
-{: .notice}
+{% capture footnote-3 %}
+<a name="fn-3"><strong>3</strong></a>: We are also implicitly assuming the release is neutrally buoyant, and so a Gaussian dispersion model would be appropriate. [↩](#fnref-3)
+{% endcapture %}
+
 
 
 ```julia
@@ -60,9 +70,12 @@ t₁ = x₁/u #s
     50.0
 
 
-The class D dispersion parameters[^ccps] are:
+The class D dispersion parameters[<sup id="fnref-4">4</sup>](#fn-4) are:
 
-[^ccps]: *Guidelines for Consequence Analysis of Chemical Releases*, Center for Chemical Process Safety/AIChE, New York (1999)
+{% capture footnote-4 %}
+<a name="fn-4"><strong>4</strong></a>: AIChE/CCPS *[Guidelines for Consequence Analysis](#ccps-1999),* 90. [↩](#fnref-4)
+{% endcapture %}
+
 
 
 ```julia
@@ -100,6 +113,12 @@ u*Δt > 5*σx(x₁)
 
 
 So some other kind of model must be used.
+
+<div class="notice">
+  {{ footnote-3 | markdownify }}
+
+  {{ footnote-4 | markdownify }}
+</div>
 
 ## Single Gaussian puff
 
@@ -159,10 +178,11 @@ end
 ```
 
 
-We can plot this for *n=5* and we see that, while initially the individual puffs are distinct, they quickly merge into a larger more spread-out cloud.
+We can plot this for *n=5* and we see that, while initially the individual puffs are distinct, they quickly merge into a larger more spread-out cloud[<sup id="fnref-5">5</sup>](#fn-5).
 
-**Note** To an extent this is a function of using a class D atmosphere. For a much more stable atmosphere, e.g. class F, the puffs remain quite distinct until a size-able number of them have been released.
-{: .notice}
+{% capture footnote-5 %}
+<a name="fn-5"><strong>5</strong></a>: To an extent this is a function of using a class D atmosphere. For a much more stable atmosphere, e.g. class F, the puffs remain quite distinct until a size-able number of them have been released. [↩](#fnref-5)
+{% endcapture %}
 
 
 ![gif](/images/integrated_puff_files/output_9_0.gif)
@@ -176,6 +196,10 @@ If we plot the max-concentration experienced at our point of interest, *x=100m*,
 
 This suggests a next step, taking the limit as $n \to \infty$
 
+<div class="notice">
+  {{ footnote-5 | markdownify }}
+</div>
+
 ## Integrated puffs
 
 Returning to our model of multiple puffs
@@ -187,10 +211,12 @@ We can re-arrange this and take the limit as $n \to \infty$
 $$ c(x,y,z,t) = m\cdot g_y(y) \cdot g_z(z) \cdot \left( \lim_{n \to \infty} \sum_{i=0}^{n} g_x(x, t-\frac{i}{n}\Delta t) \frac{\Delta t}{n} \right) \\
 = m\cdot g_y(y) \cdot g_z(z) \cdot \int_{t-\Delta t}^{t} g_x(x, t^{\prime}) dt^{\prime}$$
 
-Where we have replaced the limit with the integral. 
+Where we have replaced the limit with the integral[<sup id="fnref-6">6</sup>](#fn-6).
 
-**Note:** I am assuming the dispersion parameters are constants, though they are not in practice as they are correlated to the downwind distance to the center of any given puff. I am assuming for a small enough release this is approximately constant at least.
-{: .notice}
+{% capture footnote-6 %}
+<a name="fn-6"><strong>6</strong></a>: I am assuming the dispersion parameters are constants, though they are not in practice as they are correlated to the downwind distance to the center of any given puff. I am assuming for a small enough release this is approximately constant at least. [↩](#fnref-6)
+{% endcapture %}
+
 
 
 This is an integral of a Gaussian, and so we expect the results to be in terms of the [error function](https://en.wikipedia.org/wiki/Error_function)
@@ -202,7 +228,7 @@ $$ \int_{t-\Delta t}^{t} g_x(x, t^{\prime}) dt^{\prime} = \int_{t-\Delta t}^{t} 
 
 making the substitution $$\xi = { {x - u t^{\prime} } \over \sqrt{2} \sigma_x} $$
 
-we get
+we get[<sup id="fnref-7">7</sup>](#fn-7)
 
 $$ \int_{t-\Delta t}^{t} g_x(x, t^{\prime}) dt^{\prime} = {-1 \over \sqrt{\pi} u} \int_{a}^{b} \exp \left( -\xi^2 \right) d\xi \\
 = {-1 \over \sqrt{\pi} u} \left[ \frac{\sqrt{\pi}}{2} \mathrm{erf}(b) - \frac{\sqrt{\pi}}{2} \mathrm{erf}(a) \right] \\
@@ -211,8 +237,9 @@ $$ \int_{t-\Delta t}^{t} g_x(x, t^{\prime}) dt^{\prime} = {-1 \over \sqrt{\pi} u
 where $$a = { {x - u (t-\Delta t)} \over \sqrt{2} \sigma_x }$$, $$b = { {x - u t} \over \sqrt{2} \sigma_x } $$
 
 
-**Note** This model and the sum of puffs model both naively include contributions from releases that haven't happened yet, e.g. at t=1 only the contribution of material released at times t&le;1 should be included, but without any correction the other parts of the release would be included causing slight errors in the vicinity of the release point at t&lt;&Delta;t. The solution is simply to take the duration of the release to be the minimum of either the elapsed time (i.e. when the release is still "happening") or the total release duration.
-{: .notice}
+{% capture footnote-7 %}
+<a name="fn-7"><strong>7</strong></a>: This model and the sum of puffs model both naively include contributions from releases that haven't happened yet, e.g. at t=1 only the contribution of material released at times t&le;1 should be included, but without any correction the other parts of the release would be included causing slight errors in the vicinity of the release point at t&lt;&Delta;t. The solution is simply to take the duration of the release to be the minimum of either the elapsed time (i.e. when the release is still "happening") or the total release duration. [↩](#fnref-7)
+{% endcapture %}
 
 
 ```julia
@@ -240,7 +267,11 @@ This release model has some convenient properties: clearly as $\Delta t \to 0$ i
 ![svg](/images/integrated_puff_files/output_25_0.svg)
     
 
+<div class="notice">
+  {{ footnote-6 | markdownify }}
 
+  {{ footnote-7 | markdownify }}
+</div>
 
 ## Complications
 
@@ -251,10 +282,14 @@ The dispersion parameters for a plume model are not the same as for a puff, and 
 That said, multiple puff models use the dispersion parameters for puffs and so using the puff parameters in the integrated puff model at least puts one in good company.
 
 **Update:** There is [a follow-up post](https://aefarrell.github.io/2023/01/15/intpuff2_successive_approximations/) that discusses the quality of these approximations in more detail.
+{: .notice--warning}
 
 
-For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-06-10-integrated_puff.ipynb)
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-06-10-integrated_puff.ipynb)
 {: .notice--info}
 
 
----
+## References
+
++ <a name="ccps-1999">AIChE/CCPS</a>. 1999. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers
++ <a name="lees-1996">Lees</a>, Frank P. 1996. *Loss Prevention in the Process Industries, 2nd ed.* Oxford: Butterworth-Heinemann

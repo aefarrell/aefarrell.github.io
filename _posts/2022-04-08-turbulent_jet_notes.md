@@ -1,7 +1,8 @@
 ---
 title: "Turbulent Jets"
+last_modified_at: 2023-12-26
 toc: true
-toc_label: "contents"
+toc_label: "Contents"
 toc_sticky: true
 comments: true
 categories:
@@ -38,18 +39,12 @@ Empirical approximations of the velocity profile are often given with respect to
 
 Where the value of *c* is can be found in the literature
 
-|   c           | Reference                     |
-|:-------------:|:------------------------------|
-| 0.082 - 0.097 | Garde, 2010[^garde]           |
-| 0.0848        | Bird, 2007[^bird]             |
-| 0.10          | Rajaratnam, 1974[^rajaratnam] |
+|   c           | Reference                                          |
+|:-------------:|:---------------------------------------------------|
+| 0.082 - 0.097 | Garde ([2010](#garde-2010))                        |
+| 0.0848        | Bird, Stewart, and Lightfoot ([2007](#bird-2007))  |
+| 0.10          | Rajaratnam ([1974](#rajaratnam-1974))              |
 
-
-[^garde]: R. J. Garde, *Turbulent Flows, 3rd Ed.*, New Academic Science, London (2010)
-
-[^bird]: B. R. Bird, W. E. Stewart, E. N. Lightfoot, *Transport Phenomena, 2nd Ed.*, John Wiley & Sons, New York (2007)
-
-[^rajaratnam]: N. Rajaratnam, *Turbulent Jets*, Elsevier, Amsterdam (1974)
 
 At this point it is common to introduce a variable $\xi = {r \over b_{1/2} }$ or $\xi = {r \over z }$ where we are taking advantage of the fact that $ b_{1/2} \propto z $. This is a *scaled* radial distance, using the width at half-height as a characteristic length. It is important to keep track of which definition of &xi; is being used as they differ by a scaling factor. The reason for this change of variables is the observation that the *shape* of the velocity profile is the same at any downstream point, it is merely scaled down in height and wider as one travels downstream. That is $${ \bar{v}_z \over \bar{v}_{max} } = f \left( \xi \right)$$ is the same for all downstream distances (in the region where the jet is fully developed).
 
@@ -89,7 +84,11 @@ $$ \rho {D \mathbf{\bar{v} } \over D t } = - \nabla \bar{p} - \nabla \cdot \math
 
 Where $\mathbf{ \bar{\tau} }$ is the turbulent stress and includes the [Reynolds stresses](https://en.wikipedia.org/wiki/Reynolds_stress).
 
-With the z component, in cylindrical coordinates[^bird]
+With the z component, in cylindrical coordinates[<sup id="fnref-1">1</sup>](#fn-1)
+
+{% capture footnote-1 %}
+<a name="fn-1"><strong>1</strong></a>: Bird, Stewart, and Lightfoot. *[Transport Phenomena](#bird-2007)*, 847. [↩](#fnref-1)
+{% endcapture %}
 
 $$ \rho \left( {\partial \over \partial t} \bar{v}_z + \bar{v}_r {\partial \bar{v}_z \over \partial r} + {\bar{v}_\theta \over r} {\partial \bar{v}_z \over \partial \theta} + \bar{v}_z {\partial \bar{v}_z \over \partial z} \right) 
 \\ = - {\partial \bar{p} \over \partial z} - {1 \over r} {\partial \left( r \bar{\tau}_{rz} \right) \over \partial r } - {1 \over r} {\partial \bar{\tau}_{\theta z} \over \partial \theta } - {\partial \bar{\tau}_{z z} \over \partial z } + \rho g_z$$
@@ -99,25 +98,34 @@ Making the assumptions:
 1. Steady state ( ${\partial \over \partial t} \left( \cdots \right) = 0$ )
 1. Axisymmetric ( ${\partial \over \partial \theta} \left( \cdots \right) = 0$ )
 1. Effect of gravity can be neglected ( $ \rho g_z \approx 0$ )
-1. Within the jet $ \mid v_z \mid \gg \mid v_r \mid $ and, by boundarly layer approximation, $ \bar{\tau}_{z z} $ can be neglected[^boundarylayer]
+1. Within the jet $ \mid v_z \mid \gg \mid v_r \mid $ and, by boundarly layer approximation, $ \bar{\tau}_{z z} $ can be neglected[<sup id="fnref-2">2</sup>](#fn-2)
+
+{% capture footnote-2 %}
+<a name="fn-2"><strong>2</strong></a>: The boundary layer approximation is that 
+$$ { \partial^2 \bar{v}_z \over \partial z^2 } \ll { \partial^2 \bar{v}_z \over \partial r^2 } $$
+and if we suppose that
+$$ \bar{\tau}_{z z} \propto { \partial \bar{v}_z \over \partial z } $$
+and 
+$$ \bar{\tau}_{r z} \propto {\partial \bar{v}_z \over \partial r} $$
+we find 
+$$ { \partial \bar{\tau}_{z z} \over \partial z } \propto {\partial^2 \bar{v}_z \over \partial z^2} \ll { \partial r \bar{\tau}_{r z} \over \partial r} \propto {\partial^2 \bar{v}_z \over \partial r^2} $$
+and thus we can assume the free turbulence is dominated by 
+$$ \bar{\tau}_{r z} $$
+and
+$$ { \partial \bar{\tau}_{z z} \over \partial z} \approx 0 $$
+[↩](#fnref-2)
+{% endcapture %}
 
 The equations of motion, in the z direction, simplifies to
 
 $$ \bar{v}_r {\partial \bar{v}_z \over \partial r} + \bar{v}_z {\partial \bar{v}_z \over \partial z} = - {1 \over \rho r} {\partial \left( r \bar{\tau}_{rz} \right) \over \partial r } $$
 
 
-[^boundarylayer]: The boundary layer approximation is that 
-    $$ { \partial^2 \bar{v}_z \over \partial z^2 } \ll { \partial^2 \bar{v}_z \over \partial r^2 } $$
-    and if we suppose that
-    $$ \bar{\tau}_{z z} \propto { \partial \bar{v}_z \over \partial z } $$
-    and 
-    $$ \bar{\tau}_{r z} \propto {\partial \bar{v}_z \over \partial r} $$
-    we find 
-    $$ { \partial \bar{\tau}_{z z} \over \partial z } \propto {\partial^2 \bar{v}_z \over \partial z^2} \ll { \partial r \bar{\tau}_{r z} \over \partial r} \propto {\partial^2 \bar{v}_z \over \partial r^2} $$
-    and thus we can assume the free turbulence is dominated by 
-    $$ \bar{\tau}_{r z} $$
-    and
-    $$ { \partial \bar{\tau}_{z z} \over \partial z} \approx 0 $$
+<div class="notice">
+  {{ footnote-1 | markdownify }}
+
+  {{ footnote-2 | markdownify }}
+</div>
 
 ### Equation of Continuity
 
@@ -125,7 +133,11 @@ The continuity equation in terms of time-smoothed velocities is
 
 $$ {\partial \rho \over \partial t} + \nabla \cdot \rho \mathbf{ \bar{v} } = 0 $$
 
-In cylindrical coordinates[^bird]
+In cylindrical coordinates[<sup id="fnref-3">3</sup>](#fn-3)
+
+{% capture footnote-3 %}
+<a name="fn-3"><strong>3</strong></a>: Bird, Stewart, and Lightfoot. *[Transport Phenomena](#bird-2007)*, 846. [↩](#fnref-3)
+{% endcapture %}
 
 $$ {\partial \rho \over \partial t} + {1 \over r} {\partial \rho r \bar{v}_r \over \partial r} + {1 \over r} { \partial \rho \bar{v}_\theta \over \partial \theta} + {\partial \rho \bar{v}_z \over \partial z} = 0 $$
 
@@ -137,6 +149,11 @@ Making the assumptions:
 The equation of continuity simplifies to
 
 $$ {1 \over r} {\partial r \bar{v}_r \over \partial r} + {\partial \bar{v}_z \over \partial z} = 0 $$
+
+<div class="notice">
+  {{ footnote-3 | markdownify }}
+</div>
+
 
 ### Stokes Stream Function
 
@@ -195,14 +212,19 @@ $$ J = \int_{0}^{2\pi} \int_{0}^{\infty} \rho \bar{v}_z^2 r dr d\theta \\
      = 2 \pi \rho \bar{v}_{z,max}^2 \int_{0}^{\infty} \left( \bar{v}_z \over \bar{v}_{z,max} \right)^2 r dr \\
      = 2 \pi \rho k^2 \int_{0}^{\infty} \left( f\left( \xi \right) \right)^2 \xi d \xi $$
      
-Taking the integral to be *I*, and equating the initial momentum flux with the momentum flux at point *z*
+Taking the integral to be *I*, and equating the initial momentum flux with the momentum flux at point *z*[<sup id="fnref-4">4</sup>](#fn-4)
 
 $$ J = \rho v_0^2 {\pi \over 4} d_0^2 = 2 \pi \rho k^2 I $$
 
 $$ k = \sqrt{1 \over 8 I } v_0 d_0 $$
 
-**Note**  I've played a little fast and loose with the definition of $\bar{v}_z$ in that I am implicitly assuming $f(\xi) = {-F^{\prime}(\xi) \over \xi}$ which isn't strictly true, there can be scaling factor. In practice all of these are collected together into one constant so it doesn't matter, but that is something to be aware of as the definition of *k* here is really $k\times \mathrm{const}$ where $\mathrm{const} = {-F^{\prime}(\xi) \over \xi} \div f(\xi) $
-{: .notice}
+{% capture footnote-4 %}
+<a name="fn-4"><strong>4</strong></a>: I've played a little fast and loose with the definition of $\bar{v}_z$ in that I am implicitly assuming $f(\xi) = {-F^{\prime}(\xi) \over \xi}$ which isn't strictly true, there can be scaling factor. In practice all of these are collected together into one constant so it doesn't matter, but that is something to be aware of as the definition of *k* here is really $k\times \mathrm{const}$ where $\mathrm{const} = {-F^{\prime}(\xi) \over \xi} \div f(\xi) $ [↩](#fnref-4)
+{% endcapture %}
+
+<div class="notice">
+  {{ footnote-4 | markdownify }}
+</div>
 
 ## Prandtl Mixing Length
 
@@ -265,21 +287,26 @@ The ODE then becomes:
 
 $$ {d \mathbf{u} \over dt } = \begin{bmatrix} F^{\prime} \\ F^{\prime \prime} \end{bmatrix}  = \begin{bmatrix} u_{2} \\ \frac{ u_{2} }{t} + \sqrt{ u_{1} u_{2} } \end{bmatrix} $$
 
-Which has a singularity at *t=0*, but one that can be easily dealt with by setting the initial value of the derivatives to[^init]
+Which has a singularity at *t=0*, but one that can be easily dealt with by setting the initial value of the derivatives to[<sup id="fnref-5">5</sup>](#fn-5)
+
+{% capture footnote-5 %}
+<a name="fn-5"><strong>5</strong></a>: From the boundary conditions we know *F'(0) = 0* but what about *F''*? Taking the ratio 
+$$ { \bar{v}_z \over \bar{v}_{z,max} }_{r=0} = - {F^{\prime} \over \phi }_{\phi=0} = 1 $$
+we find ${F^{\prime} \over \phi } = -1$ at *&phi; = 0* and, from the boundary conditions, 
+$$ F^{\prime \prime} = {F^{\prime} \over \phi } $$
+at *&phi; = 0*, therefore *F''(0) = -1*
+
+[↩](#fnref-5)
+{% endcapture %}
 
 $$ {d \mathbf{u} \over dt }_{t=0} = \begin{bmatrix} 0 \\ -1 \end{bmatrix}$$
 
-Putting that together, the ODE can be integrated easily.
+Putting that together, the ODE can be integrated easily[<sup id="fnref-6">6</sup>](#fn-6).
 
-**Note**  Because of how $\bar{v}_z$ and $\bar{v}_r$ were defined $ -{ F^{\prime} \over \phi } \ge 0 $, i.e. $ { F^{\prime} \over \phi } \le 0 $. For the signs to work out, $ F \le 0 $ and $ F^{\prime} \le 0 $ (since $F F^{\prime} \ge 0$).
-{: .notice}
+{% capture footnote-6 %}
+<a name="fn-6"><strong>6</strong></a>: Because of how $\bar{v}_z$ and $\bar{v}_r$ were defined $ -{ F^{\prime} \over \phi } \ge 0 $, i.e. $ { F^{\prime} \over \phi } \le 0 $. For the signs to work out, $ F \le 0 $ and $ F^{\prime} \le 0 $ (since $F F^{\prime} \ge 0$) [↩](#fnref-6)
+{% endcapture %}
 
-
-[^init]: From the boundary conditions we know *F'(0) = 0* but what about *F''*? Taking the ratio 
-    $$ { \bar{v}_z \over \bar{v}_{z,max} }_{r=0} = - {F^{\prime} \over \phi }_{\phi=0} = 1 $$
-    we find ${F^{\prime} \over \phi } = -1$ at *&phi; = 0* and, from the boundary conditions, 
-    $$ F^{\prime \prime} = {F^{\prime} \over \phi } $$
-    at *&phi; = 0*, therefore *F''(0) = -1*
 
 
 ```julia
@@ -332,20 +359,35 @@ function f_pml(ξ; a=0.066)
 end
 ```
 
+<div class="notice">
+  {{ footnote-5 | markdownify }}
+
+  {{ footnote-6 | markdownify }}
+</div>
 
 ### Comparison with Tollmien
 
-The classic treatment of the Prandtl mixing length model is from Tollmien[^tollmien] in which, instead of solving numerically in the way shown above, the ODE is further transformed and a series expansion is used to generate a table of results. More often than not it is these tabulated values, or similar ones[^rajaratnam2], that are presented as the solution to the model.
+The classic treatment of the Prandtl mixing length model is from Tollmien[<sup id="fnref-7">7</sup>](#fn-7) in which, instead of solving numerically in the way shown above, the ODE is further transformed and a series expansion is used to generate a table of results. More often than not it is these tabulated values, or similar ones[<sup id="fnref-8">8</sup>](#fn-8), that are presented as the solution to the model.
+
+{% capture footnote-7 %}
+<a name="fn-7"><strong>7</strong></a>: Tollmien, "[Berechnung turbulenter Ausbreitungsvorg&auml;nge,](#tollmien-1926)" 468-478. [↩](#fnref-7)
+{% endcapture %}
+
+{% capture footnote-8 %}
+<a name="fn-8"><strong>8</strong></a>: Rajaratnam *[Turbulent Jets](#rajaratnam-1974),* 39. The table has an error at &phi;=1: the value of ${F^{\prime} \over \phi }$ should be 0.606 but is given as 0.505 (presumably a typo) [↩](#fnref-8)
+{% endcapture %}
 
 We can easily compare the result here with the tabulated values and verify for ourselves that we have indeed solved the right differential equation. Though by solving numerically in this way we can control the level of precision and easily generate smooth interpolations. In my opinion, this makes using the ODE solution far more convenient than the tabulated values.
-
-[^tollmien]: W. Tollmien, *Zeitschrift f&uuml;r angewandte Mathematik und Mechanik*, **6**, 468-478 (1926), reprinted and translated in [NACA-TM-1085](https://ntrs.nasa.gov/search?reportNumber=NACA-TM-1085)
-
-[^rajaratnam2]: see (Rajaratnam 1974)[^rajaratnam] page 39 which has a table with &phi; spaced every 0.1, though it has an error at &phi;=1 the value of ${F^{\prime} \over \phi }$ should be 0.606 but is given as 0.505 (presumably a typo)
 
 
 ![svg](/images/turbulent_jet_notes_files/output_19_0.svg)
 
+
+<div class="notice">
+  {{ footnote-7 | markdownify }}
+
+  {{ footnote-8 | markdownify }}
+</div>
 
 ### Width at Half Height
 
@@ -383,10 +425,10 @@ a = b_half/ϕ_half
 
 Several sources have tabulated values for *a*
 
-| a     | Reference                     |
-|:-----:|:------------------------------|
-| 0.063 | Tollmien, 1926[^tollmien]     |
-| 0.066 | Rajaratnam, 1974[^rajaratnam] |
+| a     | Reference                             |
+|:-----:|:--------------------------------------|
+| 0.063 | Tollmien ([1926](#tollmien-1926))     |
+| 0.066 | Rajaratnam ([1974](#rajaratnam-1974)) |
 
 and the result of this notebook compares with those
 
@@ -608,12 +650,13 @@ $$ \bar{v}_z = 6.94 { v_0 d_0 \over z} \exp\left( -193.0 \xi^2 \right) $$
 
 ## Comparing the Models
 
-At this point two models of velocity were derived using different models of the free turbulent stress and one purely empirical model was introduced. Each of these models uses a different set of parameters, and have different strengths and weaknesses in terms of usability. To compare them like-for-like we can scale each to the same width at half height, which is shown below along with some measured data[^pope]
+At this point two models of velocity were derived using different models of the free turbulent stress and one purely empirical model was introduced. Each of these models uses a different set of parameters, and have different strengths and weaknesses in terms of usability. To compare them like-for-like we can scale each to the same width at half height, which is shown below along with some measured data[<sup id="fnref-9">9</sup>](#fn-9)
 
-We can also calculate a Mean Square Error (MSE) and evaluate which model is a better fit to the observed velocity profile.
+{% capture footnote-9 %}
+<a name="fn-9"><strong>9</strong></a>: Pope, *[Turbulent Flows](#pope-2000)*. Points captured from a figure using [WebPlotDigitizer](https://automeris.io/WebPlotDigitizer) [↩](#fnref-9)
+{% endcapture %}
 
-
-[^pope]: Stephen B. Pope, *Turbulent Flows*, Cambridge University Press, Cambridge (2000) Points captured from a figure using [WebPlotDigitizer](https://automeris.io/WebPlotDigitizer)
+We can also calculate a Mean Square Error (MSE) and evaluate which model is a better fit to the observed velocity profile. 
 
 
 ![svg](/images/turbulent_jet_notes_files/output_46_0.svg)
@@ -640,13 +683,22 @@ It's also worth noting that the gaussian fit and the prandtl mixing length model
 
 This comparison has been done with each of the model parameters set based on a shared width. However there are as many different ways of arriving at the model parameters as there are datasets to fit against. There is a wide spread in tabulated values in the literature and so the predictions of two independently arrived at models can be quite different due all of these factors coming together.
 
+<div class="notice">
+  {{ footnote-9 | markdownify }}
+</div>
+
 ## Where to go from here
 
 All of this work was to determine the *velocity* field, which is not necessarily what anyone cares about. In a release scenario, for example, it is concentration that is most relevant. For a heat transfer application, perhaps, you may care about the temperature field instead. However, with the velocity field the concentrations, temperatures, total entrained flow, etc. can be easily derived.
 
 
-For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-04-08-turbulent_jet_notes.ipynb)
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-04-08-turbulent_jet_notes.ipynb)
 {: .notice--info}
 
+## References
 
----
++ <a name="bird-2007">Bird</a>, R. Byron, Warren E. Stewart, and Edwin N. Lightfoot. 2007. *Transport Phenomena, Revised 2nd ed.* Hoboken: John Wiley & Sons. [archive](https://archive.org/details/transportphenome0000bird_n8h5)
++ <a name="garde-2010">Garde</a>, R. J. 2010. *Turbulent Flows, 3rd Ed.* London: New Academic Science
++ <a name="pope-2000">Pope</a>, Stephen B. 2000 *Turbulent Flows*. Cambridge: Cambridge University Press
++ <a name="rajaratnam-1974">Rajaratnam</a> N. 1974. *Turbulent Jets*. Amsterdam: Elsevier
++ <a name="tollmien-1926">Tollmien</a>, Walter.  "Berechnung turbulenter Ausbreitungsvorg&auml;nge," *Zeitschrift f&uuml;r angewandte Mathematik und Mechanik* *6*, (1926): 468-478. [doi:10.1002/zamm.19260060604](https://doi.org/10.1002/zamm.19260060604), reprinted and translated in [NACA-TM-1085](https://ntrs.nasa.gov/search?reportNumber=NACA-TM-1085)

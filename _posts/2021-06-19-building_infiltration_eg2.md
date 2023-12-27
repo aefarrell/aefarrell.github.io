@@ -248,7 +248,7 @@ In this case the indoor and outdoor temperature are assumed to be the same for s
 |       | 5           | 3.20×10⁻³| 4.20×10⁻³| 4.90×10⁻³|
 
 {% capture footnote-5 %}
-<a name="fn-5"><strong>5</strong></a>: the constants have been adjusted such that the leak area is in m² whereas in the ASHRAE handbook it is in cm² [↩](#fnref-5)
+<a name="fn-5"><strong>5</strong></a>: Note that the constants have been adjusted such that the leak area is in m², in the ASHRAE handbook the leak area is in cm² [↩](#fnref-5)
 {% endcapture %}
 
 With the shelter class defined as
@@ -347,7 +347,7 @@ sln_box2 = solve(prb_box2, Tsit5());
 In either the single point or averaged outdoor concentration models the indoor concentration rapidly rises above the ERPG-3 limit, which is very bad, and then slowly decays over time[<sup id="fnref-6">6</sup>](#fn-6). In this case almost immediately after the cloud has passed the indoor space is more concentrated in Chlorine than the outside air. At the very least this suggests that the building is not a good shelter in place location, or at least a much more detailed analysis of building infiltration would be needed to show that it *was* a good shelter in place location.
 
 {% capture footnote-6 %}
-<a name="fn-6"><strong>6</strong></a>: that the indoor concentrations are in mg/m³ whereas the outdoor concentration peaks in the kg/m³, so the building is doing something, it is reducing the indoor concentration by several orders of magnitude, it just isn't enough [↩](#fnref-6)
+<a name="fn-6"><strong>6</strong></a>: Note that the indoor concentrations are in mg/m³ whereas the outdoor concentration peaks in the kg/m³, so the building is doing something, it is reducing the indoor concentration by several orders of magnitude, it just isn't enough [↩](#fnref-6)
 {% endcapture %}
 
 <div class="notice">
