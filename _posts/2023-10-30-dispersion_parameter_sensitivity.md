@@ -50,7 +50,7 @@ For an urban release scenario, whether or not one choses the default, the ISC3 u
 The more diverse sets of correlations are for the plume dispersion parameters, the crosswind and vertical dispersion. To some extent this is because the early work[<sup id="fnref-1">1</sup>](#fn-1) presented the dispersion parameters graphically and many subsequent authors generated their own curves to fit these plots.
 
 {% capture footnote-1 %}
-<a name="fn-1"><strong>1</strong></a>: ([Turner](#turner-1970)), *Workbook of Atmospheric Dispersion Estimates*, 8-9. [↩](#fnref-1)
+<a name="fn-1"><strong>1</strong></a>: [Turner](#turner-1970), *Workbook of Atmospheric Dispersion Estimates*, 8-9. [↩](#fnref-1)
 {% endcapture %}
 
 <div class="notice">

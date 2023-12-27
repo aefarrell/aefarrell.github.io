@@ -147,7 +147,7 @@ It does mean the strategy changes, now the code takes the biggest strides it can
 
 {% capture footnote-3 %}
 <a name="fn-3"><strong>3</strong></a>: You may have noticed an extra "frame" at the end with a score of 0. This is because, in five pin bowling, the last frame has special rules. You always get 3 balls in the last frame, even if your first two are a strike or spare. In this case, with no strikes or spares allowed by design, that extra scoring doesn't enter into it. [↩](#fnref-3)
-{% endcapture %}.
+{% endcapture %}
 
 
 ```python

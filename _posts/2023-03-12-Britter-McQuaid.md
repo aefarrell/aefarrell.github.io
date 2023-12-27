@@ -90,7 +90,7 @@ gₒ = g * (ρᵥ - ρₐ )/ ρₐ
 Then, using digitized curves[<sup id="fnref-3">3</sup>](#fn-3), work out the points for the linear interpolation in terms of $\beta = \log_{10}(x/D)$
 
 {% capture footnote-3 %}
-<a name="fn-3"><strong>3</strong></a>: Adapted from AIChE/CCPS, *[Guidelines for Consequence Analysis](#ccps-1999)*, 118. [↩](#fnref-3)
+<a name="fn-3"><strong>3</strong></a>: AIChE/CCPS, *[Guidelines for Consequence Analysis](#ccps-1999)*, 118. [↩](#fnref-3)
 {% endcapture %}
 
 
@@ -474,7 +474,7 @@ $$ m_{e,d} = \int_0^{x_n} c_m A \,dx \\
 For the explosive mass of the upwind region a simple box model gives $ m_{e,u} = 2 c_o L_U L_{Ho} L_{Vo} $. Putting everything together[<sup id="fnref-8">8</sup>](#fn-8)
 
 {% capture footnote-8 %}
-<a name="fn-8"><strong>8</strong></a>: this is not specific to the Britter-McQuaid model, it works for *any* top hat model. [↩](#fnref-8)
+<a name="fn-8"><strong>8</strong></a>: This is not specific to the Britter-McQuaid model, it works for *any* top hat model. [↩](#fnref-8)
 {% endcapture %}
 
 $$ m_e = 2 c_o L_U L_{Ho} L_{Vo} + { {c_o Q_o} \over u} x_n $$
@@ -504,7 +504,7 @@ This very simple expression is the obvious strength of a top-hat model: it makes
 {% endcapture %}
 
 {% capture footnote-10 %}
-<a name="fn-10"><strong>10</strong></a>: some sources recommend calculating the explosive mass as the region of the plume with the concentration *LFL* &le; *c* &le; *UFL*, in which case $m_e = c_o D^2 \left( x_{n,LFL} - x_{n,UFL} \right)$ [↩](#fnref-10)
+<a name="fn-10"><strong>10</strong></a>: Some sources recommend calculating the explosive mass as the region of the plume with the concentration *LFL* &le; *c* &le; *UFL*, in which case $m_e = c_o D^2 \left( x_{n,LFL} - x_{n,UFL} \right)$ [↩](#fnref-10)
 {% endcapture %}
 
 
