@@ -1,7 +1,8 @@
 ---
 title: "Taking a second look at the Britter-McQuaid model"
+last_modified_at: 2023-12-26
 toc: true
-toc_label: "contents"
+toc_label: "Contents"
 toc_sticky: true
 comments: true
 categories:
@@ -23,13 +24,19 @@ header:
 I recently spent some time looking in detail at the Britter-McQuaid workbook model for dense gas dispersion and I thought the plume model deserved some extra attention. Firstly because I believe there is an error in the plume dimensions, and secondly because I think an important feature of top-hat models is often neglected and the Britter-McQuaid workbook model should be used more.
 
 
-As a re-cap the Britter-McQuaid model[^bm] is a series of correlations for the dispersion of denser than air gases. These are given as a series of correlation curves and the typical procedure is to interpolate the downwind distance to the concentration of interest, for example to the Lower Flammability Limit (LFL). The model also gives some equations for estimating the plume horizontal and vertical dimensions, where conventional practice is to assume the plume has a rectangular cross-section and a uniform concentration.
+As a re-cap the Britter-McQuaid model[<sup id="fnref-1">1</sup>](#fn-1) is a series of correlations for the dispersion of denser than air gases. These are given as a series of correlation curves and the typical procedure is to interpolate the downwind distance to the concentration of interest, for example to the Lower Flammability Limit (LFL). The model also gives some equations for estimating the plume horizontal and vertical dimensions, where conventional practice is to assume the plume has a rectangular cross-section and a uniform concentration.
 
-[^bm]: Britter, R.E. and J. McQuaid, *Workbook on the Dispersion of Dense Gases*, HSE Contract Research Report No. 17/1988 (1988)
+{% capture footnote-1 %}
+<a name="fn-1"><strong>1</strong></a>: Britter and McQuaid, *[Workbook on the Dispersion of Dense Gases](#britter-1988)*. [↩](#fnref-1)
+{% endcapture %}
+
+<div class="notice">
+  {{ footnote-1 | markdownify }}
+</div>
 
 ## A motivating example
 
-Just to have some numbers to look at, I am going to use a scenario adapted from the Burro series of trials of LNG dispersion[^CCPS]. The release conditions are:
+Just to have some numbers to look at, I am going to use a scenario adapted from the Burro series of trials of LNG dispersion[<sup id="fnref-2">2</sup>](#fn-2). The release conditions are:
 + release temperature: -162°C
 + release rate: 0.23 m³/s (liquid)
 + release duration: 174 s
@@ -39,7 +46,9 @@ Just to have some numbers to look at, I am going to use a scenario adapted from 
 
 The goal is to find the distance to the Lower Flammability Limit (LFL) which is 5%(v/v) and ultimately work out the extent of the plume and total explosive mass.
 
-[^CCPS]: Adapted from CCPS, *Guidelines for Consequence Analysis of Chemical Releases*, Center for Chemical Process Safety/AIChE (1999), pg 122.
+{% capture footnote-2 %}
+<a name="fn-2"><strong>2</strong></a>: Adapted from AIChE/CCPS, *[Guidelines for Consequence Analysis](#ccps-1999)*, 122. [↩](#fnref-2)
+{% endcapture %}
 
 
 ```julia
@@ -78,9 +87,11 @@ gₒ = g * (ρᵥ - ρₐ )/ ρₐ
 
 
 
-Then, using digitized curves[^CCPS2], work out the points for the linear interpolation in terms of $\beta = \log_{10}(x/D)$
+Then, using digitized curves[<sup id="fnref-3">3</sup>](#fn-3), work out the points for the linear interpolation in terms of $\beta = \log_{10}(x/D)$
 
-[^CCPS2]: CCPS, *Guidelines for Consequence Analysis of Chemical Releases*, Center for Chemical Process Safety/AIChE (1999) pg 118
+{% capture footnote-3 %}
+<a name="fn-3"><strong>3</strong></a>: Adapted from AIChE/CCPS, *[Guidelines for Consequence Analysis](#ccps-1999)*, 118. [↩](#fnref-3)
+{% endcapture %}
 
 
 ```julia
@@ -192,7 +203,11 @@ xn = find_zero((x) -> Cm(x) - LFL, (300,400).*1u"m", Roots.Brent())
 
     354.5630187009715 m
 
+<div class="notice">
+  {{ footnote-2 | markdownify }}
 
+  {{ footnote-3 | markdownify }}
+</div>
 
 ## Looking again at plume dimensions
 
@@ -247,13 +262,13 @@ Lₕ(x) = Lₕₒ + 2.5∛(lb*x^2)
 
 The curve given for *L<sub>H</sub>* for *x* &gt; 0 is **not** the curve for *x* &lt; 0, the upwind extent of the plume. This is the blue curve in the figure below. The orange curve is slightly adjusting *L<sub>H</sub>* such that for *x* &lt; 0 the second term is subtracted (so the curve actually converges to zero instead of blowing up to +&infin; as *x* &rarr; -&infin;). The black dots are points taken from the diagram given by Britter and McQuaid, using a graph digitizer and scaling to the actual *L<sub>Ho</sub>* and *L<sub>U</sub>*. Clearly the given curve for *L<sub>H</sub>* is not at all what is shown in the diagram for the upwind region.
 
-A conservative approach to estimating the size of the upwind extent is to assume *L<sub>H</sub>* = *L<sub>Ho</sub>* for *L<sub>U</sub>* &lt; *x* &lt; 0, i.e. making the upwind region a rectangle of width *L<sub>Ho</sub>* and length *L<sub>U</sub>* [^TNO]. This is the green curve in the figure below.
+A conservative approach to estimating the size of the upwind extent is to assume *L<sub>H</sub>* = *L<sub>Ho</sub>* for *L<sub>U</sub>* &lt; *x* &lt; 0, i.e. making the upwind region a rectangle of width *L<sub>Ho</sub>* and length *L<sub>U</sub>* [<sup id="fnref-4">4</sup>](#fn-4). This is the green curve in the figure below.
+
+{% capture footnote-4 %}
+<a name="fn-4"><strong>4</strong></a>: This is the approach taken in the TNO *Yellow Book* (Bakkum and Duijm "[Vapour Cloud Dispersion](#bakkum-2005)"). [↩](#fnref-4)
+{% endcapture %}
 
 Alternatively one could "fit" a curve to hit the end points while also having the same power of *x*: $ L_H = L_{Ho} \left( {x + L_U} \over L_U \right)^{2/3} $ where *L<sub>U</sub>* &lt; *x* &lt; 0, this at least retains the same general shape and is the red curve in the figure below. I think this should be taken with the giant caveat that I don't know if insisting on the same power law is truly justified.
-
-
-[^TNO]: This is what the [TNO Yellow Book](https://repository.tno.nl/islandora/object/uuid:4928209c-5998-4261-9393-3d55073e6e87) does.
-
 
     
 ![svg](/images/britter_mcquaid_files/output_23_0.svg)
@@ -262,6 +277,10 @@ Alternatively one could "fit" a curve to hit the end points while also having th
 
 
 For most typical cases I would think the upwind region would be a small component of the overall plume and taking the conservative, rectangle, approach would be a small error.
+
+<div class="notice">
+  {{ footnote-4 | markdownify }}
+</div>
 
 ### Vertical extent
 
@@ -306,7 +325,11 @@ This is definitely similar to what is given by Britter and McQuaid but with two 
 
 The last point could equally be a mistake in the diagram (I have no real way of checking) as while the diagram shows *L<sub>H</sub>* as the plume *half-width*, the text simply refers to it as the "lateral plume extent", which is ambiguous -- do they mean the entire lateral extent or from the center-line of the plume? 
 
-The TNO Yellow Book gives a different equation[^TNO2] for the vertical extent:
+The TNO Yellow Book gives a different equation[<sup id="fnref-5">5</sup>](#fn-5) for the vertical extent:
+
+{% capture footnote-5 %}
+<a name="fn-5"><strong>5</strong></a>: Bakkum and Duijm "[Vapour Cloud Dispersion](#bakkum-2005)," equation 4.104. [↩](#fnref-5)
+{% endcapture %}
 
 $$ L_V = {1 \over 2} { Q_o \over {u_{ref} L_H} } = {1 \over 2} { D^2 \over L_H }$$
 
@@ -315,9 +338,6 @@ Which clearly follows from assuming *L<sub>H</sub>* is the *half-width*, and the
 I think the vertical extent has to depend upon the concentration as otherwise mass will simply disappear from the plume as it extends downwind. There is also the obvious problem that since the plume lateral extent monotonically increases, and the vertical extent is inversely related to it, the vertical extent is monotonically decreasing. In fact it becomes vanishingly small quite quickly. This entirely the opposite of what is observed with actual dense plume dispersion.
 
 This can be seen most clearly in the following figure in which the vertical extent is shown as a function of downwind distance along with the mass flowrate in the plume (i.e. $ c_m u A $ )
-
-[^TNO2]: The [TNO Yellow Book](https://repository.tno.nl/islandora/object/uuid:4928209c-5998-4261-9393-3d55073e6e87) equation 4.104
-
 
 
     
@@ -350,12 +370,19 @@ re-arranging to solve for *L<sub>V</sub>*
 $$ L_V = \left( { {p+1} \over 2 } { c_o \over c_m } z_{ref}^p {Q_o \over {u_{ref} L_H} } \right)^{1 \over {p+1} } \\
 = \left( { {p+1} \over 2 } { c_o \over c_m } z_{ref}^p {D^2 \over L_H } \right)^{1 \over {p+1} }$$
 
-The red curve in the figure above is this model, using *p* = 0.15[^CCPS3]
+The red curve in the figure above is this model, using *p* = 0.15[<sup id="fnref-6">6</sup>](#fn-6)
+
+{% capture footnote-6 %}
+<a name="fn-6"><strong>6</strong></a>: AIChE/CCPS, *[Guidelines for Consequence Analysis](#ccps-1999)*, 83. [↩](#fnref-6)
+{% endcapture %}
 
 This could also be done using the logarithmic windspeed curve $ u = {u_{\star} \over \kappa} \log \left( z \over z_) \right) $ where $u_{\star}$ is the friction velocity and *z<sub>0</sub>* is the roughness length. Though I don't imagine the expression would work out as nicely.
 
+<div class="notice">
+  {{ footnote-5 | markdownify }}
 
-[^CCPS3]: The parameter for a rural class D stability, CCPS *Guidelines for Consequence Analysis of Chemical Releases*, Center for Chemical Process Safety/AIChE (1999), pg 83
+  {{ footnote-6 | markdownify }}
+</div>
 
 ### Recommendations
 
@@ -369,9 +396,12 @@ The explosive mass in the cloud is the given by the volume integral
 
 $$ m_e = \iiint_V c dV $$
 
-where *V* is defined as the region where *c* &ge; *LFL*[^LFL].
+where *V* is defined as the region where *c* &ge; *LFL*[<sup id="fnref-7">7</sup>](#fn-7).
 
-[^LFL]: Some sources recommend *1/2 LFL*
+{% capture footnote-7 %}
+<a name="fn-7"><strong>7</strong></a>: Some sources recommend *1/2 LFL*. [↩](#fnref-7)
+{% endcapture %}
+
 
 Using the concentration profile and the plume extents, we could work out the function `c(x,y,z)` such that the concentration is returned if we are:
 + within the plume, and
@@ -416,6 +446,10 @@ m_e, err = hcubature( c, [x_min, y_min, z_min], [x_max, y_max, z_max])
 
 This is a pretty tedious integration, is very inefficient, and doesn't take into account any of the *structure* of the model and it turns out that a top-hat model has some pretty convenient structure.
 
+<div class="notice">
+  {{ footnote-7 | markdownify }}
+</div>
+
 ### A nice property of top hat models
 
 Returning to the integral for the explosive mass, the plume can be divided into an upwind region (*x* &lt; 0) and a downwind region (*x* &ge; 0)
@@ -437,12 +471,14 @@ $$ m_{e,d} = \int_0^{x_n} c_m A \,dx \\
 = \int_0^{x_n} { {c_o Q_o} \over u} \,dx \\
 = { {c_o Q_o} \over u} x_n $$
 
-For the explosive mass of the upwind region a simple box model gives $ m_{e,u} = 2 c_o L_U L_{Ho} L_{Vo} $. Putting everything together
+For the explosive mass of the upwind region a simple box model gives $ m_{e,u} = 2 c_o L_U L_{Ho} L_{Vo} $. Putting everything together[<sup id="fnref-8">8</sup>](#fn-8)
+
+{% capture footnote-8 %}
+<a name="fn-8"><strong>8</strong></a>: this is not specific to the Britter-McQuaid model, it works for *any* top hat model. [↩](#fnref-8)
+{% endcapture %}
 
 $$ m_e = 2 c_o L_U L_{Ho} L_{Vo} + { {c_o Q_o} \over u} x_n $$
 
-**Note** the above treatment is not specific to the Britter-McQuaid model, it works for *any* top hat model.
-{: .notice}
 
 This can be simplified greatly by setting the advection velocity to *u<sub>ref</sub>*
 
@@ -461,12 +497,16 @@ mₑ = cₒ*D^2*(Lᵤ+xn)
     3197.617661470163 kg
 
 
-This very simple expression is the obvious strength of a top-hat model: it makes calculating the explosive mass incredibly easy[^woodward]. It also retroactively justifies why the Britter McQuaid model is oriented around calculating *x<sub>n</sub>*: that's all you actually need.
+This very simple expression is the obvious strength of a top-hat model: it makes calculating the explosive mass incredibly easy[<sup id="fnref-9">9</sup>](#fn-9). It also retroactively justifies why the Britter McQuaid model is oriented around calculating *x<sub>n</sub>*: that's all you actually need[<sup id="fnref-10">10</sup>](#fn-10).
 
-**Note** some sources recommend calculating the explosive mass as the region of the plume with the concentration *LFL* &le; *c* &le; *UFL*, in which case $m_e = c_o D^2 \left( x_{n,LFL} - x_{n,UFL} \right)$
-{: .notice}
+{% capture footnote-9 %}
+<a name="fn-9"><strong>9</strong></a>: Woodward gives a variation on this for top-hat models more generally (Woodward, *[Estimating the Flammable Mass](#woodward-1998)*). [↩](#fnref-9)
+{% endcapture %}
 
-[^woodward]: Woodward gives a variation on this for top-hat models more generally: John L. Woodward, *Estimating the Flammable Mass of a Vapor Cloud*,  Center for Chemical Process Safety/AIChE (1998)
+{% capture footnote-10 %}
+<a name="fn-10"><strong>10</strong></a>: some sources recommend calculating the explosive mass as the region of the plume with the concentration *LFL* &le; *c* &le; *UFL*, in which case $m_e = c_o D^2 \left( x_{n,LFL} - x_{n,UFL} \right)$ [↩](#fnref-10)
+{% endcapture %}
+
 
 If this seems too good to be true, the integration can be performed numerically by taking
 
@@ -509,6 +549,14 @@ Lᵤ/(Lᵤ+xn)
 
 
 Since the mass in the upwind region is &lt;0.5% of the total mass in the cloud, I think the simple box model is justified.
+
+<div class="notice">
+  {{ footnote-8 | markdownify }}
+
+  {{ footnote-9 | markdownify }}
+
+  {{ footnote-10 | markdownify }}
+</div>
 
 ### Added complications
 
@@ -568,19 +616,36 @@ mₑ_cutoff/mₑ
 
 ## Final thoughts
 
-I think the error in the vertical extent may have limited the apparent utility of the Britter-McQuaid model. Most references I have do use the Britter-McQuaid model, noting that it is "reasonably simple to apply, and produces results which appear to be as good as more sophisticated models"[^CCPS4], however they either claim that it is *only* good for calculating *x<sub>n</sub>* or gloss over how it could be used for anything else. The CCPS references seem consistent in neglecting to mention at all that the model can also estimate the plume extent. So, while I can't imagine I'm the first person to have noticed that the given equation for *L<sub>V</sub>* doesn't work, I have yet to encounter anyone *actually admitting it*.
+I think the error in the vertical extent may have limited the apparent utility of the Britter-McQuaid model. Most references I have do use the Britter-McQuaid model, noting that it is "reasonably simple to apply, and produces results which appear to be as good as more sophisticated models"[<sup id="fnref-11">11</sup>](#fn-11), however they either claim that it is *only* good for calculating *x<sub>n</sub>* or gloss over how it could be used for anything else. The CCPS references seem consistent in neglecting to mention at all that the model can also estimate the plume extent. So, while I can't imagine I'm the first person to have noticed that the given equation for *L<sub>V</sub>* doesn't work, I have yet to encounter anyone *actually admitting it*.
 
-That said, the correction also seems obvious to me: one simply follows what is described in the text which is exactly how Britter and McQuaid calculated the cloud height for the instantaneous model (which is correct) in the same workbook. That the incorrect equation for *L<sub>V</sub>* is repeated in other references[^refs], with only the [TNO Yellow Book](https://repository.tno.nl/islandora/object/uuid:4928209c-5998-4261-9393-3d55073e6e87) making a correction, while still repeating a critical mistake, strikes me as very odd.
+{% capture footnote-11 %}
+<a name="fn-11"><strong>11</strong></a>: AIChE/CCPS, *[Guidelines for Consequence Analysis](#ccps-1999)*, 122. [↩](#fnref-11)
+{% endcapture %}
+
+That said, the correction also seems obvious to me: one simply follows what is described in the text which is exactly how Britter and McQuaid calculated the cloud height for the instantaneous model (which is correct) in the same workbook. That the incorrect equation for *L<sub>V</sub>* is repeated in other references[<sup id="fnref-12">12</sup>](#fn-12), with only the *[TNO Yellow Book](#bakkum-2005)* making a correction, while still repeating a critical mistake, strikes me as very odd.
+
+{% capture footnote-12 %}
+<a name="fn-12"><strong>12</strong></a>: For example: Lees, *[Loss Prevention](#lees-1996)*, and Casal, *[Evaluation of the Effects of Consequences of Major Accidents in Industrial Plants](#casal-2018)*. [↩](#fnref-12)
+{% endcapture %}
 
 The Britter-McQuaid model would seem to be the perfect fit for screening models, which are often only order of magnitude estimates at best anyways. It gives reasonable concentrations, plausible plume extents, and the explosive mass is ridiculously easy to calculate (slightly more tedious if you are using the 2/3 cut-off region but nothing that couldn't be worked out in advance if this was going to be incorporated into a routine calculation tool).
 
-[^CCPS4]: CCPS, *Guidelines for Consequence Analysis of Chemical Releases*, Center for Chemical Process Safety/AIChE (1999), pg 122
+<div class="notice">
+  {{ footnote-11 | markdownify }}
 
-[^refs]: For example: Frank P Lees, *Loss Prevention in the Process Industries, 2nd Ed.*, Butterworth-Heinemann, Oxford (1996), and Joachim Casal, *Evaluation of the Effects of Consequences of Major Accidents in Industrial Plants, 2nd Ed.*, Elsevier, Amsterdam (2018)
+  {{ footnote-12 | markdownify }}
+</div>
 
 
-For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2023-03-12-Britter-McQuaid.ipynb)
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2023-03-12-Britter-McQuaid.ipynb)
 {: .notice--info}
 
 
----
+## References
+
++ <a name="ccps-1999">AIChE/CCPS</a>. 1999. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers
++ <a name="bakkum-2005">Bakkum</a>, E.A. and N.J. Duijm. 2005. "Chapter 4 - Vapour Cloud Dispersion" in *Methods for the Calculation of Physical Effects, CPR 14E* (TNO Yellow Book) Edited by C.J.H. van den Bosch and R.A.P.M. Weterings. The Netherlands. [url](https://repository.tno.nl/islandora/object/uuid:4928209c-5998-4261-9393-3d55073e6e87)
++ <a name="britter-1988">Britter</a>, Rex E. and J. McQuaid. 1988. *Workbook on the Dispersion of Dense Gases. HSE Contract Research Report No. 17/1988*
++ <a name="casal-2018">Casal</a>, Joachim. 2018. *Evaluation of the Effects of Consequences of Major Accidents in Industrial Plants, 2nd Ed.* Amsterdam: Elsevier
++ <a name="lees-1996">Lees</a>, Frank P. 1996. *Loss Prevention in the Process Industries, 2nd ed.* Oxford: Butterworth-Heinemann
++ <a name="woodward-1998">Woodward</a>, John L. 1998. *Estimating the Flammable Mass of a Vapour Cloud*, New York: American Institute of Chemical Engineers

@@ -1,7 +1,8 @@
 ---
 title: "Messing around with model parameters"
+last_modified_at: 2023-12-26
 toc: true
-toc_label: "contents"
+toc_label: "Contents"
 toc_sticky: true
 comments: true
 categories:
@@ -31,13 +32,13 @@ $$ u = u_R \left( z \over z_R \right)^p $$
 
 where *u<sub>R</sub>* is the known windspeed at a reference height *z<sub>R</sub>* and *p* is a parameter that depends upon the [Pasquill stability class](https://en.wikipedia.org/wiki/Outline_of_air_pollution_dispersion#The_Pasquill_atmospheric_stability_classes). There are more complex models that incorporate the surface roughness, Monin-Obukhov mixing length, and other measures of stability, they are beyond this analysis.
 
-There are three different standard references used in `GasDispersion.jl` for windspeed: the default which comes from Spicer and Havens ([1989](#spicer-1989)), the correlations used by the EPA Industrial Source Complex (ISC3) dispersion models ([EPA 1995](#epa-1995)), and the correlations given in the various CCPS guidance documents ([AIChE/CCPS 1999](#ccps-1999))
+There are three different standard references used in `GasDispersion.jl` for windspeed: the default which comes from [Spicer and Havens](#spicer-1989), the correlations used by the [EPA Industrial Source Complex (ISC3)](#epa-1995) dispersion models, and the correlations given in the various [CCPS guidance documents](#ccps-1999)
 
-The ISC3 and CCPS correlations are divided into urban and rural terrain and are exactly the same correlations for the unstable classes. They appear to be the correlations given in Hanna *et al.* ([1982](#hanna-1982)). They also bracket the default correlation. Clearly whether or not the terrain is urban is significant, it can lead to a 20-30% difference in estimated windspeed (depending upon elevation).
+The ISC3 and CCPS correlations are divided into urban and rural terrain and are exactly the same correlations for the unstable classes. They appear to be the correlations given in Hanna et al ([1982](#hanna-1982)). They also bracket the default correlation. Clearly whether or not the terrain is urban is significant, it can lead to a 20-30% difference in estimated windspeed (depending upon elevation).
 
 ![svg](/images/dispersion_parameter_sensitivity_files/output_6_0.svg)
 
-For the stable atmospheres the ISC3 and CCPS *rural* correlations are the same. However they are very different for *urban* terrain and they no longer bracket the default correlation. The CCPS *urban* correlations are the same as Hanna *et al.* ([1982](#hanna-1982)), the ISC3 correlations use the parameter *p* = 0.30 and no reference is given in the model specification so I don't know why.
+For the stable atmospheres the ISC3 and CCPS *rural* correlations are the same. However they are very different for *urban* terrain and they no longer bracket the default correlation. The CCPS *urban* correlations are the same as Hanna et al ([1982](#hanna-1982)), the ISC3 correlations use the parameter *p* = 0.30 and no reference is given in the model specification so I don't know why.
 
 For an urban release scenario, whether or not one choses the default, the ISC3 urban, or the CCPS urban correlation can lead to a 300% difference in windspeed (for class F stability, depending on elevation). Which is a pretty large difference.
 
@@ -46,33 +47,49 @@ For an urban release scenario, whether or not one choses the default, the ISC3 u
 
 ## Plume Dispersion
 
-The more diverse sets of correlations are for the plume dispersion parameters, the crosswind and vertical dispersion. To some extent this is because the early work ([Turner 1970](#turner-1970)) presented the dispersion parameters graphically and many subsequent authors generated their own curves to fit these plots.
+The more diverse sets of correlations are for the plume dispersion parameters, the crosswind and vertical dispersion. To some extent this is because the early work[<sup id="fnref-1">1</sup>](#fn-1) presented the dispersion parameters graphically and many subsequent authors generated their own curves to fit these plots.
+
+{% capture footnote-1 %}
+<a name="fn-1"><strong>1</strong></a>: ([Turner](#turner-1970)), *Workbook of Atmospheric Dispersion Estimates*, 8-9. [↩](#fnref-1)
+{% endcapture %}
+
+<div class="notice">
+  {{ footnote-1 | markdownify }}
+</div>
 
 ### Crosswind Dispersion
 
-Crosswind dispersion can be divided into the various attempts at fitting the curves presented graphically by Turner ([1970](#turner-1970)) and those based on Briggs' urban and rural correlations ([Briggs 1973](#briggs-1973)).
+Crosswind dispersion can be divided into the various attempts at fitting the curves presented graphically by [Turner](#turner-1970) and those based on Briggs' urban and rural correlations[<sup id="fnref-2">2</sup>](#fn-2)
+
+{% capture footnote-2 %}
+<a name="fn-2"><strong>2</strong></a>: [Briggs](#briggs-1973), *Diffusion Estimation for Small Emissions*, 38. Note that the correlations are given with respect to half-width/half-depth. [↩](#fnref-2)
+{% endcapture %}
 
 The default correlation is a simple set of correlations of the form
 
 $$ \sigma_y = a x^b $$
 
-which attempts to fit the Turner curves.
+which attempts to fit the [Turner](#turner-1970) curves.
 
-The CCPS correlations ([AIChE/CCPS 1999](#ccps-1999)) are from Briggs ([1973](#briggs-1973)) and the ISC3 *urban* correlations ([EPA 1995](#epa-1995)) are from Briggs as well, the ISC3 *rural* correlations are something else entirely but I suspect are intended to fit the Turner curves. The correlations from the TNO yellow book ([Bakkum *et al.* 2005](#bakkum-2005)) are also a different attempt at fitting the Turner curves. What `GasDispersion,jl` gives as "Turner" is the fit to the turner curves given in Lees ([1996](#lees-1996)).
+The CCPS correlations are from [Briggs](#briggs-1973)) and the ISC3 *urban* correlations are from Briggs as well, the ISC3 *rural* correlations are something else entirely but I suspect are intended to fit the [Turner](#turner-1970) curves. The correlations from the [TNO yellow book](#bakkum-2005) are also a different attempt at fitting the Turner curves. What `GasDispersion,jl` gives as "Turner" is the fit to the Turner curves given in [Lees](#lees-1996).
 
 ![svg](/images/dispersion_parameter_sensitivity_files/output_11_0.svg)
 
-Zooming in on the class F curves is illustrative of the lot: most of the lines overlap and hew pretty close to the curve-fit for Turner ([1970](#turner-1970)) with the exception of the Briggs' urban/rural correlations. The biggest impact on these model parameters is whether or not a rural/urban terrain is used or not. *Note* these are log-log plots.
+Zooming in on the class F curves is illustrative of the lot: most of the lines overlap and hew pretty close to the curve-fit for [Turner](#turner-1970) with the exception of the Briggs' urban/rural correlations. The biggest impact on these model parameters is whether or not a rural/urban terrain is used or not. *Note* these are log-log plots.
 
 ![svg](/images/dispersion_parameter_sensitivity_files/output_13_0.svg)
 
+<div class="notice">
+  {{ footnote-2 | markdownify }}
+</div>
 
 ### Vertical Dispersion
 
-The vertical dispersion correlations are decidedly more varied. Varied enough that I'm just going to show them all at full scale.
+The vertical dispersion correlations are decidedly more varied. Varied enough that I'm just going to show them all at full scale[<sup id="fnref-3">3</sup>](#fn-3)
 
-**Note** the correlations given in the CCPS guidance ([AIChE/CCPS 1999](#ccps-1999)) for urban conditions has typos in the class A, B and D correlations, I have corrected them here to match the Briggs correlations on which they are supposed to be based.
-{: .notice}
+{% capture footnote-3 %}
+<a name="fn-3"><strong>3</strong></a>: The correlations given in the [AIChE/CCPS](#ccps-1999) *Guidelines for Consequence Analysis* for urban conditions has typos in the class A, B and D correlations, I have corrected them here to match the Briggs correlations on which they are supposed to be based. [↩](#fnref-3)
+{% endcapture %}
 
 
 ![svg](/images/dispersion_parameter_sensitivity_files/output_17_0.svg)
@@ -89,6 +106,10 @@ The vertical dispersion correlations are decidedly more varied. Varied enough th
 
 
 For some of these there is *an order of magnitude* spread in vertical dispersion, depending on which model happens to be used. Even when looking only at the correlations that are "universal", i.e. are not for either urban or rural terrains. From this alone one would expect that the concentration profiles would vary by a large amount, depending on which set of correlations one used to model a given scenario.
+
+<div class="notice">
+  {{ footnote-3 | markdownify }}
+</div>
 
 ## An Example
 

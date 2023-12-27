@@ -1,8 +1,8 @@
 ---
 title: "Engineering a Cup of Coffee"
-last_modified_at: 2023-12-04
+last_modified_at: 2023-12-26
 toc: true
-toc_label: "contents"
+toc_label: "Contents"
 toc_sticky: true
 comments: true
 categories:
@@ -20,11 +20,15 @@ header:
 
 While making coffee one day, I started thinking about how the coffee making process is both a perfect representation of the sorts of systems chemical engineers work on every day and also a weird edge case unlike most of the unit operations in the standard repertoire of process engineering.
 
-Making coffee involves heat, mass, and momentum transfer across multiple phases -- pretty standard stuff for undergraduate chemical engineering curricula. On the other hand, while industrial scale leaching operations are generally designed for maximum efficiency -- removing the most amount of a substance with the least amount of solvent, energy, etc. -- coffee makers are specifically designed to avoid that outcome. A saturated cup of coffee would be strong, harsh, and undrinkable. Coffee making, as a unit op, aims at a managed inefficiency, which makes for an interesting design case.
+Making coffee involves heat, mass, and momentum transfer across multiple phases -- pretty standard stuff for undergraduate chemical engineering curricula. On the other hand, while industrial scale leaching operations are generally designed for maximum efficiency -- removing the most amount of a substance with the least amount of solvent, energy, etc. -- coffee makers are specifically designed to avoid that outcome. A saturated cup of coffee would be strong, harsh, and undrinkable. Coffee making, as a unit op, aims at a managed inefficiency, which makes for an interesting design case[<sup id="fnref-1">1</sup>](#fn-1). 
 
-I am not the first person to think of this: using coffee as a basis for exploring engineering concepts is the entire premise of [this book](https://www.amazon.ca/gp/product/B09FSCDY18/). From the reviews it sounds like it is, essentially, a lab manual for exploring chemical engineering concepts using coffee.
-{: .notice}
+{% capture footnote-1 %}
+<a name="fn-1"><strong>1</strong></a>: I am not the first person to think of this: using coffee as a basis for exploring engineering concepts is the entire premise of [this book](https://www.amazon.ca/gp/product/B09FSCDY18/). From the reviews it sounds like it is, essentially, a lab manual for exploring chemical engineering concepts using coffee. [↩](#fnref-1)
+{% endcapture %}
 
+<div class="notice">
+  {{ footnote-1 | markdownify }}
+</div>
 
 ## Extraction and the Coffee Control Chart
 
@@ -35,11 +39,10 @@ So extraction is really the best we have, as far as quantitative measures go, wi
 ![Coffee control chart](/images/engineering_coffee_files/Lockhart-control-chart.png)
 > Coffee control chart ([Batali, Ristenpart, and Guinard 2020](#batali-2020))
 
-The standard way of thinking about coffee extraction starts with Lockhart's *coffee control chart*, this plots the concentration of solids (TDS) against total extraction. The diagonal lines represent a given dose of coffee (I typically brew 55g/L with my V60, which puts me pretty near the sweet spot). A given brew moves along the diagonal line for the given dose, moving from the bottom left to the upper right as the brew proceeds. The goal is to stop the brew once the extraction and strength (concentration) have reached the optimal level.
+The standard way of thinking about coffee extraction starts with Lockhart's *coffee control chart*, this plots the concentration of solids (TDS) against total extraction. The diagonal lines represent a given dose of coffee (I typically brew 55g/L with my V60, which puts me pretty near the sweet spot). A given brew moves along the diagonal line for the given dose, moving from the bottom left to the upper right as the brew proceeds. The goal is to stop the brew once the extraction and strength (concentration) have reached the optimal level[<sup id="fnref-2">2</sup>](#fn-2).
 
-
-{% capture extraction-note %}
-For a given dose of coffee, the concentration and extraction are directly proportional to one another.
+{% capture footnote-2 %}
+<a name="fn-2"><strong>2</strong></a>: For a given dose of coffee, the concentration and extraction are directly proportional to one another.
 
 $$ \mathrm{Dose} = D = { m_{beans} \over V_{water} } \approx { m_{beans} \over V_{cup} } $$
 
@@ -47,13 +50,8 @@ $$ \mathrm{Extraction} = E = { m_{cup} \over m_{beans} } = { { c_{cup} V_{cup} }
 
 $$ c_{cup} = D \cdot E $$
 
-where the subscript *cup* means the mass/volume that ends up in the final cup of coffee. This is only *approximately* the case as some water is absorbed into the coffee grounds. The amount of water retained in the coffee grounds can be accounted for, giving a more accurate measure of final extraction.
+where the subscript *cup* means the mass/volume that ends up in the final cup of coffee. This is only *approximately* the case as some water is absorbed into the coffee grounds. The amount of water retained in the coffee grounds can be accounted for, giving a more accurate measure of final extraction. [↩](#fnref-2)
 {% endcapture %}
-
-<div class="notice">
-  {{ extraction-note | markdownify }}
-</div>
-
 
 For industrial scale distillation, absorption, extraction, leaching, etc. the process is usually modeled as a series of equilibrium stages, and the whole point is to maximize extraction and concentration. This leads to designs for counter-current solids extractors such as a Rotocel extractor or a [Bollman extractor](https://www.youtube.com/watch?v=myxqWLB5WIA)
 
@@ -62,10 +60,17 @@ For industrial scale distillation, absorption, extraction, leaching, etc. the pr
 
 Extractors like this are, in fact, how one might *decaffeinate* coffee. In that case one does want to maximize the extraction of caffeine, and is free to adjust several parameters such as the solvent (with options such as supercritical CO<sub>2</sub>, dichloromethane, or ethyl acetate) that are otherwise pretty fixed for normal coffee making. At the end of the day a cup of coffee has to be made with water, a steaming cup of dichloromethane just won't cut it.
 
-Coffee makers inhabit a space where the design parameters are highly restricted. Outside of espresso, the machine has to operate at atmospheric pressure and temperatures achievable with a normal kettle. The solvent must be water. The process is likely batch or semi-batch. The extraction happens fully within the mass-transfer dominated regime, specifically avoiding reaching equilibrium (the fundamental design assumption in most industrial extractors) as that leads to over-extracted coffee.
+Coffee makers inhabit a space where the design parameters are highly restricted. Outside of espresso, the machine has to operate at atmospheric pressure and temperatures achievable with a normal kettle. The solvent must be water. The process is likely batch or semi-batch[<sup id="fnref-3">3</sup>](#fn-3). The extraction happens fully within the mass-transfer dominated regime, specifically avoiding reaching equilibrium (the fundamental design assumption in most industrial extractors) as that leads to over-extracted coffee.
 
-I would love to see a fully continuous coffee maker, like the fully continuous industrial operations, and there is no reason why you couldn't make one. Imagine going into your local coffee shop and seeing a glass fluidized bed continuously circulating grounds and hot water, that would be pretty groovy.
-{: .notice}
+{% capture footnote-3 %}
+<a name="fn-3"><strong>3</strong></a>: I would love to see a fully continuous coffee maker, like the fully continuous industrial operations, and there is no reason why you couldn't make one. Imagine going into your local coffee shop and seeing a glass fluidized bed continuously circulating grounds and hot water, that would be pretty groovy. [↩](#fnref-3)
+{% endcapture %}
+
+<div class="notice">
+  {{ footnote-2 | markdownify }}
+
+  {{ footnote-3 | markdownify }}
+</div>
 
 ## The simplest coffee maker
 
@@ -77,9 +82,21 @@ Modeling extraction is fairly straight forward, after some basic assumptions are
 
 ### Brew temperature
 
-Brew temperature is an obvious variable to change, though it has wide ranging impacts and parsing out what exactly changing the temperature *does* is not obvious. Firstly, the solubility of the various compounds extracted from the beans is a function of temperature and in general solubility is difficult to predict, but broadly speaking solutes are more soluble at higher temperatures. Coffee is *more extractable* at higher temperatures. However the coffee matrix is complex and there are more than just two phases involved: flavour compounds in the coffee will partition between the solid matrix, coffee oils, and the water at different proportions depending upon the temperature. This is perhaps what is behind the notable difference in taste between cold brew versus a hot immersion brew. Even when made with the same beans, and to the same concentration, the flavour profile of cold brew is quite different ([Batali *et al.* 2022](#batali-2022)). That said, over the range of temperatures used to brew a French press, this may not be very important ([Batali, Ristenpart, and Guinard 2020](#batali-2020)).
+Brew temperature is an obvious variable to change, though it has wide ranging impacts and parsing out what exactly changing the temperature *does* is not obvious. Firstly, the solubility of the various compounds extracted from the beans is a function of temperature and in general solubility is difficult to predict, but broadly speaking solutes are more soluble at higher temperatures. Coffee is *more extractable* at higher temperatures. However the coffee matrix is complex and there are more than just two phases involved: flavour compounds in the coffee will partition between the solid matrix, coffee oils, and the water at different proportions depending upon the temperature. This is perhaps what is behind the notable difference in taste between cold brew versus a hot immersion brew. Even when made with the same beans, and to the same concentration, the flavour profile of cold brew is quite different[<sup id="fnref-4">4</sup>](#fn-4). That said, over the range of temperatures used to brew a French press, this may not be very important[<sup id="fnref-5">5</sup>](#fn-5).
 
-Secondly, brew temperature impacts the *rate* of extraction. Generally speaking, diffusion coefficients are proportional to (absolute) temperature, $ \mathscr{D} \propto T$ ([Schwartzberg 1987](#schwartzberg-1987), 558; [Poling, Prausnitz, and O'Connell 2001](#poling-2001), 11.21-11.33). At higher temperatures the various flavour compounds will diffuse more quickly through the grounds and also through the coffee, thus making the brew faster.
+{% capture footnote-4 %}
+<a name="fn-4"><strong>4</strong></a>: [Batali et al](#batali-2022), *Foods.* 11, no. 16: 2440 [↩](#fnref-4)
+{% endcapture %}
+
+{% capture footnote-5 %}
+<a name="fn-5"><strong>5</strong></a>: [Batali, Ristenpart, and Guinard](#batali-2020) *Scientific Reports.* 10: 16450 [↩](#fnref-5)
+{% endcapture %}
+
+Secondly, brew temperature impacts the *rate* of extraction. Generally speaking, diffusion coefficients are proportional to (absolute) temperature, $ \mathscr{D} \propto T$ [<sup id="fnref-6">6</sup>](#fn-6). At higher temperatures the various flavour compounds will diffuse more quickly through the grounds and also through the coffee, thus making the brew faster.
+
+{% capture footnote-6 %}
+<a name="fn-6"><strong>6</strong></a>: [Schwartzberg](#schwartzberg-1987), "Leaching -- Organic Materials," 558; [Poling, Prausnitz, and O'Connell](#poling-2001), *The Properties of Gases and Liquids*, 11.21-11.33. [↩](#fnref-6)
+{% endcapture %}
 
 To make modeling extraction simpler, we assume the brew temperature is *constant*. This means that, whatever the relative solubilities or rate constants turn out to be, they are constant with respect to time. The only thing varying over time is the concentration of coffee solubles in water and remaining in the grounds. For something like Turkish coffee, the system is probably close to isothermal as it is continuously heated and will remain at or near the boiling point of water the entire time. For a French press this is less true, as the press will lose heat to the environment. How much heat is lost over the course of the brew is going to depend strongly upon the press and the environment it is in. My French press is a double walled stainless steel carafe [like this one](https://www.bodum.com/ca/en/1308-16-bodum-columbia) and likely loses much less heat than a more typical glass carafe. It is also important to consider whether or not the French press is pre-heated. If not, the brew temperature is not going to be the temperature of the kettle. The carafe has significant thermal mass, especially if it is glass, and it will absorb a lot of heat out of the water over the course of the brew (in addition to losing heat to the environment).
 
@@ -94,6 +111,14 @@ $$ { { \Delta \mathscr{D} } \over \mathscr{D} } = { { \Delta T } \over T } $$
 
 
 Even over this significant loss of heat, that translates to only a 5.4% change in the rate constants. To the exacting standards of a coffee nerd that may seem like a lot, but to chemical engineer that is really not much, it justifies the isothermal assumption (at least as a first approximation).
+
+<div class="notice">
+  {{ footnote-4 | markdownify }}
+
+  {{ footnote-5 | markdownify }}
+
+  {{ footnote-6 | markdownify }}
+</div>
 
 ### Grind size and uniformity
 
@@ -115,9 +140,17 @@ It is important to note, though, that the following model is developed for spher
 
 Mass transfer problems, like this one, ultimately come down to finding good rate constants. They can be measured, estimated from a correlation, or simply tabulated in a reference, but regardless the model is only as good as the rate constants. The rate constants define, to some extent, the model itself and govern one of the key brew variables: brew time.
 
-In the case of coffee, and organic materials in general, there is a complex micro-scale geometry involving multiple phases: the solid ground itself, coffee oils, and water. The coffee will diffuse from the solid into the oils, into water in the interstitial spaces, and also out into the bulk liquid. All of these processes have potentially different rate constants. Additionally the solid phase is not structurally homogeneous, it is a complex arrangement of coffee bean cells, voids, pores and such. Building a model to incorporate all of this complexity is certainly possible ([Moroney *et al.* 2015](#moroney-2015)) but the standard approach is to treat this as a two-phase problem where all of the complexity of the solid phase, the [marc](https://www.merriam-webster.com/dictionary/marc), and any secondary phases (e.g. coffee oils) are all averaged together into one pseudo-homogeneous solid phase and the solvent (water) forms the liquid phase. This approximation leaves us with two mass transfer rates: the diffusion through the (pseudo-homogeneous) solid phase, within the coffee particles, and the diffusion through the solvent phase, the water outside of the coffee particles. At the interface, the solute leaves the solid phase and enters the liquid phase.
+In the case of coffee, and organic materials in general, there is a complex micro-scale geometry involving multiple phases: the solid ground itself, coffee oils, and water. The coffee will diffuse from the solid into the oils, into water in the interstitial spaces, and also out into the bulk liquid. All of these processes have potentially different rate constants. Additionally the solid phase is not structurally homogeneous, it is a complex arrangement of coffee bean cells, voids, pores and such. Building a model to incorporate all of this complexity is certainly possible[<sup id="fnref-7">7</sup>](#fn-7) but the standard approach is to treat this as a two-phase problem where all of the complexity of the solid phase, the [marc](https://www.merriam-webster.com/dictionary/marc), and any secondary phases (e.g. coffee oils) are all averaged together into one pseudo-homogeneous solid phase and the solvent (water) forms the liquid phase. This approximation leaves us with two mass transfer rates: the diffusion through the (pseudo-homogeneous) solid phase, within the coffee particles, and the diffusion through the solvent phase, the water outside of the coffee particles. At the interface, the solute leaves the solid phase and enters the liquid phase.
 
-For organic material with hard cell walls the relative diffusivity of the solid phase to the liquid phase generally falls along the range $ \frac{\mathscr{D}_s}{\mathscr{D}_l} = 0.1-0.2$ ([Schwartzberg 1987](#schwartzberg-1987), 557), this allows us to estimate the (effective) diffusivity within the solid based on measured diffusivities in liquid water. It also tells us that diffusion through the solid is 5-10&times; slower than in the liquid phase and so, depending upon the geometry of the problem, diffusion through the solid phase may be the governing rate.
+{% capture footnote-7 %}
+<a name="fn-7"><strong>7</strong></a>: [Moroney et al](#moroney-2015), *Chemical Engineering Science.* 137: 216-234. [↩](#fnref-7)
+{% endcapture %}
+
+For organic material with hard cell walls the relative diffusivity of the solid phase to the liquid phase generally falls along the range $ \frac{\mathscr{D}_s}{\mathscr{D}_l} = 0.1-0.2$ [<sup id="fnref-8">8</sup>](#fn-8), this allows us to estimate the (effective) diffusivity within the solid based on measured diffusivities in liquid water. It also tells us that diffusion through the solid is 5-10&times; slower than in the liquid phase and so, depending upon the geometry of the problem, diffusion through the solid phase may be the governing rate.
+
+{% capture footnote-8 %}
+<a name="fn-8"><strong>8</strong></a>: [Schwartzberg](#schwartzberg-1987), "Leaching -- Organic Materials," 557. [↩](#fnref-8)
+{% endcapture %}
 
 Diffusion through the liquid phase is complicated by mixing. The diffusivity used above is the diffusivity in quiescent liquid water. In practice, in the brew vessel, the liquid will be moving and convective mass transfer will be very significant. Usually for mass transfer problems this is all rolled up into a mass transfer coefficient *h* which combines all of the flow complexity and geometry of the problem into a single coefficient. This is then typically estimated using correlations for the [Sherwood number](https://en.wikipedia.org/wiki/Sherwood_number).
 
@@ -136,6 +169,12 @@ At equilibrium the rates of these two processes are equal
 $$ k_1 q^{*} = k_2 c^{*} \Leftrightarrow \frac{k_2}{k_1} = \frac{ q^{*} }{ c^{*} } = {K} $$
 
 Typically one assumes that at the interface, in the infintesimally thin slice of liquid on one side and the infintesimally thin slice of solid on the other, the solute is always at equilibrium (this is not the same as assuming the *system* is at equilibrium)
+
+<div class="notice">
+  {{ footnote-7 | markdownify }}
+
+  {{ footnote-8 | markdownify }}
+</div>
 
 ### An example brew
 
@@ -262,16 +301,29 @@ The solution to this partial differential equation depends upon which of these m
 
 ### The dominant rate
 
-The standard approach to solving this problem is to look at the limiting cases, where the [Biot number](https://en.wikipedia.org/wiki/Biot_number#Mass_transfer_analogue) is either very large or very small ([Seader, Henley and Roper 2011](#seader-2011), 663)
+The standard approach to solving this problem is to look at the limiting cases, where the [Biot number](https://en.wikipedia.org/wiki/Biot_number#Mass_transfer_analogue) is either very large or very small[<sup id="fnref-9">9</sup>](#fn-9)
+
+{% capture footnote-9 %}
+<a name="fn-9"><strong>9</strong></a>: [Seader, Henley and Roper](#seader-2011), *Separation Process Principles*, 663. [↩](#fnref-9)
+{% endcapture %}
 
 + *Bi* &lt; 0.001 : the mass transfer through the film dominates, a simple exponential model is appropriate
-+ 0.001 &lt; *Bi* &lt; 200 : use an intermediate method
-+ *Bi* &gt; 200 : the mass transfer through the coffee particles dominates, the more complicated solution from Carslaw and Jaeger ([1959](#carslaw-1959), 240-241) is best
++ 0.001 &lt; *Bi* &lt; 200 : use an intermediate method[<sup id="fnref-10">10</sup>](#fn-10)
++ *Bi* &gt; 200 : the mass transfer through the coffee particles dominates, the more complicated solution from Carslaw and Jaeger[<sup id="fnref-11">11</sup>](#fn-11) is best
 
-The intermediate solution is not given in Seader ([2011](#seader-2011)), only a reference: Schwartzberg, Henry G. and R. Y. Chao. 1982. "Solute Diffusivities in Leaching Processes." *Food Technology*. 36, no. 2: 73-86, which has not been digitized and is not available from my local library, so I have no idea what it says ¯\\_(ツ)_/¯
-{: .notice}
+{% capture footnote-10 %}
+<a name="fn-10"><strong>10</strong></a>: The intermediate solution is not given in [Seader](#seader-2011), only a reference: Schwartzberg, Henry G. and R. Y. Chao. 1982. "Solute Diffusivities in Leaching Processes." *Food Technology*. 36, no. 2: 73-86, which has not been digitized and is not available from my local library, so I have no idea what it says ¯\\_(ツ)\_/¯ [↩](#fnref-10)
+{% endcapture %}
 
-I will argue in a very hand-wavy way that the Biot number for mass transfer is likely to be large, and so the model from Carslaw and Jaeger ([1959](#carslaw-1959), 240-241) is the probably the best model. First let's start with Biot number for mass transfer, which for this situation is ([Seader, Henley and Roper 2011](#seader-2011), 663)
+{% capture footnote-11 %}
+<a name="fn-11"><strong>11</strong></a>: [Carslaw and Jaeger](#carslaw-1959), *Conduction of Heat in Solids*, 240-241. [↩](#fnref-11)
+{% endcapture %}
+
+I will argue in a very hand-wavy way that the Biot number for mass transfer is likely to be large, and so the model from [Carslaw and Jaeger](#carslaw-1959) is the probably the best model. First let's start with Biot number for mass transfer, which for this situation is[<sup id="fnref-12">12</sup>](#fn-12)
+
+{% capture footnote-12 %}
+<a name="fn-12"><strong>12</strong></a>: [Seader, Henley and Roper](#seader-2011), *Separation Process Principles*, 663. [↩](#fnref-12)
+{% endcapture %}
 
 $$ \mathrm{Bi} = { {h b} \over {K \mathscr{D}_s} } = {\mathscr{D}_l \over \mathscr{D}_s} { \mathrm{Sh} \over K }$$
 
@@ -279,7 +331,11 @@ Where *Sh* is the [Sherwood number](https://en.wikipedia.org/wiki/Sherwood_numbe
 
 $$ \mathrm{Sh} = { {h b} \over \mathscr{D}_l } $$
 
-Defining the Biot number in terms of the Sherwood number might, at first glance, not seem tremendously useful. However, if we suppose the Froessling equation ([Hottel *et al.* 2008](#hottel-2008), 5-69) for flow past a single sphere applies
+Defining the Biot number in terms of the Sherwood number might, at first glance, not seem tremendously useful. However, if we suppose the Froessling equation[<sup id="fnref-13">13</sup>](#fn-13) for flow past a single sphere applies
+
+{% capture footnote-13 %}
+<a name="fn-13"><strong>13</strong></a>: [Hottel et al](#hottel-2008), "Heat and Mass Transfer," 5-69. [↩](#fnref-13)
+{% endcapture %}
 
 $$ \mathrm{Sh} = 2 + 0.552 \mathrm{Re}^{1/2} \mathrm{Sc}^{1/3} $$
 
@@ -289,7 +345,12 @@ $$ \mathrm{Bi} = {\mathscr{D}_l \over \mathscr{D}_s} { 1 \over K } \left( 2 + 0.
 
 $$ \mathrm{Bi} = { 20 \over K } + { 5.52 \over K } \mathrm{Re}^{1/2} \mathrm{Sc}^{1/3} $$
 
-Where ${\mathscr{D}_s \over \mathscr{D}_l}$ = 0.1 is assumed from Schwartzberg ([1987](#schwartzberg-1987), 557). The Schmidt number, *Sc*, and equilibrium constant, *K*, can be calculated
+Where ${\mathscr{D}_s \over \mathscr{D}_l}$ = 0.1 is assumed from Schwartzberg[<sup id="fnref-14">14</sup>](#fn-14). The Schmidt number, *Sc*, and equilibrium constant, *K*, can be calculated
+
+{% capture footnote-14 %}
+<a name="fn-14"><strong>14</strong></a>: [Schwartzberg](#schwartzberg-1987), "Leaching -- Organic Materials," 557. [↩](#fnref-14)
+{% endcapture %}
+
 
     Sc = νₗ(Tₗ) / 𝒟ₗ = 139.98370415887905
     K = q_sat / c_sat = 0.5600282485875706
@@ -314,7 +375,21 @@ v = Re*νₗ(Tₗ)/b
 
 that is 5.6mm/s, a velocity so small that it may be achieved through the natural convection occurring within a French press (and especially so in the case of something heated from below like Turkish coffee), but is certainly the case when the French press is stirred.
 
-Regardless it is unlikely that $\mathrm{Bi}<0.001$ and thus the simple exponential model is probably not a good fit, we turn instead to the model from Carslaw and Jaeger.
+Regardless it is unlikely that $\mathrm{Bi}<0.001$ and thus the simple exponential model is probably not a good fit, we turn instead to the model from [Carslaw and Jaeger](#carslaw-1959).
+
+<div class="notice">
+  {{ footnote-9 | markdownify }}
+
+  {{ footnote-10 | markdownify }}
+
+  {{ footnote-11 | markdownify }}
+
+  {{ footnote-12 | markdownify }}
+
+  {{ footnote-13 | markdownify }}
+
+  {{ footnote-14 | markdownify }}
+</div>
 
 ### Boundary conditions
 
@@ -328,7 +403,7 @@ First off the coffee starts with a set of initial concentrations *q<sub>0</sub>*
 
 ### The Carslaw and Jaeger model
 
-It might, at first glance, appear that I have lost the thread, Carslaw and Jaeger ([1959](#carslaw-1959)) is a book on heat transfer, this is a mass transfer problem. This is an example of the unreasonable effectiveness of treating transport phenomena as a unified subject. By putting the PDE into dimensionless form we find that the PDE for the equivalent heat transfer problem (a solid sphere cooling in a liquid) has already been solved and we can just use that answer.
+It might, at first glance, appear that I have lost the thread, [Carslaw and Jaeger](#carslaw-1959) is a book on heat transfer, this is a mass transfer problem. This is an example of the unreasonable effectiveness of treating transport phenomena as a unified subject. By putting the PDE into dimensionless form we find that the PDE for the equivalent heat transfer problem (a solid sphere cooling in a liquid) has already been solved and we can just use that answer.
 
 First step, to put the PDE in dimensionless form we make the substitutions:
 
@@ -358,7 +433,11 @@ With $ \alpha = { V_l \over {K V_s} } $ and boundary condition
 
 + *&tau; = 0* : *u<sub>f</sub>* = 1
 
-This is the equivalent PDE (in dimensionless form) to the heat transfer case for a hot solid sphere cooling in a well mixed solution ([Carslaw and Jaeger 1959](#carslaw-1959), 240-241; [Bird, Stewart and Lightfoot 2007](#bird-2007), 379-381), with the solution
+This is the equivalent PDE (in dimensionless form) to the heat transfer case for a hot solid sphere cooling in a well mixed fluid[<sup id="fnref-15">15</sup>](#fn-15), with the solution
+
+{% capture footnote-15 %}
+<a name="fn-15"><strong>15</strong></a>: [Carslaw and Jaeger](#carslaw-1959), *Conduction of Heat in Solids*, 240-241; [Bird, Stewart and Lightfoot](#bird-2007), *Transport Phenomena*, 379-381.[↩](#fnref-15)
+{% endcapture %}
 
 $$ u_f = 6α (α+1) \sum_{k=1}^{\infty} { \exp(-τ x_k^2 )\over { 9(α+1) + (α x_k)^2 } } $$
 
@@ -366,7 +445,7 @@ Where the *x<sub>k</sub>* s are the roots of the equation
 
 $$ \tan(x) = { {3 x} \over { 3 + \alpha x^2 } } $$
 
-(the particular form shown here comes from Schwartzberg ([1987](#schwartzberg-1987), 554) )
+(the particular form shown here comes from [Schwartzberg](#schwartzberg-1987))
 
 The first problem, when actually using this solution, is generating the roots of the equation. The original equation has a repeated singularity and, in my experience, off-the-shelf root finding algorithms have trouble with that and will find spurious zeros in the vicinity of the singularities.
 
@@ -462,6 +541,10 @@ extraction(t) = c(t)*Vₗ/mₛ
 ![svg](/images/engineering_coffee_files/output_34_0.svg)
 
 
+
+<div class="notice">
+  {{ footnote-15 | markdownify }}
+</div>
 
 ### Packaging the final result
 

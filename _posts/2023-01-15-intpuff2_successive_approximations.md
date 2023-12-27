@@ -1,7 +1,8 @@
 ---
 title: "Integrating a Gaussian puff - mistakes were made"
+last_modified_at: 2023-12-26
 toc: true
-toc_label: "contents"
+toc_label: "Contents"
 toc_sticky: true
 comments: true
 categories:
@@ -57,13 +58,33 @@ What this generates is an instantaneous release of all of the mass in an infinit
 
 The dispersion parameters are functions of the downwind distance, but critically..*to what?* Taken as the downwind distance to the point being calculated, the dispersion parameters are constants (with respect to time) and the problem simplifies to integrating the Gaussian $ g_{x}(x,t) $ with respect to *t*, which is what I had assumed. *However* if the dispersion parameters are actually correlated to the downwind distance of the *cloud center*, which is $x_c = u t$, they are in fact functions of time and this does not work.
 
-This distinction is by no means made obvious in many of the references for chemical hazard analysis. Most are either vague about it or take the dispersion parameters at the downwind distance *of the point being calculated*. My main reference is the CCPS *Guidelines for Consequence Analysis of Chemical Releases* and it does this (page 107-108). As do several workbooks I have seen. However *Lee's Loss Prevention in the Process Industries, 2nd Ed.* (page 15/112) notes that the dispersion parameters for the Pasquill-Gifford puff model (which this is) are given by
+This distinction is by no means made obvious in many of the references for chemical hazard analysis. Most are either vague about it or take the dispersion parameters at the downwind distance *of the point being calculated*. My main reference is the CCPS *Guidelines for Consequence Analysis of Chemical Releases* and it does this[<sup id="fnref-1">1</sup>](#fn-1). As do several workbooks I have seen. However *Lees'*[<sup id="fnref-2">2</sup>](#fn-2) notes that the dispersion parameters for the Pasquill-Gifford puff model (which this is) are given by
+
+{% capture footnote-1 %}
+<a name="fn-1"><strong>1</strong></a>: AIChE, *[Guidelines for Consequence Analysis](#ccps-1999)*, 107-108. [↩](#fnref-1)
+{% endcapture %}
+
+{% capture footnote-2 %}
+<a name="fn-2"><strong>2</strong></a>: Lees, *[Loss Prevention](#lees-1996)*, 15/112. [↩](#fnref-2)
+{% endcapture %}
 
 $$ \sigma = { C^2 \over 2 } \left( u t \right)^{2-n} $$
 
-where *C* and *n* are some constants from Sutton, and in general the dispersion correlations are functions of travel time with a lot of discussion in the literature of *to what power*. The standard correlations for the dispersion parameters come from Slade [*Meteorology and Atomic Energy*](https://doi.org/10.2172/4492043) which gives some details on how the measurements were actually taken. It certainly seems to me that the downwind distance was to the cloud center, i.e. the experimenters measured the cloud dimensions at the downwind point to which it had traveled. Which makes the travel time and windspeed implicit.
+where *C* and *n* are some constants from Sutton, and in general the dispersion correlations are functions of travel time with a lot of discussion in the literature of *to what power*. The standard correlations for the dispersion parameters come from Slade[<sup id="fnref-3">3</sup>](#fn-3) which gives some details on how the measurements were actually taken. It certainly seems to me that the downwind distance was to the cloud center, i.e. the experimenters measured the cloud dimensions at the downwind point to which it had traveled. Which makes the travel time and windspeed implicit.
+
+{% capture footnote-3 %}
+<a name="fn-3"><strong>3</strong></a>: Slade, *[Meteorology and Atomic Energy](#slade-1968)*, 117-189. [↩](#fnref-3)
+{% endcapture %}
 
 I think it is a reasonable confusion as the dispersion parameters for a continuous release, a Gaussian *plume* model, are indeed functions of the downwind distance to the point being calculated. It is also frequently the case that examples are given for the concentration at the cloud center, in which case the downwind distance at the point being calculated *is* the downwind distance to the cloud center.
+
+<div class="notice">
+  {{ footnote-1 | markdownify }}
+
+  {{ footnote-2 | markdownify }}
+
+  {{ footnote-3 | markdownify }}
+</div>
 
 
 ## Dispersion nearly-constants
@@ -261,8 +282,11 @@ I think it's worth noting that calculations that take on the order of tens of mi
 If you are doing a huge number of calculations, and can tolerate some model error, then the integral approximation is a good choice. It is the fastest and can perform as well as the discrete puff model. That said, there is an elephant in the room: The two integral approaches strictly require that all of the puffs are moving along the same line, at the same speed. For a great many chemical release scenarios that is entirely the set of assumptions being made, so it works great. However, for more complex atmospheric conditions -- with variable windspeed and direction -- then they don't work at all. Or, at least, it is not obvious to me how to adapt them to work. A slightly tweaked discrete puff model, tracking each puff's individual center location and windspeed, would be quite easy to implement, giving a more *flexible* model overall. This is in fact the how several more complicated atmospheric dispersion modeling tools work.
 
 
-For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2023-01-15-intpuff2_successive_approximations.ipynb)
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2023-01-15-intpuff2_successive_approximations.ipynb)
 {: .notice--info}
 
+## References
 
----
++ <a name="ccps-1999">AIChE/CCPS</a>. 1999. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers
++ <a name="lees-1996">Lees</a>, Frank P. 1996. *Loss Prevention in the Process Industries, 2nd ed.* Oxford: Butterworth-Heinemann
++ <a name="slade-1968">Slade</a>, David H. 1968. *Meteorology and Atomic Energy*. Springfield, VA: National Technical Information Service [doi:10.2172/4492043](https://doi.org/10.2172/4492043)

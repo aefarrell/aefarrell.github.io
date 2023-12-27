@@ -1,7 +1,8 @@
 ---
 title: "Monitoring smoke infiltration"
+last_modified_at: 2023-12-26
 toc: true
-toc_label: "contents"
+toc_label: "Contents"
 toc_sticky: true
 comments: true
 categories:
@@ -242,7 +243,7 @@ That said I wonder if this might be a more broadly useful activity when planning
 Currently a lot of the advice is merely to stay indoors, with little acknowledgment that indoors is often severely polluted as well.
 
 
-For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://nbviewer.org/github/aefarrell/aefarrell.github.io/blob/main/_notebooks/2023-05-22-indoor_air_quality.ipynb)
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2023-05-22-indoor_air_quality.ipynb)
 {: .notice--info}
 
 ---
