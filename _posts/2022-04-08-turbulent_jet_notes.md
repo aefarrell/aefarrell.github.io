@@ -294,9 +294,7 @@ Which has a singularity at *t=0*, but one that can be easily dealt with by setti
 $$ { \bar{v}_z \over \bar{v}_{z,max} }_{r=0} = - {F^{\prime} \over \phi }_{\phi=0} = 1 $$
 we find ${F^{\prime} \over \phi } = -1$ at *&phi; = 0* and, from the boundary conditions, 
 $$ F^{\prime \prime} = {F^{\prime} \over \phi } $$
-at *&phi; = 0*, therefore *F''(0) = -1*
-
-[↩](#fnref-5)
+at *&phi; = 0*, therefore *F''(0) = -1* [↩](#fnref-5)
 {% endcapture %}
 
 $$ {d \mathbf{u} \over dt }_{t=0} = \begin{bmatrix} 0 \\ -1 \end{bmatrix}$$

@@ -258,10 +258,11 @@ intpuff(x,y,z,t; m, Δt) = m*gy(y,x/u)*gz(z,x/u)*∫gx(x,t,Δt)
 ![gif](/images/integrated_puff_files/output_12_0.gif)
 
 
-This release model has some convenient properties: clearly as $\Delta t \to 0$ it becomes a Gaussian puff again, but also as $\Delta t \to \infty$ also limits to the Gaussian plume.
+This release model has some convenient properties: clearly as $\Delta t \to 0$ it becomes a Gaussian puff again, but also as $\Delta t \to \infty$ also limits to the Gaussian plume[<sup id="fnref-8">8</sup>](#fn-8).
 
-**Note** This is somewhat hand-wavy but a release of infinite duration is an event that began an infinite amount of time in the past and continues an infinite amount into the future, so the term $\frac{1}{2u} \left( \mathrm{erf}(a) - \mathrm{erf}(b) \right)$ goes in the limit to $\frac{1}{2u} \left( \mathrm{erf}(\infty) - \mathrm{erf}(-\infty) \right) = \frac{1}{u}$ resulting in a concentration profile of $ c \left(x,y,z,t \right) = \frac{m}{u} \cdot g_y(y) \cdot g_z(z) $, which is exactly a plume model
-{: .notice}
+{% capture footnote-8 %}
+<a name="fn-8"><strong>8</strong></a>: This is somewhat hand-wavy but a release of infinite duration is an event that began an infinite amount of time in the past and continues an infinite amount into the future, so the term $\frac{1}{2u} \left( \mathrm{erf}(a) - \mathrm{erf}(b) \right)$ goes in the limit to $\frac{1}{2u} \left( \mathrm{erf}(\infty) - \mathrm{erf}(-\infty) \right) = \frac{1}{u}$ resulting in a concentration profile of $ c \left(x,y,z,t \right) = \frac{m}{u} \cdot g_y(y) \cdot g_z(z) $, which is exactly a plume model. [↩](#fnref-8)
+{% endcapture %}
 
     
 ![svg](/images/integrated_puff_files/output_25_0.svg)
@@ -271,6 +272,8 @@ This release model has some convenient properties: clearly as $\Delta t \to 0$ i
   {{ footnote-6 | markdownify }}
 
   {{ footnote-7 | markdownify }}
+
+  {{ footnote-8 | markdownify }}
 </div>
 
 ## Complications

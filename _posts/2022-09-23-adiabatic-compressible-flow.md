@@ -126,7 +126,7 @@ Mw = 0.02896 # kg/mol
 The mass velocity, *G* = *&rho;u*, in a pipe with constant cross-sectional area at steady state is constant[<sup id="fnref-7">7</sup>](#fn-7), and the Reynold's number can be written in terms of *G* as:
 
 {% capture footnote-7 %}
-<a name="fn-7"><strong>9</strong></a>: This is a consequence of the steady state assumption, $$\dot{m}_{in} = G_{in} A = G_{out} A = \dot{m}_{out}$$ [↩](#fnref-7)
+<a name="fn-7"><strong>7</strong></a>: This is a consequence of the steady state assumption, $$\dot{m}_{in} = G_{in} A = G_{out} A = \dot{m}_{out}$$ [↩](#fnref-7)
 {% endcapture %}
 
 $$ \mathrm{Re} = { {G D} \over \mu } $$

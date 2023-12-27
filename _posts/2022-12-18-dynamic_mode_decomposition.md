@@ -86,7 +86,7 @@ $$ \mathbf{A} = \mathbf{YX}^{\dagger} $$
 where **X<sup>&dagger;</sup>** is the [Moore-Penrose pseudoinverse](https://mathworld.wolfram.com/Moore-PenroseMatrixInverse.html) of **X**.[<sup id="fnref-1">1</sup>](#fn-1)
 
 {% capture footnote-1 %}
-<a name="fn-9"><strong>9</strong></a>: I think this can be shown fairly easily by starting with the definition of the Frobenius norm $ \| \mathbf{ A X } - \mathbf{Y} \|_{F}^{2} = \mathrm{Tr}\left( \left(\mathbf{ A X } - \mathbf{Y}\right)\left(\mathbf{ A X } - \mathbf{Y} \right)^{T} \right) $ and finding the matrix **A** that minimizes that using standard [matrix calculus](https://en.wikipedia.org/wiki/Matrix_calculus), and some properties of the pseudoinverse. [↩](#fnref-1)
+<a name="fn-1"><strong>1</strong></a>: I think this can be shown fairly easily by starting with the definition of the Frobenius norm $ \| \mathbf{ A X } - \mathbf{Y} \|_{F}^{2} = \mathrm{Tr}\left( \left(\mathbf{ A X } - \mathbf{Y}\right)\left(\mathbf{ A X } - \mathbf{Y} \right)^{T} \right) $ and finding the matrix **A** that minimizes that using standard [matrix calculus](https://en.wikipedia.org/wiki/Matrix_calculus), and some properties of the pseudoinverse. [↩](#fnref-1)
 {% endcapture %}
 
 <div class="notice">
