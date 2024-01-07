@@ -1,6 +1,6 @@
 ---
 title: "Messing around with model parameters"
-last_modified_at: 2023-12-26
+last_modified_at: 2024-01-07
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -145,13 +145,14 @@ We can construct the relevant scenario for `GasDispersion.jl` directly.
 
 
 ```julia
-r = Release(m, Inf, d, v, h, Pₛ, T, 0.0)
+r = VerticalJet(m, Inf, d, v, h, Pₛ, T, 0.0)
 
-a = DryAir(pressure=Pₛ, temperature=Tₛ, windspeed=uᵣ, windspeed_height=zᵣ, stability=stability)
+a = SimpleAtmosphere(pressure=Pₛ, temperature=Tₛ, windspeed=uᵣ, windspeed_height=zᵣ, stability=stability)
 
 # a dummy substance, since I know a gaussian plume doesn't require any material
 # properties I have just left them as NaNs
-SO2 = Substance(:SulfurDioxide,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN)
+SO2 = Substance(name=:SulfurDioxide,molar_weight=0.064066,liquid_density=1,boiling_temp=1,
+                latent_heat=1,gas_heat_capacity=1,liquid_heat_capacity=1)
 
 scn = Scenario(SO2,r,a)
 ```
@@ -159,23 +160,34 @@ scn = Scenario(SO2,r,a)
 
 
 
-    Substance: SulfurDioxide 
-    Release conditions:
-        ṁ: 0.8888888888888888 kg/s 
-        Δt: Inf s 
-        d: 7.3 m 
-        u: 35.6 m/s 
-        h: 155.5 m 
-        P: 101325 Pa 
-        T: 439.7 K 
-        f_l: 0.0  
-    Atmospheric conditions:
-        P: 101325 Pa 
-        T: 273.15 K 
-        Rs: 287.0500676 J/kg/K 
-        u: 2 m/s 
-        h: 10 m 
-        stability: ClassD  
+  Substance: SulfurDioxide 
+      MW: 0.064066 kg/mol 
+      P_v: GasDispersion.Antoine{Float64}(0.007705368698167287, 0.007705368698167287, 0.0) Pa 
+      ρ_g: 2.7095140841291006 kg/m^3 
+      ρ_l: 1 kg/m^3 
+      T_ref: 288.15 K 
+      P_ref: 101325.0 Pa 
+      k: 1.4  
+      T_b: 1.0 K 
+      Δh_v: 1 J/kg 
+      Cp_g: 1 J/kg/K 
+      Cp_l: 1 J/kg/K 
+  VerticalJet release:
+      ṁ: 0.8888888888888888 kg/s 
+      Δt: Inf s 
+      d: 7.3 m 
+      u: 35.6 m/s 
+      h: 155.5 m 
+      P: 101325.0 Pa 
+      T: 439.7 K 
+      f_l: 0.0  
+  SimpleAtmosphere atmosphere:
+      P: 101325.0 Pa 
+      T: 273.15 K 
+      u: 2.0 m/s 
+      h: 10.0 m 
+      rh: 0.0 % 
+      stability: ClassD 
 
 
 
@@ -191,7 +203,7 @@ Plotted below are the results for every equation set, at near ground level (at b
 
 ![svg](/images/dispersion_parameter_sensitivity_files/output_33_0.svg)
 
-Plotted below is the 0.450 mg/m<sup>3</sup> isopleth, the 1-hr [Ambient Air Quality Objective (AAQO)](https://open.alberta.ca/publications/9781460134856) for SO<sub>2</sub> in Alberta. As we would expect, the correlations that lead to a higher maximum concentration correspond to less overall dispersion and the isopleth is quite a bit smaller for the urban versus rural case and the TNO versus the remaining cases. The scale is in kilometers so this is quite a large difference in area.
+Plotted below is the 172ppbv isopleth, the 1-hr [Ambient Air Quality Objective (AAQO)](https://open.alberta.ca/publications/9781460134856) for SO<sub>2</sub> in Alberta. As we would expect, the correlations that lead to a higher maximum concentration correspond to less overall dispersion and the isopleth is quite a bit smaller for the urban versus rural case and the TNO versus the remaining cases. The scale is in kilometers so this is quite a large difference in area.
 
 ![svg](/images/dispersion_parameter_sensitivity_files/output_35_0.svg)
 
