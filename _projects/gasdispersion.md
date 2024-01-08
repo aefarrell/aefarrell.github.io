@@ -6,16 +6,16 @@ header:
   teaser: /images/projects/gasdispersion.jpg
   caption: "Photo by [veeterzy](https://unsplash.com/@veeterzy?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/)"
 gallery:
-  - url: https://nbviewer.org/github/aefarrell/GasDispersion.jl/blob/main/examples/01_gaussian_plume_models.ipynb
+  - url: /images/projects/gasdispersion_gaussian.svg
     image_path: /images/projects/gasdispersion_gaussian.svg
     alt: "gaussian plume dispersion"
-  - url: https://nbviewer.org/github/aefarrell/GasDispersion.jl/blob/main/examples/02_gaussian_puff_models.ipynb
+  - url: /images/projects/gasdispersion_puff.gif
     image_path: /images/projects/gasdispersion_puff.gif
     alt: "gaussian puff dispersion"
-  - url: https://nbviewer.org/github/aefarrell/GasDispersion.jl/blob/main/examples/03_britter_mcquaid_plume_models.ipynb
+  - url: /images/projects/gasdispersion_brittermcquaid.jpg
     image_path: /images/projects/gasdispersion_brittermcquaid.jpg
     alt: "Britter-McQuaid dense gas dispersion"
-  - url: https://nbviewer.org/github/aefarrell/GasDispersion.jl/blob/main/examples/05_turbulent_jet_models.ipynb
+  - url: /images/projects/gasdispersion_simplejet.svg
     image_path: /images/projects/gasdispersion_simplejet.svg
     alt: "Simple turbulent jet dispersion"
 comments: false
