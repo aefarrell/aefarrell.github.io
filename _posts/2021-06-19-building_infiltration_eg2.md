@@ -83,11 +83,8 @@ u   = 1.5      # windspeed m/s
 
 The simplest model for a neutrally buoyant cloud is a [gaussian disperison model](https://aefarrell.github.io/2020/12/05/gaussian_dispersion_example/), in this case because the cylinder is assumed to fail catastrophically the release can be treated as instantaneous and so we use a gaussian puff model.
 
-It is often worth-while to estimate the initial dimensions of the cloud and then calculate a *virtual* emission point from which the release is assumed to take place. This is especially useful if the area immediately around the release point is of interest as the gaussian model assumes all of the mass is initially concentrated in a single point. However for a simple screening just using the default dispersion model is likely fine, and more conservative. The model gives the concentration as a gaussian distribution in the x, y, and z directions, while also adding in a term to account for ground reflection (mass cannot disperse below groundlevel)[<sup id="fnref-1">1</sup>](#fn-1)
+It is often worth-while to estimate the initial dimensions of the cloud and then calculate a *virtual* emission point from which the release is assumed to take place. This is especially useful if the area immediately around the release point is of interest as the gaussian model assumes all of the mass is initially concentrated in a single point. However for a simple screening just using the default dispersion model is likely fine, and more conservative. The model gives the concentration as a gaussian distribution in the x, y, and z directions, while also adding in a term to account for ground reflection (mass cannot disperse below groundlevel)<a href="#fn-1" class="sidenote-number"></a><span class="sidenote" id="fn-1">[AIChE/CCPS](#ccps-1996) *Guidelines for Use of Vapour Cloud Dispersion Models*, 75.</span>
 
-{% capture footnote-1 %}
-<a name="fn-1"><strong>1</strong></a>: AIChE ([1996](#ccps-1996)) [↩](#fnref-1)
-{% endcapture %}
 
 $$ c_{puff}(x,y,z,t) = { m \over { (2 \pi)^{3/2} \sigma_x \sigma_y \sigma_z } } 
 \exp \left( -\frac{1}{2} \left( {x - ut} \over \sigma_x \right)^2 \right) 
@@ -119,16 +116,14 @@ function c_puff(x,y,z,t; # point in space
 end
 ```
 
-<div class="notice">
-  {{ footnote-1 | markdownify }}
-</div>
 
 ### Dispersion Parameters
 
 The dispersion parameters for puff models are not, in general, as well developed as for plume models, the following values were interpolated from a sparser set of correlations and it is worth keeping in mind. It is also worth noting that the dispersion parameters are where the impact of different windspeeds will be made most apparent as [stability is a function of windspeed](https://aefarrell.github.io/2020/12/12/worst_case_weather/).
 
 
-#### Dispersion parameters for a Gaussian puff model[<sup id="fnref-2">2</sup>](#fn-2)
+#### Dispersion parameters for a Gaussian puff model<a href="#fn-2" class="sidenote-number"></a>
+<span class="sidenote" id="fn-2">[AIChE/CCPS](#ccps-1996) *Guidelines for Use of Vapour Cloud Dispersion Models*, 78.</span>
 
 | Stability | $\sigma_x = \sigma_y$ | $\sigma_z$        | Max Windspeed |
 |:---------:|:---------------------:|:-----------------:|:-------------:| 
@@ -140,10 +135,6 @@ The dispersion parameters for puff models are not, in general, as well developed
 | F         | $ 0.02 x^{0.89} $     | $ 0.05 x^{0.61} $ | 3 m/s         |
 
 
-{% capture footnote-2 %}
-<a name="fn-2"><strong>2</strong></a>: AIChE ([1996](#ccps-1996)) [↩](#fnref-2)
-{% endcapture %}
-
 
 ```julia
 # Class F 
@@ -153,9 +144,7 @@ The dispersion parameters for puff models are not, in general, as well developed
 σz(x) = 0.05*x^0.61
 ```
 
-<div class="notice">
-  {{ footnote-2 | markdownify }}
-</div>
+
 
 ### Outdoor Concentration
 
@@ -195,11 +184,8 @@ The [single zone model](https://aefarrell.github.io/2021/05/22/building_infiltra
 
 Very likely in the ~10s it takes for the cloud to pass very little of it will have had time to diffuse into the interior space of the building and the interior mixing (or lack thereof) will be a significant slow step in the overall mass transfer.
 
-The single zone model, however, will work as a first pass at least, and in this model the interior concentration is related to the outside concentration by the following ODE[<sup id="fnref-3">3</sup>](#fn-3)
+The single zone model, however, will work as a first pass at least, and in this model the interior concentration is related to the outside concentration by the following ODE<a href="#fn-3" class="sidenote-number"></a><span class="sidenote" id="fn-3">[Lees](#lees-1996) *Loss Prevention*, section 15.51</span>
 
-{% capture footnote-3 %}
-<a name="fn-3"><strong>3</strong></a>: Lees ([1996](#lees-1996)), section 15.51 [↩](#fnref-3)
-{% endcapture %}
 
 
 $$\frac{d}{dt} c_i(t) = f \left( c_i, \lambda, t \right) = \lambda \cdot \left( c_o(t) - c_i(t) \right) $$
@@ -218,17 +204,11 @@ f(cᵢ, λ, t; cₒ=zero) = λ*(cₒ(t) - cᵢ)
 f(g) = (cᵢ, λ, t) -> f(cᵢ, λ, t; cₒ=g)
 ```
 
-<div class="notice">
-  {{ footnote-3 | markdownify }}
-</div>
 
 ### Simplified ASHRAE Model
 
-The last parameter we need to estimate before solving the problem is the ventilation rate, *λ*, which can be estimated using the simplified ASHRAE model [<sup id="fnref-4">4</sup>](#fn-4)
+The last parameter we need to estimate before solving the problem is the ventilation rate, *λ*, which can be estimated using the simplified ASHRAE model<a href="#fn-4" class="sidenote-number"></a><span class="sidenote" id="fn-4">[ASHRAE](#ashrae-2017) *Handbook*, chapter 16</span>
 
-{% capture footnote-4 %}
-<a name="fn-4"><strong>4</strong></a>: ASHRAE ([2017](#ashrae-2017)), chapter 16 [↩](#fnref-4)
-{% endcapture %}
 
 $$\lambda = \frac{Q}{V} \\
 Q = A_L \sqrt{ C_s \vert \Delta T \vert + C_w u^2 } \\
@@ -236,7 +216,7 @@ Q = A_L \sqrt{ C_s \vert \Delta T \vert + C_w u^2 } \\
 
 Where $A_L$ and $V$ were given earlier, $C_s$ and $C_w$ are tabulated constants, $\Delta T$ is the difference between indoor and outdoor temperatures, in *K*, and *u* the windspeed, in m/s, and the ventilation rate is in s⁻¹.
 
-In this case the indoor and outdoor temperature are assumed to be the same for simplicity[<sup id="fnref-5">5</sup>](#fn-5)
+In this case the indoor and outdoor temperature are assumed to be the same for simplicity<a href="#fn-5" class="sidenote-number"></a><span class="sidenote" id="fn-5">Note that the constants have been adjusted such that the leak area is in m², in the ASHRAE handbook the leak area is in cm²</span>
 
 |       |Shelter Class| 1 Story  | 2 Story  | 3 Story  |
 |:-----:|:-----------:|:--------:|:--------:|:--------:|
@@ -247,9 +227,6 @@ In this case the indoor and outdoor temperature are assumed to be the same for s
 |       | 4           | 10.4×10⁻³| 13.7×10⁻³| 16.1×10⁻³|
 |       | 5           | 3.20×10⁻³| 4.20×10⁻³| 4.90×10⁻³|
 
-{% capture footnote-5 %}
-<a name="fn-5"><strong>5</strong></a>: Note that the constants have been adjusted such that the leak area is in m², in the ASHRAE handbook the leak area is in cm² [↩](#fnref-5)
-{% endcapture %}
 
 With the shelter class defined as
 1. No obstructions or local shielding
@@ -273,11 +250,6 @@ For this scenario we are assuming the (one-story) building is isolated and there
     7.249290622734888e-5
 
 
-<div class="notice">
-  {{ footnote-4 | markdownify }}
-
-  {{ footnote-5 | markdownify }}
-</div>
 
 ## Indoor Concentration
 
@@ -344,15 +316,8 @@ sln_box2 = solve(prb_box2, Tsit5());
 
 
 
-In either the single point or averaged outdoor concentration models the indoor concentration rapidly rises above the ERPG-3 limit, which is very bad, and then slowly decays over time[<sup id="fnref-6">6</sup>](#fn-6). In this case almost immediately after the cloud has passed the indoor space is more concentrated in Chlorine than the outside air. At the very least this suggests that the building is not a good shelter in place location, or at least a much more detailed analysis of building infiltration would be needed to show that it *was* a good shelter in place location.
+In either the single point or averaged outdoor concentration models the indoor concentration rapidly rises above the ERPG-3 limit, which is very bad, and then slowly decays over time<a href="#fn-6" class="sidenote-number"></a><span class="sidenote" id="fn-6">Note that the indoor concentrations are in mg/m³ whereas the outdoor concentration peaks in the kg/m³, so the building is doing something, it is reducing the indoor concentration by several orders of magnitude, it just isn't enough</span>. In this case almost immediately after the cloud has passed the indoor space is more concentrated in Chlorine than the outside air. At the very least this suggests that the building is not a good shelter in place location, or at least a much more detailed analysis of building infiltration would be needed to show that it *was* a good shelter in place location.
 
-{% capture footnote-6 %}
-<a name="fn-6"><strong>6</strong></a>: Note that the indoor concentrations are in mg/m³ whereas the outdoor concentration peaks in the kg/m³, so the building is doing something, it is reducing the indoor concentration by several orders of magnitude, it just isn't enough [↩](#fnref-6)
-{% endcapture %}
-
-<div class="notice">
-  {{ footnote-6 | markdownify }}
-</div>
 
 ## Sensitivity
 
@@ -377,11 +342,8 @@ $$ c_{o}(x,y,z,t) = m \left[{ \exp \left( -\frac{1}{2} \left( {x - ut} \over \si
 
 $$ c_{o}(x,y,z,t) = m C_x(x, t) C_y(x, y) C_z(x, z)$$
 
-and noting that only $C_x$ depends on time we can collect the other stuff into a big constant called $C_1$, giving us[<sup id="fnref-7">7</sup>](#fn-7)
+and noting that only $C_x$ depends on time we can collect the other stuff into a big constant called $C_1$, giving us<a href="#fn-7" class="sidenote-number"></a><span class="sidenote" id="fn-7">I am assuming the dispersion parameters are all constant, this is not strictly true as they all depend upon the downwind location of the center of the puff, which is a function of time</span>
 
-{% capture footnote-7 %}
-<a name="fn-7"><strong>7</strong></a>: I am assuming the dispersion parameters are all constant, this is not strictly true as they all depend upon the downwind location of the center of the puff, which is a function of time [↩](#fnref-7)
-{% endcapture %}
 
 $$ c_{o}(t) = C_1 { 1 \over { \sqrt{2 \pi} \sigma_x } }\exp \left( -\frac{1}{2} \left( {x - ut} \over \sigma_x \right)^2 \right) $$
 
@@ -617,6 +579,6 @@ For a complete listing of code used to generate data and figures, please see the
 
 ## References
 
-+ <a name="ccps-1996">AIChE/CCPS</a>. 1996. *Guidelines for Use of Vapour Cloud Dispersion Models, 2nd Ed.* New York: American Institute of Chemical Engineers
-+ <a name="ashrae-2017">ASHRAE</a>. 2017. *2017 ASHRAE Handbook - Fundamentals (SI Edition).*
-+ <a name="lees-1996">Lees</a>, Frank P. 1996. *Loss Prevention in the Process Industries, 2nd ed.* Oxford: Butterworth-Heinemann
++ <a name="ccps-1996">AIChE/CCPS</a>. *Guidelines for Use of Vapour Cloud Dispersion Models*, 2nd ed. New York: American Institute of Chemical Engineers, 1996.
++ <a name="ashrae-2017">ASHRAE</a>. *2017 ASHRAE Handbook - Fundamentals (SI Edition)*. Atlanta, GA: ASHRAE, 2017.
++ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries*, 2nd ed. Oxford: Butterworth-Heinemann, 1996.

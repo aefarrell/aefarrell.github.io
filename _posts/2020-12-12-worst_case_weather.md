@@ -158,7 +158,7 @@ Consider for some substance *i* being released with in-stack concentration $C_{s
 
 $$ \chi \left( x, y, z \right) = { C_i \left( x, y, z \right) \over C_{s,i} } $$
 
-Assuming the in-stack concentration to be simply the mass emission rate of *i* divided by the volumetric flow-rate[<sup id="fnref-1">1</sup>](#fn-1)
+Assuming the in-stack concentration to be simply the mass emission rate of *i* divided by the volumetric flow-rate<a href="#fn-1" class="sidenote-number"></a><span class="sidenote" id="fn-1">At standard state, because the concentrations given for the occupational exposure limits are given in terms of a volume at standard state. This is also a potential error in the original model as it does not correct the concentrations back to standard state, nor does it really track temperature to make that even possible, especially near the stack.</span>
 
 $$ C_{s,i} = { Q_i \over V_s^o } $$
 
@@ -172,7 +172,7 @@ $$ \chi \left( x, y, z \right) = {V_s^o \over 2 \pi u \sigma_{ye} \sigma_{ze} } 
 
 If you have already done the modeling for a particular substance then calculate $\chi$ for the points of interest by dividing the concentrations by the in stack concentration, otherwise substitute the formula for $\chi$ given above for the concentration and model that instead.
 
-Then, when evaluating multiple substances, the test[<sup id="fnref-2">2</sup>](#fn-2)
+Then, when evaluating multiple substances, the test<a href="#fn-2" class="sidenote-number"></a><span class="sidenote" id="fn-2">From [CCOHS](https://www.ccohs.ca/oshanswers/hsprograms/occ_hygiene/occ_exposure_limits.html)</span>
 
 $$ \sum_i {C_i \left( x, y, z \right) \over T_i } \lt 1 $$
 
@@ -191,16 +191,6 @@ Below are a series of contour plots showing the dilution $\chi$, where colours a
 
 ![svg](/images/worst_case_weather_files/output_17_0.svg)
 
-
-{% capture footnotes-1-2 %}
-<a name="fn-1"><strong>1</strong></a>: at standard state, because the concentrations given for the occupational exposure limits are given in terms of a volume at standard state. This is also a potential error in the original model as it does not correct the concentrations back to standard state, nor does it really track temperature to make that even possible, especially near the stack.[↩](#fnref-1)
-
-<a name="fn-2"><strong>2</strong></a>: from [CCOHS](https://www.ccohs.ca/oshanswers/hsprograms/occ_hygiene/occ_exposure_limits.html)[↩](#fnref-2)
-{% endcapture %}
-
-<div class="notice">
-  {{ footnotes-1-2 | markdownify }}
-</div>
 
 
 ## Thoughts on Code and Reusability

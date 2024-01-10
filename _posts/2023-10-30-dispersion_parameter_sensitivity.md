@@ -47,12 +47,12 @@ For an urban release scenario, whether or not one choses the default, the ISC3 u
 
 ## Plume Dispersion
 
-The more diverse sets of correlations are for the plume dispersion parameters, the crosswind and vertical dispersion. To some extent this is because the early work[<sup id="fnref-1">1</sup>](#fn-1)<span class="sidenote"><a name="fn-1"><strong>1</strong></a>: [Turner](#turner-1970), *Workbook of Atmospheric Dispersion Estimates*, 8-9. [↩](#fnref-1)</span> presented the dispersion parameters graphically and many subsequent authors generated their own curves to fit these plots.
+The more diverse sets of correlations are for the plume dispersion parameters, the crosswind and vertical dispersion. To some extent this is because the early work<a href="#fn-1" class="sidenote-number"></a><span class="sidenote" id="fn-1">[Turner](#turner-1970), *Workbook of Atmospheric Dispersion Estimates*, 8-9.</span> presented the dispersion parameters graphically and many subsequent authors generated their own curves to fit these plots.
 
 
 ### Crosswind Dispersion
 
-Crosswind dispersion can be divided into the various attempts at fitting the curves presented graphically by [Turner](#turner-1970) and those based on Briggs' urban and rural correlations[<sup id="fnref-2">2</sup>](#fn-2)<span class="sidenote"><a name="fn-2"><strong>2</strong></a>: [Briggs](#briggs-1973), *Diffusion Estimation for Small Emissions*, 38. Note that the correlations are given with respect to half-width/half-depth. [↩](#fnref-2)</span>
+Crosswind dispersion can be divided into the various attempts at fitting the curves presented graphically by [Turner](#turner-1970) and those based on Briggs' urban and rural correlations<a href="#fn-2" class="sidenote-number"></a><span class="sidenote" id="fn-2">[Briggs](#briggs-1973), *Diffusion Estimation for Small Emissions*, 38. Note that the correlations are given with respect to half-width/half-depth.</span>
 
 
 The default correlation is a simple set of correlations of the form
@@ -73,9 +73,7 @@ Zooming in on the class F curves is illustrative of the lot: most of the lines o
 
 ### Vertical Dispersion
 
-The vertical dispersion correlations are decidedly more varied. Varied enough that I'm just going to show them all at full scale[<sup id="fnref-3">3</sup>](#fn-3)
-
-<span class="sidenote"><a name="fn-3"><strong>3</strong></a>: The correlations given in the [AIChE/CCPS](#ccps-1999) *Guidelines for Consequence Analysis* for urban conditions has typos in the class A, B and D correlations, I have corrected them here to match the Briggs correlations on which they are supposed to be based. [↩](#fnref-3)</span>
+The vertical dispersion correlations are decidedly more varied. Varied enough that I'm just going to show them all at full scale<a href="#fn-3" class="sidenote-number"></a><span class="sidenote" id="fn-3">The correlations given in the [AIChE/CCPS](#ccps-1999) *Guidelines for Consequence Analysis* for urban conditions has typos in the class A, B and D correlations, I have corrected them here to match the Briggs correlations on which they are supposed to be based.</span>
 
 ![svg](/images/dispersion_parameter_sensitivity_files/output_17_0.svg)
 
@@ -214,14 +212,14 @@ For a complete listing of code used to generate data and figures, please see the
 
 ## References
     
-+ <a name="ccps-1999">AIChE/CCPS</a>. 1999. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers
-+ <a name="bakkum-2005">Bakkum</a>, E.A. and N.J. Duijm. 2005. "Chapter 4 - Vapour Cloud Dispersion" in *Methods for the Calculation of Physical Effects, CPR 14E* (TNO Yellow Book) Edited by C.J.H. van den Bosch and R.A.P.M. Weterings. The Netherlands.
-+ <a name="briggs-1973">Briggs</a>, Gary A. 1973. *Diffusion Estimation for Small Emissions. Preliminary Report.* United States. [doi:10.2172/5118833](https://doi.org/10.2172/5118833)
-+ <a name="epa-1995">EPA</a>. 1995. *User's Guide for the Industrial Source Complex (ISC3) Dispersion Models, vol 2.* United States Environmental Protection Agency [EPA-454/B-95-003b](https://gaftp.epa.gov/Air/aqmg/SCRAM/models/other/isc3/isc3v2.pdf)
-+ <a name="griffiths-1994">Griffiths</a>, R. F. 1994. "Errors in the use of the Briggs parameterization for atmospheric dispersion coefficients." *Atmospheric Environment* 28(17):2861-2865 [doi:10.1016/1352-2310(94)90086-8](https://doi.org/10.1016/1352-2310(94)90086-8)
-+ <a name="hanna-1982">Hanna</a>, Steven R., Gary A. Briggs, and Rayford P. Hosker Jr. 1982. *Handbook on atmospheric diffusion*. United States. [doi:10.2172/5591108](https://doi.org/10.2172/5591108).
-+ <a name="lees-1996">Lees</a>, Frank P. 1996. *Loss Prevention in the Process Industries, 2nd ed.* Oxford: Butterworth-Heinemann
-+ <a name="spicer-1989">Spicer</a>, Thomas O. and Jerry A. Havens. 1989. *User's Guide for the DEGADIS 2.1 Dense Gas dispersion Model* United States Environmental Protection Agency EPA-450/4-89-019
-+ <a name="seinfeld-1986">Seinfeld</a>, John H. 1986. *Atmospheric Chemistry and Physics of Air Pollution.* New York: John Wiley and Sons
-+ <a name="turner-1970">Turner</a>, D. Bruce. 1970. *Workbook of Atmospheric Dispersion Estimates.* United States Environmental Protection Agency.
++ <a name="ccps-1999">AIChE/CCPS</a>. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers, 1999.
++ <a name="bakkum-2005">Bakkum</a>, E.A. and N.J. Duijm. "Chapter 4 - Vapour Cloud Dispersion" in *Methods for the Calculation of Physical Effects, CPR 14E*, 3rd ed. Edited by C.J.H. van den Bosch and R.A.P.M. Weterings. The Hague: TNO, 2005. [url](https://repository.tno.nl/islandora/object/uuid:4928209c-5998-4261-9393-3d55073e6e87)
++ <a name="briggs-1973">Briggs</a>, Gary A. *Diffusion Estimation for Small Emissions. Preliminary Report.* Oak Ridge: Air Resources Atmospheric Turbulence and Diffusion Laboratory, NOAA, 1973. [doi:10.2172/5118833](https://doi.org/10.2172/5118833)
++ <a name="epa-1995">EPA</a>. *User's Guide for the Industrial Source Complex (ISC3) Dispersion Models, vol 2.* Research Triangle Park, NC: Office of Air Quality Planning and Standards, US EPA, 1995. [EPA-454/B-95-003b](https://gaftp.epa.gov/Air/aqmg/SCRAM/models/other/isc3/isc3v2.pdf)
++ <a name="griffiths-1994">Griffiths</a>, R. F. "Errors in the use of the Briggs parameterization for atmospheric dispersion coefficients." *Atmospheric Environment* 28, no. 17 (1994):2861-2865. [doi:10.1016/1352-2310(94)90086-8](https://doi.org/10.1016/1352-2310(94)90086-8)
++ <a name="hanna-1982">Hanna</a>, Steven R., Gary A. Briggs, and Rayford P. Hosker Jr. 1982. *Handbook on atmospheric diffusion*. Springfield, VA: National Technical Information Service, 1982. [doi:10.2172/5591108](https://doi.org/10.2172/5591108).
++ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries*, 2nd ed. Oxford: Butterworth-Heinemann, 1996
++ <a name="spicer-1989">Spicer</a>, Thomas O. and Jerry A. Havens. 1989. *User's Guide for the DEGADIS 2.1 Dense Gas dispersion Model*. Research Triangle Park, NC: Office of Air Quality Planning and Standards, US EPA, 1989. [EPA-450/4-89-019](https://nepis.epa.gov/Exe/ZyNET.exe/2000J5GU.txt)
++ <a name="seinfeld-1986">Seinfeld</a>, John H. *Atmospheric Chemistry and Physics of Air Pollution.* New York: John Wiley and Sons, 1986.
++ <a name="turner-1970">Turner</a>, D. Bruce. *Workbook of Atmospheric Dispersion Estimates.* Research Triangle Park, NC: Office of Air Programs, US EPA, 1970.
 

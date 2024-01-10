@@ -26,11 +26,7 @@ In previous examples I discussed release scenarios involving vapour clouds sprea
 
 ## The Scenario
 
-Consider, for an example, a leak from an acetylene cylinder inside a large building, such as in a warehouse or shop. We imagine, for convenience, that the air within the building is quiescent. For the sake of an example suppose the leak is a 1/4 in. hole, similar in diameter to a typical acetylene hose, and that the operating pressure at that point is 15psig[<sup id="fnref-1">1</sup>](#fn-1) We are interested in exploring the concentration distribution as the acetylene jets into the air and mixes, with our reference concentration of interest being half the LEL of 2.5%(vol).
-
-{% capture footnote-1 %}
-<a name="fn-1"><strong>1</strong></a>: From CGA G-1 2009 the safe operating pressure of an acetylene system [↩](#fnref-1)
-{% endcapture %}
+Consider, for an example, a leak from an acetylene cylinder inside a large building, such as in a warehouse or shop. We imagine, for convenience, that the air within the building is quiescent. For the sake of an example suppose the leak is a 1/4 in. hole, similar in diameter to a typical acetylene hose, and that the operating pressure at that point is 15psig<a href="#fn-1" class="sidenote-number"></a><span class="sidenote" id="fn-1">From CGA G-1 2009 the safe operating pressure of an acetylene system</span> We are interested in exploring the concentration distribution as the acetylene jets into the air and mixes, with our reference concentration of interest being half the LEL of 2.5%(vol).
 
 
 ```julia
@@ -47,11 +43,7 @@ p₁ = 15psi+p₂  # pressure of the acetylene, Pa absolute
 T₁ = T₂        # the release temperature, K
 ```
 
-We can look up some properties of acetylene in Perry's[<sup id="fnref-2">2</sup>](#fn-2)
-
-{% capture footnote-2 %}
-<a name="fn-2"><strong>2</strong></a>: Poling *et al* ([2007](#poling-2007)) [↩](#fnref-2)
-{% endcapture %}
+We can look up some properties of acetylene in Perry's<a href="#fn-2" class="sidenote-number"></a><span class="sidenote" id="fn-2">[Poling *et al*](#poling-2007) "Physical and Chemical Data".</span>
 
 
 ```julia
@@ -76,17 +68,14 @@ MWₐ = 28.960  # molar mass, kg/kmol
 ρ₂  = ρ(p₂,T₂;MW=MWₐ)
 ```
 
-<div class="notice">
-  {{ footnote-1 | markdownify }}
-
-  {{ footnote-2 | markdownify }}
-</div>
-
 ## The Release Rate
 
-We can model the release as a gas jet[<sup id="fnref-3">3</sup>](#fn-3) where the gas is ideal and the expansion through the jet is an isentropic process[<sup id="fnref-4">4</sup>](#fn-4).
+We can model the release as a gas jet<a href="#fn-3" class="sidenote-number"></a><span class="sidenote" id="fn-3">[AIChE/CCPS](#ccps-1999) *Guidelines for Consequence Analysis*, 29.</span> where the gas is ideal and the expansion through the jet is an isentropic process<a href="#fn-4" class="sidenote-number"></a>
+
+<span class="sidenote" id="fn-4">[AIChE/CCPS](#ccps-1999) *Guidelines for Consequence Analysis* has a mistake in equation 2.16, the version given here is correct</span>
 
 $$ G = \rho u = c_d \sqrt{ \rho_1 p_1 \left( 2 k \over k-1 \right) \left[ \left(p_2 \over p_1\right)^{2 \over k} - \left(p_2 \over p_1\right)^{k+1 \over k} \right]} $$
+
 
 for non-choked flow and
 
@@ -96,19 +85,8 @@ for choked flow, which occurs when
 
 $$ \left(p_2 \over p_1 \right) \lt \left( 2 \over k+1 \right)^{k \over k-1} $$
 
-Where *G* is the mass velocity of acetylene discharged through the hole (in kg/m²/s), *c<sub>d</sub>* is the discharge coefficient which can be assumed to be 0.61[<sup id="fnref-5">5</sup>](#fn-5), and the rest are as defined earlier. I am assuming, here, that the hole is circular for simplicity.
+Where *G* is the mass velocity of acetylene discharged through the hole (in kg/m²/s), *c<sub>d</sub>* is the discharge coefficient which can be assumed to be 0.61<a href="#fn-5" class="sidenote-number"></a><span class="sidenote" id="fn-5">[AIChE/CCPS](#ccps-1999) *Guidelines for Consequence Analysis*, 30.</span>, and the rest are as defined earlier. I am assuming, here, that the hole is circular for simplicity.
 
-{% capture footnote-3 %}
-<a name="fn-3"><strong>3</strong></a>: AIChE/CCPS ([1999](#ccps-1999)), page 29 [↩](#fnref-3)
-{% endcapture %}
-
-{% capture footnote-4 %}
-<a name="fn-4"><strong>4</strong></a>: AIChE/CCPS ([1999](#ccps-1999)) has a mistake in equation 2.16, the version given here is correct [↩](#fnref-4)
-{% endcapture %}
-
-{% capture footnote-5 %}
-<a name="fn-5"><strong>5</strong></a>: AIChE/CCPS ([1999](#ccps-1999)), page 30 [↩](#fnref-5)
-{% endcapture %}
 
 
 ```julia
@@ -173,31 +151,17 @@ uₒ = G/ρₒ
     217.05962571115586
 
 
-<div class="notice">
-  {{ footnote-3 | markdownify }}
-
-  {{ footnote-4 | markdownify }}
-
-  {{ footnote-5 | markdownify }}
-</div>
 
 ## Jet Behavior
 
-To model the concentration profile I am going to assume a turbulent jet, from a circular hole, mixing with air. In this case the density of air and acetylene are similar and so a simple turbulent jet model is appropriate. If there was a significant difference in densities then a density correction would be needed, however for many applications "close" means a ratio of ambient to jet densities between[<sup id="fnref-6">6</sup>](#fn-6)
-
-{% capture footnote-6 %}
-<a name="fn-6"><strong>6</strong></a>: Poleshaw and Golub ([2023](#poleshaw-2023)) [↩](#fnref-6)
-{% endcapture %}
+To model the concentration profile I am going to assume a turbulent jet, from a circular hole, mixing with air. In this case the density of air and acetylene are similar and so a simple turbulent jet model is appropriate. If there was a significant difference in densities then a density correction would be needed, however for many applications "close" means a ratio of ambient to jet densities between<a href="#fn-6" class="sidenote-number"></a><span class="sidenote" id="fn-6">[Poleshaw and Golub](#poleshaw-2023) "Jets".</span>
 
 $$ \frac{1}{4} \le { \rho_{a} \over \rho_{j} } \le 4 $$
 
 Where subscript *a* indicates the ambient fluid and *j* the jet.
 
-Circular turbulent jets expand by entraining ambient fluid, tracing out a cone defined by a jet angle $\alpha \approx 15-25^\circ$. The mixing layer penetrates into the jet forming the potential cone, inside is pure jet material and outside is mixed. After approximately 6 hole diameters the region is fully developed.[<sup id="fnref-7">7</sup>](#fn-7)
+Circular turbulent jets expand by entraining ambient fluid, tracing out a cone defined by a jet angle $\alpha \approx 15-25^\circ$. The mixing layer penetrates into the jet forming the potential cone, inside is pure jet material and outside is mixed. After approximately 6 hole diameters the region is fully developed.<a href="#fn-7" class="sidenote-number"></a><span class="sidenote" id="fn-7">[Revill](#revill-1992) "Jet mixing".</span>
 
-{% capture footnote-7 %}
-<a name="fn-7"><strong>7</strong></a>: Revill ([1992](#revill-1992)) [↩](#fnref-7)
-{% endcapture %}
 
 ![image.png](/images/turbulent_jet_example_files/att1.png)
 
@@ -235,45 +199,25 @@ Re > 2000
 
 The densities are within the appropriate range and the flow is fully turbulent, so the turbulent jet model requirements are satisfied.
 
-<div class="notice">
-  {{ footnote-6 | markdownify }}
-
-  {{ footnote-7 | markdownify }}
-</div>
 
 ### Velocity and Concentration distributions
 
-There are many different empirical velocity distributions as well as velocity distributions derived from theories of turbulent mixing available in various references. Mostly of the same general type (gaussian), but parametrized slightly differently. However, in my experience, there are far fewer concentration distributions available, this is not too critical due to an interesting result in turbulent mass transfer for jets[<sup id="fnref-8">8</sup>](#fn-8)
+There are many different empirical velocity distributions as well as velocity distributions derived from theories of turbulent mixing available in various references. Mostly of the same general type (gaussian), but parametrized slightly differently. However, in my experience, there are far fewer concentration distributions available, this is not too critical due to an interesting result in turbulent mass transfer for jets<a href="#fn-8" class="sidenote-number"></a><span class="sidenote" id="fn-8">[Bird, Stewart, and Lightfoot](#bird-2007) *Transport Phenomena*, 416.</span>
 
-{% capture footnote-8 %}
-<a name="fn-8"><strong>8</strong></a>: Bird, Stewart, and Lightfoot ([2007](#bird-2007)), page 416 [↩](#fnref-8)
-{% endcapture %}
 
 $$ { C \over C_{max} } = \left( v_z \over v_{z,max} \right)^{Sc_t} $$
 
 That is, at a given distance *z* away from the hole, the concentration profile is the velocity profile raised to the power $Sc_t$ -- the turbulent Schmidt number. Experimentally this is approximately 0.7. Note also that $C_{max}$ and $v_{z,max}$ are taken at the centerline. Physically this means that the concentration profile, at a given downstream distance, is wider than the velocity distribution; concentration expands more.
 
-A similar way of capturing the same phenomenon that is often seen with empirical velocity distributions is to define a width parameter $b$ and note that the equivalent width for the concentration profile is $1.17b$[<sup id="fnref-9">9</sup>](#fn-9) and substitute in accordingly.
+A similar way of capturing the same phenomenon that is often seen with empirical velocity distributions is to define a width parameter $b$ and note that the equivalent width for the concentration profile is $1.17b$<a href="#fn-9" class="sidenote-number"></a><span class="sidenote" id="fn-9">[Kaye, Khan, and Testik](#kaye-2018) "Environmental Fluid Mechanics".</span> and substitute in accordingly.
 
-{% capture footnote-9 %}
-<a name="fn-9"><strong>9</strong></a>: Kaye, Khan, and Testik ([2018](#kaye-2018)) [↩](#fnref-9)
-{% endcapture %}
-
-In this example I am using the empirical concentration given in *Lees'*[<sup id="fnref-10">10</sup>](#fn-10) for simplicity
-
-{% capture footnote-10 %}
-<a name="fn-10"><strong>10</strong></a>: Lees ([1996](#lees-1996)), page 15/140 [↩](#fnref-10)
-{% endcapture %}
+In this example I am using the empirical concentration given in [Lees'](#lees-1996)<a href="#fn-10" class="sidenote-number"></a><span class="sidenote" id="fn-10">[Lees](#lees-1996) *Loss Prevention*, 15/140.</span> for simplicity
 
 $$ {C \over C_0 } = k_2 \left( d_h \over z \right) \left( \rho_z \over \rho_o \right)^{0.5} \exp \left( - \left( k_3 r \over z \right)^2 \right) $$
 
 Note also the ratio of densities, the density $\rho_z$ is the density of the jet at some distance *z* and it is common to conservatively take this as $\rho_a$.
 
-The parameters $k_2$ and $k_3$ are empirically derived for the particular jet and $k_2$ is a function of Reynolds number below $ Re \lt 20000 $ [<sup id="fnref-11">11</sup>](#fn-11). The conservative values suggested are *6* and *5* respectively.
-
-{% capture footnote-11 %}
-<a name="fn-11"><strong>11</strong></a>: Long ([1963](#long-1963)) [↩](#fnref-11)
-{% endcapture %}
+The parameters $k_2$ and $k_3$ are empirically derived for the particular jet and $k_2$ is a function of Reynolds number below $ Re \lt 20000 $ <a href="#fn-11" class="sidenote-number"></a><span class="sidenote" id="fn-11">[Long](#long-1963) "Estimation of the Extent of Hazard Areas Around a Vent".</span>. The conservative values suggested are *6* and *5* respectively.
 
 
 ```julia
@@ -294,16 +238,6 @@ At this point it is worth pointing out that the model of the jet is independent 
 
     
 ![svg](/images/turbulent_jet_example_files/output_21_0.svg)
-    
-<div class="notice">
-  {{ footnote-8 | markdownify }}
-
-  {{ footnote-9 | markdownify }}
-
-  {{ footnote-10 | markdownify }}
-
-  {{ footnote-11 | markdownify }}
-</div>
 
 
 ## Explosive Mass
@@ -397,11 +331,11 @@ For a complete listing of code used to generate data and figures, please see the
 
 ## References
 
-+ <a name="ccps-1999">AIChE/CCPS</a>. 1999. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers
-+ <a name="bird-2007">Bird</a>, R. Byron, Warren E. Stewart, and Edwin N. Lightfoot. 2007. *Transport Phenomena, Revised 2nd ed.* Hoboken: John Wiley & Sons. [archive](https://archive.org/details/transportphenome0000bird_n8h5)
-+ <a name="kaye-2018">Kaye</a>, Nigel B., Abdul A. Khan, and Firat Y. Testik. 2018. "Environmental Fluid Mechanics" in *Handbook of Environmental Engineering*. Edited by Myer Kutz. New York: John Wiley & Sons
-+ <a name="lees-1996">Lees</a>, Frank P. 1996. *Loss Prevention in the Process Industries, 2nd ed.* Oxford: Butterworth-Heinemann
++ <a name="ccps-1999">AIChE/CCPS</a>. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers, 1999.
++ <a name="bird-2007">Bird</a>, R. Byron, Warren E. Stewart, and Edwin N. Lightfoot. *Transport Phenomena, Revised 2nd ed.* Hoboken: John Wiley & Sons, 2007. [archive](https://archive.org/details/transportphenome0000bird_n8h5)
++ <a name="kaye-2018">Kaye</a>, Nigel B., Abdul A. Khan, and Firat Y. Testik. "Environmental Fluid Mechanics" in *Handbook of Environmental Engineering*. Edited by Myer Kutz. New York: John Wiley & Sons, 2018.
++ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries*, 2nd ed. Oxford: Butterworth-Heinemann, 1996.
 + <a name="long-1963">Long</a>, V.D. "Estimation of the Extent of Hazard Areas Around a Vent," *Second Symposium On Chemical Process Hazards* (1963): 6-14
-+ <a name="poleshaw-2013">Poleshaw</a>, Yury V., and V.V. Golub. 2011. "Jets" in *[Thermopedia](https://www.thermopedia.com/content/903/)* [doi:10.1615/AtoZ.j.jets](https://dx.doi.org/10.1615/AtoZ.j.jets)
-+ <a name="poling-2007">Poling</a>, Bruce E., George H. Thomson, Daniel G. Friend, Richard L. Rowley, and W. Vincent Wilding. 2007. "Physical and Chemical Data" in *Perry's Chemical Engineers' Handbook, 8th ed.* Edited by Don W. Green. New York: McGraw Hill
-+ <a name="revill-1992">Revill</a>, B. K. 1992. "Jet mixing" in *Mixing in the Process Industries, 2nd ed.* Edited by N. Harnby, M.F. Edwards, and A. W. Nienow. Oxford: Butterworth-Heinemann
++ <a name="poleshaw-2013">Poleshaw</a>, Yury V., and V.V. Golub. "Jets" in *[Thermopedia](https://www.thermopedia.com/content/903/)* 2013. [doi:10.1615/AtoZ.j.jets](https://dx.doi.org/10.1615/AtoZ.j.jets)
++ <a name="poling-2007">Poling</a>, Bruce E., George H. Thomson, Daniel G. Friend, Richard L. Rowley, and W. Vincent Wilding. "Physical and Chemical Data" in *Perry's Chemical Engineers' Handbook, 8th ed.* Edited by Don W. Green. New York: McGraw Hill, 2007.
++ <a name="revill-1992">Revill</a>, B. K. "Jet mixing" in *Mixing in the Process Industries*, 2nd ed. Edited by N. Harnby, M.F. Edwards, and A. W. Nienow. Oxford: Butterworth-Heinemann, 1992.

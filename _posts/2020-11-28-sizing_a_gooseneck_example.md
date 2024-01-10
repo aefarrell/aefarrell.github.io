@@ -39,11 +39,7 @@ For notation, the flow begins at the pipe entrance (1) and ends at the exit (2).
 
 ![image.png](/images/sizing_a_gooseneck_example_files/att3.jpg)
 
-For the pipe bends the bend radius to diameter ratio needs to be specified, I'm going to suppose $r/D = 1.5$. Another important parameter is the pipe roughness, $\epsilon$, which for commercial steel is $\epsilon = 0.0457 \mathrm{mm}$[<sup id="fnref-1">1</sup>](#fn-1). At this point I could specify a length for the straight section of pipe, a fixed height above the tank roof that is independent of the final chosen diameter of the piping, or I could fix a design and scale the whole vent up and down as required. For simplicity I am going to assume 3ft of piping.
-
-{% capture footnote-1 %}
-<a name="fn-1"><strong>1</strong></a>: Tilton ([2007](#tilton-2007)), page 6-10 [↩](#fnref-1)
-{% endcapture %}
+For the pipe bends the bend radius to diameter ratio needs to be specified, I'm going to suppose $r/D = 1.5$. Another important parameter is the pipe roughness, $\epsilon$, which for commercial steel is $\epsilon = 0.0457 \mathrm{mm}$<a href="#fn-1" class="sidenote-number"></a><span class="sidenote" id="fn-1">[Tilton](#tilton-2007) "Fluid and Particle Dynamics," 6-10.</span>. At this point I could specify a length for the straight section of pipe, a fixed height above the tank roof that is independent of the final chosen diameter of the piping, or I could fix a design and scale the whole vent up and down as required. For simplicity I am going to assume 3ft of piping.
 
 At this point I am going to set up the equations with no knowledge of what the final pipe diameter $D$ will be, then numerically solve for the minimum diameter that meets the requirements. The actual diameter will be the next largest NPS size pipe.
 
@@ -86,15 +82,13 @@ k = 1.4                # Ratio of heat capacities, Cp/Cv, ideal gas
 μ(T) = 1u"Pa*s"*(1.425e-6*ustrip(u"K",T)^0.5039)/(1 + 108.3/ustrip(u"K",T));
 ```
 
-<div class="notice">
-  {{ footnote-1 | markdownify }}
-</div>
+
 
 ### Frictional head loss
 
 Regardless of the method of performing the compressible flow calculations, the frictional head loss in the piping needs to be accounted for. I am using the K factor method as it is convenient and K factors are tabulated for most everything in references such as Crane's TP-410. One thing to be very careful with is the difference between the Darcy and Fanning friction factors. I am using Crane's where everything is in terms of the Darcy friction factor, which is 4&times; the Fanning friction factor, but Perry's defaults to the Fanning friction factor.
 
-From Crane's I have the following K factors for each piece of the gooseneck[<sup id="fnref-2">2</sup>](#fn-2)
+From Crane's I have the following K factors for each piece of the gooseneck<a href="#fn-2" class="sidenote-number"></a><span class="sidenote" id="fn-2">[Crane](#crane-2013) *Flow of Fluids*, A-30.</span>
 + Entrance - $K_1 = 0.5$
 + Vertical Pipe - $K_2 = f \frac{L}{D}$
 + First 90° bend - $K_3 = 14 f_T$
@@ -102,9 +96,6 @@ From Crane's I have the following K factors for each piece of the gooseneck[<sup
 + Mesh screen - $K_5 = f_T$
 + Exit to atmosphere - $K_6 = 1.0$
 
-{% capture footnote-2 %}
-<a name="fn-2"><strong>2</strong></a>: Crane ([2013](#crane-2013)) page A-30 [↩](#fnref-2)
-{% endcapture %}
 
 Where $f$ is the Darcy friction factor, $f_T$ is the turbulent friction factor. I am assuming the entrance to the vent is sharp edged, and the K factors for the bends are for bends with $r/D = 1.5$.
 
@@ -116,11 +107,8 @@ The Darcy friction factor generally depends on which regime the flow is in, lami
 
 The black line conservatively takes the max of either the laminar or turbulent friction factor in the transitional region $2100 \le Re \le 4000$. The Churchill correlation fits the general curve well for both the turbulent and laminar region, and provides reasonable values in the transitional region.
 
-The Churchill correlation is[<sup id="fnref-3">3</sup>](#fn-3)
+The Churchill correlation is<a href="#fn-3" class="sidenote-number"></a><span class="sidenote" id="fn-3">[Tilton](#tilton-2007) "Fluid and Particle Dynamics," 6-11.<br /> The equation here is given in terms of the darcy friction factor.</span>
 
-{% capture footnote-3 %}
-<a name="fn-3"><strong>3</strong></a>: Tilton ([2007](#tilton-2007)), page 6-11. The equation here is given in terms of the darcy friction factor. [↩](#fnref-3)
-{% endcapture %}
 
 $$ f = 8 \left( \left( \frac{8}{Re} \right)^{12} + { 1 \over {\left( A+B \right)^{3/2} } } \right)^{1/12} $$
 
@@ -147,11 +135,6 @@ fT(κ) = 0.25/log10(κ/3.7)^2
 ΣK(κ,l,Re) = 0.5 + f(κ,Re)*l + 14*fT(κ) + 14*fT(κ) + fT(κ) + 1.0;
 ```
 
-<div class="notice">
-  {{ footnote-2 | markdownify }}
-
-  {{ footnote-3 | markdownify }}
-</div>
 
 ### The Reynolds number
 
@@ -204,11 +187,7 @@ pₘₐₓ/pₐ
 
 Typically flows are considered incompressible if the density varies by less than ~5-10%, so this example (where the density varies by ~7%) is right in that range. You could justify it either way and it's more a function of how accurate the calculations need to be. Since, ultimately, we are solving for the pipe diameter and choosing the next largest pipe size it's probably fine to use an incompressible flow assumption. If anything the incompressible flow assumption will overestimate the pressure drop and thus lead to an over-sized pipe (erring on the side of caution)
 
-The mechanical energy balance for an incompressible fluid is[<sup id="fnref-4">4</sup>](#fn-4)
-
-{% capture footnote-4 %}
-<a name="fn-4"><strong>4</strong></a>: Tilton [2007](#tilton-2007), page 6-16 [↩](#fnref-4)
-{% endcapture %}
+The mechanical energy balance for an incompressible fluid is<a href="#fn-4" class="sidenote-number"></a><span class="sidenote" id="fn-4">[Tilton](#tilton-2007) "Fluid and Particle Dynamics," 6-16.</span>
 
 $$ p_1 - p_2 = \alpha_2 \frac{\rho v_2^2}{2} - \alpha_1 \frac{\rho v_1^2}{2} + \rho g \left( h_2 - h_1 \right) + \sum_j K_j \frac{\rho v^2}{2} $$
 
@@ -248,9 +227,6 @@ uconvert(u"inch", D0)
 
 At this point one would typically stop for this example, compressible flow calculations are probably unnecessary.
 
-<div class="notice">
-  {{ footnote-4 | markdownify }}
-</div>
 
 ## Compressible Flow
 
@@ -279,11 +255,8 @@ $$ \frac{T_2}{T_1} = \left( p_1 \over p_2 \right)^{ {1-k} \over k}$$
 
 So we expect even in the most extreme case the temperature change is ~2%, justifying the assumption that the venting is isothermal.
 
-The isothermal flow of an ideal gas going through a length of piping is[<sup id="fnref-5">5</sup>](#fn-5)
+The isothermal flow of an ideal gas going through a length of piping is<a href="#fn-5" class="sidenote-number"></a><span class="sidenote" id="fn-5">[Tilton](#tilton-2007) "Fluid and Particle Dynamics," 6-23.<br /> This equation also neglects changes in elevation.</span>
 
-{% capture footnote-5 %}
-<a name="fn-5"><strong>5</strong></a>: Tilton ([2007](#tilton-2007)), page 6-23. This equation also neglects changes in elevation. [↩](#fnref-5)
-{% endcapture %}
 
 $$ p_{1}^{2} = G^{2} \frac{RT}{Mw} \left[ \sum \limits_{j} K_{j} + 2\ln \frac{p_{1} }{p_{2} } \right] + p_{2}^{2} $$
 
@@ -314,9 +287,6 @@ uconvert(u"inch", D1)
     6.491472166277518 inch
 
 
-<div class="notice">
-  {{ footnote-5 | markdownify }}
-</div>
 
 ### Adiabatic (Fanno) Flow
 
@@ -325,11 +295,8 @@ Adiabatic flow of an ideal gas through a pipe, also called Fanno flow, is somewh
 
 There are a few ways of setting up the calculations. We could assume the gas exits at ambient conditions -- both ambient temperature and pressure -- or assume the tank starts at thermal equilibrium with the environment but at a higher pressure and the gas exits at ambient pressure and some other temperature -- less than ambient due to adiabatic expansion. The first set of assumptions is in some ways easier to calculate, but the second set of assumptions is more physically realistic, and consistent with the assumptions made when solving the isothermal case.
 
-One thing we should check before proceeding is whether or not the flow will be choked, essentially will the flow velocity reach $Ma = 1$, the following discussion assumes flow remains sub-sonic, and this is easy to check. The critical pressure, at which flow becomes sonic, is given by[<sup id="fnref-6">6</sup>](#fn-6)
+One thing we should check before proceeding is whether or not the flow will be choked, essentially will the flow velocity reach $Ma = 1$, the following discussion assumes flow remains sub-sonic, and this is easy to check. The critical pressure, at which flow becomes sonic, is given by<a href="#fn-6" class="sidenote-number"></a><span class="sidenote" id="fn-6">[Tilton](#tilton-2007) "Fluid and Particle Dynamics," 6-23.</span>
 
-{% capture footnote-6 %}
-<a name="fn-6"><strong>6</strong></a>: Tilton ([2007](#tilton-2007)), page 6-23 [↩](#fnref-6)
-{% endcapture %}
 
 $$ { p^o \over p_1 } = \left(2 \over k+1 \right)^{k \over {k-1} } $$
 
@@ -344,11 +311,7 @@ $$ { p_2 \over p_1 } > { p^o \over p_1 } $$
     true
 
 
-The basic relation of Fanno flow that drives the equations is the relationship between the Fanno parameter and the Mach number[<sup id="fnref-7">7</sup>](#fn-7)
-
-{% capture footnote-7 %}
-<a name="fn-7"><strong>7</strong></a>: Tilton ([2007](#tilton-2007)), page 6-24 [↩](#fnref-7)
-{% endcapture %}
+The basic relation of Fanno flow that drives the equations is the relationship between the Fanno parameter and the Mach number<a href="#fn-7" class="sidenote-number"></a><span class="sidenote" id="fn-7">[Tilton](#tilton-2007) "Fluid and Particle Dynamics," 6-24.</span>
 
 $$ Fa = \left( \frac{fL^{*} }{D} \right) = \frac{1 - Ma^{2} }{kMa^{2} } + \frac{k+1}{2k} \ln \left( \frac{ \left( k+1 \right) Ma^{2} }{ 2+\left( k+1 \right) Ma^{2} } \right) $$
 
@@ -356,29 +319,21 @@ Where I am defining $Fa$ to be the Fanno parameter. The Fanno parameter is calcu
 
 It is worth noting that elbows near the exit of a pipe may choke the flow even though the $Ma &lt; 1$ due to the nonuniform velocity profile in the elbow. By the design of this gooseneck we know this is the case and should keep that in mind when evaluating the results.
 
-For two points along a pipe, 1 and 2, the difference between their Fanno parameters is the frictional loss between those two points[<sup id="fnref-8">8</sup>](#fn-8)
-
-{% capture footnote-8 %}
-<a name="fn-8"><strong>8</strong></a>: Tilton ([2007](#tilton-2007)), page 6-24 [↩](#fnref-8)
-{% endcapture %}
+For two points along a pipe, 1 and 2, the difference between their Fanno parameters is the frictional loss between those two points<a href="#fn-8" class="sidenote-number"></a><span class="sidenote" id="fn-8">[Tilton](#tilton-2007) "Fluid and Particle Dynamics," 6-24.</span>
 
 $$ Fa_1 - Fa_2 = \sum_{j} K_{j} $$
 
 Where the $K_j$ are usually evaluated at the *average* temperature ${ {T_1 + T_2} \over 2}$.
 
-The Mach number at some point *i* along the pipe, for an ideal gas, is given by[<sup id="fnref-9">9</sup>](#fn-9)
-
-{% capture footnote-9 %}
-<a name="fn-9"><strong>9</strong></a>: derived for an ideal gas
+The Mach number at some point *i* along the pipe, for an ideal gas, is given by<a href="#fn-9" class="sidenote-number"></a>
+<aside class="sidenote" id="fn-9">Derived for an ideal gas:
     
 $$ G = \rho v = { {p  Mw} \over {R T} } v$$
 
 $$ c = \sqrt{ {k R T} \over Mw } $$
 
 $$ Ma = { v \over c } = G { {R T} \over {p  Mw} } \sqrt{ Mw \over {k R T} } = \frac{G}{p} \sqrt{ \frac{RT}{kMw} }$$
-
-[↩](#fnref-9)
-{% endcapture %}
+</aside>
 
 $$ Ma_{i} = \frac{v}{c} = \frac{G}{p_{i} } \sqrt{ \frac{RT_{i} }{kMw} } $$
 
@@ -386,11 +341,7 @@ and the pressure can be calculated given a Mach number by re-arranging
 
 $$ p_{i} = \frac{G}{Ma_{i} } \sqrt{ \frac{RT_{i} }{kMw} } $$
 
-and for any two points along the pipe the temperatures are related by[<sup id="fnref-10">10</sup>](#fn-10)
-
-{% capture footnote-10 %}
-<a name="fn-10"><strong>10</strong></a>: Equation 6-116, taking two points and cancelling out the stagnation temperature.[↩](#fnref-10)
-{% endcapture %}
+and for any two points along the pipe the temperatures are related by<a href="#fn-10" class="sidenote-number"></a><span class="sidenote" id="fn-10">[Tilton](#tilton-2007) "Fluid and Particle Dynamics," equation 6-116.<br /> Taking two points and cancelling out the stagnation temperature.</span>
 
 $$ T_{1} = T_{2} \frac{2 + \left( k-1 \right) Ma_{2}^{2} }{2 + \left( k-1 \right) Ma_{1}^{2} } $$
 
@@ -481,19 +432,6 @@ uconvert(u"inch", D2)
 
 
 
-<div class="notice">
-  {{ footnote-6 | markdownify }}
-
-  {{ footnote-7 | markdownify }}
-
-  {{ footnote-8 | markdownify }}
-
-  {{ footnote-9 | markdownify }}
-
-  {{ footnote-10 | markdownify }}
-</div>
-
-
 ## Minimum Diameter
 
 At this point we have solved for the minimum vent diameter in three different ways and, more or less, got the same answer three times. The minimum diameter is ~6.4in ID for all cases and the next largest standard pipe size is 8in so regardless of the method, in this particular example, one arrives at the same final answer.
@@ -517,5 +455,5 @@ For a complete listing of code used to generate data and figures, please see the
 
 ## References
 
-+ <a name="crane-2013">Crane</a>. 2013. *TP410M Flow of Fluids*. Stamford, Connecticut: Crane
-+ <a name="tilton-2007">Tilton</a>, James N. 2007. "Fluid and Particle Dynamics" in *Perry's Chemical Engineers' Handbook, 8th ed.* Edited by Don W. Green, New York: McGraw Hill
++ <a name="crane-2013">Crane</a>. *TP410M Flow of Fluids*. Stamford, Connecticut: Crane, 2013.
++ <a name="tilton-2007">Tilton</a>, James N. "Fluid and Particle Dynamics" in *Perry's Chemical Engineers' Handbook*, 8th ed. Edited by Don W. Green, New York: McGraw Hill, 2007.

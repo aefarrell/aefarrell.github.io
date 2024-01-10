@@ -405,20 +405,12 @@ end
 
 This uses julia's multiple dispatch to handle two cases: for large Reynold's numbers where *K* is a constant, and for cases where K is a function of the Reynold's number (and thus the volumetric flowrate).
 
-The volumetric flowrate at standard state is then the flowrate from above, corrected to the reference pressure and temperature[<sup id="fnref-1">1</sup>](#fn-1)
+The volumetric flowrate at standard state is then the flowrate from above, corrected to the reference pressure and temperature<a href="#fn-1" class="sidenote-number"></a><span class="sidenote" id="fn-1">I have been using `upreferred` to force Unitful to cancel out and simplify units.</span>
 
 
 ```julia
 Qₛ(x, T₁, P₁, P₂) = upreferred((P₁/Pᵣ)*(Tᵣ/T₁)*Q₁(x, T₁, P₁, P₂, Kf))
 ```
-
-{% capture footnote-1 %}
-<a name="fn-1"><strong>1</strong></a>: I have been using `upreferred` to force Unitful to cancel out and simplify units. [↩](#fnref-1)
-{% endcapture %}
-
-<div class="notice">
-  {{ footnote-1 | markdownify }}
-</div>
 
 
 ### Heat rate
@@ -454,4 +446,4 @@ For a complete listing of code used to generate data and figures, please see the
 
 ## References
 
-+ <a name="poling-2007">Poling</a>, Bruce E., George H. Thomson, Daniel G. Friend, Richard L. Rowley, and W. Vincent Wilding. 2007. "Physical and Chemical Data" in *Perry's Chemical Engineers' Handbook, 8th ed.* Edited by Don W. Green. New York: McGraw Hill
++ <a name="poling-2007">Poling</a>, Bruce E., George H. Thomson, Daniel G. Friend, Richard L. Rowley, and W. Vincent Wilding. "Physical and Chemical Data" in *Perry's Chemical Engineers' Handbook*, 8th ed. Edited by Don W. Green. New York: McGraw Hill, 2007.

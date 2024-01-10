@@ -24,49 +24,13 @@ I was looking through some books and it struck me how strangely inconsistent man
 **Note** for brevity, from this point on whenever I refer to a flow I am referring to the *ideal gas* case in a constant area duct, unless otherwise specified
 {: .notice}
 
-As a brief review of some common references: Crane's[<sup id="fnref-1">1</sup>](#fn-1) gives a graphical method for adiabatic flow, which is the easiest to use with a pencil and paper, but doesn't give a lot of details on how that model was developed. Albright's[<sup id="fnref-2">2</sup>](#fn-2) recommends assuming flow is locally isentropic and gives a model of isentropic flow -- that is flow which is both adiabatic and reversible -- but with frictional losses also included, which allows for direct calculation if one assumes the friction factor is constant (with respect to the Reynold's number). Perry's[<sup id="fnref-3">3</sup>](#fn-3) gives the adiabatic irreversible flow model (i.e. Fanno flow), though with only a sketch of how to perform the iterative solution. Hall[<sup id="fnref-4">4</sup>](#fn-4) gives the Fanno flow model and, helpfully, a procedure for how to actually do the calculations and example VBA code. Ludwig's[<sup id="fnref-5">5</sup>](#fn-5) gives both the isentropic and Fanno flow models but in a very confused manner: the section labeled "Adiabatic Flow" gives a model of isentropic flow (albeit with a typo in the equation) and suggests that *all adiabatic flow* is isentropic (which is false) and much later in a section labeled "Other Simplified Compressible Flow Methods" gives the Fanno flow model, though it doesn't explain what it is, misattributes the derivation, and gives no clues on how to use it. Probably the best reference to sort all of this out is Coulson and Richardson's[<sup id="fnref-6">6</sup>](#fn-6) as it provides easy to follow derivations of both the reversible and irreversible adiabatic flow models (the isentropic and Fanno flow models) and highlights their differences.
+As a brief review of some common references: [Crane's](#crane-2013) gives a graphical method for adiabatic flow, which is the easiest to use with a pencil and paper, but doesn't give a lot of details on how that model was developed. [Albright's](#albright-2009) recommends assuming flow is locally isentropic and gives a model of isentropic flow -- that is flow which is both adiabatic and reversible -- but with frictional losses also included, which allows for direct calculation if one assumes the friction factor is constant (with respect to the Reynold's number). [Perry's](#tilton-2007) gives the adiabatic irreversible flow model (i.e. Fanno flow), though with only a sketch of how to perform the iterative solution. [Hall](#hall-2018) gives the Fanno flow model and, helpfully, a procedure for how to actually do the calculations and example VBA code. [Ludwig's](#coker-2007) gives both the isentropic and Fanno flow models but in a very confused manner: the section labeled "Adiabatic Flow" gives a model of isentropic flow (albeit with a typo in the equation) and suggests that *all adiabatic flow* is isentropic (which is false) and much later in a section labeled "Other Simplified Compressible Flow Methods" gives the Fanno flow model, though it doesn't explain what it is, misattributes the derivation, and gives no clues on how to use it. Probably the best reference to sort all of this out is [Coulson and Richardson's](#chhabra-2018) as it provides easy to follow derivations of both the reversible and irreversible adiabatic flow models (the isentropic and Fanno flow models) and highlights their differences.
 
-{% capture footnote-1 %}
-<a name="fn-1"><strong>1</strong></a>: Crane, *[Flow of Fluids](#crane-2013)*, 1-11. [↩](#fnref-1)
-{% endcapture %}
-
-{% capture footnote-2 %}
-<a name="fn-2"><strong>2</strong></a>: Albright, *[Albright's Chemical Engineering Handbook](#albright-2009)*. [↩](#fnref-2)
-{% endcapture %}
-
-{% capture footnote-3 %}
-<a name="fn-3"><strong>3</strong></a>: Tilton, "[Fluid and Particle Dynamics](#tilton-2007)," 6-24. [↩](#fnref-3)
-{% endcapture %}
-
-{% capture footnote-4 %}
-<a name="fn-4"><strong>4</strong></a>: Hall, *[Rules of Thumb for Chemical Engineers](#hall-2018)*. [↩](#fnref-4)
-{% endcapture %}
-
-{% capture footnote-5 %}
-<a name="fn-5"><strong>5</strong></a>: Coker, *[Ludwig's Applied Process Design](#coker-2007)*. [↩](#fnref-5)
-{% endcapture %}
-
-{% capture footnote-6 %}
-<a name="fn-6"><strong>6</strong></a>: Chhabra and Shankar, *[Coulson and Richardson'](#chhabra-2018)*. [↩](#fnref-6)
-{% endcapture %}
 
 Another part of this confusion is differences in how the problem is being approached -- or what problem, exactly, one is trying to solve. Typically the isothermal and isentropic flow models are presented as ways to solve for the flowrate given the pressure drop between two points, whereas the Fanno flow model is often given in terms of the Mach number and one is solving for the pressure drop. If you have the Mach number, rather obviously, you already know the flow, and it is often left as an exercise for the reader to figure out how to use the Fanno flow model to *solve* for flow.
 
 Given all of that, I thought it may be worthwhile to unpack these various approaches to adiabatic flow, and see how they perform relative to one another.
 
-<div class="notice">
-  {{ footnote-1 | markdownify }}
-
-  {{ footnote-2 | markdownify }}
-
-  {{ footnote-3 | markdownify }}
-
-  {{ footnote-4 | markdownify }}
-
-  {{ footnote-5 | markdownify }}
-
-  {{ footnote-6 | markdownify }}
-</div>
 
 ## Motivating Example
 
@@ -123,11 +87,8 @@ Mw = 0.02896 # kg/mol
 μ(T) = (1.425e-6*T^0.5039)/(1+108.3/T); # Pa⋅s
 ```
 
-The mass velocity, *G* = *&rho;u*, in a pipe with constant cross-sectional area at steady state is constant[<sup id="fnref-7">7</sup>](#fn-7), and the Reynold's number can be written in terms of *G* as:
+The mass velocity, *G* = *&rho;u*, in a pipe with constant cross-sectional area at steady state is constant<a href="#fn-7" class="sidenote-number"></a><span class="sidenote" id="fn-7">This is a consequence of the steady state assumption, $$\dot{m}_{in} = G_{in} A = G_{out} A = \dot{m}_{out}$$</span>, and the Reynold's number can be written in terms of *G* as:
 
-{% capture footnote-7 %}
-<a name="fn-7"><strong>7</strong></a>: This is a consequence of the steady state assumption, $$\dot{m}_{in} = G_{in} A = G_{out} A = \dot{m}_{out}$$ [↩](#fnref-7)
-{% endcapture %}
 
 $$ \mathrm{Re} = { {G D} \over \mu } $$
 
@@ -139,11 +100,8 @@ Where only the viscosity is a function of temperature, and for most gases only w
 Re(G,T) = G*D/μ(T);
 ```
 
-The Darcy friction factor, *f*, is a function of the Reynolds number and, for ease of calculation, I am assuming the Churchill correlation applies[<sup id="fnref-8">8</sup>](#fn-8), and that it can be taken as a constant at the average temperature (the arithmetic average of *T<sub>1</sub>* and *T<sub>2</sub>*)
+The Darcy friction factor, *f*, is a function of the Reynolds number and, for ease of calculation, I am assuming the Churchill correlation applies<a href="#fn-8" class="sidenote-number"></a><span class="sidenote" id="fn-8">[Tilton](#tilton-2007), "Fluid and Particle Dynamics," 6-11.</span>, and that it can be taken as a constant at the average temperature (the arithmetic average of *T<sub>1</sub>* and *T<sub>2</sub>*)
 
-{% capture footnote-8 %}
-<a name="fn-8"><strong>8</strong></a>: Tilton, "[Fluid and Particle Dynamics](#tilton-2007)," 6-11. [↩](#fnref-8)
-{% endcapture %}
 
 ```julia
 function churchill(Re; κ=ϵ/D)
@@ -158,11 +116,8 @@ K_exit = 1.0
 Kf(Re) = K_entrance + churchill(Re)*L/D + K_exit;
 ```
 
-For a *large Reynolds number* approximation I am using the Nikuradse rough pipe law[<sup id="fnref-9">9</sup>](#fn-9)
+For a *large Reynolds number* approximation I am using the Nikuradse rough pipe law<a href="#fn-9" class="sidenote-number"></a><span class="sidenote" id="fn-9">[Crane](#crane-2013), *Flow of Fluids*, 1-10.</span>
 
-{% capture footnote-9 %}
-<a name="fn-9"><strong>9</strong></a>: Crane, *[Flow of Fluids](#crane-2013)*, 1-10. [↩](#fnref-9)
-{% endcapture %}
 
 $$ {1 \over \sqrt{f} } = 2 \log_{10} \left( 3.7 \over \kappa \right) $$
 
@@ -173,23 +128,13 @@ fₙ = (2*log10(3.7*D/ϵ))^-2
 Kf() = K_entrance + fₙ*L/D + K_exit;
 ```
 
-<div class="notice">
-  {{ footnote-7 | markdownify }}
-
-  {{ footnote-8 | markdownify }}
-
-  {{ footnote-9 | markdownify }}
-</div>
 
 ### Choking Flow
 
 A pitfall of compressible flow calculations is that flow at the exit of the pipe cannot exceed *Ma*=1, once the exit velocity achieves sonic velocity then the exit pressure will rise and the overall flowrate will remain at a constant, no matter the upstream pressure.
 
-The easiest way to check for this is to use the limiting factors in Crane's[<sup id="fnref-10">10</sup>](#fn-10)
+The easiest way to check for this is to use the limiting factors in [Crane's](#crane-2013)<a href="#fn-10" class="sidenote-number"></a><span class="sidenote" id="fn-10">[Crane](#crane-2013), *Flow of Fluids*, A-23.</span>
 
-{% capture footnote-10 %}
-<a name="fn-10"><strong>10</strong></a>: Crane, *[Flow of Fluids](#crane-2013)*, A-23. [↩](#fnref-10)
-{% endcapture %}
 
 Using the estimated *K<sub>f</sub>* &gt; 8 and *&gamma;*=1.4, we can check:
 
@@ -247,9 +192,6 @@ critical_pressure(Kf())
 
 For this problem we are well within the sub-sonic region.
 
-<div class="notice">
-  {{ footnote-10 | markdownify }}
-</div>
 
 ## Mechanical Energy Balance
 
@@ -277,7 +219,7 @@ The integral $\int {dP \over v}$ is where the reversible and irreversible models
 
 ## Reversible Adiabatic Flow (Isentropic Flow)
 
-Typically the isentropic flow model comes as a consequence of examining non-isothermal flow more generally, where one assumes *Pv<sup>k</sup>* is constant with *k* being a function of heat transfer (for the isothermal case *k*=1). The adiabatic case is then taken to be when *k*=*&gamma;*. I think this is the greatest source of vaguery and confusion in the various sources I've looked at. Coulson and Richardson's emphasizes that this is only an approximation as this equates to assuming an isentropic path, but many other sources either don't make the distinction or only hint at it.
+Typically the isentropic flow model comes as a consequence of examining non-isothermal flow more generally, where one assumes *Pv<sup>k</sup>* is constant with *k* being a function of heat transfer (for the isothermal case *k*=1). The adiabatic case is then taken to be when *k*=*&gamma;*. I think this is the greatest source of vaguery and confusion in the various sources I've looked at. [Coulson and Richardson's](#chhabra-2018) emphasizes that this is only an approximation as this equates to assuming an isentropic path, but many other sources either don't make the distinction or only hint at it.
 
 $$ Pv^\gamma = P_1 v_1^\gamma $$
 
@@ -517,15 +459,8 @@ ṁ_f = fanno_flow(P₁, Kf)*A
     
 
 
-The approximation produces reasonable results in this case, especially at higher pressure drops, but one should always be cautious when mixing results from different models[<sup id="fnref-11">11</sup>](#fn-11).
+The approximation produces reasonable results in this case, especially at higher pressure drops, but one should always be cautious when mixing results from different models.<a href="#fn-11" class="sidenote-number"></a><span class="sidenote" id="fn-11">This is something worth keeping mind more generally, as I have seen the assumption that Fanno flow is approximately isentropic (implicitly) taken for calculating different flow parameters, and it is often a bad assumption. For example, some references use the isentropic choking condition for a nozzle as an estimate for the choking condition in Fanno flow. Unless the pipe is incredibly short this is a terrible approximation -- in the current example the pressure drop exceeds the choking flow condition for a nozzle and yet the pipe flow is far from choked.</span>
 
-{% capture footnote-11 %}
-<a name="fn-11"><strong>11</strong></a>: This is something worth keeping mind more generally, as I have seen the assumption that Fanno flow is approximately isentropic (implicitly) taken for calculating different flow parameters, and it is often a bad assumption. For example, some references use the isentropic choking condition for a nozzle as an estimate for the choking condition in Fanno flow. Unless the pipe is incredibly short this is a terrible approximation -- in the current example the pressure drop exceeds the choking flow condition for a nozzle and yet the pipe flow is far from choked. [↩](#fnref-11)
-{% endcapture %}
-
-<div class="notice">
-  {{ footnote-11 | markdownify }}
-</div>
 
 ## Expansion Factors (Y Factors)
 
@@ -533,11 +468,8 @@ The approximation produces reasonable results in this case, especially at higher
 
 $$ G = Y \sqrt{ { 2 \rho_1 \Delta P } \over K } $$
 
-Where the expansion factor, *Y*, is read off of a chart. This is great if you are working things out by hand, but can present some challenges when calculating things on a computer. Ludwig's[<sup id="fnref-12">12</sup>](#fn-12) provides a complicated series of equations to iteratively calculate the *Y* curves yourself, but I think if you are expending that level of effort then you really are not saving anything over using the Fanno model above. A much simpler approach is to either interpolate the critical expansion factor, *Y<sub>cr</sub>*, and critical pressure ratio, *q<sub>cr</sub>*, from the values given in Crane's or use a correlation for them (that's what I will use). Though this adds the wrinkle of only being able to use *Y* factors for gases with the same *&gamma;* as what is either tabulated or available in a correlation.
+Where the expansion factor, *Y*, is read off of a chart. This is great if you are working things out by hand, but can present some challenges when calculating things on a computer. [Ludwig's](#coker-2007) provides a complicated series of equations to iteratively calculate the *Y* curves yourself, but I think if you are expending that level of effort then you really are not saving anything over using the Fanno model above. A much simpler approach is to either interpolate the critical expansion factor, *Y<sub>cr</sub>*, and critical pressure ratio, *q<sub>cr</sub>*, from the values given in Crane's or use a correlation for them (that's what I will use). Though this adds the wrinkle of only being able to use *Y* factors for gases with the same *&gamma;* as what is either tabulated or available in a correlation.
 
-{% capture footnote-12 %}
-<a name="fn-12"><strong>12</strong></a>: Coker, *[Ludwig's Applied Process Design](#coker-2007)*. [↩](#fnref-12)
-{% endcapture %}
 
 The actual *Y* value then comes from a simple linear relationship (where $q={ {\Delta P} \over P_1}$ )
 
@@ -545,11 +477,8 @@ $$ Y = \left( Y_{cr} -1 \right) \left( q \over q_{cr} \right) +1 $$
 
 This has the added convenience of telling you when you have crossed into choked flow, it happens when *q*&gt;*q<sub>cr</sub>*.
 
-One downside is that this method does not directly produce the exit conditions, so the Reynolds number is typically taken at the entrance conditions only. Since the Reynolds number is only a function of Temperature through the viscosity, this works out fine over ranges where the viscosity is approximately constant[<sup id="fnref-13">13</sup>](#fn-13).
+One downside is that this method does not directly produce the exit conditions, so the Reynolds number is typically taken at the entrance conditions only. Since the Reynolds number is only a function of Temperature through the viscosity, this works out fine over ranges where the viscosity is approximately constant.<a href="#fn-13" class="sidenote-number"></a><span class="sidenote" id="fn-13">The temperature can be worked out by using the method given in the section for Fanno flow, calculating the invariant at entrance conditions (once *G* is known) and then solving for the exit density.</span>
 
-{% capture footnote-13 %}
-<a name="fn-13"><strong>13</strong></a>: The temperature can be worked out by using the method given in the section for Fanno flow, calculating the invariant at entrance conditions (once *G* is known) and then solving for the exit density. [↩](#fnref-13)
-{% endcapture %}
 
 
 ```julia
@@ -640,12 +569,6 @@ ṁ_y = modified_darcy(P₁, Kf)*A
 ![svg](/images/adiabatic_compressible_flow_files/output_48_0.svg)
     
 
-<div class="notice">
-  {{ footnote-12 | markdownify }}
-
-  {{ footnote-13 | markdownify }}
-</div>
-
 
 ## Comparison
 
@@ -696,9 +619,9 @@ For a complete listing of code used to generate data and figures, please see the
 
 ## References
 
-+ <a name="albright-2009">Albright</a>, Lyle F. 2009. *Albright's Chemical Engineering Handbook*. Boca Raton: CRC Press
-+ <a name="chhabra-2018">Chhabra, R. P. and V. Shankar. 2018. *Coulson and Richardson's Chemical Engineering: Volume 1A: Fluid Flow: Fundamentals and Applications, 7th Ed.* Amsterdam: Elsevier
-+ <a name="coker-2007">Coker</a>, A. Kayode. 2007. *Ludwig's Applied Process Design for Chemical and Petrochemical Plants, 4th Ed.* Amsterdam: Elsevier
-+ <a name="crane-2013">Crane</a>. 2013. *TP410M Flow of Fluids*. Stamford, Connecticut: Crane
-+ <a name="hall-2018">Hall</a>, Stephen M. 2018. *Rules of Thumb for Chemical Engineers, 6th Ed.* Amsterdam: Elsevier
-+ <a name="tilton-2007">Tilton</a>, James N. 2007. "Fluid and Particle Dynamics" in *Perry's Chemical Engineers' Handbook, 8th ed.* Edited by Don W. Green, New York: McGraw Hill
++ <a name="albright-2009">Albright</a>, Lyle F. *Albright's Chemical Engineering Handbook*. Boca Raton: CRC Press, 2009.
++ <a name="chhabra-2018">Chhabra, R. P. and V. Shankar. *Coulson and Richardson's Chemical Engineering: Volume 1A: Fluid Flow: Fundamentals and Applications*, 7th ed. Amsterdam: Elsevier, 2018.
++ <a name="coker-2007">Coker</a>, A. Kayode. *Ludwig's Applied Process Design for Chemical and Petrochemical Plants*, 4th ed. Amsterdam: Elsevier, 2007
++ <a name="crane-2013">Crane</a>. *TP410M Flow of Fluids*. Stamford, Connecticut: Crane, 2013.
++ <a name="hall-2018">Hall</a>, Stephen M. *Rules of Thumb for Chemical Engineers*, 6th ed. Amsterdam: Elsevier, 2018
++ <a name="tilton-2007">Tilton</a>, James N. "Fluid and Particle Dynamics" in *Perry's Chemical Engineers' Handbook*, 8th ed. Edited by Don W. Green, New York: McGraw Hill, 2007.

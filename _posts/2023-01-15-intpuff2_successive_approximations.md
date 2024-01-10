@@ -58,33 +58,15 @@ What this generates is an instantaneous release of all of the mass in an infinit
 
 The dispersion parameters are functions of the downwind distance, but critically..*to what?* Taken as the downwind distance to the point being calculated, the dispersion parameters are constants (with respect to time) and the problem simplifies to integrating the Gaussian $ g_{x}(x,t) $ with respect to *t*, which is what I had assumed. *However* if the dispersion parameters are actually correlated to the downwind distance of the *cloud center*, which is $x_c = u t$, they are in fact functions of time and this does not work.
 
-This distinction is by no means made obvious in many of the references for chemical hazard analysis. Most are either vague about it or take the dispersion parameters at the downwind distance *of the point being calculated*. My main reference is the CCPS *Guidelines for Consequence Analysis of Chemical Releases* and it does this[<sup id="fnref-1">1</sup>](#fn-1). As do several workbooks I have seen. However *Lees'*[<sup id="fnref-2">2</sup>](#fn-2) notes that the dispersion parameters for the Pasquill-Gifford puff model (which this is) are given by
-
-{% capture footnote-1 %}
-<a name="fn-1"><strong>1</strong></a>: AIChE, *[Guidelines for Consequence Analysis](#ccps-1999)*, 107-108. [↩](#fnref-1)
-{% endcapture %}
-
-{% capture footnote-2 %}
-<a name="fn-2"><strong>2</strong></a>: Lees, *[Loss Prevention](#lees-1996)*, 15/112. [↩](#fnref-2)
-{% endcapture %}
+This distinction is by no means made obvious in many of the references for chemical hazard analysis. Most are either vague about it or take the dispersion parameters at the downwind distance *of the point being calculated*. My main reference is the CCPS *Guidelines for Consequence Analysis of Chemical Releases* and it does this<a href="#fn-1" class="sidenote-number"></a><span class="sidenote" id="fn-1">[AIChE/CCPS](#ccps-1999), *Guidelines for Consequence Analysis*, 107-108.</span>. As do several workbooks I have seen. However [Lees](#lees-1996) notes that the dispersion parameters for the Pasquill-Gifford puff model (which this is) are given by<a href="#fn-2" class="sidenote-number"></a><span class="sidenote" id="fn-2">[Lees](#lees-1996), *Loss Prevention*, 15/112.</span>
 
 $$ \sigma = { C^2 \over 2 } \left( u t \right)^{2-n} $$
 
-where *C* and *n* are some constants from Sutton, and in general the dispersion correlations are functions of travel time with a lot of discussion in the literature of *to what power*. The standard correlations for the dispersion parameters come from Slade[<sup id="fnref-3">3</sup>](#fn-3) which gives some details on how the measurements were actually taken. It certainly seems to me that the downwind distance was to the cloud center, i.e. the experimenters measured the cloud dimensions at the downwind point to which it had traveled. Which makes the travel time and windspeed implicit.
+where *C* and *n* are some constants from Sutton, and in general the dispersion correlations are functions of travel time with a lot of discussion in the literature of *to what power*. The standard correlations for the dispersion parameters come from [Slade](#slade-1968)<a href="#fn-3" class="sidenote-number"></a><span class="sidenote" id="fn-3">[Slade](#slade-1968), *Meteorology and Atomic Energy*, 117-189.</span> which gives some details on how the measurements were actually taken. It certainly seems to me that the downwind distance was to the cloud center, i.e. the experimenters measured the cloud dimensions at the downwind point to which it had traveled. Which makes the travel time and windspeed implicit.
 
-{% capture footnote-3 %}
-<a name="fn-3"><strong>3</strong></a>: Slade, *[Meteorology and Atomic Energy](#slade-1968)*, 117-189. [↩](#fnref-3)
-{% endcapture %}
 
 I think it is a reasonable confusion as the dispersion parameters for a continuous release, a Gaussian *plume* model, are indeed functions of the downwind distance to the point being calculated. It is also frequently the case that examples are given for the concentration at the cloud center, in which case the downwind distance at the point being calculated *is* the downwind distance to the cloud center.
 
-<div class="notice">
-  {{ footnote-1 | markdownify }}
-
-  {{ footnote-2 | markdownify }}
-
-  {{ footnote-3 | markdownify }}
-</div>
 
 
 ## Dispersion nearly-constants
@@ -287,6 +269,6 @@ For a complete listing of code used to generate data and figures, please see the
 
 ## References
 
-+ <a name="ccps-1999">AIChE/CCPS</a>. 1999. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers
-+ <a name="lees-1996">Lees</a>, Frank P. 1996. *Loss Prevention in the Process Industries, 2nd ed.* Oxford: Butterworth-Heinemann
-+ <a name="slade-1968">Slade</a>, David H. 1968. *Meteorology and Atomic Energy*. Springfield, VA: National Technical Information Service [doi:10.2172/4492043](https://doi.org/10.2172/4492043)
++ <a name="ccps-1999">AIChE/CCPS</a>. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers, 1999.
++ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries, 2nd ed.* Oxford: Butterworth-Heinemann, 1996.
++ <a name="slade-1968">Slade</a>, David H. *Meteorology and Atomic Energy*. Springfield, VA: National Technical Information Service, 1968. [doi:10.2172/4492043](https://doi.org/10.2172/4492043)

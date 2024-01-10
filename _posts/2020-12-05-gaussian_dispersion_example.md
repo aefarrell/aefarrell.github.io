@@ -59,11 +59,8 @@ Prior to any dispersion modeling, the following parameters need to be collected:
 
 ### Mass Emission Rate
 
-The EPA has tabulated *emission factors* for most combustion products in [EPA AP-42](https://www.epa.gov/air-emissions-factors-and-quantification/ap-42-compilation-air-emissions-factors) and for a natural gas boiler it is *84 lb/10^6 SCF*[<sup id="fnref-1">1</sup>](#fn-1) with a reference higher heating value of *1020 MMBTU/10^6 SCF*.
+The EPA has tabulated *emission factors* for most combustion products in [EPA AP-42](#epa-1995a) and for a natural gas boiler it is *84 lb/10^6 SCF*<a href="#fn-1" class="sidenote-number"></a><span class="sidenote" id="fn-1">[EPA](#epa-1995a) *AP-42*, Table 1.4-1. The emission factor is relative to the volume of natural gas consumed not the volume of stack gas emitted</span> with a reference higher heating value of *1020 MMBTU/10^6 SCF*.
 
-{% capture footnote-1 %}
-<a name="fn-1"><strong>1</strong></a>: EPA ([1995a](#epa-1995a)), Table 1.4-1. The emission factor is relative to the volume of natural gas consumed not the volume of stack gas emitted[↩](#fnref-1)
-{% endcapture %}
 
 If we suppose the boiler is operating at max rates then the mass emission rate is
 
@@ -88,17 +85,11 @@ Q = EF * W / HV # mass emission rate in kg/s
 
 This gives a mass flow rate of carbon monoxide in the plume, but we will also need some sense of how large the plume is in general, i.e. what is the volumetric flowrate of stack gas exiting the stack?
 
-<div class="notice">
-  {{ footnote-1 | markdownify }}
-</div>
 
 ### Volumetric Flow Rate of Flue Gas
 
-There are several ways the volumetric flow rate of flue gas could be estimated. One simple method is to use EPA Method 19[<sup id="fnref-2">2</sup>](#fn-2) with the equation
+There are several ways the volumetric flow rate of flue gas could be estimated. One simple method is to use [EPA Method 19](#epa-2023) with the equation
 
-{% capture footnote-2 %}
-<a name="fn-2"><strong>2</strong></a>: EPA ([2023](#epa-2023)) [↩](#fnref-2)
-{% endcapture %}
 
 $$ V_s^o = F_w { 20.9 \over 20.9 \left( 1 - B_{wa} \right) - \%O_{2w} } \cdot W$$
 
@@ -150,19 +141,16 @@ Vₛ = (Tₛ / Tᵒ) * (pᵒ / pₐ) * Vₛᵒ
 
     46.6438970432218 m^3 s^-1
 
-<div class="notice">
-  {{ footnote-2 | markdownify }}
-</div>
+
 
 ### The Concentration of Interest
 
-This analysis is fundamentally about identifying whether a worker on the work platform would experience flue gases in excess of some concentration of interest. In this case I am supposing the Occupational Exposure Limit (OEL) for carbon monoxide alone because it is simple. In practice, since flue gas is a mixture of many substances that each have an associated OEL, one would have to look at the cumulative impact of all of these substances instead of treating them all individually[<sup id="fnref-3">3</sup>](#fn-3)
+This analysis is fundamentally about identifying whether a worker on the work platform would experience flue gases in excess of some concentration of interest. In this case I am supposing the Occupational Exposure Limit (OEL) for carbon monoxide alone because it is simple. In practice, since flue gas is a mixture of many substances that each have an associated OEL, one would have to look at the cumulative impact of all of these substances instead of treating them all individually<a href="#fn-3" class="sidenote-number"></a><span class="sidenote" id="fn-3">For example [CCOHS](https://www.ccohs.ca/oshanswers/hsprograms/occ_hygiene/occ_exposure_limits.html) recommends calculating the sum $$ \sum_i {C_i \over T_i } $$ for each substance *i* where *C* is the observed concentration and *T* is the threshold, and this sum should be less than one.</span>
 
-{% capture footnote-3 %}
-<a name="fn-3"><strong>3</strong></a>: For example [CCOHS](https://www.ccohs.ca/oshanswers/hsprograms/occ_hygiene/occ_exposure_limits.html) recommends calculating the sum $$ \sum_i {C_i \over T_i } $$ for each substance *i* where *C* is the observed concentration and *T* is the threshold, and this sum should be less than one.[↩](#fnref-3)
-{% endcapture %}
 
-For carbon monoxide there are three concentrations of interest[<sup id="fnref-4">4</sup>](#fn-4) worth considering
+For carbon monoxide there are three concentrations of interest worth considering<a href="#fn-4" class="sidenote-number"></a>
+
+<span class="sidenote" id="fn-4">From the [NIOSH Handbook](https://www.cdc.gov/niosh/npg/npgd0105.html), using the conversion 1.15 mg/m^3 per ppm</span>
 + the Time Weighted Average (TWA) concentration which represents the limit for workers in that environment for a standard shift and 40 hours per week
 + the Ceiling concentration which is the level that the concentration cannot exceed
 + the Immediately Dangerous to Life and Health (IDLH) limit which is a concentration that could either kill a worker outright or render them incapable of saving themselves
@@ -173,9 +161,7 @@ For carbon monoxide there are three concentrations of interest[<sup id="fnref-4"
 | Ceiling | 200                 | 229                    |
 | IDLH    | 1200                | 1380                   |
 
-{% capture footnote-4 %}
-<a name="fn-4"><strong>4</strong></a>: From the [NIOSH Handbook](https://www.cdc.gov/niosh/npg/npgd0105.html), using the conversion 1.15 mg/m^3 per ppm[↩](#fnref-4)
-{% endcapture %}
+
 
 ```julia
 TWA = uconvert(u"kg/m^3", 40u"mg/m^3")
@@ -205,12 +191,6 @@ Q/Vₛᵒ > TWA
 The concentration in the flue gas is above the limit for long term work exposure but below the ceiling. At this point we are justified in continuing on to estimate the concentration at the work platform.
 
 
-<div class="notice">
-  {{ footnote-3 | markdownify }}
-
-  {{ footnote-4 | markdownify }}
-</div>
-
 ## Meteorological Conditions
 
 The ambient conditions impact the release in some obvious ways and in some non-obvious ways. Obviously the wind-speed impacts how far the plume is moved, through advection. Somewhat non-obviously the ambient conditions also govern how high the plume will rise due to buoyancy as well as the extent of mixing as the plume moves through the air.
@@ -232,21 +212,16 @@ The atmospheric stability relates to the vertical mixing of the air due to a tem
 
 ![image.png](/images/gaussian_dispersion_example_files/att1.png)
 
-This is captured by the atmospheric stability parameter $s$ which is given by[<sup id="fnref-5">5</sup>](#fn-5)
+This is captured by the atmospheric stability parameter $s$ which is given by<a href="#fn-5" class="sidenote-number"></a><span class="sidenote" id="fn-5">[EPA](#epa-1995b) *EPA-454/B-95-003b*, 1-9.</span>
 
-{% capture footnote-5 %}
-<a name="fn-5"><strong>5</strong></a>: EPA ([1995b](#epa-1995b)), page 1-9 [↩](#fnref-5)
-{% endcapture %}
  
 $$ s = \frac{g}{T_a} { \partial \theta \over \partial z } $$
 
 Where $ \partial \theta \over \partial z $ is the lapse rate in K/m
 
-The "worst-case" is the case with the least mixing and corresponds to a class F [Pasquill stability](https://en.wikipedia.org/wiki/Outline_of_air_pollution_dispersion#Characterization_of_atmospheric_turbulence), i.e. very stable, which has a corresponding default lapse rate of ${ \partial \theta \over \partial z } = 0.035 K/m$[<sup id="fnref-6">6</sup>](#fn-6)
+The "worst-case" is the case with the least mixing and corresponds to a class F [Pasquill stability](https://en.wikipedia.org/wiki/Outline_of_air_pollution_dispersion#Characterization_of_atmospheric_turbulence), i.e. very stable, which has a corresponding default lapse rate of ${ \partial \theta \over \partial z } = 0.035 K/m$<a href="#fn-6" class="sidenote-number"></a><span class="sidenote" id="fn-6">[EPA](#epa-1995b) *EPA-454/B-95-003b*, 1-9.</span>
 
-{% capture footnote-6 %}
-<a name="fn-6"><strong>6</strong></a>: EPA ([1995b](#epa-1995b)), page 1-9 [↩](#fnref-6)
-{% endcapture %}
+
 
 **Addendum:** this isn't entirely true. For neutrally buoyant plumes released at ground level, or in this case level with the elevated work platform, class F is likely the worst case. For buoyant plumes released at elevation the minimal vertical dispersion with stable atmospheres means the bulk of the plume will rise and be dispersed far above the ground and another class and wind-speed should be considered. See *Guidelines for Use of Vapour Cloud Dispersion Models, 2nd Ed.* section 5.8 for more details
 {: .notice--warning}
@@ -266,11 +241,7 @@ s = (g/Tₐ) * Γ
 
     0.0011511507630387393 s^-2
 
-<div class="notice">
-  {{ footnote-5 | markdownify }}
 
-  {{ footnote-6 | markdownify }}
-</div>
 
 ### Effective Stack Height
 
@@ -298,11 +269,7 @@ vₛ > 1.5uₛ
 
 The following assumes a *stable* plume rise, recall that Pasquill stability class F corresponds to very stable conditions.
 
-The first question that must be answered is whether or not the plume rise is dominated by buoyancy or by momentum. For buoyant plume rise to dominate the actual temperature difference -- the difference between the stack exit temperature and the ambient temperature -- must be greater than a critical temperature difference[<sup id="fnref-7">7</sup>](#fn-7)
-
-{% capture footnote-7 %}
-<a name="fn-7"><strong>7</strong></a>: EPA ([1995b](#epa-1995b)), page 1-9 [↩](#fnref-7)
-{% endcapture %}
+The first question that must be answered is whether or not the plume rise is dominated by buoyancy or by momentum. For buoyant plume rise to dominate the actual temperature difference -- the difference between the stack exit temperature and the ambient temperature -- must be greater than a critical temperature difference<a href="#fn-7" class="sidenote-number"></a><span class="sidenote" id="fn-7">[EPA](#epa-1995b) *EPA-454/B-95-003b*, 1-9.</span>
 
 $$ T_s - T_a = \Delta T \gt \left( \Delta T \right)_c = 0.019582 T_s v_s \sqrt{s} $$
 
@@ -317,35 +284,19 @@ $$ T_s - T_a = \Delta T \gt \left( \Delta T \right)_c = 0.019582 T_s v_s \sqrt{s
     true
 
 
-In this case buoyant plume rise is dominant, and the stable plume rise equation is[<sup id="fnref-8">8</sup>](#fn-8)
-
-{% capture footnote-8 %}
-<a name="fn-8"><strong>8</strong></a>: EPA ([1995b](#epa-1995b)), page 1-9 [↩](#fnref-8)
-{% endcapture %}
+In this case buoyant plume rise is dominant, and the stable plume rise equation is<a href="#fn-8" class="sidenote-number"></a><span class="sidenote" id="fn-8">[EPA](#epa-1995b) *EPA-454/B-95-003b*, 1-9.</span>
 
 $$ \Delta h = 2.6 \left( F_b \over u_s s \right)^{1/3} $$
 
-where $\Delta h$ is the increase in effective stack height due to plume rise, and $F_b$ is the buoyancy flux parameter[<sup id="fnref-9">9</sup>](#fn-9)
-
-{% capture footnote-9 %}
-<a name="fn-9"><strong>9</strong></a>: EPA ([1995b](#epa-1995b)), page 1-6 [↩](#fnref-9)
-{% endcapture %}
+where $\Delta h$ is the increase in effective stack height due to plume rise, and $F_b$ is the buoyancy flux parameter<a href="#fn-9" class="sidenote-number"></a><span class="sidenote" id="fn-9">[EPA](#epa-1995b) *EPA-454/B-95-003b*, 1-6.</span>
 
 $$ F_b = g v_s D_s^2 { \left( T_s - T_a \right) \over 4 T_s } $$
 
-Plume rise is not instantaneous and the distance to the final rise, $x_f$ is given by[<sup id="fnref-10">10</sup>](#fn-10)
-
-{% capture footnote-10 %}
-<a name="fn-10"><strong>10</strong></a>: EPA ([1995b](#epa-1995b)), page 1-9 [↩](#fnref-10)
-{% endcapture %}
+Plume rise is not instantaneous and the distance to the final rise, $x_f$ is given by<a href="#fn-10" class="sidenote-number"></a><span class="sidenote" id="fn-10">[EPA](#epa-1995b) *EPA-454/B-95-003b*, 1-9.</span>
 
 $$ x_f = 2.0715 {u_s \over \sqrt{s} } $$
 
-with any distance closer to the source than $x_f$ experiencing a lesser plume rise, given by[<sup id="fnref-11">11</sup>](#fn-11)
-
-{% capture footnote-11 %}
-<a name="fn-11"><strong>1</strong></a>: EPA ([1995b](#epa-1995b)), page 1-10 [↩](#fnref-11)
-{% endcapture %}
+with any distance closer to the source than $x_f$ experiencing a lesser plume rise, given by<a href="#fn-11" class="sidenote-number"></a><span class="sidenote" id="fn-11">[EPA](#epa-1995b) *EPA-454/B-95-003b*, 1-10.</span>
 
 $$ \Delta h = 1.60 \left( F_b x^2 \over u_s^3 \right)^{1/3} $$
 
@@ -388,19 +339,6 @@ Plume rise is impacted by the wind-speed at the stack height, as the following p
 
 
 ![svg](/images/gaussian_dispersion_example_files/output_28_0.svg)
-
-
-<div class="notice">
-  {{ footnote-7 | markdownify }}
-
-  {{ footnote-8 | markdownify }}
-
-  {{ footnote-9 | markdownify }}
-
-  {{ footnote-10 | markdownify }}
-
-  {{ footnote-11 | markdownify }}
-</div>
 
 
 ## Gaussian Dispersion Model
@@ -499,11 +437,8 @@ $$ \sigma_{z} = c x^{d} $$
 
 With the constants tabulated based on the [Pasquill stability class criteria](https://en.wikipedia.org/wiki/Outline_of_air_pollution_dispersion#Characterization_of_atmospheric_turbulence). 
 
-These particular correlations come from Lees[<sup id="fnref-12">12</sup>](#fn-12) and are for a Pasquill stability class F
+These particular correlations come from [Lees](#lees-1996)<a href="#fn-12" class="sidenote-number"></a><span class="sidenote" id="fn-12">[Lees](#lees-1996) *Loss Prevention*, 15/113.<br /> There is a typo in the 4th edition of *Lees'* for the $\sigma_{z}$ corresponding to class F stability. For $x>500$ it is given as $$ \sigma_{z} = 10^{(1.91 - 1.37 \log(x) - 0.119 \log(x)^2)} $$ when it should be (note the signs) $$ \sigma_{z} = 10^{(-1.91 + 1.37 \log(x) - 0.119 \log(x)^2)} $$. I happen to have the paper version of the 2nd edition at home, which does not have the typo, whereas the standard version I use at work is the 4th edition on Knovel.</span> and are for a Pasquill stability class F
 
-{% capture footnote-12 %}
-<a name="fn-12"><strong>12</strong></a>: Lees ([1996](#lees-1996)), page 15/113. There is a typo in the 4th edition of *Lees'* for the $\sigma_{z}$ corresponding to class F stability. For $x>500$ it is given as $$ \sigma_{z} = 10^{(1.91 - 1.37 \log(x) - 0.119 \log(x)^2)} $$ when it should be (note the signs) $$ \sigma_{z} = 10^{(-1.91 + 1.37 \log(x) - 0.119 \log(x)^2)} $$. I happen to have the paper version of the 2nd edition at home, which does not have the typo, whereas the standard version I use at work is the 4th edition on Knovel.[↩](#fnref-12)
-{% endcapture %}
 
 ```julia
 σy(x) = 0.067*x^0.90
@@ -541,17 +476,10 @@ end
 ![svg](/images/gaussian_dispersion_example_files/output_37_0.svg)
 
 
-<div class="notice">
-  {{ footnote-12 | markdownify }}
-</div>
 
 ### Effect of Plume Rise
 
-The effect of plume rise on this model is to shift from the actual stack height to an effective stack height $h_e = h_s + \Delta h$ with $\Delta h$ given by the plume rise model already discussed. Additionally the dispersion is adjusted by the following[<sup id="fnref-13">13</sup>](#fn-13)
-
-{% capture footnote-13 %}
-<a name="fn-13"><strong>13</strong></a>: Vallero ([2014](#vallero-2014)), 696-697 [↩](#fnref-13)
-{% endcapture %}
+The effect of plume rise on this model is to shift from the actual stack height to an effective stack height $h_e = h_s + \Delta h$ with $\Delta h$ given by the plume rise model already discussed. Additionally the dispersion is adjusted by the following<a href="#fn-13" class="sidenote-number"></a><span class="sidenote" id="fn-13">[Vallero](#vallero-2014) *Fundamentals of Air Pollution*, 696-697.</span>
 
 
 $$ \sigma_{ze}^2 = \left( \Delta h \over 3.5 \right)^2 + \sigma_z^2 $$
@@ -578,9 +506,6 @@ function C(x, y, z)
 end
 ```
 
-<div class="notice">
-  {{ footnote-13 | markdownify }}
-</div>
 
 ## Modeling Dispersion
 
@@ -641,8 +566,8 @@ For a complete listing of code used to generate data and figures, please see the
 
 ## References
 
-+ <a name="epa-1995a">EPA</a>. 1995a. *AP 42: Compilation of Air Emissions Factors, 5th ed*. Research Triangle Park, North Carolina: Environmental Protection Agency
-+ <a name="epa-1995b">&#8212;&#8212;&#8212;</a> 1995b. *EPA-454/B-95-003b User's Guide for the ISC3 Dispersion Models*. Vol 2. Research Triangle Park, North Carolina: Environmental Protection Agency
-+ <a name="epa-2023">&#8212;&#8212;&#8212;</a> 2023. *Method 19 - Determination of Sulfur Dioxide Removal Efficiency and Particulate Matter, Sulfur Dioxide, and Nitrogen Oxide Emission Rates*. Environmental Protection Agency. Accessed December 21, 2023. [https://www.epa.gov/sites/default/files/2017-08/documents/method_19.pdf](https://www.epa.gov/sites/default/files/2017-08/documents/method_19.pdf)
-+ <a name="lees-1996">Lees</a>, Frank P. 1996. *Loss Prevention in the Process Industries, 2nd ed.* Oxford: Butterworth-Heinemann
-+ <a name="vallero-2014">Vallero</a>, Daniel. 2014. *Fundamentals of Air Pollution, 5th Ed.* Amsterdam: Elsevier
++ <a name="epa-1995a">EPA</a>. *AP 42: Compilation of Air Emissions Factors*, 5th ed. Research Triangle Park, North Carolina: Environmental Protection Agency, 1995. [url](https://www.epa.gov/air-emissions-factors-and-quantification/ap-42-compilation-air-emissions-factors)
++ <a name="epa-1995b">&#8212;&#8212;&#8212;</a> *EPA-454/B-95-003b User's Guide for the ISC3 Dispersion Models*. Vol 2. Research Triangle Park, North Carolina: Environmental Protection Agency, 1995.
++ <a name="epa-2023">&#8212;&#8212;&#8212;</a> *Method 19 - Determination of Sulfur Dioxide Removal Efficiency and Particulate Matter, Sulfur Dioxide, and Nitrogen Oxide Emission Rates*. Environmental Protection Agency. Accessed December 21, 2023. [url](https://www.epa.gov/sites/default/files/2017-08/documents/method_19.pdf)
++ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries*, 2nd ed. Oxford: Butterworth-Heinemann, 1996.
++ <a name="vallero-2014">Vallero</a>, Daniel. *Fundamentals of Air Pollution*, 5th ed. Amsterdam: Elsevier, 2014.
