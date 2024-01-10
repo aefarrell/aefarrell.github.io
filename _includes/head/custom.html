@@ -102,6 +102,33 @@
     /* change the default size of inline formulas  */
         .katex { font-size: 1.0em !important; }
 
+	/* change size of toc elements */
+		.toc li{ font-size: 1.0em !important; }
+		
+	/* sidenote boxes */
+		.sidenote { display: block;
+					color: #222831; 
+		            font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif; 
+		            font-size: 0.65em !important; 
+		            text-indent: initial; /* override*/ 
+		            background-color: #e4e5e6; 
+		            border-radius: 4px; 
+		            box-shadow: 0 1px 1px rgba(189, 193, 196, 0.25); 
+		            margin-bottom: 1em;
+		            vertical-align: baseline;}
+		.sidenote p:last-child { margin-bottom: 0 !important; /* override*/ }
+		.sidenote p { /* remove space above paragraphs that appear directly after notice headline*/ margin-top: 0; padding-top: 0; }
+		.sidenote a { color: #aaaeb0; }
+		.sidenote a:hover { color: #5f6162; }
+		blockquote.sidenote { border-left-color: #aaaeb0; }
+		.sidenote code { background-color: #e9eaea; }
+		.sidenote pre code { background-color: inherit; }
+		.sidenote ul:last-child { margin-bottom: 0; /* override*/ }
+		
+		@media (min-width: 64em) { .sidenote { position: absolute; /*top: 0;*/ right: 0; width: 200px; margin-right: -200px; padding-left: 1em; z-index: 10; }
+		@media (min-width: 80em) { .sidenote { width: 300px; margin-right: -330px; margin-top: -30px; } }
+
+
     /* add a button for Mastodon */
         .btn--mastodon { 
             background-color: #1e3050;

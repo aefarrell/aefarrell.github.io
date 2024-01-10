@@ -47,23 +47,13 @@ For an urban release scenario, whether or not one choses the default, the ISC3 u
 
 ## Plume Dispersion
 
-The more diverse sets of correlations are for the plume dispersion parameters, the crosswind and vertical dispersion. To some extent this is because the early work[<sup id="fnref-1">1</sup>](#fn-1) presented the dispersion parameters graphically and many subsequent authors generated their own curves to fit these plots.
+The more diverse sets of correlations are for the plume dispersion parameters, the crosswind and vertical dispersion. To some extent this is because the early work[<sup id="fnref-1">1</sup>](#fn-1)<span class="sidenote"><a name="fn-1"><strong>1</strong></a>: [Turner](#turner-1970), *Workbook of Atmospheric Dispersion Estimates*, 8-9. [↩](#fnref-1)</span> presented the dispersion parameters graphically and many subsequent authors generated their own curves to fit these plots.
 
-{% capture footnote-1 %}
-<a name="fn-1"><strong>1</strong></a>: [Turner](#turner-1970), *Workbook of Atmospheric Dispersion Estimates*, 8-9. [↩](#fnref-1)
-{% endcapture %}
-
-<div class="notice">
-  {{ footnote-1 | markdownify }}
-</div>
 
 ### Crosswind Dispersion
 
-Crosswind dispersion can be divided into the various attempts at fitting the curves presented graphically by [Turner](#turner-1970) and those based on Briggs' urban and rural correlations[<sup id="fnref-2">2</sup>](#fn-2)
+Crosswind dispersion can be divided into the various attempts at fitting the curves presented graphically by [Turner](#turner-1970) and those based on Briggs' urban and rural correlations[<sup id="fnref-2">2</sup>](#fn-2)<span class="sidenote"><a name="fn-2"><strong>2</strong></a>: [Briggs](#briggs-1973), *Diffusion Estimation for Small Emissions*, 38. Note that the correlations are given with respect to half-width/half-depth. [↩](#fnref-2)</span>
 
-{% capture footnote-2 %}
-<a name="fn-2"><strong>2</strong></a>: [Briggs](#briggs-1973), *Diffusion Estimation for Small Emissions*, 38. Note that the correlations are given with respect to half-width/half-depth. [↩](#fnref-2)
-{% endcapture %}
 
 The default correlation is a simple set of correlations of the form
 
@@ -79,18 +69,13 @@ Zooming in on the class F curves is illustrative of the lot: most of the lines o
 
 ![svg](/images/dispersion_parameter_sensitivity_files/output_13_0.svg)
 
-<div class="notice">
-  {{ footnote-2 | markdownify }}
-</div>
+
 
 ### Vertical Dispersion
 
 The vertical dispersion correlations are decidedly more varied. Varied enough that I'm just going to show them all at full scale[<sup id="fnref-3">3</sup>](#fn-3)
 
-{% capture footnote-3 %}
-<a name="fn-3"><strong>3</strong></a>: The correlations given in the [AIChE/CCPS](#ccps-1999) *Guidelines for Consequence Analysis* for urban conditions has typos in the class A, B and D correlations, I have corrected them here to match the Briggs correlations on which they are supposed to be based. [↩](#fnref-3)
-{% endcapture %}
-
+<span class="sidenote"><a name="fn-3"><strong>3</strong></a>: The correlations given in the [AIChE/CCPS](#ccps-1999) *Guidelines for Consequence Analysis* for urban conditions has typos in the class A, B and D correlations, I have corrected them here to match the Briggs correlations on which they are supposed to be based. [↩](#fnref-3)</span>
 
 ![svg](/images/dispersion_parameter_sensitivity_files/output_17_0.svg)
 
@@ -107,9 +92,6 @@ The vertical dispersion correlations are decidedly more varied. Varied enough th
 
 For some of these there is *an order of magnitude* spread in vertical dispersion, depending on which model happens to be used. Even when looking only at the correlations that are "universal", i.e. are not for either urban or rural terrains. From this alone one would expect that the concentration profiles would vary by a large amount, depending on which set of correlations one used to model a given scenario.
 
-<div class="notice">
-  {{ footnote-3 | markdownify }}
-</div>
 
 ## An Example
 
