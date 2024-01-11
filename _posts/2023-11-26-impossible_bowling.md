@@ -65,11 +65,7 @@ basic_moves = [ n for n in range(16) if n not in [1,14] ]
 basic_moves.reverse()
 ```
 
-Then I define a function that recursively walks through the tree of possible games, always picking the largest viable move at each frame. If it finds an answer it returns it (in reverse order), if it exhausts the possible moves then it returns an empty list[<sup id="fnref-1">1</sup>](#fn-1).
-
-{% capture footnote-1 %}
-<a name="fn-1"><strong>1</strong></a>: This code stops once it has found a single valid solution, it could be extended very easily to find *every* valid solution, however the space of possible games is *huge*. [↩](#fnref-1)
-{% endcapture %}
+Then I define a function that recursively walks through the tree of possible games, always picking the largest viable move at each frame. If it finds an answer it returns it (in reverse order), if it exhausts the possible moves then it returns an empty list.<a href="#fn-1" class="sidenote-number"></a><span class="sidenote" id="fn-1">This code stops once it has found a single valid solution, it could be extended very easily to find *every* valid solution, however the space of possible games is *huge*.</span>
 
 
 ```python
@@ -108,17 +104,10 @@ for score in range(151):
 
 Which is what I expected, good news as I will be building off this general strategy for the cases where strikes and spares are included.
 
-<div class="notice">
-  {{ footnote-1 | markdownify }}
-</div>
 
 ### Detour: what about with no gutters?
 
-Another question that comes to mind is: what if you were restricted to always hitting a pin, no gutter balls? Now you can't get a score less than 7 (equivalent to hitting 2-2-3, the lowest pins). Does this change anything?[<sup id="fnref-2">2</sup>](#fn-2)
-
-{% capture footnote-2 %}
-<a name="fn-2"><strong>2</strong></a>:  In five pin it is actually possible to bowl between the pins and hit nothing without it *technically* being a gutter ball, and you can bowl into the blank spots left by pins that were already knocked down to score zeros without putting it in the gutter. I am using the term *gutter ball* loosely. [↩](#fnref-2)
-{% endcapture %}
+Another question that comes to mind is: what if you were restricted to always hitting a pin, no gutter balls? Now you can't get a score less than 7 (equivalent to hitting 2-2-3, the lowest pins). Does this change anything?<a href="#fn-2" class="sidenote-number"></a><span class="sidenote" id="fn-2">In five pin it is actually possible to bowl between the pins and hit nothing without it *technically* being a gutter ball, and you can bowl into the blank spots left by pins that were already knocked down to score zeros without putting it in the gutter. I am using the term *gutter ball* loosely.</span>
 
 
 Probably I could go back and look at the math again, but the nice thing about having written code is that I can just change the space of possible moves and run it again.
@@ -143,11 +132,7 @@ for score in range(70,151):
 
 So nothing really changes. I mean you can't get a score *&lt;70*, obviously, but this doesn't open up any *gaps* in possible scores either.
 
-It does mean the strategy changes, now the code takes the biggest strides it can until the remainder is a multiple of 7 then runs out the game with a string of 7s[<sup id="fnref-3">3</sup>](#fn-3).
-
-{% capture footnote-3 %}
-<a name="fn-3"><strong>3</strong></a>: You may have noticed an extra "frame" at the end with a score of 0. This is because, in five pin bowling, the last frame has special rules. You always get 3 balls in the last frame, even if your first two are a strike or spare. In this case, with no strikes or spares allowed by design, that extra scoring doesn't enter into it. [↩](#fnref-3)
-{% endcapture %}
+It does mean the strategy changes, now the code takes the biggest strides it can until the remainder is a multiple of 7 then runs out the game with a string of 7s.<a href="#fn-3" class="sidenote-number"></a><span class="sidenote" id="fn-3">You may have noticed an extra "frame" at the end with a score of 0. This is because, in five pin bowling, the last frame has special rules. You always get 3 balls in the last frame, even if your first two are a strike or spare. In this case, with no strikes or spares allowed by design, that extra scoring doesn't enter into it.</span>
 
 
 ```python
@@ -243,11 +228,7 @@ There are only two scores that are not achievable in the frame following a spare
 
 
 
-Adding spares has also complicated determining if a move is *valid* or not. Since scoring now depends on the state of a given move -- *is it a spare or not* -- this impacts the bounds of possible scores that can follow any given move. Instead of putting this all into the same function, as I did before, I have broken it out into its own function that decides, given a move, a remaining number of frames, and a remaining number of points to pick up, is the move *valid*[<sup id="fnref-4">4</sup>](#fn-4).
-
-{% capture footnote-4 %}
-<a name="fn-4"><strong>4</strong></a>: There is an extra move at the end because of the last frame rule: A spare at the start of the last frame leads to an extra ball, but one that can only count for up to 15. [↩](#fnref-4)
-{% endcapture %}
+Adding spares has also complicated determining if a move is *valid* or not. Since scoring now depends on the state of a given move -- *is it a spare or not* -- this impacts the bounds of possible scores that can follow any given move. Instead of putting this all into the same function, as I did before, I have broken it out into its own function that decides, given a move, a remaining number of frames, and a remaining number of points to pick up, is the move *valid*.<a href="#fn-4" class="sidenote-number"></a><span class="sidenote" id="fn-4">There is an extra move at the end because of the last frame rule: A spare at the start of the last frame leads to an extra ball, but one that can only count for up to 15.</span>
 
 
 ```python
