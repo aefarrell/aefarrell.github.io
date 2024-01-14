@@ -620,7 +620,7 @@ For a complete listing of code used to generate data and figures, please see the
 ## References
 
 + <a name="albright-2009">Albright</a>, Lyle F. *Albright's Chemical Engineering Handbook*. Boca Raton: CRC Press, 2009.
-+ <a name="chhabra-2018">Chhabra, R. P. and V. Shankar. *Coulson and Richardson's Chemical Engineering: Volume 1A: Fluid Flow: Fundamentals and Applications*, 7th ed. Amsterdam: Elsevier, 2018.
++ <a name="chhabra-2018">Chhabra</a>, R. P. and V. Shankar. *Coulson and Richardson's Chemical Engineering: Volume 1A: Fluid Flow: Fundamentals and Applications*, 7th ed. Amsterdam: Elsevier, 2018.
 + <a name="coker-2007">Coker</a>, A. Kayode. *Ludwig's Applied Process Design for Chemical and Petrochemical Plants*, 4th ed. Amsterdam: Elsevier, 2007
 + <a name="crane-2013">Crane</a>. *TP410M Flow of Fluids*. Stamford, Connecticut: Crane, 2013.
 + <a name="hall-2018">Hall</a>, Stephen M. *Rules of Thumb for Chemical Engineers*, 6th ed. Amsterdam: Elsevier, 2018
