@@ -1,5 +1,6 @@
 ---
 title: "Estimating the impact of fugitive emissions"
+last_modified_at: 2024-01-15
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -305,7 +306,7 @@ $$ E_c = GWP_{N2O} \cdot EF_{N2O} \cdot HHV_{H2} \cdot (1-\eta) \cdot Q_{H2} $$
 
 Where *EF* is the *emission factor* for nitrous oxide and *HHV* is the higher heating value of hydrogen.
 
-The ratio of fugitive to combustion emissions is then
+The ratio of fugitive to combustion emissions is then<a href="#fn-11" class="sidenote-number"></a><span class="sidenote" id="fn-11">I am using the nitrous oxide emission factor for natural gas combustion, for lack of any more appropriate emission factor. This factor is highly dependent upon the actual burner design/operation, fuel gas, and host of other parameters relating to the actual stationary combustion device. I am implicitly assuming that whatever the nitrous oxide emission factor would be for hydrogen, it would be of the same order of magnitude as that for natural gas.</span>
 
 $$ { E_f \over E_c } = { {GWP_{H2} \cdot \rho_{H2}} \over { GWP_{N2O} \cdot EF_{N2O} \cdot HHV_{H2} } } \cdot {\eta \over {1-\eta}} $$
 
@@ -380,7 +381,7 @@ $$ \eta_{H2} = \eta_{CH4} $$
 
 ### Relative emissions of switching to hydrogen
 
-To make the math a little less tedious to type out, I am going to define two *emission factors*, the fugitive emission factor
+To make the math a little less tedious to type out, I am going to define two *emission factors*, the fugitive emission factor<a href="#fn-12" class="sidenote-number"></a><span class="sidenote" id="fn-12">Note that the flowrates here are at standard state. The volumetric emission factors, heating values, and densities are also at standard state thus this is equivalent to relation at actual conditions.</span>
 
 $$ EF_f = {E_f \over Q_T} $$
 
@@ -440,10 +441,13 @@ Even at relatively high leak rates, the total greenhouse gas emissions from a hy
 
 Hydrogen may also be limited by the fact that it is not a zero impact fuel with regards to all of the other air emissions that are more locally important, such as nitrogen oxides (NOx), VOCs, and ground level ozone. Hydrogen combustion does directly produce nitrogen oxides and direct hydrogen emissions impact atmospheric chemistry increasing VOC and ground level ozone concentrations. If the choice is between hydrogen combustion and electrification, well electrification actually is zero emissions -- both greenhouse gas emissions as well as other air pollutants -- and while electrification projects are more complex than hydrogen as a "drop-in" solution, that can be a pretty strong advantage. For example in airsheds that are already stressed for NOx, switching to hydrogen fuel gas may also require the installation post-combustion NOx reduction technology such as [SCR](https://en.wikipedia.org/wiki/Selective_catalytic_reduction), as hydrogen combustion generally produces more NOx than natural gas. Replacing stationary combustion equipment with their electric equivalents has the advantage that it reduces *all air emissions*.
 
+For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2024-01-13-fugitive-hydrogen.ipynb)
+{: .notice--info}
+
 ## References
 
 + <a name="aepa-2023">AEPA</a>. *Alberta Greenhouse Gas Quantification Methodologies, version 2.3*. Edmonton, AB: Alberta Environment and Protected Areas, 2023. [\[url\]](https://open.alberta.ca/publications/alberta-greenhouse-gas-quantification-methodologies)
-+ <a name="bertagni-2023">Bertagni</a>, Matteo B., Stephen W. Pacala, Fabien Paulot, and Amilcare Porporato "Risk of the Hydrogen Economy for Atmospheric Methane." *Nature Communications*. 13, 7706 (2023): 1-10. [doi:10.1038/s41467-022-35419-7](https://doi.org/10.1038/s41467-022-35419-7)
++ <a name="bertagni-2023">Bertagni</a>, Matteo B., Stephen W. Pacala, Fabien Paulot, and Amilcare Porporato "Risk of the Hydrogen Economy for Atmospheric Methane." *Nature Communications*. 13 (2023): 7706. [doi:10.1038/s41467-022-35419-7](https://doi.org/10.1038/s41467-022-35419-7)
 + <a name="colorado-2017">Colorado</a>, Andr&eacute;s, Vincent McDonell, and Scott Samuelsen. "Direct emissions of nitrous oxide from combustion of gaseous fuels." *International Journal of Hydrogen Energy*. 42, 1 (2017): 711-719. [doi:10.1016/j.ijhydene.2016.09.202](https://doi.org/10.1016/j.ijhydene.2016.09.202)
 + <a name="crane-2013">Crane</a>. *Flow of Fluids Through Valves, Fittings, and Pipe*. Stamford, Connecticut: Crane Co., 2013.
 + <a name="dutta-2023">Dutta</a>, Indranil, Rajesh Kumar Parsapur, Sudipta Chatterjee, Amol M. Hengne, Davin Tan, Karthik Peramaiah, Theis I. Solling, Ole John Nielsen, and Kuo-Wei Huang. "The Role of Fugitive Hydrogen Emissions in Selecting Hydrogen Carriers." *ACS Energy Letters*. 8, 7 (2023): 3251–3257. [doi:10.1021/acsenergylett.3c01098](https://doi.org/10.1021/acsenergylett.3c01098)
@@ -451,9 +455,9 @@ Hydrogen may also be limited by the fact that it is not a zero impact fuel with 
 + <a name="forster-2023">Forster</a>, Piers, Trude Storelvmo, Kyle Armour, William Collins, Jean-Louis Dufresne, David Frame, Daniel J. Lunt *et al*. "The Earth’s Energy Budget, Climate Feedbacks, and Climate Sensitivity." In *Climate Change 2021: The Physical Science Basis. Contribution of Working Group I to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change*, edited by Val&eacute;rie Masson-Delmonte, Panmao Zhai, Anna Pirani, Sarah L. Connors, Clotilde P&eacute;an, Yang Chen, Leah Goldfarb *et al*. 923-1054. Cambridge: Cambridge University Press, 2023. [doi:10.1017/9781009157896.009](https://doi.org/10.1017/9781009157896.009)
 + <a name="frazer-nash-2022">Frazer-Nash</a> Consultancy. *Fugitive Hydrogen Emissions in a Future Hydrogen Economy*. London, UK: Department for Business, Energy, and Industrial Strategy, 2022. [\[url\]](https://www.gov.uk/government/publications/fugitive-hydrogen-emissions-in-a-future-hydrogen-economy/)
 + <a name="gpsa-2012">GPSA</a>. *GPSA Engineering Data Book*. 13th ed. Tulsa, OK: Gas Processors Suppliers Association, 2012.
-+ <a name="ocko-2022">Ocko</a>  Ilissa B., and Steven P. Hamburg. "Climate Consequences of Hydrogen Emissions." *Atmospheric Chemistry and Physics*. 22, 14 (2022): 9349-9368. [doi:10.5194/acp-22-9349-2022](https://doi.org/10.5194/acp-22-9349-2022)
++ <a name="ocko-2022">Ocko</a>,  Ilissa B., and Steven P. Hamburg. "Climate Consequences of Hydrogen Emissions." *Atmospheric Chemistry and Physics*. 22, 14 (2022): 9349-9368. [doi:10.5194/acp-22-9349-2022](https://doi.org/10.5194/acp-22-9349-2022)
 + <a name="mejia-2020">Mejia</a>, Alejandra Hormaza, Jacob Brouwer, and Michael Mac Kinnon. "Hydrogen leaks at the same rate as natural gas in typical low-pressure gas infrastructure," *International Journal of Hydrogen Energy*. 45, 15 (2020): 8810-8825. [doi:10.1016/j.ijhydene.2019.12.159](https://doi.org/10.1016/j.ijhydene.2019.12.159)
-+ <a name="sand-2023">Sand</a>, Maria, Ragnhild Bieltvedt Skeie, Marit Sandstad, Srinath Krishnan, Gunnar Myhre, Hannah Bryant, Richard Derwent, Didier Hauglustaine, Fabien Paulot, Michael Prather, and David Stevenson. "A Multi-Model Assessment of the Global Warming Potential of Hydrogen," *Communications Earth & Environment*. 4, 203 (2023): 1-12. [doi:10.1038/s43247-023-00857-8](https://doi.org/10.1038/s43247-023-00857-8)
++ <a name="sand-2023">Sand</a>, Maria, Ragnhild Bieltvedt Skeie, Marit Sandstad, Srinath Krishnan, Gunnar Myhre, Hannah Bryant, Richard Derwent, Didier Hauglustaine, Fabien Paulot, Michael Prather, and David Stevenson. "A Multi-Model Assessment of the Global Warming Potential of Hydrogen," *Communications Earth & Environment*. 4 (2023): 203. [doi:10.1038/s43247-023-00857-8](https://doi.org/10.1038/s43247-023-00857-8)
 + <a name="schefer-2006">Schefer</a>, R. W., W. G. Houf, C. San Marchi, W. P. Chernicoff, and L. Englom. "Characterization of leaks from compressed hydrogen dispensing systems and related components," *International Journal of Hydrogen Energy*. 31, 9 (2006): 1247-1260. [doi:10.1016/j.ijhydene.2005.09.003](https://doi.org/10.1016/j.ijhydene.2005.09.003)
 + <a name="smith-2021">Smith</a>, Chris, Zebedee R. J. Nicholls, Kyle Armour, William Collins, Piers Forster, Malte Meinshausen, Matthew D. Palmer *et al*. "The Earth’s Energy Budget, Climate Feedbacks, and Climate Sensitivity Supplementary Material." In *Climate Change 2021: The Physical Science Basis. Contribution of Working Group I to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change*, edited by Val&eacute;rie Masson-Delmonte, Panmao Zhai, Anna Pirani, Sarah L. Connors, Clotilde P&eacute;an, Yang Chen, Leah Goldfarb *et al*. 2021. [\[url\]](https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-7/)[\[pdf\]](https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter07_SM.pdf)
 + <a name="swain-1992">Swain</a>, M. R. and M. N. Swain. "A Comparison of H<sub>2</sub>, CH<sub>4</sub> and C<sub>3</sub>H<sub>8</sub> fuel leakage in residential settings," *International Journal of Hydrogen Energy*. 17, 10 (1992): 807-815. [doi:10.1016/0360-3199(92)90025-R](https://doi.org/10.1016/0360-3199(92)90025-R)
