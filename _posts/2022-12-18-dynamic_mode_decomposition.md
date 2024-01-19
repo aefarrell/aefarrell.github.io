@@ -1,6 +1,6 @@
 ---
 title: "Dynamic Mode Decomposition"
-last_modified_at: 2023-12-26
+last_modified_at: 2024-01-18
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -50,12 +50,15 @@ ny = Int(read(file, "ny"))
 n, m = size(data)
 ```
 
-  (89351, 151)
+    (89351, 151)
 
 
 The data set, `data`, has already been processed into the form we need: each column represents a "frame" of the animation. We can walk through the matrix, taking each column and re-shaping it back into a 2D array, and recover the original flow as a movie.
 
-![gif](/images/dynamic_mode_decomposition_files/output_2_0.gif)
+<figure>
+<img src="/images/dynamic_mode_decomposition_files/output_2_0.gif" alt="animation showing the vorticity for flow past a cylinder" />
+<figcaption>Original data, vorticity of flow past a cylinder.</figcaption>
+</figure>
 
 The data set has the property that the number of data points at each time step, *n*, is much greater than the number of time steps, *m*. In fact *n* is large enough that the *n*&times;*n* matrix **A** might be unwieldy to store: If we assume it is a dense matrix of 64-bit floats, 8 bytes each, we would need ~64GB of memory just to store it.
 
@@ -64,7 +67,7 @@ The data set has the property that the number of data points at each time step, 
 size_A_naive = n*n*8
 ```
 
-  63868809608
+    63868809608
 
 
 ## Exact DMD
@@ -107,14 +110,14 @@ This is useful when *n* &gt; &gt; *m* as **U** is *n*&times;*m* and **&Atilde;**
 size_A_exact = (n*m + m*m)*8
 ```
 
-  108118416
+    108118416
 
 
 ```julia
 size_A_exact/size_A_naive
 ```
 
-  0.0016928202774340957
+    0.0016928202774340957
 
 
 Returning to the original problem, we have a sequence of discrete snapshots arranged in a matrix such that each column, *k*, is the vector **x**<sub>k</sub>. Our aim, then, is to find the *best fit* matrix **A** for the linear system
@@ -165,7 +168,7 @@ Ã = U'*YVΣ⁻¹
 size(Ã)
 ```
 
-  (150, 150)
+    (150, 150)
 
 
 We can then calculate the predicted **x**<sub>k+1</sub>'s, without ever having to actually compute (or store) **A**
@@ -177,9 +180,10 @@ X̂₂_exact = (U*(Ã*(U'*X₁)));
 
 As before, we can step through the matrix, extract each frame of the 2D flow field, and animate them, giving us a general sense of how well this worked
 
-![gif](/images/dynamic_mode_decomposition_files/output_11_0.gif)
-
-
+<figure>
+<img src="/images/dynamic_mode_decomposition_files/output_11_0.gif" alt="A pair of animations showing the original flow past a cylinder data set and a reconstruction using DMD" />
+<figcaption>Original flow field (top) and reconstructed flow field (bottom).</figcaption>
+</figure>
 
 ### Dynamic Modes
 
@@ -220,8 +224,11 @@ $$ \mathbf{\Phi} = \mathbf{Y} \mathbf{V} \mathbf{\Sigma}^{-1} \mathbf{W} $$
 
 Whether or not the ultimate goal is to generate the continuous system, the eigenvectors and eigenvalues are useful to examine as they represent the *dynamic modes* of the system.
 
+<figure>
+<img src="/images/dynamic_mode_decomposition_files/output_26_0.svg" alt="four plots showing the first and tenth dynamic modes of the system, real and imaginary components" />
+<figcaption>The first and tenth dymanic mode of the system.</figcaption>
+</figure>
 
-![svg](/images/dynamic_mode_decomposition_files/output_26_0.svg)
 
 I've played somewhat fast and loose with variables: the **A** for the discrete system is *not the same* **A** as the continuous system. Specifically the eigenvalues of the continuous system, &omega; are related to the eigenvalues of the discrete system, &lambda; by the following
 
@@ -242,8 +249,10 @@ where *&Delta;t* is the time step. The eigenvectors are the same, though. So we 
 # continuous system
 x̂(t) = real( Φ*exp(Ω .* t)*Φ⁻¹x₀ )
 ```
-
-![gif](/images/dynamic_mode_decomposition_files/output_15_0.gif)
+<figure>
+<img src="/images/dynamic_mode_decomposition_files/output_15_0.gif" alt="A pair of animations showing the original flow past a cylinder data set and a reconstruction using DMD" />
+<figcaption>Original flow field (top) and reconstructed flow field (bottom), using the continuous time vector function.</figcaption>
+</figure>
 
 
 ## Refactoring
@@ -305,7 +314,7 @@ d = DMD(data)
 d.Φ == Φ && d.Λ == Diagonal(Λ)
 ```
 
-  true
+    true
 
 
 If you were to build this into a larger project, it would be worthwhile to define some actual unit tests to validate that the DMD is working properly.
@@ -338,7 +347,7 @@ ds = DiscreteSys(d)
 X̂₂_exact == ds(X₁)
 ```
 
-  true
+    true
 
 
 ### Continuous System
@@ -372,7 +381,7 @@ cs = ContinuousSys(d, X₁[:,1]);
 x̂(150) == cs(150)
 ```
 
-  true
+    true
 
 
 ### Large Systems
@@ -429,8 +438,11 @@ This leads to a complication as the matrix **U** is required to be unitary, in p
 
 But, supposing that this at least approximately works, we are still left with the problem of picking an appropriate value for *r*. One could look at the singular values and pick one based on structure. For this problem it looks like an elbow happens at *r=45*.
 
+<figure>
+<img src="/images/dynamic_mode_decomposition_files/output_47_0.svg" alt="a plot showing the singular values of the matrix in order from largest to smallest" />
+<figcaption>The singular values of the system showing a significant elbow at $r=45$.</figcaption>
+</figure>
 
-![svg](/images/dynamic_mode_decomposition_files/output_47_0.svg)
 
 We can then generate a set of predictions for the reduced DMD, with *r=45*, and compare with the exact DMD
 
@@ -442,7 +454,7 @@ X̂₂_45 = ds_45(X₁)
 norm(X₂ - X̂₂_45) # Frobenius norm
 ```
 
-  0.005459307491383062
+    0.005459307491383062
 
 
 
@@ -450,7 +462,7 @@ norm(X₂ - X̂₂_45) # Frobenius norm
 norm(X₂ - X̂₂_exact)
 ```
 
-  0.0005597047465277092
+    0.0005597047465277092
 
 
 An alternative is to specify how much of the variance in the original data set needs to be captured. The singular values are a measure of the variance in the data, and so keeping the top *p* percent of the total variance equates to keeping the top *p* percent of the sum of all of the singular values.
@@ -502,10 +514,15 @@ end
 
 Capturing 99% of the variance, in this case, requires only keeping the first 14 singular values.
 
-![svg](/images/dynamic_mode_decomposition_files/output_54_0.svg)
+<figure>
+<img src="/images/dynamic_mode_decomposition_files/output_54_0.svg" alt="Plot of Frobenius norm of the difference between the original and reconstructed matrix as a function of reduced DMD rank" />
+<figcaption>The Frobenius norm of the difference between the original and reconstructed flow field as a function of reduced DMD rank, the point where 99% of the variance has been captured is indicated.</figcaption>
+</figure>
 
-
-![gif](/images/dynamic_mode_decomposition_files/output_29_0.gif)
+<figure>
+<img src="/images/dynamic_mode_decomposition_files/output_29_0.gif" alt="A pair of animations showing the original flow past a cylinder data set and a reconstruction using DMD" />
+<figcaption>Original flow field (top) and reconstructed flow field (bottom), using reduced DMD capturing 99% of the variance.</figcaption>
+</figure>
 
 There are also methods for finding the optimal rank for truncated SVD for a data set that involves gaussian noise which I am not going to go into here.
 
@@ -518,7 +535,7 @@ r = 14
 size_A_reduced = (n*r + r*r)*8
 ```
 
-  10008880
+    10008880
 
 
 To recover the (approximate) **A** matrix we only need to store 10MB, a ~91% reduction over the exact DMD
@@ -528,7 +545,7 @@ To recover the (approximate) **A** matrix we only need to store 10MB, a ~91% red
 size_A_reduced/size_A_exact
 ```
 
-  0.09257331331972159
+    0.09257331331972159
 
 
 and a >99.98% reduction of the naive case (recall the naive approach of storing the entire **A** matrix would take ~64GB)
@@ -538,7 +555,7 @@ and a >99.98% reduction of the naive case (recall the naive approach of storing 
 size_A_reduced/size_A_naive
 ```
 
-  0.00015670998193688458
+    0.00015670998193688458
 
 ### Truncated SVD and Large Systems
 
@@ -651,17 +668,24 @@ end
 
 That is to say we are only sampling the vorticity at the green dots. This reduces the dimensionality of the data *going in* to the DMD algorithm from 89351 to 300.
 
-![gif](/images/dynamic_mode_decomposition_files/output_36_0.gif)
+<figure>
+<img src="/images/dynamic_mode_decomposition_files/output_36_0.gif" alt="An animation showing the original flow past a cylinder data set with an overlaid set of points showing where data will be sampled" />
+<figcaption>Original flow field with randomly generated sample points for compressed DMD.</figcaption>
+</figure>
 
 We can generate a few different compressed DMDs to get a sense of how this impacts the overall performance (in terms of the Frobenius norm) and, much like we saw with reduced DMD, there are diminishing returns,
 
-
-![svg](/images/dynamic_mode_decomposition_files/output_73_0.svg)
+<figure>
+<img src="/images/dynamic_mode_decomposition_files/output_73_0.svg" alt="A plot showing the goodness of fit, in terms of frobenius norm, versus number of samples" />
+<figcaption>Compressed DMD performance, as measured by the Frobenius norm of the difference between the original flow field and the reconstructed field, over a range of sample sizes.</figcaption>
+</figure>
 
 Using the compression matrix from above, we can generate a compressed DMD<a href="#fn-3" class="sidenote-number"></a><span class="sidenote" id="fn-3">While we can reconstruct the eigenvalues and eigenvectors quite successfully, I don't believe we adequately reconstruct **U**, and so this really only works for the *continuous* system. The reconstruction of **U** strongly depends on **C** being unitary and I don't think that condition can be relaxed.</span>
 
-
-![gif](/images/dynamic_mode_decomposition_files/output_38_0.gif)
+<figure>
+<img src="/images/dynamic_mode_decomposition_files/output_38_0.gif" alt="An animation showing the original flow past a cylinder data set with an overlaid set of points showing where data will be sampled" />
+<figcaption>Original flow field (top) and reconstructed flow field (bottom), using compressed DMD and sampling at 300 points.</figcaption>
+</figure>
 
 
 The compressed DMD does not actually reduce the storage size of any of the matrices, it is more a technique to speed up the calculation of the SVD. Compressed DMD and reduced DMD can be combined: first by compressing the *n*&times;*m* matrix **X** to a *k*&times;*m* matrix **X**<sub>c</sub> and then finding the best rank *r* approximation to the compressed matrix by truncating the SVD to the *r* largest singular values. The reduction step reduces the memory requirements and, if truncated SVD is used as well, this could significantly improve performance for enormous systems.
@@ -671,9 +695,12 @@ There is a related approach called *compressed sensing* DMD, in which the full s
 
 ## Physics Informed DMD
 
-The idea behind physics informed DMD is that the physics of the system imposes *structure* upon the solution, which we can build into the DMD algorithm. This way we generate results that are consistent with physical reality. Which is to say that we are not merely finding the best fit matrix **A**, we are finding the best fit matrix **A** *subject to* some constraints on its structure. [The paper](https://arxiv.org/pdf/2112.04307.pdf) I am using as a reference gives a nice table of different types of flow problems and the sort of structure one might want to impose upon the solution
+The idea behind physics informed DMD is that the physics of the system imposes *structure* upon the solution, which we can build into the DMD algorithm. This way we generate results that are consistent with physical reality. Which is to say that we are not merely finding the best fit matrix **A**, we are finding the best fit matrix **A** *subject to* some constraints on its structure. The paper I am using as a reference gives a nice table of different types of flow problems and the sort of structure one might want to impose upon the solution<a href="#fn-4" class="sidenote-number"></a><span class="sidenote" id="fn-4"><a href="#baddoo-2021">Baddoo *et al.*</a> "Physics Informed DMD," fig 3.</span>
 
-![image.png](/images/dynamic_mode_decomposition_files/att1.png)
+<figure>
+<img src="/images/dynamic_mode_decomposition_files/att1.png" alt="a matrix of example dynamical systems and the corresponding piDMD method" />
+<figcaption>A comparison of models trained with exact DMD and with piDMD, also showing the matrix structure of the corresponding piDMD method (<a href="#baddoo-2021">Baddoo <em>et al.</em></a> "Physics Informed DMD," fig. 3.).</figcaption>
+</figure>
 
 Conveniently the flow past a cylinder example is on that table (that definitely wasn't a motivating factor for choosing it as the example in the first place, nope, not at all) and what we want to impose on the solution is conservation of energy. Conservation of energy in this case equates to requiring that **A** be unitary, which is the standard [procrustes problem](https://en.wikipedia.org/wiki/Orthogonal_Procrustes_problem)
 
@@ -756,8 +783,11 @@ function piDMD(X::Matrix)
 end
 ```
 
+<figure>
+<img src="/images/dynamic_mode_decomposition_files/output_40_0.gif" alt="An animation showing the original flow past a cylinder data set with an overlaid set of points showing where data will be sampled" />
+<figcaption>Original flow field (top) and reconstructed flow field (bottom), using physics informed DMD.</figcaption>
+</figure>
 
-![gif](/images/dynamic_mode_decomposition_files/output_40_0.gif)
 
 We can compare the Frobenius norm of the actual data versus the predicted, and it's clear the physics informed DMD does not generate as good of a fit as exact DMD. Though it could equally be the case that the exact DMD is over-fitting.
 
@@ -766,14 +796,14 @@ We can compare the Frobenius norm of the actual data versus the predicted, and i
 norm(X₂ - X̂₂_pi, 2)
 ```
 
-  18.35684111920036
+    18.35684111920036
 
 
 ```julia
 norm(X₂ - X̂₂_exact, 2)
 ```
 
-  0.0005597047465277092
+    0.0005597047465277092
 
 
 The main reason why you would pursue physics informed DMD, though, is not necessarily to generate a better fit as much as to generate better (or more physically realistic) dynamic modes.
@@ -785,13 +815,13 @@ For a complete listing of code used to generate data and figures, please see the
 
 ## References
 
-+ Baddoo, Peter J., Benjamin Herrmann, Beverley J. McKeon, J. Nathan Kutz, and Steven L. Brunton. "Physics-informed dynamic mode decomposition (piDMD)." (2021) [arXiv:2112.04307](https://arxiv.org/abs/2112.04307) with code available on [github](https://github.com/baddoo/piDMD)
-+ Bai, Zhe, Eurika Kaiser, Joshua L. Proctor, J. Nathan Kutz, and Steven L. Brunton. "Dynamic Mode Decomposition for Compressive System Identification." *AIAA Journal*, 58 (2020):561-574 doi:[10.2514/1.J057870](https://doi.org/10.2514/1.J057870)
++ <a name="baddoo-2021">Baddoo</a>, Peter J., Benjamin Herrmann, Beverley J. McKeon, J. Nathan Kutz, and Steven L. Brunton. "Physics-informed dynamic mode decomposition (piDMD)." Preprint, submitted December 8, 2021. [arXiv:2112.04307](https://arxiv.org/abs/2112.04307) with code available on [github](https://github.com/baddoo/piDMD)
++ Bai, Zhe, Eurika Kaiser, Joshua L. Proctor, J. Nathan Kutz, and Steven L. Brunton. "Dynamic Mode Decomposition for Compressive System Identification." *AIAA Journal*, 58 (2020):561-574 [doi:10.2514/1.J057870](https://doi.org/10.2514/1.J057870)
 + Brunton, Steven L. and J. Nathan Kutz. *[Data Driven Science and Engineering](http://databookuw.com)*. Cambridge: Cambridge University Press, 2019.
 >this an excellent resource for more than just the details of DMD (chapter 7). It is more than just a book as well: there are several videos of lectures going through all of the details.
 
-+ Brunton, Steven L., Joshua L. Proctor, and J. Nathan Kutz. "Compressive sampling and dynamic mode decomposition." (2013) [arXiv:1312.5186](https://arxiv.org/abs/1312.5186)
-+ Brunton, Steven L., Joshua L. Proctor, Jonathan H. Tu, and J. Nathan Kutz. "Compressed sensing and dynamic mode decomposition." *Journal of Computational Dynamics*, 2 (2015): 165-191. doi: [10.3934/jcd.2015002](https://www.aimsciences.org/article/doi/10.3934/jcd.2015002)
-+ Schmid, Peter J. "Dynamic mode decomposition of numerical and experimental data." *Journal of Fluid Mechanics*, 656 (2010):5-28 doi:[10.1017/S0022112010001217](https://doi.org/10.1017/S0022112010001217)
-+ Tu, Jonathan H., Clarence W. Rowley, Dirk Martin Luchtenburg, Steven L. Brunton, and J. Nathan Kutz. "On dynamic mode decomposition: Theory and applications." *Journal of Computational Dynamics*, 1 (2014): 391-421. doi:[10.3934/jcd.2014.1.391](https://doi.org/10.3934/jcd.2014.1.391)
++ Brunton, Steven L., Joshua L. Proctor, and J. Nathan Kutz. "Compressive sampling and dynamic mode decomposition." Preprint, submitted December 18, 2013. [arXiv:1312.5186](https://arxiv.org/abs/1312.5186)
++ Brunton, Steven L., Joshua L. Proctor, Jonathan H. Tu, and J. Nathan Kutz. "Compressed sensing and dynamic mode decomposition." *Journal of Computational Dynamics*, 2 (2015): 165-191. [doi:10.3934/jcd.2015002](https://doi.org/10.3934/jcd.2015002)
++ Schmid, Peter J. "Dynamic mode decomposition of numerical and experimental data." *Journal of Fluid Mechanics*, 656 (2010):5-28 [doi:10.1017/S0022112010001217](https://doi.org/10.1017/S0022112010001217)
++ Tu, Jonathan H., Clarence W. Rowley, Dirk Martin Luchtenburg, Steven L. Brunton, and J. Nathan Kutz. "On dynamic mode decomposition: Theory and applications." *Journal of Computational Dynamics*, 1 (2014): 391-421. [doi:10.3934/jcd.2014.1.391](https://doi.org/10.3934/jcd.2014.1.391)
 

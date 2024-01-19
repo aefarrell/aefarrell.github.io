@@ -608,8 +608,8 @@ For a complete listing of code used to generate data and figures, please see the
 
 ## References
 
-+ <a name="bird-2007">Bird</a>, R. Byron, Warren E. Stewart, and Edwin N. Lightfoot. *Transport Phenomena, Revised 2nd ed.* Hoboken: John Wiley & Sons, 2007. [archive](https://archive.org/details/transportphenome0000bird_n8h5)
-+ <a name="garde-2010">Garde</a>, R. J. *Turbulent Flows*, 3rd ed. London: New Academic Science, 2010.
++ <a name="bird-2007">Bird</a>, R. Byron, Warren E. Stewart, and Edwin N. Lightfoot. *Transport Phenomena*. 2nd ed. Hoboken: John Wiley & Sons, 2007. [archive](https://archive.org/details/transportphenome0000bird_n8h5)
++ <a name="garde-2010">Garde</a>, R. J. *Turbulent Flows*. 3rd ed. London: New Academic Science, 2010.
 + <a name="kaye-2018">Kaye</a>, Nigel B., Abdul A. Khan, and Firat Y. Testik. "Environmental Fluid Mechanics" in *Handbook of Environmental Engineering*. Edited by Myer Kutz. New York: John Wiley & Sons, 2018.
 + <a name="long-1963">Long</a>, V.D. "Estimation of the Extent of Hazard Areas Around a Vent," *Second Symposium On Chemical Process Hazards* (1963): 6-14
 + <a name="pope-2000">Pope</a>, Stephen B. *Turbulent Flows*. Cambridge: Cambridge University Press, 2000.

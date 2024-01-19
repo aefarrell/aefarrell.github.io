@@ -669,8 +669,8 @@ For a complete listing of code used to generate data and figures, please see the
 
 ## References
 
-+ <a name="bird-2007">Bird</a>, R. Byron, Warren E. Stewart, and Edwin N. Lightfoot. *Transport Phenomena, Revised 2nd ed.* Hoboken: John Wiley & Sons, 2007. [archive](https://archive.org/details/transportphenome0000bird_n8h5)
-+ <a name="garde-2010">Garde</a>, R. J. *Turbulent Flows*, 3rd ed. London: New Academic Science, 2010.
++ <a name="bird-2007">Bird</a>, R. Byron, Warren E. Stewart, and Edwin N. Lightfoot. *Transport Phenomena*. 2nd ed. Hoboken: John Wiley & Sons, 2007. [archive](https://archive.org/details/transportphenome0000bird_n8h5)
++ <a name="garde-2010">Garde</a>, R. J. *Turbulent Flows*. 3rd ed. London: New Academic Science, 2010.
 + <a name="pope-2000">Pope</a>, Stephen B. *Turbulent Flows*. Cambridge: Cambridge University Press, 2000.
 + <a name="rajaratnam-1974">Rajaratnam</a> N. *Turbulent Jets*. Amsterdam: Elsevier, 1974.
 + <a name="tollmien-1926">Tollmien</a>, Walter. "Berechnung turbulenter Ausbreitungsvorg&auml;nge," *Zeitschrift f&uuml;r angewandte Mathematik und Mechanik* *6*, (1926): 468-478. [doi:10.1002/zamm.19260060604](https://doi.org/10.1002/zamm.19260060604), reprinted and translated in [NACA-TM-1085](https://ntrs.nasa.gov/search?reportNumber=NACA-TM-1085)

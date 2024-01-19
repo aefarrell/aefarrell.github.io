@@ -1,6 +1,6 @@
 ---
 title: "Integrating a Gaussian puff - mistakes were made"
-last_modified_at: 2023-12-26
+last_modified_at: 2024-01-18
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -47,11 +47,6 @@ The dispersion parameters, *&sigma;<sub>x</sub>*, *&sigma;<sub>y</sub>*, *&sigma
 
 
 
-
-    σz (generic function with 1 method)
-
-
-
 ## Integrating the puff
 
 What this generates is an instantaneous release of all of the mass in an infinitesimal point that grows as it moves downwind. This isn't terribly realistic for releases of any appreciable duration (all of the mass is released instantly in this model), so a common approach is to break up the release into a sequence of *n* smaller puffs that each capture the mass released over the sub-interval $ { \Delta t \over n } $. Taking the limit as $n \to \infty$ equates to integrating the puff model from *t - &Delta;t* to *t* giving a nice solution in terms of the error function *erf* and ... this is where I made the critical mistake.
@@ -74,10 +69,10 @@ I think it is a reasonable confusion as the dispersion parameters for a continuo
 How critical of a mistake is this? For regions far enough from the origin the dispersion parameters do not vary much in the neighborhood of the plume center. This is shown in the plot below where the difference is taken over the interval $ [ x - \sigma_x, x + \sigma_x ] $. At distances further than a few hundred meters the difference is only a few percent. Suggesting that it might not be an unreasonable approximation to assume the dispersion parameters are constants for the purpose of the integral.
 
 
-    
-![svg](/images/intpuff2_successive_approximations_files/output_3_0.svg)
-    
-
+<figure>
+<img src="/images/intpuff2_successive_approximations_files/output_3_0.svg" alt="a plot showing the relative change in vertical and crosswind dispersion parameters, for up to 500m downwind distance" />
+<figcaption>The relative change in dispersion parameters, $\pm 1 \sigma$, as a function of downwind distance.</figcaption>
+</figure>
 
 
 ## Different approaches to approximation
@@ -176,25 +171,34 @@ To give a sense of how these successive approximations work, lets examine a seri
 
 Just by eye-ball the the approximate integral is very close to the numerical exact(ish) integral, as is a large enough number of puffs. Importantly, I think, the approximate integral error is of the same order of magnitude as a large number of puffs -- so this is *at least as good* in a sense as the discrete sum of puffs method, given that we can vary the number of puffs to always make it a better/worse approximation
 
-
-
-![svg](/images/intpuff2_successive_approximations_files/output_14_0.svg)
-
+<figure>
+<img src="/images/intpuff2_successive_approximations_files/output_14_0.svg" alt="a pair of plots showing the concentration as a function of time for each of the discussed options" />
+<figcaption>Top: concentration profile over time, at a fixed location, for discrete sums of puffs, the approximated integral, and the exact integral. Bottom: the relative error of a sum of discrete puffs and the approximate integral.</figcaption>
+</figure>
 
 In the crosswind and vertical directions the sum of discrete puffs approximation works decidedly less well, at least at this slice in the cloud, while the approximate integral still works relatively well. I would say it is still *at least as good* as a sum of discrete puffs for a suitably large number of puffs.
 
 
-![svg](/images/intpuff2_successive_approximations_files/output_16_0.svg)
+<figure>
+<img src="/images/intpuff2_successive_approximations_files/output_16_0.svg" alt="a pair of plots showing the crosswind concentration profile for each of the discussed options" />
+<figcaption>Top: crosswind concentration profile, at a fixed location and time, for discrete sums of puffs, the approximated integral, and the exact integral. Bottom: the relative error of a sum of discrete puffs and the approximate integral.</figcaption>
+</figure>
 
-
-![svg](/images/intpuff2_successive_approximations_files/output_17_0.svg)
+<figure>
+<img src="/images/intpuff2_successive_approximations_files/output_17_0.svg" alt="a pair of plots showing the vertical concentration profile for each of the discussed options" />
+<figcaption>Top: vertical concentration profile, at a fixed location and time, for discrete sums of puffs, the approximated integral, and the exact integral. Bottom: the relative error of a sum of discrete puffs and the approximate integral.</figcaption>
+</figure>
 
 
 
 This is, of course, very particular to that point downwind of the release. As we move closer to the origin the integral approximation gets worse, but then so does the sum of discrete puffs model. Especially for a low number of puffs: they become visibly discrete. I think this reinforces that, at least for class F stability, this approximation is in the same ball park as summing over a set discrete Gaussian puffs.
 
 
-![svg](/images/intpuff2_successive_approximations_files/output_19_0.svg)
+<figure>
+<img src="/images/intpuff2_successive_approximations_files/output_19_0.svg" alt="a pair of plots showing the concentration as a function of time for each of the discussed options very near the origin" />
+<figcaption>Top: concentration profile over time near the origin, for discrete sums of puffs, the approximated integral, and the exact integral. Bottom: the relative error of a sum of discrete puffs and the approximate integral.</figcaption>
+</figure>
+
 
 
 
@@ -270,5 +274,5 @@ For a complete listing of code used to generate data and figures, please see the
 ## References
 
 + <a name="ccps-1999">AIChE/CCPS</a>. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers, 1999.
-+ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries, 2nd ed.* Oxford: Butterworth-Heinemann, 1996.
++ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries*. 2nd ed. Oxford: Butterworth-Heinemann, 1996.
 + <a name="slade-1968">Slade</a>, David H. *Meteorology and Atomic Energy*. Springfield, VA: National Technical Information Service, 1968. [doi:10.2172/4492043](https://doi.org/10.2172/4492043)

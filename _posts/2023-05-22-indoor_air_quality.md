@@ -1,6 +1,6 @@
 ---
 title: "Monitoring smoke infiltration"
-last_modified_at: 2023-12-26
+last_modified_at: 2024-01-18
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -103,9 +103,10 @@ end
 
 Plotting the data looks encouraging (as far as fitting a model goes, not encouraging if one wanted to spend time in there breathing) as the particulates appear to be infiltrating with a rate proportional to the difference between the concentrations -- the standard building infiltration model.
 
-    
-![svg](/images/indoor_air_quality_files/output_12_0.svg)
-    
+<figure>
+<img src="/images/indoor_air_quality_files/output_12_0.svg" alt="plot showing time series data for indoor and outdoor fine particulate concentrations" />
+<figcaption> Time series data for indoor and outdoor pm2.5 concentrations with the 1 hour AAQO indicated. </figcaption>
+</figure>
 
 
 
@@ -199,10 +200,10 @@ fit = solve(prb, Tsit5());
 ```
 
 
-    
-![svg](/images/indoor_air_quality_files/output_24_0.svg)
-    
-
+<figure>
+<img src="/images/indoor_air_quality_files/output_24_0.svg" alt="Scatter plot of measured indoor concentrations and a best fit curve" />
+<figcaption>Best fit curve for the simple linear building infiltration model.</figcaption>
+</figure>
 
 
 I think this simple linear model works relatively well, all things considered. A more fulsome model would have treated the ventilation rate as a function of air pressure, windspeed, and the difference between indoor and outdoor temperatures.
@@ -228,10 +229,10 @@ outdoor_hepa = @pipe "data/21_May_2023_raw-pm25-gm.csv" |>
 ```
 
 
-    
-![svg](/images/indoor_air_quality_files/output_28_0.svg)
-    
-
+<figure>
+<img src="/images/indoor_air_quality_files/output_28_0.svg" alt="timeseries data for indoor and outdoor fine particulat concentrations showing before and after a HEPA filter is activated indoors" />
+<figcaption>Response of measured indoor particulate concentrations to air filtration. Note that the outdoor fine particulate concentration remains high throughout the measurement period.</figcaption>
+</figure>
 
 
 ## Final thoughts
@@ -246,4 +247,3 @@ Currently a lot of the advice is merely to stay indoors, with little acknowledgm
 For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2023-05-22-indoor_air_quality.ipynb)
 {: .notice--info}
 
----

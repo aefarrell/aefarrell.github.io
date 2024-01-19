@@ -1,6 +1,6 @@
 ---
 title: "Hydrogen Blending"
-last_modified_at: 2023-12-26
+last_modified_at: 2024-01-18
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -55,7 +55,10 @@ We can use a simple mixing rule to determine what the heating value would be wit
 HHV(x) = x*HHV_H2 + (1-x)*HHV_NG
 ```
 
-![svg](/images/hydrogen_blending_files/output_5_0.svg)
+<figure>
+<img src="/images/hydrogen_blending_files/output_5_0.svg" alt="a plot showing the heating value of natural gas/hydrogen mixtures"/>
+<figcaption>Higher heating value of blended natural gas/hydrogen fuel gas as a function of hydrogen content, assuming an ideal gas and simple mixing rule.</figcaption>
+</figure>
     
 
 Which clearly shows that increasing the hydrogen content decreases the overall heating value of the fuel. At 100% hydrogen the fuel gas has lost ~66% of it's heat content.
@@ -129,9 +132,10 @@ $$ \rho = {P \over {R T} } \left( x_{H_2} MW_{H_2} + x_{NG} MW_{NG} \right)$$
 ρ(x, T, P) = (P/(R*T))*( x*MW_H2 + (1-x)*MW_NG )
 ```
 
-
-![svg](/images/hydrogen_blending_files/output_11_0.svg)
-    
+<figure>
+<img src="/images/hydrogen_blending_files/output_11_0.svg" alt="a plot showing the density and relative flowrate of blended fuel gas" />
+<figcaption>Density and relative flowrate for blended natural gas/hydrogen fuel gas, assuming an ideal gas.</figcaption>
+</figure>
 
 So we have two competing effects: as the mole fraction increases the heating value of the gas decreases but at the same time the flowrate increases. We can explore this further by plotting the ratio of the heat rate with blended fuel gas to the heat rate with straight natural gas.
 
@@ -141,7 +145,10 @@ So we have two competing effects: as the mole fraction increases the heating val
 q_ratio(x) = (HHV(x)/HHV_NG)*√(ρ(0,Tᵣ,Pᵣ)/ρ(x,Tᵣ,Pᵣ));
 ```
     
-![svg](/images/hydrogen_blending_files/output_14_0.svg)
+<figure>
+<img src="/images/hydrogen_blending_files/output_14_0.svg" alt="a plot showing the relative heat delivery blended fuel gas" />
+<figcaption>The amount of energy delivered, in higher heating value, for a blended natural gas/hydrogen fuel gas system at constant operating conditions, relative to natural gas</figcaption>
+</figure>
 
 
 Initially the loss of heating value "wins out" and increasing the hydrogen content merely decreases the energy supplied at a given pressure. But once the stream is predominantly hydrogen, the lower density takes over and the heat rate increases.
@@ -219,10 +226,10 @@ MW_CO2 = 44.009e-3u"kg/mol"
 E(x) = (1-x)*ρ_CO2/HHV(x)
 ```
 
-
-![svg](/images/hydrogen_blending_files/output_22_0.svg)
-    
-
+<figure>
+<img src="/images/hydrogen_blending_files/output_22_0.svg" alt="a plot showing the carbon dioxide emissions intenstiy of blended hydrogen/natural gas" />
+<figcaption>The carbon dioxide emissions intensity for a blended natural gas/hydrogen fuel gas, over a range of hydrogen content.</figcaption>
+</figure>
 
 
 So there are emissions reductions but *at a cost*, beyond whatever method is used to generate the hydrogen in the first place. The system must be operated at greater pressures to supply the same amount of energy, which itself takes some energy, at least until the hydrogen exceeds 96.8%. At that high level the system seems like an easy win: it takes *less* pressure to supply the same amount of energy and the emissions intensity is a ~8.7% that of natural gas (a ~91% reduction)
@@ -300,7 +307,7 @@ I happen to already have Wilke's method for a binary mixture worked out, I just 
 
 ```julia
 # mixture viscosity using Wilke method
-# from *The Properties of Gases and Liquids* 5th ed.
+# from Poling, *Properties of Gases and Liquids* 5th ed.
 function μ(x,T)
     μ₁ = μ_H2(T)
     M₁ = MW_H2
@@ -318,10 +325,10 @@ function μ(x,T)
 end;
 ```
 
-    
-![svg](/images/hydrogen_blending_files/output_36_0.svg)
-    
-
+<figure>
+<img src="/images/hydrogen_blending_files/output_36_0.svg" alt="a plot showing viscosity as a function of hydrogen content" />
+<figcaption>The viscosity of blended natural gas/hydrogen for a range of hydrogen content. For a wide range the viscosity is nearly constant.</figcaption>
+</figure>
 
 
 ### Pipe dimensions and friction
@@ -422,20 +429,20 @@ The heat rate is then the heating value, already worked out, times the volumetri
 q(x, T₁, P₁, P₂) = HHV(x)*Qₛ(x, T₁, P₁, P₂)
 ```
 
-    
-![svg](/images/hydrogen_blending_files/output_52_0.svg)
-    
-
+<figure>
+<img src="/images/hydrogen_blending_files/output_52_0.svg" alt="a plot showing the energy supplied by the system for a range of pressure drops and a range of hydrogen content"/>
+<figcaption>The energy supplied by the example fuel gas delivery system for a range of pressure drops. Pure natural gas and pure hydrogen deliver nearly the same energy for the same pressure drop.</figcaption>
+</figure>
 
 
 We see the same ordering that we expect, given the previous analysis, namely that the 0% and 100% cases are pretty close to each other, followed by the in-between hydrogen contents.
 
 Another way of looking at this is to pick a required heat rate and look at the pressure drop as a function of hydrogen content.
 
-
-    
-![svg](/images/hydrogen_blending_files/output_54_0.svg)
-    
+<figure>
+<img src="/images/hydrogen_blending_files/output_54_0.svg" alt="a plot showing the pressure drop required to supply a fixed energy rate as a function of hydrogen content" />
+<figcaption>The pressure drop required to deliver a fixed heat rate for blended natural gas/hydrogen fuel gas in the example system.</figcaption>
+</figure>
 
 
 All of this has been done assuming the ideal gas case. The next logical step is to start incorporating non-ideal gas models, say a cubic equation of state, and so on.
@@ -446,4 +453,6 @@ For a complete listing of code used to generate data and figures, please see the
 
 ## References
 
-+ <a name="poling-2007">Poling</a>, Bruce E., George H. Thomson, Daniel G. Friend, Richard L. Rowley, and W. Vincent Wilding. "Physical and Chemical Data" in *Perry's Chemical Engineers' Handbook*, 8th ed. Edited by Don W. Green. New York: McGraw Hill, 2007.
++ <a name="gpsa-2012">GPSA</a>. *GPSA Engineering Data Book*. 13th ed. Tulsa, OK: Gas Processors Suppliers Association, 2012.
++ <a name="poling-2001">Poling</a>, Bruce E., John M. Prausnitz and John P. O'Connell. *The Properties of Gases and Liquids*. 5th ed. New York: McGraw Hill, 2001.
++ <a name="poling-2007">Poling</a>, Bruce E., George H. Thomson, Daniel G. Friend, Richard L. Rowley, and W. Vincent Wilding. "Physical and Chemical Data" in *Perry's Chemical Engineers' Handbook*. 8th ed. Edited by Don W. Green. New York: McGraw Hill, 2007.

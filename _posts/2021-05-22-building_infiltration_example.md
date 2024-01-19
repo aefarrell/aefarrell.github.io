@@ -534,4 +534,4 @@ For a complete listing of code used to generate data and figures, please see the
 ## References
 
 + <a name="ashrae-2017">ASHRAE</a>. *2017 ASHRAE Handbook - Fundamentals (SI Edition)*. Atlanta, GA: ASHRAE, 2017.
-+ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries, 2nd ed.* Oxford: Butterworth-Heinemann, 1996.
++ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries*. 2nd ed. Oxford: Butterworth-Heinemann, 1996.

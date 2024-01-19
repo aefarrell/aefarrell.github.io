@@ -104,6 +104,42 @@
 
 	/* change size of toc elements */
 		.toc li{ font-size: 1.0em !important; }
+
+    /* tables */
+        table { display: table;
+                margin-bottom: 1em;
+                margin-left: auto;
+                margin-right: auto;
+                width: auto;
+                font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif;
+                font-size: 0.75em;
+                border-collapse: collapse;
+                overflow-x: auto;}
+
+        caption{ text-align: left;
+                 caption-side: top;
+        }
+
+
+    /* figures */
+        figure{ display:block; 
+                background-color: #e4e5e6;
+                border-radius: 4px; 
+		        box-shadow: 0 1px 1px rgba(189, 193, 196, 0.25); 
+                padding:0.35em; }
+        
+        figure img{ display:block;
+                    margin-left:auto;
+                    margin-right:auto;
+                    width:100%;}
+                
+        figcaption{ counter-increment: figure-counter; 
+                    color: #222831; 
+                    font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif; 
+                    font-size: 0.65em !important;}
+
+        figcaption:before{ content: "Figure\000a0" counter(figure-counter) ":\000a0";
+                           font-weight: bold;}
 		
 	/* sidenote boxes 
        from the tufte-jekyll theme https://github.com/clayh53/tufte-jekyll/
@@ -119,7 +155,7 @@
 		            margin-bottom: 1em;}
 		.sidenote p:last-child { margin-bottom: 0 !important; /* override*/ }
 		.sidenote p { /* remove space above paragraphs that appear directly after notice headline*/ margin-top: 0; padding-top: 0; }
-		.sidenote a { color: #aaaeb0; }
+		.sidenote a { color: #000; }
 		.sidenote a:hover { color: #5f6162; }
 		blockquote.sidenote { border-left-color: #aaaeb0; }
 		.sidenote code { background-color: #e9eaea; }
@@ -129,7 +165,7 @@
 		@media (min-width: 64em) { .sidenote { position: absolute; /*top: 0;*/ right: 0; width: 200px; margin-right: -200px; padding-left: 1em; z-index: 10; } }
 		@media (min-width: 80em) { .sidenote { width: 300px; margin-right: -330px; margin-top: -30px; } }
 
-        .page__content { counter-reset: sidenote-counter;}
+        .page__content { counter-reset: figure-counter sidenote-counter;}
 
         .sidenote-number { counter-increment: sidenote-counter; }
 

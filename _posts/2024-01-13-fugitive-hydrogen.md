@@ -1,6 +1,6 @@
 ---
 title: "Estimating the impact of fugitive emissions"
-last_modified_at: 2024-01-15
+last_modified_at: 2024-01-17
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -335,7 +335,10 @@ fugitives_to_combustion(0.01)
 
     3.4755942870304137
 
-![svg](/images/fugitive_hydrogen_files/output_23_0.svg)
+<figure>
+    <img src="/images/fugitive_hydrogen_files/output_23_0.svg" alt="Chart showing the ratio of fugitive emissions to combustion emissions as a function of leakage rate." />
+    <figcaption>The ratio of fugitive emissions to combustion emissions, as a function of leakage rate.</figcaption>
+</figure>
 
 At any appreciable leak percentage the amount of hydrogen lost to fugitive emissions rivals the stack emissions for climate impact.
 
@@ -381,7 +384,7 @@ $$ \eta_{H2} = \eta_{CH4} $$
 
 ### Relative emissions of switching to hydrogen
 
-To make the math a little less tedious to type out, I am going to define two *emission factors*, the fugitive emission factor<a href="#fn-12" class="sidenote-number"></a><span class="sidenote" id="fn-12">Note that the flowrates here are at standard state. The volumetric emission factors, heating values, and densities are also at standard state thus this is equivalent to relation at actual conditions.</span>
+To make the math a little less tedious to type out, I am going to define two *emission factors*, the fugitive emission factor<a href="#fn-12" class="sidenote-number"></a><span class="sidenote" id="fn-12">Note that the flowrates here are at standard state. The volumetric emission factors, heating values, and densities are also at standard state thus this is equivalent to the relation at actual conditions.</span>
 
 $$ EF_f = {E_f \over Q_T} $$
 
@@ -432,7 +435,10 @@ emissions_ratio(0.01)
 
 So switching to hydrogen has reduced the overall emissions from this system by ~98.2%. Which is pretty significant, though *it is not zero* even though this analysis is assuming *pure* hydrogen.
 
-![svg](/images/fugitive_hydrogen_files/output_29_0.svg)
+<figure>
+<img src="/images/fugitive_hydrogen_files/output_29_0.svg" alt="Figure showing the relative emissions of hydrogen to natural gas." />
+<figcaption> The total emissions, in CO<sub>2</sub>-e, of hydrogen relative to natural gas. </figcaption>
+</figure>
 
 
 ## Final thoughts

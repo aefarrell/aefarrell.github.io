@@ -1,6 +1,6 @@
 ---
 title: "Engineering a Cup of Coffee"
-last_modified_at: 2023-12-26
+last_modified_at: 2024-01-18
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -28,8 +28,10 @@ I claimed that making coffee is, in a sense, a deliberately inefficient process.
 
 So extraction is really the best we have, as far as quantitative measures go, with the giant caveat that coffee with the same extraction, from the same beans, can taste quite different depending on the brew method. Using an indirect measurement for the actual process variable of interest is not too different from how a lot of unit operations are controlled, distillation, for example, often uses temperature as a proxy for the composition.
 
-![Coffee control chart](/images/engineering_coffee_files/Lockhart-control-chart.png)
-> Coffee control chart ([Batali, Ristenpart, and Guinard 2020](#batali-2020))
+<figure>
+<img src="/images/engineering_coffee_files/Lockhart-control-chart.png" alt="Coffee control chart" />
+<figcaption> The standard coffee control chart (<a href="#batali-2020">Batali, Ristenpart, and Guinard</a> "Brew Temperature," fig. 1.). <a href="https://creativecommons.org/licenses/by/4.0/">CC&nbsp;BY&nbsp;4.0</a></figcaption>
+</figure>
 
 The standard way of thinking about coffee extraction starts with Lockhart's *coffee control chart*, this plots the concentration of solids (TDS) against total extraction. The diagonal lines represent a given dose of coffee (I typically brew 55g/L with my V60, which puts me pretty near the sweet spot). A given brew moves along the diagonal line for the given dose, moving from the bottom left to the upper right as the brew proceeds. The goal is to stop the brew once the extraction and strength (concentration) have reached the optimal level<a href="#fn-2" class="sidenote-number"></a>
 
@@ -47,8 +49,10 @@ where the subscript *cup* means the mass/volume that ends up in the final cup of
 
 For industrial scale distillation, absorption, extraction, leaching, etc. the process is usually modeled as a series of equilibrium stages, and the whole point is to maximize extraction and concentration. This leads to designs for counter-current solids extractors such as a Rotocel extractor or a [Bollman extractor](https://www.youtube.com/watch?v=myxqWLB5WIA)
 
-![Rotocel extractor extractor](/images/engineering_coffee_files/Rotocel-Extractor.png)
-> A Rotocel extractor, you are unlikely to see one of these at your local coffee shop.
+<figure>
+<img src="/images/engineering_coffee_files/Rotocel-Extractor.png" alt="Rotocel extractor extractor" />
+<figcaption> A Rotocel extractor, you are unlikely to see one of these at your local coffee shop.</figcaption>
+</figure>
 
 Extractors like this are, in fact, how one might *decaffeinate* coffee. In that case one does want to maximize the extraction of caffeine, and is free to adjust several parameters such as the solvent (with options such as supercritical CO<sub>2</sub>, dichloromethane, or ethyl acetate) that are otherwise pretty fixed for normal coffee making. At the end of the day a cup of coffee has to be made with water, a steaming cup of dichloromethane just won't cut it.
 
@@ -403,9 +407,10 @@ xk = find_zeros(g, 0, (k+1/2)*π)
      12.585470558898335
      15.723260568418107
 
-
-![svg](/images/engineering_coffee_files/output_24_0.svg)
-
+<figure>
+<img src="/images/engineering_coffee_files/output_24_0.svg" alt="Plot of the functions f(x) and g(x) showing the locations of the roots" />
+<figcaption>The roots of the equations $f(x)$ and $g(x)$, note the repeated singularities in $f(x)$.</figcaption>
+</figure>
 
 Since *&alpha;* is fixed for a given problem we will end up using the same roots over and over again, so it would be nice to pre-calculate those roots. However, at this point, we don't know how many we will need to get a reasonable answer. So my approach is to calculate as many as we need dynamically: if we need more roots than have already been calculated, calculate those ones and append them to the list of already calculated roots.
 
@@ -449,7 +454,10 @@ function c(t)
 end
 ```
 
-![svg](/images/engineering_coffee_files/output_31_0.svg)
+<figure>
+<img src="/images/engineering_coffee_files/output_31_0.svg" alt="Plot showing the concentration of solubles in the extract as a function of time" />
+<figcaption> The concentration of solubles in the extract over time. </figcaption>
+</figure>
 
 Extraction is simply concentration over dose
 
@@ -458,7 +466,10 @@ Extraction is simply concentration over dose
 extraction(t) = c(t)*Vₗ/mₛ
 ```
 
-![svg](/images/engineering_coffee_files/output_34_0.svg)
+<figure>
+<img src="/images/engineering_coffee_files/output_34_0.svg" alt="Plot showing the extraction of coffee as a function of time" />
+<figcaption> The extraction of coffee solubles over time. </figcaption>
+</figure>
 
 
 
@@ -517,8 +528,10 @@ sol = CarslawSolution(brew);
 
 The advantage of packaging code like this is that is now easy to explore the impact of changes to individual parameters, for example below is the impact that changing grind size has on the extraction curve. It follows our general intuition that smaller grind sizes extract faster. It also shows a major weakness of this model: there is only one particle size in the model, which is average over the range of actual particle sizes. This model works well if the grind is quite uniform, however if there is a wide range of particle sizes the actual coffee will be a mix of over extracted coffee (from the small particles) and under extracted coffee (from the large particles).
 
-![svg](/images/engineering_coffee_files/output_41_0.svg)
-
+<figure>
+<img src="/images/engineering_coffee_files/output_41_0.svg" alt="Plot showing multiple extraction curves for a range of grind sizes" />
+<figcaption>The evolution of coffee extraction over time for several grind sizes. Note that the smallest grind sizes extract faster, achieving equilibrium, whereas the largest grind sizes extract more slowly.</figcaption>
+</figure>
 
 ## Final thoughts
 
@@ -533,12 +546,12 @@ For a complete listing of code used to generate data and figures, please see the
 
 + <a name="batali-2022">Batali</a>, Mackenzie E., Lik Xian Lim, Jiexin Liang, Sara E. Yeager, Ashley N. Thompson, Juliet Han, William D. Ristenpart, and Jean-Xavier Guinard. "Sensory Analysis of Full Immersion Coffee: Cold Brew Is More Floral, and Less Bitter, Sour, and Rubbery Than Hot Brew." *Foods*. 11, no. 16 (2022): 2440 [doi:10.3390/foods11162440](https://doi.org/10.3390/foods11162440) [ResearchGate](https://www.researchgate.net/publication/362703498)
 + <a name="batali-2020">Batali</a>, Mackenzie E., William D. Ristenpart and Jean‑Xavier Guinard. "Brew temperature, at fixed brew strength and extraction, has little impact on the sensory profile of drip brew coffee." *Scientific Reports*. 10 (2020): 16450 [doi:10.1038/s41598-020-73341-4](https://doi.org/10.1038/s41598-020-73341-4) [ResearchGate](https://www.researchgate.net/publication/345315113)
-+ <a name="bird-2007">Bird</a>, R. Byron, Warren E. Stewart, Edwin N. Lightfoot. *Transport Phenomena*, Revised 2nd ed. Hoboken: John Wiley & Sons, 2007. [archive](https://archive.org/details/transportphenome0000bird_n8h5)
-+ <a name="carslaw-1959">Carslaw</a>, Horatio S. and John C. Jaeger. *Conduction of Heat in Solids*, 2nd ed. London: Oxford University Press, 1959. [archive](https://archive.org/details/conductionofheat0000hsca_w2d9)
++ <a name="bird-2007">Bird</a>, R. Byron, Warren E. Stewart, Edwin N. Lightfoot. *Transport Phenomena*. 2nd ed. Hoboken: John Wiley & Sons, 2007. [archive](https://archive.org/details/transportphenome0000bird_n8h5)
++ <a name="carslaw-1959">Carslaw</a>, Horatio S. and John C. Jaeger. *Conduction of Heat in Solids*. 2nd ed. London: Oxford University Press, 1959. [archive](https://archive.org/details/conductionofheat0000hsca_w2d9)
 + <a name="hottel-2008">Hottel</a>, Hoyt C., James J. Noble, Adel F. Sarofim, Geoffrey D. Silcox, Phillip C. Wankat, Kent S. Knaebel. "Heat and Mass Transfer" in *Perry's Chemical Engineers' Handbook*, 8th ed. Edited by Don W. Green, New York: McGraw Hill, 2008.
 + <a name="moroney-2015">Moroney</a>, Kevin M., William T. Lee, Stephen B. G. O'Brien, Freek Suijver and Johan Marra. "Modelling of coffee extraction during brewing using multiscale methods: An experimentally validated model." *Chemical Engineering Science*. 137 (2015): 216-234 [doi:10.1016/j.ces.2015.06.003](https://doi.org/10.1016/j.ces.2015.06.003) [ResearchGate](https://www.researchgate.net/publication/282622621_Modelling_of_coffee_extraction_during_brewing_using_multiscale_methods_An_experimentally_validated_model)
-+ <a name="poling-2001">Poling</a>, Bruce E., John M. Prausnitz and John P. O'Connell. *The Properties of Gases and Liquids*, 5th ed. New York: McGraw Hill, 2001.
-+ <a name="poling-2007">Poling</a>, Bruce E., George H. Thomson, Daniel G. Friend, Richard L. Rowley and W. Vincent Wilding. "Physical and Chemical Data" in *Perry's Chemical Engineers' Handbook, 8th ed.* Edited by Don W. Green, New York: McGraw Hill, 2007.
++ <a name="poling-2001">Poling</a>, Bruce E., John M. Prausnitz and John P. O'Connell. *The Properties of Gases and Liquids*. 5th ed. New York: McGraw Hill, 2001.
++ <a name="poling-2007">Poling</a>, Bruce E., George H. Thomson, Daniel G. Friend, Richard L. Rowley and W. Vincent Wilding. "Physical and Chemical Data" in *Perry's Chemical Engineers' Handbook*. 8th ed. Edited by Don W. Green, New York: McGraw Hill, 2007.
 + <a name="rodrigues-2003">Rodrigues</a>, Melissa A. A., Maria Lúcia A. Borges, Adriana S. Franca, Leandro S. Oliveira and Paulo C. Corrêa. "Evaluation of Physical Properties of Coffee During Roasting." *Agricultural Engineering International: the CIGR Journal of Scientific Research and Development*. V (2003) [ResearchGate](https://www.researchgate.net/publication/267858074)
 + <a name="schwartzberg-1987">Schwartzberg, Henry G.</a>  "Leaching -- Organic Materials" in *Handbook of Seperation Process Technology,* Edited by Ronald W. Rousseau, Hoboken: John Wiley & Sons, 1987.
-+ <a name="seader-2011">Seader</a>, J. D., Ernest J. Henley and D. Keith Roper. *Separation Process Principles*, 3rd ed. Hoboken: John Wiley & Sons, 2011. [archive](https://archive.org/details/separationproces0000sead_z6e6)
++ <a name="seader-2011">Seader</a>, J. D., Ernest J. Henley and D. Keith Roper. *Separation Process Principles*. 3rd ed. Hoboken: John Wiley & Sons, 2011. [archive](https://archive.org/details/separationproces0000sead_z6e6)

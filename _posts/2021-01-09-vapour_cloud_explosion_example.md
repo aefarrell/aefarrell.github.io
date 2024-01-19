@@ -623,9 +623,9 @@ For a complete listing of code used to generate data and figures, please see the
 
 ## References
 
-+ <a name="ccps-1996">AIChE/CCPS</a>. *Guidelines for Use of Vapour Cloud Dispersion Models*, 2nd ed. New York: American Institute of Chemical Engineers, 1996.
++ <a name="ccps-1996">AIChE/CCPS</a>. *Guidelines for Use of Vapour Cloud Dispersion Models*. 2nd ed. New York: American Institute of Chemical Engineers, 1996.
 + <a name="ccps-1999">&#8212;&#8212;&#8212;</a> *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers, 1999.
-+ <a name="ccps-2000">&#8212;&#8212;&#8212;</a> *Guidelines for Chemical Process Quantitative Risk Analysis*, 2nd ed. New York: American Institute of Chemical Engineers, 2000.
-+ <a name="ccps-2010">&#8212;&#8212;&#8212;</a> *Guidelines for Vapour Cloud Explosion, Pressure Vessel Burst, BLEVE and Flash Fire Hazards*, 2nd ed. New York: American Institute of Chemical Engineers, 2010.
++ <a name="ccps-2000">&#8212;&#8212;&#8212;</a> *Guidelines for Chemical Process Quantitative Risk Analysis*. 2nd ed. New York: American Institute of Chemical Engineers, 2000.
++ <a name="ccps-2010">&#8212;&#8212;&#8212;</a> *Guidelines for Vapour Cloud Explosion, Pressure Vessel Burst, BLEVE and Flash Fire Hazards*. 2nd ed. New York: American Institute of Chemical Engineers, 2010.
 + <a name="britter-1988">Britter</a>, Rex E. and J. McQuaid. *Workbook on the Dispersion of Dense Gases. HSE Contract Research Report No. 17/1988* 1988.
 + <a name="nfpa-2018">NFPA</a>. *NFPA 68: Standard on Explosion Protection by Deflagration Venting*. Boston: National Fire Protection Association, 2018. [url](https://www.nfpa.org/codes-and-standards/all-codes-and-standards/list-of-codes-and-standards/detail?code=68)

@@ -1,6 +1,6 @@
 ---
 title: "Adiabatic Compressible Flow in a Pipe"
-last_modified_at: 2023-12-26
+last_modified_at: 2024-01-19
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -161,12 +161,26 @@ $$\log \left( {\Delta P} \over P_1 \right) = A \left( \log K_f \right)^3 + B \le
 
 With the constants for *&gamma;*=1.4:
 
-|   |         |
-|--:|:--------|
-| A | 0.0011  |
-| B | -0.0302 |
-| C | 0.238   |
-| D | -0.6455 |
+<table>
+  <tbody>
+    <tr>
+      <td style="text-align: right">A</td>
+      <td style="text-align: left">0.0011</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">B</td>
+      <td style="text-align: left">-0.0302</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">C</td>
+      <td style="text-align: left">0.238</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">D</td>
+      <td style="text-align: left">-0.6455</td>
+    </tr>
+  </tbody>
+</table>
 
 
 ```julia
@@ -281,8 +295,10 @@ ṁ_i = isentropic_flow(P₁, Kf)*A
     0.43138829795543004
 
 
-    
-![svg](/images/adiabatic_compressible_flow_files/output_25_0.svg)
+<figure>
+<img src="/images/adiabatic_compressible_flow_files/output_25_0.svg" alt="A plot showing the mass flowrate as a function of pressure drop using the isentropic flow model" />
+<figcaption>The mass flowrate through the example piping system as a function of pressure drop, using an isentropic flow model.</figcaption>
+</figure>
     
 
 ## Irreversible Adiabatic Flow (Fanno Flow)
@@ -454,9 +470,10 @@ ṁ_f = fanno_flow(P₁, Kf)*A
     0.40934309494917254
 
 
-    
-![svg](/images/adiabatic_compressible_flow_files/output_35_0.svg)
-    
+<figure>
+<img src="/images/adiabatic_compressible_flow_files/output_35_0.svg" alt="A plot showing the mass flowrate as a function of pressure drop using the Fanno flow model" />
+<figcaption>The mass flowrate through the example piping system as a function of pressure drop, using an adiabatic Fanno flow model.</figcaption>
+</figure>
 
 
 The approximation produces reasonable results in this case, especially at higher pressure drops, but one should always be cautious when mixing results from different models.<a href="#fn-11" class="sidenote-number"></a><span class="sidenote" id="fn-11">This is something worth keeping mind more generally, as I have seen the assumption that Fanno flow is approximately isentropic (implicitly) taken for calculating different flow parameters, and it is often a bad assumption. For example, some references use the isentropic choking condition for a nozzle as an estimate for the choking condition in Fanno flow. Unless the pipe is incredibly short this is a terrible approximation -- in the current example the pressure drop exceeds the choking flow condition for a nozzle and yet the pipe flow is far from choked.</span>
@@ -497,9 +514,10 @@ function qcr(K)
 end;
 ```
 
-    
-![svg](/images/adiabatic_compressible_flow_files/output_39_0.svg)
-    
+<figure>
+<img src="/images/adiabatic_compressible_flow_files/output_39_0.svg" alt="a scatter plot showing the correlation curves for expansion factor and pressure ratio, along with the tabluated values from Crane's" />
+<figcaption>The correlation curves for critical expansion factor and critical pressure ratio, along with tabulated values from Crane's (<a href="#crane-2013">Crane</a> <em>Flow of Fluids</em>, A-23).</figcaption>
+</figure>
 
 The correlation curves I am using fit the tabulated values from Crane's reasonably well, but clearly the fit is not perfect.
 
@@ -515,9 +533,10 @@ function Y(K,q)
 end;
 ```
 
-
-![svg](/images/adiabatic_compressible_flow_files/output_42_0.svg)
-    
+<figure>
+<img src="/images/adiabatic_compressible_flow_files/output_42_0.svg" alt="A plot showing expansion factor vs pressure ratio for this example and two bracketing curves from Crane's" />
+<figcaption>The expansion factor vs pressure ratio, this calculated example falls between the reference curves from Crane's as expected (<a href="#crane-2013">Crane</a> <em>Flow of Fluids</em>, A-23).</figcaption>
+</figure>
 
 
 
@@ -565,9 +584,10 @@ ṁ_y = modified_darcy(P₁, Kf)*A
 
 
 
-    
-![svg](/images/adiabatic_compressible_flow_files/output_48_0.svg)
-    
+<figure>
+<img src="/images/adiabatic_compressible_flow_files/output_48_0.svg" alt="A plot showing the mass flowrate as a function of pressure drop using the modified Darcy equation" />
+<figcaption>The mass flowrate through the example piping system as a function of pressure drop, using the modified Darcy equation.</figcaption>
+</figure>
 
 
 ## Comparison
@@ -575,35 +595,36 @@ ṁ_y = modified_darcy(P₁, Kf)*A
 Below is a plot showing all of the methods examined so far, including assuming the isothermal case (this a common recommendation for a simplifying assumption). The expansion factor method approximates the Fanno flow method, from which it was derived, quite well, to the point where they are essentially indistinguishable. The isothermal model is practically just as good for this particular example, while the isentropic model works well only for low pressure drops, the version of the Fanno flow that approximates the temperature as isentropic is the opposite, being the worst model at low pressure drops and converging towards the Fanno model at higher pressure drops.
 
 
-    
-![svg](/images/adiabatic_compressible_flow_files/output_50_0.svg)
-    
-
+<figure>
+<img src="/images/adiabatic_compressible_flow_files/output_50_0.svg" alt="A plot showing the mass flowrate as a function of pressure drop for all of the discussed models" />
+<figcaption>The mass flowrate through the example piping system as a function of pressure drop, showing all of the discussed models. Note the significant overlap of the Fanno flow, modified Darcy equation, and isothermal flow curves.</figcaption>
+</figure>
 
 
 But this is just one example, perhaps we can look at a wider range of *K<sub>f</sub>* and pressure drops. Conveniently, Crane's has a table with *K<sub>f</sub>* ranging from 1 to 100 and calculated pressure drops and expansion factors: the limiting factors. Using the models examined above, the effective expansion factors can be calculated quite easily for each K in Crane's table (taking the pressure ratios as givens).
 
-
-    
-![svg](/images/adiabatic_compressible_flow_files/output_52_0.svg)
-    
-
+<figure>    
+<img src="/images/adiabatic_compressible_flow_files/output_52_0.svg" alt="A scatter plot showing the critical expansion factor vs K for all described models and tabulated values from Crane's for reference" />
+<figcaption>Calculated expansion factors for flow at the critical <em>K</em> values tabulated in Crane's, this represents flow at the critical pressure ratio (<a href="#crane-2013">Crane</a> <em>Flow of Fluids</em>, A-23)</figcaption>
+</figure>
 
 
 Note that this represents the greatest pressure drop for a given *K<sub>f</sub>*, which should correspond to the "worst case" for most models (except the approximated Fanno model). The Fanno model and the correlation I was using to generate Y factors line up quite nicely, though there is a fair amount of scatter with the tabulated Y factors which is interesting. The isentropic model is close, but not in great agreement, over the entire range. What I find more interesting is how rapidly the isothermal model comes into agreement. We would expect, then, at *K<sub>f</sub>*=100 that the isothermal model would basically fall on top of the Fanno model over the entire range of pressure.
 
-    
-![svg](/images/adiabatic_compressible_flow_files/output_54_0.svg)
-    
+<figure>    
+<img src="/images/adiabatic_compressible_flow_files/output_54_0.svg" alt="plot showing the Fanno flow and isothermal flow models at K=100, the lines overlap almost entirely" />
+<figcaption>The mass flowrate for isothermal and Fanno flow models vs pressure drop for high K piping systems. Note that both lines overlap almost entirely for the entire range.</figcaption>
+</figure>
 
 
 
 They are basically indistinguishable. However, this is not at all implying that the temperature in the Fanno flow model is remaining constant over these large pressure drops. As one would expect, the adiabatic flow moves further from isothermal as the pressure drop increases. The mass flows just happen to be the same.
 
 
-    
-![svg](/images/adiabatic_compressible_flow_files/output_56_0.svg)
-    
+<figure>
+<img src="/images/adiabatic_compressible_flow_files/output_56_0.svg" alt="a plot showing the exit temperature as a function of pressure drop for the isothermal, isentropic, and adiabatic flow models" />
+<figcaption>The exit temperature for isothermal, isentropic, and Fanno flow models vs pressure drop for high K piping systems. Note that while the isothermal and Fanno flow models may give identical mass flowrates, the exit conditions are quite different.</figcaption>
+</figure>
 
 
 
@@ -620,8 +641,8 @@ For a complete listing of code used to generate data and figures, please see the
 ## References
 
 + <a name="albright-2009">Albright</a>, Lyle F. *Albright's Chemical Engineering Handbook*. Boca Raton: CRC Press, 2009.
-+ <a name="chhabra-2018">Chhabra</a>, R. P. and V. Shankar. *Coulson and Richardson's Chemical Engineering: Volume 1A: Fluid Flow: Fundamentals and Applications*, 7th ed. Amsterdam: Elsevier, 2018.
-+ <a name="coker-2007">Coker</a>, A. Kayode. *Ludwig's Applied Process Design for Chemical and Petrochemical Plants*, 4th ed. Amsterdam: Elsevier, 2007
++ <a name="chhabra-2018">Chhabra</a>, R. P. and V. Shankar. *Coulson and Richardson's Chemical Engineering: Volume 1A: Fluid Flow: Fundamentals and Applications*. 7th ed. Amsterdam: Elsevier, 2018.
++ <a name="coker-2007">Coker</a>, A. Kayode. *Ludwig's Applied Process Design for Chemical and Petrochemical Plants*. 4th ed. Amsterdam: Elsevier, 2007
 + <a name="crane-2013">Crane</a>. *TP410M Flow of Fluids*. Stamford, Connecticut: Crane, 2013.
-+ <a name="hall-2018">Hall</a>, Stephen M. *Rules of Thumb for Chemical Engineers*, 6th ed. Amsterdam: Elsevier, 2018
-+ <a name="tilton-2007">Tilton</a>, James N. "Fluid and Particle Dynamics" in *Perry's Chemical Engineers' Handbook*, 8th ed. Edited by Don W. Green, New York: McGraw Hill, 2007.
++ <a name="hall-2018">Hall</a>, Stephen M. *Rules of Thumb for Chemical Engineers*. 6th ed. Amsterdam: Elsevier, 2018
++ <a name="tilton-2007">Tilton</a>, James N. "Fluid and Particle Dynamics" in *Perry's Chemical Engineers' Handbook*. 8th ed. Edited by Don W. Green, New York: McGraw Hill, 2007.

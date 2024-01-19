@@ -598,7 +598,7 @@ For a complete listing of code used to generate data and figures, please see the
 
 ## References
 
-+ <a name="ccps-1996">AIChE/CCPS</a>. 1996. *Guidelines for Use of Vapour Cloud Dispersion Models, 2nd Ed.* New York: American Institute of Chemical Engineers
++ <a name="ccps-1996">AIChE/CCPS</a>. 1996. *Guidelines for Use of Vapour Cloud Dispersion Models* 2nd ed. New York: American Institute of Chemical Engineers
 + <a name="ccps-1998">&#8212;&#8212;&#8212;</a> 1998. *Dow's Chemical Exposure Index Guide* New York: American Institute of Chemical Engineers
 + <a name="ccps-1999">&#8212;&#8212;&#8212;</a> 1999. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers
 + <a name="johnson-1999">Johnson</a>, David W. and John L. Woodward. 1999. *RELEASE - A Model with Data to Predict Aerosol Rainout in Accidental Releases*, New York: American Institute of Chemical Engineers

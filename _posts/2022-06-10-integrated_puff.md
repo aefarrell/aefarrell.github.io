@@ -247,4 +247,4 @@ For a complete listing of code used to generate data and figures, please see the
 ## References
 
 + <a name="ccps-1999">AIChE/CCPS</a>. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers, 1999.
-+ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries, 2nd ed.* Oxford: Butterworth-Heinemann, 1996.
++ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries. 2nd ed. Oxford: Butterworth-Heinemann, 1996.

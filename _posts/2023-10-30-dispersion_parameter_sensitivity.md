@@ -1,6 +1,6 @@
 ---
 title: "Messing around with model parameters"
-last_modified_at: 2024-01-07
+last_modified_at: 2024-01-18
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -36,13 +36,19 @@ There are three different standard references used in `GasDispersion.jl` for win
 
 The ISC3 and CCPS correlations are divided into urban and rural terrain and are exactly the same correlations for the unstable classes. They appear to be the correlations given in Hanna et al ([1982](#hanna-1982)). They also bracket the default correlation. Clearly whether or not the terrain is urban is significant, it can lead to a 20-30% difference in estimated windspeed (depending upon elevation).
 
-![svg](/images/dispersion_parameter_sensitivity_files/output_6_0.svg)
+<figure>
+  <img src="/images/dispersion_parameter_sensitivity_files/output_6_0.svg" alt="A figure showing the windspeed as a function of elevation for class A, B, C, and D stability" />
+  <figcaption>Windspeed correlations for class A, B, C, and D stability.</figcaption>
+</figure>
 
 For the stable atmospheres the ISC3 and CCPS *rural* correlations are the same. However they are very different for *urban* terrain and they no longer bracket the default correlation. The CCPS *urban* correlations are the same as Hanna et al ([1982](#hanna-1982)), the ISC3 correlations use the parameter *p* = 0.30 and no reference is given in the model specification so I don't know why.
 
 For an urban release scenario, whether or not one choses the default, the ISC3 urban, or the CCPS urban correlation can lead to a 300% difference in windspeed (for class F stability, depending on elevation). Which is a pretty large difference.
 
-![svg](/images/dispersion_parameter_sensitivity_files/output_8_0.svg)
+<figure>
+  <img src="/images/dispersion_parameter_sensitivity_files/output_8_0.svg" alt="A figure showing the windspeed as a function of elevation for class E and F stability" />
+  <figcaption>Windspeed correlations for class E and F stability.</figcaption>
+</figure>
 
 
 ## Plume Dispersion
@@ -63,30 +69,32 @@ which attempts to fit the [Turner](#turner-1970) curves.
 
 The CCPS correlations are from [Briggs](#briggs-1973)) and the ISC3 *urban* correlations are from Briggs as well, the ISC3 *rural* correlations are something else entirely but I suspect are intended to fit the [Turner](#turner-1970) curves. The correlations from the [TNO yellow book](#bakkum-2005) are also a different attempt at fitting the Turner curves. What `GasDispersion,jl` gives as "Turner" is the fit to the Turner curves given in [Lees](#lees-1996).
 
-![svg](/images/dispersion_parameter_sensitivity_files/output_11_0.svg)
+<figure>
+  <img src="/images/dispersion_parameter_sensitivity_files/output_11_0.svg" alt="A figure showing the crosswind dispersion for classes A through F" />
+  <figcaption>Crosswind dispersion correlations.</figcaption>
+</figure>
 
 Zooming in on the class F curves is illustrative of the lot: most of the lines overlap and hew pretty close to the curve-fit for [Turner](#turner-1970) with the exception of the Briggs' urban/rural correlations. The biggest impact on these model parameters is whether or not a rural/urban terrain is used or not. *Note* these are log-log plots.
 
-![svg](/images/dispersion_parameter_sensitivity_files/output_13_0.svg)
-
+<figure>
+  <img src="/images/dispersion_parameter_sensitivity_files/output_13_0.svg" alt="A figure showing the crosswind dispersion for class F" />
+  <figcaption>Crosswind dispersion correlations, class F stability.</figcaption>
+</figure>
 
 
 ### Vertical Dispersion
 
 The vertical dispersion correlations are decidedly more varied. Varied enough that I'm just going to show them all at full scale<a href="#fn-3" class="sidenote-number"></a><span class="sidenote" id="fn-3">The correlations given in the [AIChE/CCPS](#ccps-1999) *Guidelines for Consequence Analysis* for urban conditions has typos in the class A, B and D correlations, I have corrected them here to match the Briggs correlations on which they are supposed to be based.</span>
 
-![svg](/images/dispersion_parameter_sensitivity_files/output_17_0.svg)
-
-![svg](/images/dispersion_parameter_sensitivity_files/output_18_0.svg)
-
-![svg](/images/dispersion_parameter_sensitivity_files/output_19_0.svg)
-
-![svg](/images/dispersion_parameter_sensitivity_files/output_20_0.svg)
-
-![svg](/images/dispersion_parameter_sensitivity_files/output_21_0.svg)
-
-![svg](/images/dispersion_parameter_sensitivity_files/output_22_0.svg)
-
+<figure>
+  <img src="/images/dispersion_parameter_sensitivity_files/output_17_0.svg" alt="Vertical dispersion, class A"/>
+  <img src="/images/dispersion_parameter_sensitivity_files/output_18_0.svg" alt="Vertical dispersion, class B"/>
+  <img src="/images/dispersion_parameter_sensitivity_files/output_19_0.svg" alt="Vertical dispersion, class C"/>
+  <img src="/images/dispersion_parameter_sensitivity_files/output_20_0.svg" alt="Vertical dispersion, class D"/>
+  <img src="/images/dispersion_parameter_sensitivity_files/output_21_0.svg" alt="Vertical dispersion, class E"/>
+  <img src="/images/dispersion_parameter_sensitivity_files/output_22_0.svg" alt="Vertical dispersion, class F"/>
+  <figcaption>Vertical dispersion correlations.</figcaption>
+</figure>
 
 For some of these there is *an order of magnitude* spread in vertical dispersion, depending on which model happens to be used. Even when looking only at the correlations that are "universal", i.e. are not for either urban or rural terrains. From this alone one would expect that the concentration profiles would vary by a large amount, depending on which set of correlations one used to model a given scenario.
 
@@ -181,11 +189,17 @@ conc = plume(scn, GaussianPlume; plumerise=false);
 
 Plotted below are the results for every equation set, at near ground level (at basically "my head" level). Clearly the urban/rural choice is quite important, leading to a ~4&times; greater maximum concentration. The TNO correlations, which uses the default correlation for windspeed and the TNO correlations for the crosswind and vertical dispersion, leads to less dispersion and thus a greater maximum concentration relative to the rest.
 
-![svg](/images/dispersion_parameter_sensitivity_files/output_33_0.svg)
+<figure>
+  <img src="/images/dispersion_parameter_sensitivity_files/output_33_0.svg" alt="A figure showing the concentration of sulfur dioxide at 2m elevation, up to 50km from the stack." />
+  <figcaption>Downwind concentration of sulfur dioxide, at 2m elevation, as predicted by the default, CCPS, ISC3, TNO, and Turner correlations, neglecting plume rise.</figcaption>
+</figure>
 
 Plotted below is the 172ppbv isopleth, the 1-hr [Ambient Air Quality Objective (AAQO)](https://open.alberta.ca/publications/9781460134856) for SO<sub>2</sub> in Alberta. As we would expect, the correlations that lead to a higher maximum concentration correspond to less overall dispersion and the isopleth is quite a bit smaller for the urban versus rural case and the TNO versus the remaining cases. The scale is in kilometers so this is quite a large difference in area.
 
-![svg](/images/dispersion_parameter_sensitivity_files/output_35_0.svg)
+<figure>
+  <img src="/images/dispersion_parameter_sensitivity_files/output_35_0.svg" alt="A figure showing the 172ppbv concentration isopleth for sulfur dioxide at 2m elevation, up to 20km from the stack." />
+  <figcaption>Concentration isopleths for sulfur dioxide, at 2m elevation, as predicted by the default, CCPS, ISC3, TNO, and Turner correlations, neglecting plume rise.</figcaption>
+</figure>
 
 The above was assuming no plume rise, however the relative differences are much more pronounced when plume rise is included.
 
@@ -196,8 +210,10 @@ conc = plume(scn, GaussianPlume; plumerise=true);
 
 Plotted below is the same downwind concentration plot as above, but incorporating the Briggs' plume rise model. Since this leads to a greater overall dispersion, the concentration is much smaller (everything is well below the AAQO at ground level, which is good news). However this adds another dimension along which the models can vary: plume rise is a function of windspeed, and overall dispersion is a function of plume rise. These different sets of correlations lead to the plume rising to a different elevation, and also dispersing to a differing degree, magnifying the differences between them. In this case there is up to a ~30&times; difference between the max concentrations predicted between the urban and rural case.
 
-![svg](/images/dispersion_parameter_sensitivity_files/output_39_0.svg)
-
+<figure>
+  <img src="/images/dispersion_parameter_sensitivity_files/output_39_0.svg" alt="A figure showing the concentration of sulfur dioxide at 2m elevation, up to 50km from the stack." />
+  <figcaption>Downwind concentration of sulfur dioxide, at 2m elevation, as predicted by the default, CCPS, ISC3, TNO, and Turner correlations, using Briggs' plume rise correlations.</figcaption>
+</figure>
 
 ## Final Thoughts
 
@@ -213,12 +229,12 @@ For a complete listing of code used to generate data and figures, please see the
 ## References
     
 + <a name="ccps-1999">AIChE/CCPS</a>. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers, 1999.
-+ <a name="bakkum-2005">Bakkum</a>, E.A. and N.J. Duijm. "Chapter 4 - Vapour Cloud Dispersion" in *Methods for the Calculation of Physical Effects, CPR 14E*, 3rd ed. Edited by C.J.H. van den Bosch and R.A.P.M. Weterings. The Hague: TNO, 2005. [url](https://repository.tno.nl/islandora/object/uuid:4928209c-5998-4261-9393-3d55073e6e87)
++ <a name="bakkum-2005">Bakkum</a>, E.A. and N.J. Duijm. "Chapter 4 - Vapour Cloud Dispersion" in *Methods for the Calculation of Physical Effects, CPR 14E*. 3rd ed. Edited by C.J.H. van den Bosch and R.A.P.M. Weterings. The Hague: TNO, 2005. [url](https://repository.tno.nl/islandora/object/uuid:4928209c-5998-4261-9393-3d55073e6e87)
 + <a name="briggs-1973">Briggs</a>, Gary A. *Diffusion Estimation for Small Emissions. Preliminary Report.* Oak Ridge: Air Resources Atmospheric Turbulence and Diffusion Laboratory, NOAA, 1973. [doi:10.2172/5118833](https://doi.org/10.2172/5118833)
 + <a name="epa-1995">EPA</a>. *User's Guide for the Industrial Source Complex (ISC3) Dispersion Models, vol 2.* Research Triangle Park, NC: Office of Air Quality Planning and Standards, US EPA, 1995. [EPA-454/B-95-003b](https://gaftp.epa.gov/Air/aqmg/SCRAM/models/other/isc3/isc3v2.pdf)
 + <a name="griffiths-1994">Griffiths</a>, R. F. "Errors in the use of the Briggs parameterization for atmospheric dispersion coefficients." *Atmospheric Environment* 28, no. 17 (1994):2861-2865. [doi:10.1016/1352-2310(94)90086-8](https://doi.org/10.1016/1352-2310(94)90086-8)
 + <a name="hanna-1982">Hanna</a>, Steven R., Gary A. Briggs, and Rayford P. Hosker Jr. 1982. *Handbook on atmospheric diffusion*. Springfield, VA: National Technical Information Service, 1982. [doi:10.2172/5591108](https://doi.org/10.2172/5591108).
-+ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries*, 2nd ed. Oxford: Butterworth-Heinemann, 1996
++ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries*. 2nd ed. Oxford: Butterworth-Heinemann, 1996
 + <a name="spicer-1989">Spicer</a>, Thomas O. and Jerry A. Havens. 1989. *User's Guide for the DEGADIS 2.1 Dense Gas dispersion Model*. Research Triangle Park, NC: Office of Air Quality Planning and Standards, US EPA, 1989. [EPA-450/4-89-019](https://nepis.epa.gov/Exe/ZyNET.exe/2000J5GU.txt)
 + <a name="seinfeld-1986">Seinfeld</a>, John H. *Atmospheric Chemistry and Physics of Air Pollution.* New York: John Wiley and Sons, 1986.
 + <a name="turner-1970">Turner</a>, D. Bruce. *Workbook of Atmospheric Dispersion Estimates.* Research Triangle Park, NC: Office of Air Programs, US EPA, 1970.

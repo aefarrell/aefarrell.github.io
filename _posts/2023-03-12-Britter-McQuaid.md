@@ -1,6 +1,6 @@
 ---
 title: "Taking a second look at the Britter-McQuaid model"
-last_modified_at: 2023-12-26
+last_modified_at: 2024-01-18
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -37,7 +37,7 @@ Just to have some numbers to look at, I am going to use a scenario adapted from 
 + LNG liquid density (at release conditions): 425.6 kg/m³
 + LNG gas density (at release conditions): 1.76 kg/m³
 
-The goal is to find the distance to the Lower Flammability Limit (LFL) which is 5%(v/v) and ultimately work out the extent of the plume and total explosive mass.
+The goal is to find the distance to the lower flammability limit (LFL) which is 5%(v/v) and ultimately work out the extent of the plume and total explosive mass.
 
 
 ```julia
@@ -168,10 +168,10 @@ end
 ```
 
 
-    
-![svg](/images/britter_mcquaid_files/output_14_0.svg)
-    
-
+<figure>
+<img src="/images/britter_mcquaid_files/output_14_0.svg"  alt="Concentration profile for the Britter-McQuaid dense gas model" />
+<figcaption>The concentration profile for the Britter-McQuaid dense gas model, with the LFL shown for reference.</figcaption>
+</figure>
 
 
 If all one needs is the distance to the LFL there is an easier way of doing this: interpolate the concentrations to find the *&beta;* corresponding to the LFL (after applying the non-isothermal correction). However, if one also requires the plume dimensions the concentration profile is required.
@@ -194,7 +194,10 @@ xn = find_zero((x) -> Cm(x) - LFL, (300,400).*1u"m", Roots.Brent())
 
 At first glance the workbook seems to be giving the user everything they need to workout the size of the plume, giving the following diagram
 
-![image.png](/images/britter_mcquaid_files/att1.png)
+<figure>
+<img src="/images/britter_mcquaid_files/att1.png" alt="dense plume concentration contour with dimensions indicated" />
+<figcaption>Dense plume concentration contour (<a href="#britter-1988">Britter and McQuaid</a>, <em>Workbook on the Dispersion of Dense Gases</em>, fig. 10).</figcaption>
+</figure>
 
 and the following relations for the labeled distances
 
@@ -248,10 +251,10 @@ A conservative approach to estimating the size of the upwind extent is to assume
 
 Alternatively one could "fit" a curve to hit the end points while also having the same power of *x*: $ L_H = L_{Ho} \left( {x + L_U} \over L_U \right)^{2/3} $ where *L<sub>U</sub>* &lt; *x* &lt; 0, this at least retains the same general shape and is the red curve in the figure below. I think this should be taken with the giant caveat that I don't know if insisting on the same power law is truly justified.
 
-    
-![svg](/images/britter_mcquaid_files/output_23_0.svg)
-    
-
+<figure>
+<img src="/images/britter_mcquaid_files/output_23_0.svg" alt="plot showing the various approaches to estimating up-wind plume extent" />
+<figcaption>The various approaches to estimating the upwind plume extent, black dots are a digitization of the corresponding diagram from Britter and McQuaid shown for reference (<a href="#britter-1988">Britter and McQuaid</a>, <em>Workbook on the Dispersion of Dense Gases</em>, fig. 10).</figcaption>
+</figure>
 
 
 For most typical cases I would think the upwind region would be a small component of the overall plume and taking the conservative, rectangle, approach would be a small error.
@@ -311,10 +314,10 @@ I think the vertical extent has to depend upon the concentration as otherwise ma
 This can be seen most clearly in the following figure in which the vertical extent is shown as a function of downwind distance along with the mass flowrate in the plume (i.e. $ c_m u A $ )
 
 
-    
-![svg](/images/britter_mcquaid_files/output_28_0.svg)
-    
-
+<figure>
+<img src="/images/britter_mcquaid_files/output_28_0.svg" alt="Different approaches to plume height" />
+<figcaption>Approaches to plume height estimation (top) and the corresponding conservation of mass (bottom).</figcaption>
+</figure>
 
 
 I think it is fairly obvious that both the Britter-McQuaid and TNO models give silly answers for the vertical extent. Though the corrected curve, the green curve, clearly has problems too: it has an odd bumpiness, as a result of the linear interpolation, and it is also too small due to both assuming the concentration everywhere is equal to the ground level concentration and due to an overly large advection velocity (the windspeed at 10m is quite a bit higher than the windspeed at ~1m).
@@ -499,7 +502,10 @@ Since the mass in the upwind region is &lt;0.5% of the total mass in the cloud, 
 
 According to Britter and McQuaid the top-hat model generates an overly conservative plume extent and they recommend using given the lateral extent curve up to *2/3 x<sub>n</sub>* and after which connecting to *x<sub>n</sub>* using straight lines, as shown in the plume diagram. This makes the integration for explosive mass a little more complicated.
 
-![image.png](/images/britter_mcquaid_files/att1.png)
+<figure style="counter-set: figure-counter 1;">
+<img src="/images/britter_mcquaid_files/att1.png" alt="dense plume concentration contour with dimensions indicated" />
+<figcaption>Dense plume concentration contour (<a href="#britter-1988">Britter and McQuaid</a>, <em>Workbook on the Dispersion of Dense Gases</em>, fig. 10).</figcaption>
+</figure>
 
 For simplicity the plume can be divided into three regions, the upwind region (*x* &lt; 0), the downwind region up to the cutoff (0 &le; *x* &lt; 2/3 *x<sub>n</sub>*), and the downwind cutoff region (2/3 *x<sub>n</sub>* &le; *x* &lt; *x<sub>n</sub>* )
 
@@ -570,8 +576,8 @@ For a complete listing of code used to generate data and figures, please see the
 ## References
 
 + <a name="ccps-1999">AIChE/CCPS</a>. 1999. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers
-+ <a name="bakkum-2005">Bakkum</a>, E.A. and N.J. Duijm. "Chapter 4 - Vapour Cloud Dispersion" in *Methods for the Calculation of Physical Effects, CPR 14E*, 3rd ed. Edited by C.J.H. van den Bosch and R.A.P.M. Weterings. The Hague: TNO, 2005. [url](https://repository.tno.nl/islandora/object/uuid:4928209c-5998-4261-9393-3d55073e6e87)
++ <a name="bakkum-2005">Bakkum</a>, E.A. and N.J. Duijm. "Chapter 4 - Vapour Cloud Dispersion" in *Methods for the Calculation of Physical Effects, CPR 14E*. 3rd ed. Edited by C.J.H. van den Bosch and R.A.P.M. Weterings. The Hague: TNO, 2005. [url](https://repository.tno.nl/islandora/object/uuid:4928209c-5998-4261-9393-3d55073e6e87)
 + <a name="britter-1988">Britter</a>, Rex E. and J. McQuaid. *Workbook on the Dispersion of Dense Gases. HSE Contract Research Report No. 17/1988*. 1988.
-+ <a name="casal-2018">Casal</a>, Joachim. *Evaluation of the Effects of Consequences of Major Accidents in Industrial Plants, 2nd Ed.* Amsterdam: Elsevier, 2018.
-+ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries*, 2nd ed. Oxford: Butterworth-Heinemann, 1996.
++ <a name="casal-2018">Casal</a>, Joachim. *Evaluation of the Effects of Consequences of Major Accidents in Industrial Plants*. 2nd Ed. Amsterdam: Elsevier, 2018.
++ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries*. 2nd ed. Oxford: Butterworth-Heinemann, 1996.
 + <a name="woodward-1998">Woodward</a>, John L. *Estimating the Flammable Mass of a Vapour Cloud*, New York: American Institute of Chemical Engineers, 1998.

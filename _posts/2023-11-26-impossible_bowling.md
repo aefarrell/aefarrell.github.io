@@ -1,6 +1,6 @@
 ---
 title: "Impossible bowling"
-last_modified_at: 2023-12-26
+last_modified_at: 2024-01-17
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -23,7 +23,10 @@ While bowling, this week, an interesting question came up: is it possible to get
 
 [Five pin bowling](https://en.wikipedia.org/wiki/Five-pin_bowling) uses five pins but, unlike ten pin bowling, the pins are worth different amounts. Notably no pin is worth 1, and so a score of *1* is the first impossible score.
 
-![pin values](/images/impossible_bowling_files/five-pin-values.png)
+<figure>
+<img src="/images/impossible_bowling_files/five-pin-values.png" alt="Figure showing the relative emissions of hydrogen to natural gas." />
+<figcaption> The points value of each pin in five-pin bowling. </figcaption>
+</figure>
 
 Like ten pin bowling, if a strike or a spare is recorded in a given frame then the scores of subsequent ball(s) are counted in that frame, as well as the frame in which they were thrown. So, for example, if I throw a strike in the first frame I don't actually know what to write on the score sheet for the first frame until the second, and possibly third, frames have been thrown. I know it is *at least* 15, but until I throw the next ball it could be anything up to 45. This was what initially gave me pause. It adds a layer of complexity since the possible scores for a given frame depend on what happens next.
 
@@ -144,12 +147,6 @@ It does mean the strategy changes, now the code takes the biggest strides it can
 
     [15, 15, 15, 13, 7, 7, 7, 7, 7, 7, 0]
 
-
-<div class="notice">
-  {{ footnote-2 | markdownify }}
-
-  {{ footnote-3 | markdownify }}
-</div>
 
 ## Sparing no effort
 
@@ -291,11 +288,8 @@ for score in range(301):
 
 Which is perhaps not surprising, we still can't get 1 less than the largest multiple of 15 because we cannot bowl a *14* with the extra ball at the end of the 10th frame.
 
-<div class="notice">
-  {{ footnote-4 | markdownify }}
-</div>
 
-## In Striking distance of the final answer
+## In striking distance of the final answer
 
 This puts me in a good position to try a full game, I need to add the possibility of a strike. For single frame scores with nothing special before them, this just means adding a third way to score a *15*. There are now 16 possible moves.
 

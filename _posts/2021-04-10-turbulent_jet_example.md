@@ -332,10 +332,10 @@ For a complete listing of code used to generate data and figures, please see the
 ## References
 
 + <a name="ccps-1999">AIChE/CCPS</a>. *Guidelines for Consequence Analysis of Chemical Releases.* New York: American Institute of Chemical Engineers, 1999.
-+ <a name="bird-2007">Bird</a>, R. Byron, Warren E. Stewart, and Edwin N. Lightfoot. *Transport Phenomena, Revised 2nd ed.* Hoboken: John Wiley & Sons, 2007. [archive](https://archive.org/details/transportphenome0000bird_n8h5)
++ <a name="bird-2007">Bird</a>, R. Byron, Warren E. Stewart, and Edwin N. Lightfoot. *Transport Phenomena*. 2nd ed. Hoboken: John Wiley & Sons, 2007. [archive](https://archive.org/details/transportphenome0000bird_n8h5)
 + <a name="kaye-2018">Kaye</a>, Nigel B., Abdul A. Khan, and Firat Y. Testik. "Environmental Fluid Mechanics" in *Handbook of Environmental Engineering*. Edited by Myer Kutz. New York: John Wiley & Sons, 2018.
-+ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries*, 2nd ed. Oxford: Butterworth-Heinemann, 1996.
++ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries*. 2nd ed. Oxford: Butterworth-Heinemann, 1996.
 + <a name="long-1963">Long</a>, V.D. "Estimation of the Extent of Hazard Areas Around a Vent," *Second Symposium On Chemical Process Hazards* (1963): 6-14
 + <a name="poleshaw-2013">Poleshaw</a>, Yury V., and V.V. Golub. "Jets" in *[Thermopedia](https://www.thermopedia.com/content/903/)* 2013. [doi:10.1615/AtoZ.j.jets](https://dx.doi.org/10.1615/AtoZ.j.jets)
-+ <a name="poling-2007">Poling</a>, Bruce E., George H. Thomson, Daniel G. Friend, Richard L. Rowley, and W. Vincent Wilding. "Physical and Chemical Data" in *Perry's Chemical Engineers' Handbook, 8th ed.* Edited by Don W. Green. New York: McGraw Hill, 2007.
-+ <a name="revill-1992">Revill</a>, B. K. "Jet mixing" in *Mixing in the Process Industries*, 2nd ed. Edited by N. Harnby, M.F. Edwards, and A. W. Nienow. Oxford: Butterworth-Heinemann, 1992.
++ <a name="poling-2007">Poling</a>, Bruce E., George H. Thomson, Daniel G. Friend, Richard L. Rowley, and W. Vincent Wilding. "Physical and Chemical Data" in *Perry's Chemical Engineers' Handbook*. 8th ed. Edited by Don W. Green. New York: McGraw Hill, 2007.
++ <a name="revill-1992">Revill</a>, B. K. "Jet mixing" in *Mixing in the Process Industries*. 2nd ed. Edited by N. Harnby, M.F. Edwards, and A. W. Nienow. Oxford: Butterworth-Heinemann, 1992.

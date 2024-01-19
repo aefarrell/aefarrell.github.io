@@ -223,7 +223,7 @@ The "worst-case" is the case with the least mixing and corresponds to a class F 
 
 
 
-**Addendum:** this isn't entirely true. For neutrally buoyant plumes released at ground level, or in this case level with the elevated work platform, class F is likely the worst case. For buoyant plumes released at elevation the minimal vertical dispersion with stable atmospheres means the bulk of the plume will rise and be dispersed far above the ground and another class and wind-speed should be considered. See *Guidelines for Use of Vapour Cloud Dispersion Models, 2nd Ed.* section 5.8 for more details
+**Addendum:** this isn't entirely true. For neutrally buoyant plumes released at ground level, or in this case level with the elevated work platform, class F is likely the worst case. For buoyant plumes released at elevation the minimal vertical dispersion with stable atmospheres means the bulk of the plume will rise and be dispersed far above the ground and another class and wind-speed should be considered. See *Guidelines for Use of Vapour Cloud Dispersion Models*, 2nd ed. section 5.8 for more details
 {: .notice--warning}
 
 
@@ -566,8 +566,8 @@ For a complete listing of code used to generate data and figures, please see the
 
 ## References
 
-+ <a name="epa-1995a">EPA</a>. *AP 42: Compilation of Air Emissions Factors*, 5th ed. Research Triangle Park, North Carolina: Environmental Protection Agency, 1995. [url](https://www.epa.gov/air-emissions-factors-and-quantification/ap-42-compilation-air-emissions-factors)
++ <a name="epa-1995a">EPA</a>. *AP 42: Compilation of Air Emissions Factors*. 5th ed. Research Triangle Park, North Carolina: Environmental Protection Agency, 1995. [url](https://www.epa.gov/air-emissions-factors-and-quantification/ap-42-compilation-air-emissions-factors)
 + <a name="epa-1995b">&#8212;&#8212;&#8212;</a> *EPA-454/B-95-003b User's Guide for the ISC3 Dispersion Models*. Vol 2. Research Triangle Park, North Carolina: Environmental Protection Agency, 1995.
 + <a name="epa-2023">&#8212;&#8212;&#8212;</a> *Method 19 - Determination of Sulfur Dioxide Removal Efficiency and Particulate Matter, Sulfur Dioxide, and Nitrogen Oxide Emission Rates*. Environmental Protection Agency. Accessed December 21, 2023. [url](https://www.epa.gov/sites/default/files/2017-08/documents/method_19.pdf)
-+ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries*, 2nd ed. Oxford: Butterworth-Heinemann, 1996.
-+ <a name="vallero-2014">Vallero</a>, Daniel. *Fundamentals of Air Pollution*, 5th ed. Amsterdam: Elsevier, 2014.
++ <a name="lees-1996">Lees</a>, Frank P. *Loss Prevention in the Process Industries*. 2nd ed. Oxford: Butterworth-Heinemann, 1996.
++ <a name="vallero-2014">Vallero</a>, Daniel. *Fundamentals of Air Pollution*. 5th ed. Amsterdam: Elsevier, 2014.
