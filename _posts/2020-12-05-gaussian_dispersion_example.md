@@ -22,9 +22,10 @@ This is an interesting example that came up in conversation with another enginee
 
 So, how would one determine whether or not the operating stack presents a hazard to the workers? In practice by hiring a consultant to do detailed modeling, because safety issues like this are not the time to pencil-whip some number. But we may want to come up with a rough estimate regardless, and for that a gaussian dispersion model of the stack can be a useful first start.
 
-<a title="Mbeychok, CC BY-SA 3.0 &lt;http://creativecommons.org/licenses/by-sa/3.0/&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Gaussian_Plume.png"><img alt="Gaussian Plume" src="https://upload.wikimedia.org/wikipedia/commons/1/10/Gaussian_Plume.png"></a>
-
-<a href="https://commons.wikimedia.org/wiki/File:Gaussian_Plume.png">Mbeychok</a>, <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>, via Wikimedia Commons
+<figure>
+<img alt="Gaussian Plume" src="https://upload.wikimedia.org/wikipedia/commons/1/10/Gaussian_Plume.png">
+<figcaption> The problem domain, a stack with a gaussian plume (<a href="https://commons.wikimedia.org/wiki/File:Gaussian_Plume.png">Mbeychok</a>, <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>, via Wikimedia Commons). </figcaption>
+</figure>
 
 ## The Scenario
 
@@ -554,7 +555,7 @@ C(x₁, 0u"m", h₁) > TWA
 
 This model assumed a continuous, steady-state, flow of stack gases. Boilers don't always operate that way and the model did not, for example, consider start-up or upset conditions that could lead to higher in-stack concentrations of carbon monoxide.
 
-The model also assumed mixing was captured by a simple gaussian dispersion model. This model does not, for example, account for variability of wind-speed either with time or spatially -- wind-speed typically increases with height -- in this case I believe the model underestimates the degree of mixing. Nor it does not account for interactions with buildings and potential down-wash, which can be very significant.
+The model also assumed mixing was captured by a simple gaussian dispersion model. This model does not, for example, account for variability of wind-speed either with time or spatially -- wind-speed typically increases with height -- in this case I believe the model underestimates the degree of mixing. Nor does it account for interactions with buildings and potential down-wash, which can be very significant.
 
 This also assumes no other sources of carbon monoxide, both at the facility surrounding the worksite but also potentially from some portable equipment.
 
