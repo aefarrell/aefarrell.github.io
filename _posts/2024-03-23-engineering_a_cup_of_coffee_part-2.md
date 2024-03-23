@@ -5,10 +5,10 @@ toc_label: "Contents"
 toc_sticky: true
 comments: true
 categories:
-  - notes
+  - examples
 tags:
-  - hydrogen
-  - fugitives
+  - coffee
+  - mass transfer
 tagline: "modelling espresso bed extraction"
 header:
   overlay_image: /images/engineering_coffee_2_files/blake-verdoorn-unsplash.jpg
