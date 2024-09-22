@@ -14,7 +14,7 @@ tags:
 tagline: "is plastic recycling a huge source of microplastics?"
 header:
   overlay_image: /images/plastics-recycling_files/soren-funk-unsplash.jpg
-  caption: "Photo by [Sören Funk](https://unsplash.com/@soerenfunk?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/green-and-brown-stone-on-brown-sand-jQuky0VINAI?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)>"
+  caption: "Photo by [Sören Funk](https://unsplash.com/@soerenfunk?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/green-and-brown-stone-on-brown-sand-jQuky0VINAI?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)"
 ---
 
 # Plastics Recycling and Microplastics: Checking the Math
