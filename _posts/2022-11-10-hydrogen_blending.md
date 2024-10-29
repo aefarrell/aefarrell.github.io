@@ -10,6 +10,7 @@ categories:
 tags:
   - hydrogen
   - pipe flow
+  - gas flow
 tagline: "blending hydrogen into natural gas"
 header:
   overlay_image: /images/hydrogen_blending_files/flame-unsplash-header.jpg

@@ -9,6 +9,7 @@ categories:
   - examples
 tags:
   - pipe flow
+  - gas flow
 tagline: "evaluating different models of adiabatic pipe flow"
 header:
   overlay_image: /images/adiabatic_compressible_flow_files/pipes-unsplash-header.jpg

@@ -1,6 +1,6 @@
 ---
 title: "Compressible Flow Example - Sizing a goose neck vent"
-last_modified_at: 2023-12-26
+last_modified_at: 2024-10-11
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -9,6 +9,8 @@ categories:
   - examples
 tags:
   - pipe flow
+  - gas flow
+  - pressure relief
 tagline: "Calculating the minimum diameter in incompressible, isothermal, and adiabatic flow situations"
 header:
   overlay_image: /images/chuttersnap-unsplash-header.jpg
@@ -430,6 +432,9 @@ uconvert(u"inch", D2)
 
     6.485474802835819 inch
 
+
+**Update:** the method given here is from *Perry's* and, while it works, is an awkward way of calculating the flow from a given pressure drop. A better method, adapted from *Coulson and Richardson's* is [presented here](https://aefarrell.github.io/2022/09/23/adiabatic-compressible-flow/#the-full-treatment).
+{: .notice--warning}
 
 
 ## Minimum Diameter
