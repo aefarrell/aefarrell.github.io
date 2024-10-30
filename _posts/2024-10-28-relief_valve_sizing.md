@@ -76,7 +76,7 @@ In the case where flow is choked, i.e. the flow in the nozzle reaches sonic velo
 
 ## A Motivating Example
 
-Consider the release of ethane from a vessel at $(P₁) and $(T₁), for the sake of simplicity assume the release is directly into the atmosphere at $(P₂) and $(T₂) (15°C) (the flow is going to be choked, so this doesn't actually matter).
+Consider the release of ethane from a vessel at 200 bar and 400 K, for the sake of simplicity assume the release is directly into the atmosphere at 1 bar and 288.15 K (15°C) (the flow is going to be choked, so this doesn't actually matter).
 
 ```julia
 using Unitful.jl
