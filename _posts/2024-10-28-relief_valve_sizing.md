@@ -272,7 +272,7 @@ The isentropic expansion factor method works best when $n$ is approximately cons
 
 ## Solving the Choked Flow Energy Balance
 
-An alternative approach to direct integration, and one I have seen more often in older references, is to perform an energy balance over the isentropic path and, assuming the flow is choked, solve for sonic velocity in the nozzle<a href="#fn-12" class="sidenote-number"></a><span class="sidenote" id="fn-12">[Crowl *et al*](#crowl-2008), "Process Safety," 23-55</span>. Consider an energy balance starting at the stagnation point, (1), and following an isentropic path to immediately after the throat of the nozzle (t).
+An alternative approach to direct integration, and one I have seen more often in older references, is to perform an energy balance over the isentropic path and, assuming the flow is choked, solve for sonic velocity in the nozzle<a href="#fn-12" class="sidenote-number"></a><span class="sidenote" id="fn-12">[Crowl *et al*](#crowl-2008), "Process Safety," 23-55; [Gmehling *et al.*](#gmehling-2012), *Chemical Thermodynamics*, 603.</span>. Consider an energy balance starting at the stagnation point, (1), and following an isentropic path to immediately after the throat of the nozzle (t).
 
 $$ h_1 = h_t + \frac{1}{2} c_t^2 $$
 
