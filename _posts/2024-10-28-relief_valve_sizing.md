@@ -1,5 +1,6 @@
 ---
 title: "Relief Valve Sizing with Real Gases"
+last_modified_at: 2024-11-04
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -147,12 +148,12 @@ $$ k = { c_{p,ig} \over c_{v,ig} } $$
 
 {% capture inlinenote-1 %}
 This is the basis of [API 520 Part 1](#API-2020) equation 9 where the following substitutions is made:
-	
+
 $$ \rho = { {P M} \over {Z R T} } $$
 
 and the constant $R$ and some unit conversions are rolled up into the constant 0.03948 in the expression for $C$
 
-$$ R = 8.314 { {\mathrm{m^3} \cdot \mathrm{Pa} } \over {\mathrm{mol} \cdot \mathrm{K} } } = 8,314 { {\mathrm{m^3} \cdot \mathrm{Pa} } \over {\mathrm{kmol} \cdot \mathrm{K} } } = 8,314 { {\mathrm{kg} \cdot \mathrm{m^2} } \over { \mathrm{kmol} \cdot \mathrm{s^2} \cdot \mathrm{K} } } 	$$
+$$ R = 8.314 { {\mathrm{m^3} \cdot \mathrm{Pa} } \over {\mathrm{mol} \cdot \mathrm{K} } } = 8,314 { {\mathrm{m^3} \cdot \mathrm{Pa} } \over {\mathrm{kmol} \cdot \mathrm{K} } } = 8,314 { {\mathrm{kg} \cdot \mathrm{m^2} } \over { \mathrm{kmol} \cdot \mathrm{s^2} \cdot \mathrm{K} } } $$
 
 $$ {1 \over \sqrt{R} } \left[ { \sqrt{ \mathrm{kmol} \cdot \mathrm{K} } \cdot \mathrm{s} } \over { \sqrt{\mathrm{kg} } \cdot \mathrm{m} } \right] \times 3600 \left[ \mathrm{s} \over \mathrm{h} \right] \times 10^{-6} \left[ \mathrm{m^2} \over \mathrm{mm^2} \right] \times 10^3 \left[ \mathrm{Pa} \over \mathrm{kPa} \right] \\= 0.03948 \left[ \sqrt{\mathrm{kmol} \cdot \mathrm{kg} \cdot \mathrm{K} } \over { \mathrm{h} \cdot \mathrm{mm^2} \cdot \mathrm{kPa} } \right] $$
 
@@ -290,7 +291,7 @@ using Roots, ForwardDiff
 
 ```julia
 function isentropic_temperature(model, P, s, T0; z=[1.0])
-	return find_zero( (x) -> s - entropy(model, P, x, z), T0)
+    return find_zero( (x) -> s - entropy(model, P, x, z), T0)
 end
 ```
 
@@ -429,7 +430,7 @@ using Optim
 ```julia
 function mass_flux_direct_integration(model, P_1, T_1, P_2; z=[1.0])
     obj = objective_factory(model, P_1, T_1; z=z)
-    res = optimize(obj, P_2, P_1, Brent())
+    res = optimize(obj, P_2, P_1, Optim.Brent())
     return -1*minimum(res)
 end
 ```
@@ -450,6 +451,90 @@ end
 Direct integration of the VTPR equation of state gives a theoretical mass flux of 54629 kg m^-2 s^-1 ( 54353 kg m^-2 s^-1 from GERG-2008 ). Which is exactly the same as from solving the choked flow energy balance, as expected.
 
 This method could be extended to include liquid and two-phase flows simply through re-writing the `isentropic_temperature` function to be phase-aware and utilize isothermal flash routines. Which shows its flexibility as a method. As it currently stands, this method only handles gases *but*, unlike the energy balance method, the flow does not have to be choked. If the flow is not choked, the maximum will occur at $P_2$ and whatever the isentropic temperature is at that point, the result will simply pop out without any extra effort.
+
+
+### Addendum
+
+After posting this, I thought of a rather obvious way of performing the direct integration that does not repeatedly re-integrate regions: integrate using `DifferentialEquations.jl` and use a callback function to halt the integration if a stationary point is found.
+
+We first introduce the change of variables $\Delta P = P_1 - P$ such that the integration is from $0$ to $P_1 - P_2$.
+
+$$ \int_{P_2}^{P_1} v dP = - \int_{0}^{\Delta P} v\left( P_1 - \Delta P \right)_{s = s_1} d\left(\Delta P \right) $$
+
+```julia
+using DifferentialEquations
+```
+
+The corresponding differential equation is then simply the integrand
+
+$$ { {du} \over {d \left(\Delta P \right)} } = v\left(P₁ - ΔP\right)_{s=s₁} $$
+
+where $v$ is the specific volume taken along an isentropic path.
+
+```julia
+function rhs(u, params, ΔP)
+    model, P, T0, s, z = params
+    return isentropic_specific_volume(model, P - ΔP, s, T0; z=z)
+end
+```
+
+But we want to stop the integration when ${ {\partial G} \over {\partial \left( \Delta P \right) } } = 0$ or, equivalently, when the velocity is sonic. Starting with $G^2$
+
+$$ { {\partial G^2} \over {\partial \left( \Delta P \right) } } = { {\partial } \over {\partial \left( \Delta P \right) } } \left( 2 \rho_t^2 \int_0^{\Delta P_t} v d \left( \Delta P \right) \right) = 0 $$
+
+by applying the chain rule and cancelling $\rho$ we get
+
+$$ 2 \left( {\partial \rho} \over { \partial P } \right)_S \int_0^{\Delta P_t} v d \left( \Delta P \right) - 1 = 0 $$
+
+recalling the definition of the speed of sound ([above](#the-isentropic-expansion-factor))
+
+$$ \left( {\partial \rho} \over { \partial P } \right)_S = \frac{1}{c^2} $$
+
+we have
+
+$$ 2 \int_0^{\Delta P_t} v d \left( \Delta P \right) - c^2 = 0 $$
+
+
+```julia
+function ∂G²_callback(∫vdP, ΔP, integrator)
+    model, P, T0, s, z = integrator.p
+    T = isentropic_temperature(model, P-ΔP, s, T0; z=z)
+    c = speed_of_sound(model, P-ΔP, T, z)
+    return 2∫vdP - c^2
+end
+```
+
+```julia
+function mass_flux_diffeq(model, P_1, T_1, P_2; z=[1.0])
+    s = entropy(model, P_1, T_1)
+    u0 = 0.0
+    params = (model, P_1, T_1, s, z)
+    ΔP_span = (0.0, P_1 - P_2)
+    prob = ODEProblem(rhs, u0, ΔP_span, params)
+
+    sol = solve(prob, Tsit5(), 
+                callback=ContinuousCallback(∂G²_callback, terminate!))
+
+    ΔPₜ, ∫vdP = sol.t[end], sol.u[end]
+    vₜ = isentropic_specific_volume(model, P_1 - ΔPₜ, s, T_1)
+    G = √(2*∫vdP)/vₜ
+end
+```
+
+I could not get this to work with `Unitful.jl`, specifically the continuous callback was triggered a cascade of arcane `MethodError`'s related to the root-finding (integration isn't merely terminated, the routine finds the actual zero to terminate at). My work around is simply to use multiple dispatch to strip out the units and then stick them back on at the end.
+
+
+```julia
+function mass_flux_diffeq(model, P_1::Quantity, T_1::Quantity,
+                          P_2::Quantity; z=[1.0])
+    P_1 = ustrip(u"Pa", P_1)
+    P_2 = ustrip(u"Pa", P_2)
+    T_1 = ustrip(u"K", T_1)
+    return mass_flux_diffeq(model, P_1, T_1, P_2; z=z)*1u"kg*m^-2*s^-1"
+end
+```
+
+Using the default tolerances this produces a result 0.00017% different than direct integration with `QuadGK` (using the VTPR EoS). But you could probably fiddle with the relative tolerance to make them identical. This is a level of resolution that is beyond what is required, or even physically relevant (the model error is significantly larger than this slight numerical error)
 
 ## Comparing the Results
 
