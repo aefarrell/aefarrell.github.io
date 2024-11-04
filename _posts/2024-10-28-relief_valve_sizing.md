@@ -277,7 +277,7 @@ An alternative approach to direct integration, and one I have seen more often in
 
 $$ h_1 = h_t + \frac{1}{2} c_t^2 $$
 
-Where $c_t$ is the speed of sound at nozzle, a function of $P_t$ and $T_t$. The procedure is then to solve the system of equations given by the energy balance and the entropy balance, $s_1 = s_t$, for $P_t$ and $T_t$, then the theoretical mass flux is given by
+Where $c_t$ is the speed of sound at the nozzle, a function of $P_t$ and $T_t$. The procedure is then to solve the system of equations given by the energy balance and the entropy balance, $s_1 = s_t$, for $P_t$ and $T_t$, then the theoretical mass flux is given by
 
 $$ G_t = \rho_t c_t $$
 
@@ -385,7 +385,7 @@ function isentropic_specific_volume(model, P, s, T0; z=[1.0])
 end
 ```
 
-The function we wish to optimize is the numerical integral, from $P_t$ to $P_1$, where $P_t$ is the optimization variable. In this case it is $-G$ since the standard form for optimization is minimizing.
+The function we wish to optimize includes the integral, from $P_t$ to $P_1$, where $P_t$ is the optimization variable. In this case what is being optimized is $-G$ since the standard form for optimization is minimizing.
 
 Below I define a factory function since the objective function is a function of only one variable, $P_t$, but requires a lot of parameters, this simplifies the problem set-up.
 
@@ -450,7 +450,7 @@ end
 
 Direct integration of the VTPR equation of state gives a theoretical mass flux of 54629 kg m^-2 s^-1 ( 54353 kg m^-2 s^-1 from GERG-2008 ). Which is exactly the same as from solving the choked flow energy balance, as expected.
 
-This method could be extended to include liquid and two-phase flows simply through re-writing the `isentropic_temperature` function to be phase-aware and utilize isothermal flash routines. Which shows its flexibility as a method. As it currently stands, this method only handles gases *but*, unlike the energy balance method, the flow does not have to be choked. If the flow is not choked, the maximum will occur at $P_2$ and whatever the isentropic temperature is at that point, the result will simply pop out without any extra effort.
+This method could be extended to include liquid and two-phase flows simply through re-writing the `isentropic_specific_volume` function to be phase-aware and utilize isothermal flash routines. Which shows its flexibility as a method. As it currently stands, this method only handles gases *but*, unlike the energy balance method, the flow does not have to be choked. If the flow is not choked, the maximum will occur at $P_2$ and whatever the isentropic temperature is at that point. The result simply pops out without any extra effort.
 
 
 ### Addendum
@@ -478,7 +478,7 @@ function rhs(u, params, ΔP)
 end
 ```
 
-But we want to stop the integration when ${ {\partial G} \over {\partial \left( \Delta P \right) } } = 0$ or, equivalently, when the velocity is sonic. Starting with $G^2$
+But we want to stop the integration when ${ {\partial G} \over {\partial \left( \Delta P \right) } } = 0$ or, equivalently, when the velocity is sonic. We can show that these are the same by finding the stationary points of $G^2$
 
 $$ { {\partial G^2} \over {\partial \left( \Delta P \right) } } = { {\partial } \over {\partial \left( \Delta P \right) } } \left( 2 \rho_t^2 \int_0^{\Delta P_t} v d \left( \Delta P \right) \right) = 0 $$
 
@@ -494,6 +494,7 @@ we have
 
 $$ 2 \int_0^{\Delta P_t} v d \left( \Delta P \right) - c^2 = 0 $$
 
+which, recalling the definition of $G$, is simply $u_t^2 = c^2$.
 
 ```julia
 function ∂G²_callback(∫vdP, ΔP, integrator)
@@ -534,7 +535,7 @@ function mass_flux_diffeq(model, P_1::Quantity, T_1::Quantity,
 end
 ```
 
-Using the default tolerances this produces a result 0.00017% different than direct integration with `QuadGK` (using the VTPR EoS). But you could probably fiddle with the relative tolerance to make them identical. This is a level of resolution that is beyond what is required, or even physically relevant (the model error is significantly larger than this slight numerical error)
+Using the default tolerances this produces a result 0.00017% different than direct integration with `QuadGK` (using the VTPR EoS). But you could probably fiddle with the tolerances to make them identical. This is already at a level of resolution that is beyond what is required, or even physically relevant (the model error is significantly larger than this slight numerical error)
 
 ## Comparing the Results
 
