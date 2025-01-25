@@ -261,7 +261,7 @@ end;
 # ╔═╡ ee4153d6-cf19-4298-ad69-f1b08bbb5845
 md"""
 
-I looked around online and a typical tank with a [80 cu. ft. capacity](https://www.divegearexpress.com/library/articles/calculating-scuba-cylinder-capacities) might have a "water volume" (actual internal volume) of 678 cu. in. (11.11L) and a working pressure of 3000 psi (20.68 MPa). I don't actually know the flow area of a tank valve, I couldn't find it easily, so I'm going to guess it's basically a 1 mm diameter tube when fully open, with a discharge coefficient of 0.85 -- all of this could be firmed up better with some real details of the valve. But this is a start.
+I looked around online and a typical tank with a [80 cu. ft. capacity](https://www.divegearexpress.com/library/articles/calculating-scuba-cylinder-capacities) might have a "water volume" (actual internal volume) of 678 cu. in. (11.11L) and a working pressure of 3000 psi (20.68 MPa). I don't actually know the flow area of a tank valve, I couldn't find it easily, so I'm going to guess it's basically a 5 mm diameter tube when fully open, with a discharge coefficient of 0.85 -- all of this could be firmed up better with some real details of the valve. But this is a start.
 
 """
 
@@ -269,12 +269,12 @@ I looked around online and a typical tank with a [80 cu. ft. capacity](https://w
 #Vessel conditions
 begin
 	c = 0.85
-	D = 0.001      # m
+	D = 0.005      # m
 	A = 0.25*π*D^2 # m²
 	V = 0.01111    # m³
 	P₀ = 20.68e6   # Pa
 	T₀ = Tₐ
-	ρ₀ = ρₐ*(Pₐ/P₀) # ideal gas law
+	ρ₀ = ρₐ*(P₀/Pₐ) # ideal gas law
 	k = 1.4
 end;
 
@@ -286,7 +286,7 @@ I then set up the differential equation and integrate to get the blowdown curve.
 # ╔═╡ 72263187-a1f8-4453-a5da-feb8dcd9f318
 begin
     params = (c, A, V, k, ρ₀, P₀, Pₐ)
-    t_span = (0.0, 12.0)
+    t_span = (0.0, 100.0)
     prob = ODEProblem(adiabatic_vessel, P₀, t_span, params)
     sol = solve(prob, Tsit5(),
 	            callback=ContinuousCallback(depressured_callback, terminate!))
@@ -302,13 +302,13 @@ begin
 	plot!(p1, ts1, choked_model.(ts1).*P₀, label="Fully choked model")
 	plot!(p1, ts1, sol.(ts1; idxs = 1), label="ODE")
 	plot!(p1, [ts1[1], ts1[end]], [Pₐ, Pₐ], label="Ambient Pressure")
-	lens!(p1, [2.25, 2.6], [0.75,1.25].*1e5, inset = (1, bbox(0.5, 0.3, 0.4, 0.4)))
+	lens!(p1, [18, 22], [0.75,1.25].*1e5, inset = (1, bbox(0.5, 0.3, 0.4, 0.4)))
 end
 
 # ╔═╡ 99b62b74-db91-47d3-9be0-bdb45d5b3ae2
 md"""
 
-So this is saying it blows down pretty fast, in less than 3s. Probably my guess for the valve area is too large. I did just make it up.
+So this is saying it blows down pretty fast, in less than 30s. Probably my guess for the valve area is too large. I did just make it up.
 
 Regarding the models themselves, the adiabatic choked model is a very good approximation to the full ODE until the last few fractions of a second, at which point the models diverge. This likely to be true for any high pressure blowdowns, where the vessel pressure starts well above ~2atm, as in that case the majority of the blowdown will be entirely in the choked flow regime.
 
@@ -695,7 +695,7 @@ let	bdc=adiabatic_blowdown_choked(vessel), bdf=adiabatic_blowdown_full(vessel)
 	plot!(plt, ts, blowdown_pressure.(bdf, ts), label="ODE", color=:red)
 	plot!(plt, [blowdown_time(bdf)], [1.001*Pₐ], seriestype=:scatter, color=:red, label=nothing)
 	plot!(plt, [ts[1], ts[end]], [Pₐ, Pₐ], label="Ambient Pressure", color=:green)
-	lens!(plt, [2.25, 2.6], [0.75,1.25].*1e5, inset = (1, bbox(0.5, 0.3, 0.4, 0.4)))
+	lens!(plt, [18, 22], [0.75,1.25].*1e5, inset = (1, bbox(0.5, 0.3, 0.4, 0.4)))
 end
 
 # ╔═╡ 6a7393ee-3044-4f30-93bb-ed3f3fe05179
@@ -714,7 +714,7 @@ end
 
 # ╔═╡ b5bad24c-4001-4031-8e62-89551f1f6bf0
 md"""
-Now it is clear that the fully choked model model isn't working well, it predicts a blowdown time of $( round(blowdown_time(bdc); digits=3) )s whereas numerically solving the ODE gives an answer of $( round(blowdown_time(bdf); digits=3) )s, a $( round( (blowdown_time(bdf)/blowdown_time(bdc) -1)*100; digits=0) )% greater predicted blowdown.
+Now it is clear that the fully choked model model isn't working well, it predicts a blowdown time of $( round(blowdown_time(bdc); digits=2) )s whereas numerically solving the ODE gives an answer of $( round(blowdown_time(bdf); digits=2) )s, a $( round( (blowdown_time(bdf)/blowdown_time(bdc) -1)*100; digits=0) )% greater predicted blowdown.
 
 That said...I'm being a little coy about something: the full ODE predicts that the vessel will *never* blowdown. The pressure will get closer and closer to ambient but never get there. This is because *G*, for non-choked flow, asymptotically approaches zero as the vessel pressure approaches ambient pressure. How you define *blowdown time* is really a function of *how close to ambient* is close enough. Even if I set the tolerance in the `depressured_callback` function, which terminates the integration once the integrator is within tolerance of the ambient pressure, to zero it would, in reality, simply terminate at the default numerical precision of `DifferentialEquations.jl`. In this case I've said "within 0.1% of ambient is close enough," but that's totally arbitrary.
 """
@@ -745,7 +745,7 @@ let	bdc=adiabatic_blowdown_choked(vessel), bdf=adiabatic_blowdown_full(vessel)
 	plot!(plt, ts, blowdown_mass_rate.(bdc, ts), label="Fully choked model", color=:blue)
 	plot!(plt, ts, blowdown_mass_rate.(bdf, ts), label="ODE", color=:red)
 	plot!(plt, [blowdown_time(bdf)], [0.0], seriestype=:scatter, color=:red, label=nothing)
-	lens!(plt, [2.25, 2.6], [0,2].*1e-6, inset = (1, bbox(0.5, 0.3, 0.4, 0.4)))
+	lens!(plt, [18, 22], [0,0.01], inset = (1, bbox(0.5, 0.3, 0.4, 0.4)))
 end
 
 # ╔═╡ f1f17a1f-39de-4400-81fa-82608a80c503
@@ -758,7 +758,7 @@ let	bdc=isothermal_blowdown_choked(vessel), bdf=isothermal_blowdown_full(vessel)
 	plot!(plt, ts, blowdown_pressure.(bdf, ts), label="ODE", color=:red)
 	plot!(plt, [blowdown_time(bdf)], [1.001*Pₐ], seriestype=:scatter, color=:red, label=nothing)
 	plot!(plt, [ts[1], ts[end]], [Pₐ, Pₐ], label="Ambient Pressure", color=:green)
-	lens!(plt, [2.15, 2.35], [0.95,1.2].*Pₐ, inset = (1, bbox(0.5, 0.3, 0.4, 0.4)))
+	lens!(plt, [17, 19], [0.95,1.2].*Pₐ, inset = (1, bbox(0.5, 0.3, 0.4, 0.4)))
 end
 
 # ╔═╡ a70d5c15-b4c5-4767-ace7-b1acdc9b515c
@@ -769,7 +769,7 @@ let	bdc=isothermal_blowdown_choked(vessel), bdf=isothermal_blowdown_full(vessel)
 	plot!(plt, ts, blowdown_mass_rate.(bdc, ts), label="Fully choked model", color=:blue)
 	plot!(plt, ts, blowdown_mass_rate.(bdf, ts), label="ODE", color=:red)
 	plot!(plt, [blowdown_time(bdf)], [0.0], seriestype=:scatter, color=:red, label=nothing)
-	lens!(plt, [2.15, 2.35], [0,1].*1e-6, inset = (1, bbox(0.5, 0.3, 0.4, 0.4)))
+	lens!(plt, [17, 19], [0,0.005], inset = (1, bbox(0.5, 0.3, 0.4, 0.4)))
 end
 
 # ╔═╡ a6c0405d-6331-4698-90f1-e7b7fa81a9fd
@@ -3168,7 +3168,7 @@ version = "1.4.1+1"
 # ╟─3991aef2-cb3a-4f0b-b199-45e23dbe13d0
 # ╠═8cb41467-1430-4541-9fec-3301b76e688d
 # ╟─ee4153d6-cf19-4298-ad69-f1b08bbb5845
-# ╠═d6a64773-2e49-46f7-8f76-53df6b5475a8
+# ╟─d6a64773-2e49-46f7-8f76-53df6b5475a8
 # ╟─ad7a013c-2779-49b2-9ca9-096ff1521ba0
 # ╠═320df4b7-f6a8-4d84-a045-f1efc055e417
 # ╠═72263187-a1f8-4453-a5da-feb8dcd9f318

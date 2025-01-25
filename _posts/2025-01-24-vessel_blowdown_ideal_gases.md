@@ -248,7 +248,7 @@ begin
 end;
 ```
 
-I looked around online and a typical tank with a [80 cu. ft. capacity](https://www.divegearexpress.com/library/articles/calculating-scuba-cylinder-capacities) might have a "water volume" (actual internal volume) of 678 cu. in. (11.11L) and a working pressure of 3000 psi (20.68 MPa). I don't actually know the flow area of a tank valve, I couldn't find it easily, so I'm going to guess it's basically a 1 mm diameter tube when fully open, with a discharge coefficient of 0.85 -- all of this could be firmed up better with some real details of the valve. But this is a start.
+I looked around online and a typical tank with a [80 cu. ft. capacity](https://www.divegearexpress.com/library/articles/calculating-scuba-cylinder-capacities) might have a "water volume" (actual internal volume) of 678 cu. in. (11.11L) and a working pressure of 3000 psi (20.68 MPa). I don't actually know the flow area of a tank valve, I couldn't find it easily, so I'm going to guess it's basically a 5 mm diameter tube when fully open, with a discharge coefficient of 0.85 -- all of this could be firmed up better with some real details of the valve. But this is a start.
 
 
 ```julia
@@ -260,7 +260,7 @@ begin
     V = 0.01111    # m³
     P₀ = 20.68e6   # Pa
     T₀ = Tₐ
-    ρ₀ = ρₐ*(Pₐ/P₀) # ideal gas law
+    ρ₀ = ρₐ*(P₀/Pₐ) # ideal gas law
     k = 1.4
 end;
 ```
@@ -286,7 +286,7 @@ end;
 <figcaption> The adiabatic blowdown curve for a fully charged SCUBA tank, showing both the fully choked model and the ODE solution.</figcaption>
 </figure>
 
-So this is saying it blows down pretty fast, in less than 3s. Probably my guess for the valve area is too large. I did just make it up.
+So this is saying it blows down pretty fast, in less than 30s. Probably my guess for the valve area is too large. I did just make it up.
 
 Regarding the models themselves, the adiabatic choked model is a very good approximation to the full ODE until the last few fractions of a second, at which point the models diverge. This likely to be true for any high pressure blowdowns, where the vessel pressure starts well above ~2atm, as in that case the majority of the blowdown will be entirely in the choked flow regime.
 
@@ -462,7 +462,7 @@ test_vessel = PressureVessel(c, A, V, k, ρ₀, 1.5Pₐ, Pₐ);
 <figcaption> The adiabatic blowdown curve for a partially charged SCUBA tank, showing both the fully choked model and the ODE solution.</figcaption>
 </figure>
 
-Now it is clear that the fully choked model model isn't working well, it predicts a blowdown time of 1.43s whereas numerically solving the ODE gives an answer of 2.67s, an 87% greater predicted blowdown.
+Now it is clear that the fully choked model model isn't working well, it predicts a blowdown time of 11.68s whereas numerically solving the ODE gives an answer of 20.49s, a 75.0% greater predicted blowdown.
 
 That said...I'm being a little coy about something: the full ODE predicts that the vessel will *never* blowdown. The pressure will get closer and closer to ambient but never get there. This is because *G*, for non-choked flow, asymptotically approaches zero as the vessel pressure approaches ambient pressure. How you define *blowdown time* is really a function of *how close to ambient* is close enough. Even if I set the tolerance in the `depressured_callback` function, which terminates the integration once the integrator is within tolerance of the ambient pressure, to zero it would, in reality, simply terminate at the default numerical precision of `DifferentialEquations.jl`. In this case I've said "within 0.1% of ambient is close enough," but that's totally arbitrary.
 
