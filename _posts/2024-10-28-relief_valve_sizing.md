@@ -571,7 +571,7 @@ Presumably you could do the calculations I laid out above in Excel, at enormous 
 For a complete listing of code used to generate data and figures, please see the [corresponding pluto notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2024-10-28-relief_valve_sizing.jl)
 {: .notice--info}
 
-<h2>References</h2>
+## References
 <ul>
 <li><em><a name="API-2020">API</a> Standard 520, Sizing, Selection, and Installation of Pressure-relieving Devices, Part I - Sizing and Selection</em>. 10th ed. Washington, DC: American Petroleum Institute, 2020.</li>
 <li><a name="CCPS-2017">Center for Chemical Process Safety</a>. <em>Guidelines for Pressure Relief and Effluent Handling Systems</em>. 2nd ed. Hoboken, NJ: John Wiley &amp; Sons, 2017.</li>

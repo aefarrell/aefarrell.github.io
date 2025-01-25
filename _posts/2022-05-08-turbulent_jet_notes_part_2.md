@@ -71,13 +71,6 @@ $${ k k_c \over z^2 } {d \over d\xi} \left(F g\right) = -{ \partial \over \parti
 
 Which gives us our path forward: find a model for $J_{A,r}$ and substitute into the right-hand side of the equation, integrate both sides and solve for *g* in terms of *F* and &xi;.
 
-<div class="notice">
-  {{ footnote-1 | markdownify }}
-
-  {{ footnote-2 | markdownify }}
-
-  {{ footnote-3 | markdownify }}
-</div>
 
 ### Prandtl mixing length models
 
