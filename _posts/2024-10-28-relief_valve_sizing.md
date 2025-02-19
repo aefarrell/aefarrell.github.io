@@ -210,7 +210,7 @@ The pressure at the nozzle is 115 bar the temperature at the nozzle is 373 K, wh
 
 ## The Isentropic Expansion Factor
 
-At the vessel conditions, the VTPR model of ethane gives a compressibility factor of $(round(compressibility_factor(vtpr_ethane, P₁, T₁); digits=3)) (GERG-2008 gives a similar value of $(round(compressibility_factor(gerg_ethane, P₁, T₁); digits=3))), well below 0.8 and therefore outside the range where the ideal gas model is expected to work well.
+At the vessel conditions, the VTPR model of ethane gives a compressibility factor of 0.672 (GERG-2008 model gives a similar value of 0.69), well below 0.8 and therefore outside the range where the ideal gas model is expected to work well.
 
 An alternative method is to calculate what the *effective* isentropic expansion factor would be, for the real gas, assuming that the real fluid obeys
 
