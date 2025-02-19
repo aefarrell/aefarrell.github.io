@@ -1,6 +1,6 @@
 ---
 title: "Relief Valve Sizing with Real Gases"
-last_modified_at: 2024-11-04
+last_modified_at: 2025-02-19
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -20,9 +20,9 @@ header:
 
 # Relief Valve Sizing with Real Gases
 
-Very often, in chemical engineering, the line between problems one can solve one's self, with code or more often than not in a spreadsheet, and problems that are solved with a piece of commercial software is when ideal fluid assumptions break down. Relief valve sizing presents a typical example: if the fluid is (approximately) an ideal gas then sizing is simple and often done in a spreadsheet. When this isn't the case, if the compressiblity is <0.8 or >1.1 <a href="#fn-1" class="sidenote-number"></a><span class="sidenote" id="fn-1">*[API 520](#API-2020)*, 68.</span>, then one typically has to turn to some commercial software. Models of real fluids are complicated and extracting the relevant thermodynamic properties from them can be quite tedious when doing it all from scratch.
+Very often, in chemical engineering, the line between problems one can solve one's self and problems that are solved with a piece of commercial software is when ideal fluid assumptions break down. Relief valve sizing is a typical example: if the fluid is (approximately) an ideal gas then sizing is simple and often done in a spreadsheet. When this isn't the case, if the compressiblity is <0.8 or >1.1,<a href="#fn-1" class="sidenote-number"></a><span class="sidenote" id="fn-1">*[API 520](#API-2020)*, 68.</span> then one typically has to turn to some commercial software. Models of real fluids are complicated and extracting the relevant thermodynamic properties from them can be quite tedious when doing it all from scratch.
 
-The Julia ecosystem has several libraries that help bridge this gap, exposing a wide array of equations of state for real fluids as well as robust libraries for the integration and optimization methods needed to solve real fluid problems. This post walks through how to size a relief device, in gas service, starting from an ideal gas and working through various methods for real gases using equations of state.
+[Clapeyron.jl](https://clapeyronthermo.github.io/Clapeyron.jl/stable/) comes to the rescue here with a wide array of equations of state for real fluids. Combined with julia's robust ecosystem of libraries for integration and optimization, solving real fluid problems becomes simple. This post walks through how to size a relief device, in gas service, starting from an ideal gas and working through various methods for real gases using equations of state.
 
 ## Sizing a Pressure Relief Valve
 
@@ -32,7 +32,7 @@ The general idea for sizing a relief valve is to determine the minimum area requ
 $$ W = K A G $$
 
 
-where $W$ is the mass flow-rate, $K$ is a capacity correction, $A$ is the flow area, and $G$ the theoretical (friction-less) mass flux through the valve. Valves are sized based on the theoretical flow area.
+where $W$ is the required mass flow-rate, $K$ is a capacity correction, $A$ is the theoretical flow area, and $G$ the frictionless) mass flux through the valve. Valves are sized based on the theoretical flow area.
 
 The general process is as follows:
 
@@ -67,7 +67,7 @@ $$ \frac{1}{2} v_t^2 G_t^2 = - \int_{P_1}^{P_t} v dP $$
 
 $$ G_t = \frac{1}{v_t} \sqrt{-2 \int_{P_1}^{P_t} v dP} = \rho_t \sqrt{2 \int_{P_t}^{P_1} v dP} $$
 
-This integral cannot be solved directly at this point as the conditions at the throat of the nozzle are undefined. So solving this requires simultaneously solving for the nozzle conditions, $P_t, T_t$.
+This integral cannot be solved directly at this point as the conditions at the throat of the nozzle are not known. Solving this requires simultaneously solving for the nozzle conditions, $P_t, T_t$.
 
 If we specify that the streamline follows an isentropic path, then we can construct a constrained maximization problem: the nozzle conditions are the $P_t$ and $T_t$ which maximizes $G_t$ where the integration is taken along an isentropic path.
 
@@ -80,7 +80,7 @@ In the case where flow is choked, i.e. the flow in the nozzle reaches sonic velo
 Consider the release of ethane from a vessel at 200 bar and 400 K, for the sake of simplicity assume the release is directly into the atmosphere at 1 bar and 288.15 K (15°C) (the flow is going to be choked, so this doesn't actually matter).
 
 ```julia
-using Unitful.jl
+using Unitful
 ```
 
 ```julia
@@ -108,6 +108,12 @@ begin
     vtpr_ethane = VTPR(["ethane"]; idealmodel = ReidIdeal)
     gerg_ethane = GERG2008(["ethane"])
 end
+```
+
+```julia
+# this is a hack, ideal models in Clapeyron do not return a 
+# molar weight and so cannot return a mass density
+Clapeyron.mw(model::IdealModel) = Clapeyron.mw(vtpr_ethane)
 ```
 
 At system conditions ethane is a super critical fluid, with the temperature and pressure above the critical point, which can be modelled as a dense gas.
@@ -155,7 +161,7 @@ and the constant $R$ and some unit conversions are rolled up into the constant 0
 
 $$ R = 8.314 { {\mathrm{m^3} \cdot \mathrm{Pa} } \over {\mathrm{mol} \cdot \mathrm{K} } } = 8,314 { {\mathrm{m^3} \cdot \mathrm{Pa} } \over {\mathrm{kmol} \cdot \mathrm{K} } } = 8,314 { {\mathrm{kg} \cdot \mathrm{m^2} } \over { \mathrm{kmol} \cdot \mathrm{s^2} \cdot \mathrm{K} } } $$
 
-$$ {1 \over \sqrt{R} } \left[ { \sqrt{ \mathrm{kmol} \cdot \mathrm{K} } \cdot \mathrm{s} } \over { \sqrt{\mathrm{kg} } \cdot \mathrm{m} } \right] \times 3600 \left[ \mathrm{s} \over \mathrm{h} \right] \times 10^{-6} \left[ \mathrm{m^2} \over \mathrm{mm^2} \right] \times 10^3 \left[ \mathrm{Pa} \over \mathrm{kPa} \right] \\= 0.03948 \left[ \sqrt{\mathrm{kmol} \cdot \mathrm{kg} \cdot \mathrm{K} } \over { \mathrm{h} \cdot \mathrm{mm^2} \cdot \mathrm{kPa} } \right] $$
+$$ {1 \over \sqrt{8,314} } \left[ { \sqrt{ \mathrm{kmol} \cdot \mathrm{K} } \cdot \mathrm{s} } \over { \sqrt{\mathrm{kg} } \cdot \mathrm{m} } \right] \times 3600 \left[ \mathrm{s} \over \mathrm{h} \right] \times 10^{-6} \left[ \mathrm{m^2} \over \mathrm{mm^2} \right] \times 10^3 \left[ \mathrm{Pa} \over \mathrm{kPa} \right] \\= 0.03948 \left[ \sqrt{\mathrm{kmol} \cdot \mathrm{kg} \cdot \mathrm{K} } \over { \mathrm{h} \cdot \mathrm{mm^2} \cdot \mathrm{kPa} } \right] $$
 
 {% endcapture %}
 
@@ -175,14 +181,8 @@ end
 
 From which we calculate k= 1.146.
 
-We can check our work by comparing with the tabulated values. At 15°C and 1 atm we calculate k= 1.193 which is the same as the tabulated value of 1.19<a href="#fn-6" class="sidenote-number"></a><span class="sidenote" id="fn-6">*[API 520](#API-2020)*, 70.</span> (given at 15°C and 1 atm).
+We can check our work by comparing with the tabulated values. At 15°C and 1 atm we calculate k= 1.193 which is the same as the tabulated value of 1.19 (given at 15°C and 1 atm).<a href="#fn-6" class="sidenote-number"></a><span class="sidenote" id="fn-6">*[API 520](#API-2020)*, 70.</span>
 
-
-```julia
-# this is a hack, ideal models in Clapeyron do not return a molar weight
-# and so cannot return a mass density
-Clapeyron.mw(model::IdealModel) = Clapeyron.mw(vtpr_ethane)
-```
 
 ```julia
 function mass_flux_choked(model, P, T; z=[1.0])
@@ -193,9 +193,9 @@ function mass_flux_choked(model, P, T; z=[1.0])
 end
 ```
 
-The theoretical mass flux is then 38359 kg m^-2 s^-1
+The theoretical mass flux for the ideal gas is then 38359 kg m^-2 s^-1
 
-The ideal gas model, when the flow is choked, calculates the mass flux directly without needing to calculate the actual conditions at the nozzle. These can be calculated easily as well<a href="#fn-7" class="sidenote-number"></a><span class="sidenote" id="fn-7">[Tilton](#tilton-2008), "Fluid and Particle Dynamics," equations 6-119 and 6-120.</span>.
+The ideal gas model, when the flow is choked, calculates the mass flux directly without needing to calculate the actual conditions at the nozzle. These can be calculated easily as well.<a href="#fn-7" class="sidenote-number"></a><span class="sidenote" id="fn-7">[Tilton](#tilton-2008), "Fluid and Particle Dynamics," equations 6-119 and 6-120.</span>
 
 ```julia
 nozzle_pressure_ideal(P, T, k) = P*(2/(k+1))^(k/(k-1))
@@ -205,14 +205,14 @@ nozzle_pressure_ideal(P, T, k) = P*(2/(k+1))^(k/(k-1))
 nozzle_temperature_ideal(P, T, k) = T*(2/(k+1))
 ```
 
-The pressure at the nozzle is 115 bar the temperature at the nozzle is 373 K, which is above the critical point. The fluid super-critical and choked when leaving the PSV.
+The pressure at the nozzle is 115 bar the temperature at the nozzle is 373 K, which is above the critical point. The fluid supercritical and choked when leaving the PSV.
 
 
 ## The Isentropic Expansion Factor
 
-At the vessel conditions, the VTPR model of ethane gives a compressibility factor of 0.672 (GERG-2008 model gives a similar value of 0.69), well below 0.8 and therefore outside the range where the ideal gas model is expected to work well.
+At the vessel conditions, the VTPR model of ethane gives a compressibility factor of $(round(compressibility_factor(vtpr_ethane, P₁, T₁); digits=3)) (GERG-2008 gives a similar value of $(round(compressibility_factor(gerg_ethane, P₁, T₁); digits=3))), well below 0.8 and therefore outside the range where the ideal gas model is expected to work well.
 
-In this case an alternative method is to calculate what the *effective* isentropic expansion factor would be, for the real gas, assuming that the real fluid obeys
+An alternative method is to calculate what the *effective* isentropic expansion factor would be, for the real gas, assuming that the real fluid obeys
 
 $$ P_1 v_1^n = P_t v_t^n $$
 
@@ -246,7 +246,7 @@ equating this to the ideal gas case, $c = \sqrt{n P v}$, and solving for $n$ giv
 
 $$ n = -\frac{v}{P} {c_p \over c_v} \left( {\partial P} \over {\partial v} \right)_T $$
 
-where $n$ has been used to distinguish it from $k$ (the ideal gas case). This is the version of $n$ presented in the typical references, such as [API 520](#API-2020). The derivation, however, hints at a useful shortcut to calculating $n$ that does not require digging into the internals of `Clapeyron.jl` to retrieve partial derivatives:
+where $n$ has been used to distinguish it from $k$ (the ideal gas case). This is the version of $n$ presented in most references, such as [API 520](#API-2020). The derivation, however, hints at a useful shortcut to calculating $n$ that does not require digging into the internals of `Clapeyron.jl` to retrieve partial derivatives:
 
 $$ n = { c^2 \over {P v} } = { {\rho c^2} \over P } $$
 
@@ -261,19 +261,19 @@ function isentropic_expansion_factor(model, P, T; z=[1.0])
 end
 ```
 
-Using effective isentropic expansion factors from the VTPR equation of state, the theoretical mass flux is 57811 kg m^-2 s^-1 ( 59321 kg m^-2 s^-1 from GERG-2008 ). This is quite a bit larger than the ideal case, indicating that the ideal gas law leads to a significantly over-sized PRV, 51.0% larger when compared to sizing done using the isentropic expansion factor and the VTPR equation of state.
+Using effective isentropic expansion factors from the VTPR equation of state, the theoretical mass flux is 57811 kg m^-2 s^-1 ( 59321 kg m^-2 s^-1 from GERG-2008 ). This is quite a bit larger than the ideal case, indicating that the ideal gas law leads to a significantly over-sized PRV, 51.0% larger.
 
 <figure>
 <img src="/images/relief_valve_sizing_files/figure1.svg" />
 <figcaption>The isentropic expansion factor for ethane at 400K, calculated for a range of stagnation pressures.</figcaption>
 </figure>
 
-The isentropic expansion factor method works best when $n$ is approximately constant over the isentropic path. As the above figure shows, this breaks down in ethane for pressures greater than ~100 bar. It also shows that the different equations of state start to diverge greatly further into the super-critical regime.
+The isentropic expansion factor method works best when $n$ is approximately constant over the isentropic path. As the above figure shows, this breaks down in ethane for pressures greater than ~100 bar. It also shows that the different equations of state start to diverge greatly further into the supercritical regime.
 
 
 ## Solving the Choked Flow Energy Balance
 
-An alternative approach to direct integration, and one I have seen more often in older references, is to perform an energy balance over the isentropic path and, assuming the flow is choked, solve for sonic velocity in the nozzle<a href="#fn-12" class="sidenote-number"></a><span class="sidenote" id="fn-12">[Crowl *et al*](#crowl-2008), "Process Safety," 23-55; [Gmehling *et al.*](#gmehling-2012), *Chemical Thermodynamics*, 603.</span>. Consider an energy balance starting at the stagnation point, (1), and following an isentropic path to immediately after the throat of the nozzle (t).
+Another approach, and one I have seen more often in older references, is to perform an energy balance over the isentropic path and, assuming the flow is choked, solve for sonic velocity in the nozzle.<a href="#fn-12" class="sidenote-number"></a><span class="sidenote" id="fn-12">[Crowl *et al*](#crowl-2008), "Process Safety," 23-55; [Gmehling *et al.*](#gmehling-2012), *Chemical Thermodynamics*, 603.</span> Consider an energy balance starting at the stagnation point, (1), and following an isentropic path to immediately after the throat of the nozzle (t).
 
 $$ h_1 = h_t + \frac{1}{2} c_t^2 $$
 
@@ -281,82 +281,70 @@ Where $c_t$ is the speed of sound at the nozzle, a function of $P_t$ and $T_t$. 
 
 $$ G_t = \rho_t c_t $$
 
-There are a few ways this could be done, but one simple way is to divide the problem into two:
 
-+ Define the isentropic path, i.e. find the isentropic temperature for a given pressure *P*
+There are a few ways this could be done, a straight-forward way is to divide the problem into two:
+1. Define the isentropic path, i.e. find the isentropic temperature for a given pressure *P*
+2. Use the energy balance to solve for the pressure, following the isentropic path.
+
+A more direct way is to solve for $P_t$ and $T_t$ simultaneously. This is what I do next, using [NonlinearSolve.jl](https://docs.sciml.ai/NonlinearSolve/stable/)
 
 ```julia
-using Roots, ForwardDiff
+# Clapeyron does not expose this by default
+molecular_weight(model,z) = Clapeyron.molecular_weight(model,z)
 ```
 
 ```julia
-function isentropic_temperature(model, P, s, T0; z=[1.0])
-    return find_zero( (x) -> s - entropy(model, P, x, z), T0)
+function nozzle_balance(y, prms)
+    P, T = y
+
+    # stagnation point
+    s₁ = prms.entropy
+    h₁ = prms.enthalpy
+
+    # at throat conditions
+    s₂ = entropy(prms.model, P, T, prms.z)
+    h₂ = enthalpy(prms.model, P, T, prms.z)/prms.Mw
+    c² = speed_of_sound(prms.model, P, T, prms.z)^2
+    
+    return [ s₁ - s₂
+             h₁ - h₂ - 0.5*c² ]
 end
 ```
-
-+ Use the energy balance to solve for the pressure, following the isentropic path.
-
-```julia
-# this is a hack, Clapeyron's molecular weight function 
-# does not have units
-# using multiple dispatch, units can be added as needed
-molecular_weight(model,z,::Number) = Clapeyron.molecular_weight(model,z)
-```
-
-```julia
-molecular_weight(model,z,::Quantity) = Clapeyron.molecular_weight(model,z)*1u"kg"
-```
-
-```julia
-function choked_energy_balance(model, P, s, T0; z=[1.0])
-    T = isentropic_temperature(model, P, s, T0; z=z)
-    c = speed_of_sound(model, P, T, z)
-    h = enthalpy(model, P, T, z)
-    Mw = molecular_weight(model,z,P)
-    return h/Mw + 0.5*c^2
-end
-```
-
-```julia
-function choked_energy_balance_pressure(model, s, h, P0, T0; z=[1.0])
-    return find_zero( (p) -> h - choked_energy_balance(model, p, s, T0), P0)
-end
-```
-
-Calculating the mass flux then merely wraps these two steps in some set-up:
-1. use the isentropic expansion factor to generate some initial guesses
-2. calculate the initial entropy and specific enthalpy
-3. solve for the pressure at the nozzle using the energy balance
-4. find the density and sonic velocity at nozzle conditions
-5. calculate the theoretical mass flux
 
 ```julia
 function mass_flux_choked_energy_balance(model, P, T; z=[1.0])
-    # estimate nozzle conditions using the expansion factor
-    n = isentropic_expansion_factor(model, P, T; z=z)
-    T0 = nozzle_temperature_ideal(P, T, n)
-    P0 = nozzle_pressure_ideal(P, T, n)
-
-    # calculate the entropy and specific enthalpy at initial conditions
+    # calculate the entropy and specific enthalpy at 
+    # initial conditions
+    Mw = molecular_weight(model, z)
     s₁ = entropy(model, P, T)
-    h₁ = enthalpy(model, P, T)/molecular_weight(model, z, P)
+    h₁ = enthalpy(model, P, T)/Mw
 
-    # find the pressure and temperature such that the enthalpy
-    # and energy balance
-    Pₜ = choked_energy_balance_pressure(model, s₁, h₁, P0, T0; z=z)
-    Tₜ = isentropic_temperature(model, Pₜ, s₁, T0; z=z)
+    # solve the choked flow energy balance for
+    # an isentropic nozzle
+    params = (model=model, entropy=s₁, enthalpy=h₁, z=z, Mw=Mw)
+    y₀ = [P; T]
+    prob = NonlinearProblem(nozzle_balance, y₀, params)
+    sol = solve(prob, NewtonRaphson())
+    Pₜ, Tₜ = sol.u
 
-    # mass flux is the sonic velocity at nozzle conditions
-    cₜ = speed_of_sound(model, Pₜ, Tₜ, z)
+    # velocity is the sonic velocity at nozzle conditions
     ρₜ = mass_density(model, Pₜ, Tₜ, z)
+    cₜ = speed_of_sound(model, Pₜ, Tₜ, z)
+    
     return ρₜ*cₜ
 end
 ```
 
-Solving the choked flow energy balance, using VTPR equation of state, the theoretical mass flux is 54629 kg m^-2 s^-1 ( 54353 kg m^-2 s^-1 from GERG-2008 ). This is also quite a bit larger than the ideal case, 42.0% larger. Though the values for the two equations of state are closer, indicating that this method is less sensitive to model choice.
+```julia
+function mass_flux_choked_energy_balance(model, P::Quantity, T::Quantity; z=[1.0])
+    P = ustrip(u"Pa", P)
+    T = ustrip(u"K", T)
+    return mass_flux_choked_energy_balance(model, P, T; z=z)*1u"kg*m^-2*s^-1"
+end
+```
 
-An alternative way of doing this would be to solve for $P_t$ and $T_t$ simultaneously. However, one advantage of doing it as independent steps is that the isentropic path is available, outside of calculating the mass flux. Which can be useful for other calculations, or simply to plot it on a phase diagram as is shown below.
+
+Solving the choked flow energy balance, using VTPR equation of state, the theoretical mass flux is 54629 kg m^-2 s^-1 ( 54353 kg m^-2 s^-1 from GERG-2008 ). This is also quite a bit larger than the ideal case, 42.0% larger. Though the values for the two equations of state are closer, indicating that this method is less sensitive to model choice.
 
 <figure>
 <img src="/images/relief_valve_sizing_files/figure2.svg" />
@@ -365,7 +353,7 @@ An alternative way of doing this would be to solve for $P_t$ and $T_t$ simultane
 
 In this case the ideal gas method and the isentropic expansion factor method bracket the more exact method of solving the energy balance directly.
 
-As it is written, this method would need to be modified to allow for non-choked flow. This is done by eliminating the assumption $u_t = c_t$ and instead finding the conditions which maximize $G_t$ (while still satisfying the energy balance). This will arrive at the same solution, in the case of choked flow, but with a little more effort.
+As it is written, this method would need to be modified to allow for non-choked flow. This is done by eliminating the assumption $u_t = c_t$ and instead finding the conditions which maximize $G_t$ (subject to the constraints of the entropy balance and the enthalpy balance). This will arrive at the same solution, in the case of choked flow, but with a little more effort.
 
 
 ## Direct Integration
@@ -374,107 +362,31 @@ Direct integration is the method most commonly recommended today, as it is entir
 
 $$ G_t = \rho_t \sqrt{2 \int_{P_t}^{P_1} v dP} $$
 
-Since the isentropic path was already defined, we can easily generate an expression for the specific volume as a function of pressure, $v(P)$
-
-```julia
-function isentropic_specific_volume(model, P, s, T0; z=[1.0])
-    T = isentropic_temperature(model, P, s, T0; z=z)
-    V = volume(model, P, T, z)
-    MW = molecular_weight(model, z, P)
-    return V/MW
-end
-```
-
-The function we wish to optimize includes the integral, from $P_t$ to $P_1$, where $P_t$ is the optimization variable. In this case what is being optimized is $-G$ since the standard form for optimization is minimizing.
-
-Below I define a factory function since the objective function is a function of only one variable, $P_t$, but requires a lot of parameters, this simplifies the problem set-up.
-
-```julia
-using QuadGK
-```
-
-```julia
-function objective_factory(model, P, T; z=[1.0])
-    # estimate nozzle conditions using the expansion factor
-    n = isentropic_expansion_factor(model, P, T; z=z)
-    T0 = nozzle_temperature_ideal(P, T, n)
-
-    # calculate the entropy initial conditions
-    s₁ = entropy(model, P, T)
-
-    function objective(Pₜ)
-        Tₜ = isentropic_temperature(model, Pₜ, s₁, T0; z=z)
-        ρₜ = mass_density(model, Pₜ, Tₜ, z)
-        ∫vdP, err = quadgk( (p) -> isentropic_specific_volume(model, p, s₁, T0; z=z),
-                            Pₜ, P)
-        return -ρₜ*√(2∫vdP)
-    end
-
-    return objective
-end
-```
-
-To better visualize what is going on we can plot the theoretical mass flux, $G$, as a function of nozzle pressures, $P_t$, and can clearly see a maximum around 100 bar, which matches what we expected from the previous method.
-
-<figure>
-<img src="/images/relief_valve_sizing_files/figure3.svg" />
-<figcaption>The theoretical mass flux as a function of nozzle pressure.</figcaption>
-</figure>
-
-Using `Optim.jl` to perform the optimization with the Brent method we can solve the problem easily enough.
-
-```julia
-using Optim
-```
-
-```julia
-function mass_flux_direct_integration(model, P_1, T_1, P_2; z=[1.0])
-    obj = objective_factory(model, P_1, T_1; z=z)
-    res = optimize(obj, P_2, P_1, Optim.Brent())
-    return -1*minimum(res)
-end
-```
-
-```julia
-# Optim.jl doesn't play nicely with Unitful.jl
-# this wrapper clears this up
-function mass_flux_direct_integration(model, P_1::Quantity, T_1::Quantity,
-                                      P_2::Quantity; z=[1.0])
-    P_1 = ustrip(u"Pa", P_1)
-    P_2 = ustrip(u"Pa", P_2)
-    T_1 = ustrip(u"K", T_1)
-    G = mass_flux_direct_integration(model, P_1, T_1, P_2; z=z)
-    return G*1u"kg/m^2/s"
-end
-```
-
-Direct integration of the VTPR equation of state gives a theoretical mass flux of 54629 kg m^-2 s^-1 ( 54353 kg m^-2 s^-1 from GERG-2008 ). Which is exactly the same as from solving the choked flow energy balance, as expected.
-
-This method could be extended to include liquid and two-phase flows simply through re-writing the `isentropic_specific_volume` function to be phase-aware and utilize isothermal flash routines. Which shows its flexibility as a method. As it currently stands, this method only handles gases *but*, unlike the energy balance method, the flow does not have to be choked. If the flow is not choked, the maximum will occur at $P_2$ and whatever the isentropic temperature is at that point. The result simply pops out without any extra effort.
-
-
-### Addendum
-
-After posting this, I thought of a rather obvious way of performing the direct integration that does not repeatedly re-integrate regions: integrate using `DifferentialEquations.jl` and use a callback function to halt the integration if a stationary point is found.
-
-We first introduce the change of variables $\Delta P = P_1 - P$ such that the integration is from $0$ to $P_1 - P_2$.
+First introduce the change of variables $\Delta P = P_1 - P$ such that the integration is from $0$ to $P_1 - P_2$.
 
 $$ \int_{P_2}^{P_1} v dP = - \int_{0}^{\Delta P} v\left( P_1 - \Delta P \right)_{s = s_1} d\left(\Delta P \right) $$
+
+This allows us to write the corresponding differential equation
+
+$$ { {d} \over {d \left(\Delta P \right)} } I = v\left(P₁ - ΔP\right) $$
+
+subject to the constraint
+
+$$ s(P_1 - \Delta P, T) = s(P_1, T_1) $$
+
+Which can be implemented as a differential algebraic equation using [DifferentialEquations.jl](https://docs.sciml.ai/DiffEqDocs/stable/)
 
 ```julia
 using DifferentialEquations
 ```
 
-The corresponding differential equation is then simply the integrand
-
-$$ { {du} \over {d \left(\Delta P \right)} } = v\left(P₁ - ΔP\right)_{s=s₁} $$
-
-where $v$ is the specific volume taken along an isentropic path.
-
 ```julia
 function rhs(u, params, ΔP)
-    model, P, T0, s, z = params
-    return isentropic_specific_volume(model, P - ΔP, s, T0; z=z)
+    ∫vdP, T = u
+    model, P₁, s₁, z, Mw = params
+    P = P₁ - ΔP
+    return [ volume(model, P, T, z)/Mw
+             s₁ - entropy(model, P, T) ]
 end
 ```
 
@@ -494,7 +406,7 @@ we have
 
 $$ 2 \int_0^{\Delta P_t} v d \left( \Delta P \right) - c^2 = 0 $$
 
-which, recalling the definition of $G$, is simply $u_t^2 = c^2$.
+which is simply restating $u_t = c_t$.
 
 ```julia
 function ∂G²_callback(∫vdP, ΔP, integrator)
@@ -506,36 +418,54 @@ end
 ```
 
 ```julia
-function mass_flux_diffeq(model, P_1, T_1, P_2; z=[1.0])
-    s = entropy(model, P_1, T_1)
-    u0 = 0.0
-    params = (model, P_1, T_1, s, z)
-    ΔP_span = (0.0, P_1 - P_2)
-    prob = ODEProblem(rhs, u0, ΔP_span, params)
+function mass_flux_direct_integration(model, P₁, T₁, P₂; 
+                                      z=[1.0], solver=Rodas5P())
+    s₁ = entropy(model, P₁, T₁, z)
+    Mw = molecular_weight(model, z)
 
-    sol = solve(prob, Tsit5(), 
-                callback=ContinuousCallback(∂G²_callback, terminate!))
+    # defining the ODEFunction
+    M = [ 1 0
+          0 0 ]
+    f = ODEFunction(rhs, mass_matrix = M)
 
-    ΔPₜ, ∫vdP = sol.t[end], sol.u[end]
-    vₜ = isentropic_specific_volume(model, P_1 - ΔPₜ, s, T_1)
-    G = √(2*∫vdP)/vₜ
+    # defining the ODEProblem
+    u0 = [0.0; T₁]
+    params = (model, P₁, s₁, z, Mw)
+    ΔP_span = (0.0, P₁ - P₂)
+    prob = ODEProblem(f, u0, ΔP_span, params)
+    cb = ContinuousCallback(∂G²_callback, terminate!)
+
+    # solving the DAE
+    sol = solve(prob, solver, callback=cb)
+
+    # unpacking the solution
+    ΔPₜ = sol.t[end]
+    ∫vdP, Tₜ = sol.u[end]
+    ρₜ = mass_density(model, P₁-ΔPₜ, Tₜ, z)
+    G = ρₜ*√(2*∫vdP)
 end
 ```
-
-I could not get this to work with `Unitful.jl`, specifically the continuous callback was triggered a cascade of arcane `MethodError`'s related to the root-finding (integration isn't merely terminated, the routine finds the actual zero to terminate at). My work around is simply to use multiple dispatch to strip out the units and then stick them back on at the end.
-
 
 ```julia
-function mass_flux_diffeq(model, P_1::Quantity, T_1::Quantity,
-                          P_2::Quantity; z=[1.0])
-    P_1 = ustrip(u"Pa", P_1)
-    P_2 = ustrip(u"Pa", P_2)
-    T_1 = ustrip(u"K", T_1)
-    return mass_flux_diffeq(model, P_1, T_1, P_2; z=z)*1u"kg*m^-2*s^-1"
+function mass_flux_direct_integration(model, P₁::Quantity, T₁::Quantity,
+                          P₂::Quantity; z=[1.0])
+    P_1 = ustrip(u"Pa", P₁)
+    P_2 = ustrip(u"Pa", P₂)
+    T_1 = ustrip(u"K", T₁)
+    return mass_flux_direct_integration(model, P_1, T_1, P_2; z=z)*1u"kg*m^-2*s^-1"
 end
 ```
 
-Using the default tolerances this produces a result 0.00017% different than direct integration with `QuadGK` (using the VTPR EoS). But you could probably fiddle with the tolerances to make them identical. This is already at a level of resolution that is beyond what is required, or even physically relevant (the model error is significantly larger than this slight numerical error)
+Direct integration of the VTPR equation of state gives a theoretical mass flux of 54629 kg m^-2 s^-1 ( 54353 kg m^-2 s^-1 from GERG-2008 ). Which is exactly the same as from solving the choked flow energy balance, as expected.
+
+<figure>
+<img src="/images/relief_valve_sizing_files/figure3.svg" />
+<figcaption>The mass flux as a function of nozzle pressure drop, showing the intermediate steps until a maximum was found.</figcaption>
+</figure>
+
+Writing this as a differential algebraic equation was largely necessary because `Clapeyron.jl` does not expose any routines to calculate the volume as a function of pressure and entropy. Some libraries like `CoolProps` do, in which case the code could be simplified to be a one dimensional ode.
+
+This method could be extended to include liquid and two-phase flows however, as it is currently implemented, it only handles gases. Unlike the energy balance method, though, the flow does not have to be choked. If the flow is not choked, the maximum will occur once the nozzle pressure reaches $P_2$. This result will simply pop out without any extra effort.
 
 ## Comparing the Results
 
@@ -543,7 +473,7 @@ For the sake of completeness, there are two other methods that should be looked 
 1. the ideal gas case, but using the real compressibility, $Z$, at stagnation conditions, this is the [API 520](#API-2020) standard approach for gases
 2. using the isentropic expansion factor, *n* factor, method but calculating *n* at the average of the stagnation and nozzle conditions
 
-These two approaches do better than the basic methods I presented, but I don't think they add enough value on their own. If you have a model of the gas that can give you the compressibility, for example, you are probably better off using either the isentropic expansion factor method or the direct integration method over correcting the ideal gas case (*you* aren't doing the calculations, the computer is, and what's the difference of a few milliseconds running the code?). Once a viable equation of state is in hand, the simplifications are not saving any *actual engineer doing their job* time, they are saving fractions of a second of compute time at the expense of (potentially) significant error.
+These two approaches do better than the basic methods I presented, but I don't think they add enough value on their own. Given a model of the gas which can generate the compressibility, using either the energy balance method or the direct integration method produces superior results than correcting the ideal gas case. Once a viable equation of state is in hand, the simplifications are not saving any *actual engineer doing their job* time, they are saving fractions of a second of compute time.
 
 I think the choice between the first law energy balance and the direct integration technique is more a matter of taste, at least in the case of choked flow. The direct integration method is in the relevant engineering codes/standards, and that is a strong justification for using it.
 
@@ -554,19 +484,11 @@ I think the choice between the first law energy balance and the direct integrati
 
 In this case the choice of equation of state did not matter strongly, just for fun I have included a few other common cubic equations of state, they all perform reasonably. However this example is for a single compound that is not strongly associating, it is the type of example where cubic equations of state should work well. The choice of equation of state will be far more important with mixtures and strongly associating substances.
 
-### Opportunities for Optimization
-
-I favoured readability, simplicity, and interoperability with `Unitful`, over performance in several places. For more production ready code there are a few pieces of low-hanging fruit:
-1. `Clapeyron.jl` calculates most things, internally, in terms of $v$ and $T$, the convenience functions in terms of $P$, $T$ actually calculate $v$ internally as an intermediary value. This means the code above is, behind the scenes, redundantly calculating $v$ a lot. The functions could be re-written to use the volume forms of the equations, for example `entropy(model, P, T)` replaced with `Clapeyron.VT_entropy(model, V, T)`.
-2. The direct integration method is integrating the same part of the volume curve multiple times. Every time the objective function is called it calculates the whole integral as if none of that had ever been done before. There are a lot of opportunities for caching parts of the integral to eliminate many function calls.
-3. The optimization method, Brent, is not making use of gradients, I picked it more-or-less because it works and performance is fast enough that I don't notice. Gradient methods are more performant, and there are no doubt many other ways of goosing the performance here. Instead of a bounded method, for example, something like Newton's method could be used using `ForwardDiff` to find the gradient analytically and searching for where it is zero.
-
 ## Final Thoughts
 
 I have long been an advocate for engineering to move out of using spreadsheets for everything and to use scripting languages and notebooks like [Jupyter](https://jupyter.org/) and [Pluto](https://plutojl.org/) far more. There are large classes of problems that are easy to solve with code and hard to solve with a spreadsheet. I think almost any calculation using equations of state fit into that category. We end up beholden to commercial software suppliers for calculations that, in my view, engineers should be doing themselves.
 
-Presumably you could do the calculations I laid out above in Excel, at enormous effort, and making liberal use of the solver. Julia, however, has a robust ecosystem for doing all the complicated math, all that really needed to be done was connecting it up. What remains, for the engineer, is assessing the physical system and picking the appropriate methods and thermodynamic models.
-
+Presumably you could do the calculations I laid out above in Excel, at enormous effort, and making liberal use of the solver. Julia, however, has a robust ecosystem for doing all the complicated math, it only needed to be connected up. What remains, for the engineer, is assessing the physical system and picking the appropriate methods and thermodynamic models.
 
 For a complete listing of code used to generate data and figures, please see the [corresponding pluto notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2024-10-28-relief_valve_sizing.jl)
 {: .notice--info}
