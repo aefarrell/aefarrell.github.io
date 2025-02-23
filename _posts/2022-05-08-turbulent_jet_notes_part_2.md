@@ -8,7 +8,7 @@ comments: true
 categories:
   - notes
 tags:
-  - dispersion modeling
+  - dispersion modelling
   - turbulent jets
 tagline: "Calculating concentrations, temperatures, and flow rates"
 header:
@@ -25,7 +25,7 @@ header:
 
 For hazard identification, among other purposes, what one often wants is not the velocity distribution of the jet, but the concentration profile. For example, suppose a vessel develops a small hole and a jet of process fluid is exiting out into the air, to determine how bad that is and what sort of hazard is presented (explosive, toxic, etc.) we first need to determine the concentration profile.
 
-Suppose the concentration of a species *A* is *c<sub>A</sub>*, for the sake of simplicity let this be a time-averaged concentration done in a way that is consistent with Reynold's averaging.<a href="#fn-1" class="sidenote-number"></a><span class="sidenote" id="fn-1">Note the concentration is given in units of $[[ quantity ]] \times [[length]]^{-3}$, e.g. kmol/m³</span>
+Suppose the concentration of a species *A* is *c<sub>A</sub>*, for the sake of simplicity let this be a time-averaged concentration done in a way that is consistent with Reynolds averaging.<a href="#fn-1" class="sidenote-number"></a><span class="sidenote" id="fn-1">Note the concentration is given in units of $[[ quantity ]] \times [[length]]^{-3}$, e.g. kmol/m³</span>
 
 
 
@@ -69,7 +69,7 @@ recalling the [velocity profiles](https://aefarrell.github.io/2022/04/08/turbule
 
 $${ k k_c \over z^2 } {d \over d\xi} \left(F g\right) = -{ \partial \over \partial r} \left( r J_{A,r} \right)$$
 
-Which gives us our path forward: find a model for $J_{A,r}$ and substitute into the right-hand side of the equation, integrate both sides and solve for *g* in terms of *F* and &xi;.
+Which gives us our path forward: find a model for $J_{A,r}$ and substitute into the right hand side of the equation, integrate both sides and solve for *g* in terms of *F* and &xi;.
 
 
 ### Prandtl mixing length models
@@ -82,11 +82,11 @@ $$ J_{A,r} = -l_c^2 \left\vert \partial \bar{v}_z \over \partial r \right\vert \
 
 we assume the mixing length is proportional to the downstream distance for the same reasons as when we [derived the velocity profile](https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#prandtl-mixing-length) and, anticipating the form of the constants from how it worked out for the velocity distribution, $l_c = a_c^{3/2} z$
 
-Putting this into the equation of continuity for *A* and doing some re-arranging gives
+Putting this into the equation of continuity for *A* and doing some rearranging gives
 
 $${ k k_c \over z^2 } {d \over d\xi} \left(F g\right) = { k k_c \over z^2 } a_c^3 {d \over d\xi}\left(g^{\prime}F^{\prime\prime} - {g^{\prime}F^{\prime} \over \xi} \right)$$
 
-Canceling some terms and integrating both sides gives us
+Cancelling some terms and integrating both sides gives us
 
 $$ F g = a_c^3 \left(g^{\prime}F^{\prime\prime} - {g^{\prime}F^{\prime} \over \xi} \right) + \mathrm{const} $$
 
@@ -213,7 +213,7 @@ In the eddy diffusivity model we assume the molar flux is proportional to the co
 
 $$ J_{A,r} = -\mathscr{D}_{AB} {\partial c_A \over \partial r} $$
 
-where $\mathscr{D}_{AB}$ is the eddy diffusivity for species A. Using the definition of *c<sub>A</sub>* we can work out the right-hand side of the equation of continuity for A
+where $\mathscr{D}_{AB}$ is the eddy diffusivity for species A. Using the definition of *c<sub>A</sub>* we can work out the right hand side of the equation of continuity for A
 
 $$ -{ \partial \over \partial r} \left( r J_{A,r} \right) = {k_c \over z^2} \mathscr{D}_{AB} {d \over d\xi} \left( \xi g^{\prime} \right) $$
 
@@ -221,11 +221,11 @@ putting that into the equation of continuity for A, we get
 
 $${ k k_c \over z^2 } {d \over d\xi} \left(F g\right) =  {k_c \over z^2} \mathscr{D}_{AB} {d \over d\xi} \left( \xi g^{\prime} \right) $$
 
-canceling some terms and integrating once gives us
+cancelling some terms and integrating once gives us
 
 $$k F g =  \mathscr{D}_{AB} \xi g^{\prime} + \mathrm{const}$$
 
-where, by use of [boundary conditions](https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#boundary-conditions), the constant of integration is zero. This can be re-arranged to isolate F and g
+where, by use of [boundary conditions](https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#boundary-conditions), the constant of integration is zero. This can be rearranged to isolate F and g
 
 $$ {g^{\prime} \over g} = {k \over \mathscr{D}_{AB} } {F \over \xi} $$
 
@@ -312,7 +312,7 @@ where I declared the constant *Sc* to be the turbulent Schmidt number. There are
 
 ### Mass balance
 
-Throughout all of this there has been a constant *k<sub>c</sub>* floating around, unaddressed. In practice this is usually a free-parameter determined by fitting with experimental data. However it can also be determined by a mass balance.
+Throughout all of this there has been a constant *k<sub>c</sub>* floating around, unaddressed. In practice this is usually a free parameter determined by fitting with experimental data. However it can also be determined by a mass balance.
 
 The total molar flux through any plane *z=m* is the same for all *m* (in the region of fully developed flow),  which is to say
 
@@ -431,9 +431,9 @@ k_c = √(I/(8*I_c^2))
 
 
 
-In these cases I followed my convention from the previous notebook of setting each of the velocity distributions to have the same width at half-height, and using the same Schmidt number for the concentration profiles. This makes it more of an "apples to apples" comparison.
+In these cases I followed my convention from the previous notebook of setting each of the velocity distributions to have the same width at half height, and using the same Schmidt number for the concentration profiles. This makes it more of an "apples to apples" comparison.
 
-Looking at the results we see that the constant for the concentration is smaller than the velocity profiles, indicating that the center-line concentration drops off faster than the velocity. Which makes some sense as we saw above that the concentration also spreads out radially more than the velocity.
+Looking at the results we see that the constant for the concentration is smaller than the velocity profiles, indicating that the centerline concentration drops off faster than the velocity. Which makes some sense as we saw above that the concentration also spreads out radially more than the velocity.
 
 We can combine the velocity and concentration profiles and get a sense of how the jet expands. Note that the plot is looking at the fully-developed jet, in this case ~4 diameters downstream.
 
@@ -447,7 +447,7 @@ We can combine the velocity and concentration profiles and get a sense of how th
 In most practical cases I've encountered, by far the easiest approach is to use a standard Gaussian model with parameters from literature. That said, there is a lot of variability of recommended parameters and some thought needs to go into what the model is being used for. Consider the following table giving model parameters for various gaseous jets entering into air.<a href="#fn-10" class="sidenote-number"></a><span class="sidenote" id="fn-10">[Long](#long-1963), "Estimation of the Extent of Hazard Areas Around a Vent," 7.</span>
 
 
-$$ {c_A \over c_0} = k_2 {d_0 \over z} \sqrt{ \rho_a \over \rho_j} \exp \left( - \left(k_2 {r \over z} \right)^2 \right) $$
+$$ {c_A \over c_0} = k_2 {d_0 \over z} \sqrt{ \rho_a \over \rho_j} \exp \left( - \left(k_3 {r \over z} \right)^2 \right) $$
 
 
 | Jet                | Re        | $k_2$ | $k_3$ |
@@ -586,7 +586,7 @@ k_Q = 4/√(2*c)
 
 
 
-The literature<a href="#fn-12" class="sidenote-number"></a><span class="sidenote" id="fn-12">[Rajaratnam](#rajaratnam-1974), *Turbulent Jets*</span>gives $k_Q = 0.32$ which compares well with the calculations above. Though it's worth noting that the eddy viscosity model over-predicts the volumetric flow rate quite noticeably, this is not surprising considering that it has fatter tails than either the Prandtl mixing length model or the Gaussian model. In the tails is where the eddy viscosity model no longer matches well with the observed data, so this is just a weakness of the model itself.
+The literature<a href="#fn-12" class="sidenote-number"></a><span class="sidenote" id="fn-12">[Rajaratnam](#rajaratnam-1974), *Turbulent Jets*</span>gives $k_Q = 0.32$ which compares well with the calculations above. Though it's worth noting that the eddy viscosity model over predicts the volumetric flow rate quite noticeably, this is not surprising considering that it has fatter tails than either the Prandtl mixing length model or the Gaussian model. In the tails is where the eddy viscosity model no longer matches well with the observed data, so this is just a weakness of the model itself.
 
 
 ## Conclusions

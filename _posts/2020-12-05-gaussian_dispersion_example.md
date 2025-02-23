@@ -9,7 +9,7 @@ categories:
   - examples
 tags:
   - hazard screening
-  - dispersion modeling
+  - dispersion modelling
 tagline: "A gaussian plume dispersion example"
 header:
   overlay_image: /images/gaussian_dispersion_example_files/veeterzy-unsplash-header.jpg
@@ -18,13 +18,13 @@ header:
 
 # Air Dispersion Example - Stack Emissions
 
-This is an interesting example that came up in conversation with another engineer related to a construction project happening at an existing facility. Imagine construction involving scaffolding and workers at an elevation that potentially puts them within the plume of an existing stack -- say from an adjacent boiler. If the facility is still operating while this construction work happens then it is possible that workers will be exposed to combustion products in excess of the occupational exposure limits. The operating boiler does not have to be all that close-by for the plume -- which is very visible this time of year in the cold weather -- to envelope a similarly tall set of scaffolding.
+This is an interesting example that came up in conversation with another engineer related to a construction project happening at an existing facility. Imagine construction involving scaffolding and workers at an elevation that potentially puts them within the plume of an existing stack -- say from an adjacent boiler. If the facility is still operating while this construction work happens then it is possible that workers will be exposed to combustion products in excess of the occupational exposure limits. The operating boiler does not have to be all that close by for the plume -- which is very visible this time of year in the cold weather -- to envelope a similarly tall set of scaffolding.
 
-So, how would one determine whether or not the operating stack presents a hazard to the workers? In practice by hiring a consultant to do detailed modeling, because safety issues like this are not the time to pencil-whip some number. But we may want to come up with a rough estimate regardless, and for that a gaussian dispersion model of the stack can be a useful first start.
+So, how would one determine whether or not the operating stack presents a hazard to the workers? In practice by hiring a consultant to do detailed modelling, because safety issues like this are not the time to pencil-whip some number. But we may want to come up with a rough estimate regardless, and for that a Gaussian dispersion model of the stack can be a useful first start.
 
 <figure>
 <img alt="Gaussian Plume" src="https://upload.wikimedia.org/wikipedia/commons/1/10/Gaussian_Plume.png">
-<figcaption> The problem domain, a stack with a gaussian plume (<a href="https://commons.wikimedia.org/wiki/File:Gaussian_Plume.png">Mbeychok</a>, <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>, via Wikimedia Commons). </figcaption>
+<figcaption> The problem domain, a stack with a Gaussian plume (<a href="https://commons.wikimedia.org/wiki/File:Gaussian_Plume.png">Mbeychok</a>, <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>, via Wikimedia Commons). </figcaption>
 </figure>
 
 ## The Scenario
@@ -52,10 +52,10 @@ Tₐ = 298.15u"K"    # ambient temperature, 25°C
 ```
 
 
-Prior to any dispersion modeling, the following parameters need to be collected:
+Prior to any dispersion modelling, the following parameters need to be collected:
 + the mass emission rate of the species, carbon monoxide, in kg/s
 + the concentration of interest, in this case the occupational exposure limit of carbon monoxide in kg/m3
-+ the windspeed and atmospheric stability
++ the wind speed and atmospheric stability
 + the *effective* stack height, in m
 
 ### Mass Emission Rate
@@ -84,7 +84,7 @@ Q = EF * W / HV # mass emission rate in kg/s
 
 
 
-This gives a mass flow rate of carbon monoxide in the plume, but we will also need some sense of how large the plume is in general, i.e. what is the volumetric flowrate of stack gas exiting the stack?
+This gives a mass flow rate of carbon monoxide in the plume, but we will also need some sense of how large the plume is in general, i.e. what is the volumetric flow rate of stack gas exiting the stack?
 
 
 ### Volumetric Flow Rate of Flue Gas
@@ -94,7 +94,7 @@ There are several ways the volumetric flow rate of flue gas could be estimated. 
 
 $$ V_s^o = F_w { 20.9 \over 20.9 \left( 1 - B_{wa} \right) - \%O_{2w} } \cdot W$$
 
-Where $V_s^o$ is the volumetric flow of flue gas at *standard conditions*, $B_{wa}$ the moisture fraction of ambient air, $\%O_{2w}$ the percentage of oxygen on a wet basis, and the parameter $F_w$ captures the differences in combustion stoichiometry for different fuels and is tabulated. Alternatively one could work out the volume of stack gas from the stoichiometry of combustion, this is just a short-cut.
+Where $V_s^o$ is the volumetric flow of flue gas at *standard conditions*, $B_{wa}$ the moisture fraction of ambient air, $\%O_{2w}$ the percentage of oxygen on a wet basis, and the parameter $F_w$ captures the differences in combustion stoichiometry for different fuels and is tabulated. Alternatively one could work out the volume of stack gas from the stoichiometry of combustion, this is just a shortcut.
 
 + the default value for $B_{wa} = 0.027$
 + $\%O_{2w}$ usually ranges from 2-6% and for this case I am assuming $\%O_{2w} = 4$
@@ -194,9 +194,9 @@ The concentration in the flue gas is above the limit for long term work exposure
 
 ## Meteorological Conditions
 
-The ambient conditions impact the release in some obvious ways and in some non-obvious ways. Obviously the wind-speed impacts how far the plume is moved, through advection. Somewhat non-obviously the ambient conditions also govern how high the plume will rise due to buoyancy as well as the extent of mixing as the plume moves through the air.
+The ambient conditions impact the release in some obvious ways and in some non-obvious ways. Obviously the wind speed impacts how far the plume is moved, through advection. Somewhat non-obviously the ambient conditions also govern how high the plume will rise due to buoyancy as well as the extent of mixing as the plume moves through the air.
 
-Suppose a windspeed of 1.5m/s at the stack height, just arbitrarily.
+Suppose a wind speed of 1.5m/s at the stack height, just arbitrarily.
 
 
 ```julia
@@ -220,11 +220,11 @@ $$ s = \frac{g}{T_a} { \partial \theta \over \partial z } $$
 
 Where $ \partial \theta \over \partial z $ is the lapse rate in K/m
 
-The "worst-case" is the case with the least mixing and corresponds to a class F [Pasquill stability](https://en.wikipedia.org/wiki/Outline_of_air_pollution_dispersion#Characterization_of_atmospheric_turbulence), i.e. very stable, which has a corresponding default lapse rate of ${ \partial \theta \over \partial z } = 0.035 K/m$<a href="#fn-6" class="sidenote-number"></a><span class="sidenote" id="fn-6">[EPA](#epa-1995b) *EPA-454/B-95-003b*, 1-9.</span>
+The "worst case" is the case with the least mixing and corresponds to a class F [Pasquill stability](https://en.wikipedia.org/wiki/Outline_of_air_pollution_dispersion#Characterization_of_atmospheric_turbulence), i.e. very stable, which has a corresponding default lapse rate of ${ \partial \theta \over \partial z } = 0.035 K/m$<a href="#fn-6" class="sidenote-number"></a><span class="sidenote" id="fn-6">[EPA](#epa-1995b) *EPA-454/B-95-003b*, 1-9.</span>
 
 
 
-**Addendum:** this isn't entirely true. For neutrally buoyant plumes released at ground level, or in this case level with the elevated work platform, class F is likely the worst case. For buoyant plumes released at elevation the minimal vertical dispersion with stable atmospheres means the bulk of the plume will rise and be dispersed far above the ground and another class and wind-speed should be considered. See *Guidelines for Use of Vapour Cloud Dispersion Models*, 2nd ed. section 5.8 for more details
+**Addendum:** this isn't entirely true. For neutrally buoyant plumes released at ground level, or in this case level with the elevated work platform, class F is likely the worst case. For buoyant plumes released at elevation the minimal vertical dispersion with stable atmospheres means the bulk of the plume will rise and be dispersed far above the ground and another class and wind speed should be considered. See *Guidelines for Use of Vapour Cloud Dispersion Models*, 2nd ed. section 5.8 for more details
 {: .notice--warning}
 
 
@@ -248,7 +248,7 @@ s = (g/Tₐ) * Γ
 
 The plume rising out of the stack will rise higher than the stack height due to buoyancy -- in this case because the stack gas is at a higher temperature than the ambient air -- and because the stack gas is ejected with some kinetic energy. What follows is essentially a simplified version of the Brigg's model for plume rise for stable plumes.
 
-As a first check, verify that stack down-wash will not be relevant. For low momentum releases the effective stack height of the plume is reduced by vortices shed downwind of the stack that pull the plume downwards. This is only really relevant when $v_s \lt 1.5 u$
+As a first check, verify that stack down wash will not be relevant. For low momentum releases the effective stack height of the plume is reduced by vortices shed downwind of the stack that pull the plume downwards. This is only really relevant when $v_s \lt 1.5 u$
 
 Where $v_s$ is the stack exit velocity and is calculated from the volumetric flow as
 
@@ -336,7 +336,7 @@ end;
 
 
 
-Plume rise is impacted by the wind-speed at the stack height, as the following plot shows, but with several large caveats. For one the model for plume rise given is not defined at no wind-speed and for very low wind-speeds the value should be treated with suspicion. Similarly for very large wind-speeds the assumption of stable rise is likely quite invalid.
+Plume rise is impacted by the wind speed at the stack height, as the following plot shows, but with several large caveats. For one the model for plume rise given is not defined at no wind speed and for very low wind speeds the value should be treated with suspicion. Similarly for very large wind speeds the assumption of stable rise is likely quite invalid.
 
 
 ![svg](/images/gaussian_dispersion_example_files/output_28_0.svg)
@@ -344,11 +344,11 @@ Plume rise is impacted by the wind-speed at the stack height, as the following p
 
 ## Gaussian Dispersion Model
 
-As the plume is carried downwind it will mix with the ambient air and the pollutant, carbon monoxide, will be dispersed. A simple model of this is a gaussian dispersion model, the derivation for which is sketched out as follows.
+As the plume is carried downwind it will mix with the ambient air and the pollutant, carbon monoxide, will be dispersed. A simple model of this is a Gaussian dispersion model, the derivation for which is sketched out as follows.
 
 ### A Differential Mass Balance
 
-Starting with a coordinate system centered at the top of the stack, emitting a mass flow of *Q* kg/s, which is assumed to be released from a point, the [advection-diffusion equation](https://en.wikipedia.org/wiki/Convection%E2%80%93diffusion_equation) for mass can be written as
+Starting with a coordinate system centred at the top of the stack, emitting a mass flow of *Q* kg/s, which is assumed to be released from a point, the [advection-diffusion equation](https://en.wikipedia.org/wiki/Convection%E2%80%93diffusion_equation) for mass can be written as
 
 $$ {\partial C \over \partial t} = - \nabla \cdot \mathbf{D} \cdot \nabla C + \nabla \cdot \mathbf{u} C $$
 
@@ -423,7 +423,7 @@ However what we want is a generalized equation with the emissions released at so
 
 ![PXL_20201203_144010075~2.jpg](/images/gaussian_dispersion_example_files/att2.jpg)
 
-One way to capture this is to integrate *z* from $-\infty$ to $\infty$ (recall that the release point is at the origin) and introduce a *mirror image* of the stack shifted *2h* below. The ground being the x-y plane at *z = -h*. By symmetry the portion of the mirror-plume extending up above this plane is the same as the portion of the plume that, in this simple model, has extended below the ground. By adding the stack and the mirror-stack together and shifting the z-coordinate so *z = 0* is the ground, ground reflection is captured and the expression for a release point at elevation *h* is given by
+One way to capture this is to integrate *z* from $-\infty$ to $\infty$ (recall that the release point is at the origin) and introduce a *mirror image* of the stack shifted *2h* below. The ground being the x-y plane at *z = -h*. By symmetry the portion of the mirror plume extending up above this plane is the same as the portion of the plume that, in this simple model, has extended below the ground. By adding the stack and the mirror stack together and shifting the z-coordinate so *z = 0* is the ground, ground reflection is captured and the expression for a release point at elevation *h* is given by
 
 $$ C = {Q \over 2 \pi u \sigma_{y} \sigma_{z} } \exp \left[ -\frac{1}{2} \left( y \over \sigma_{y} \right)^2 \right] 
 \\ \times \left\{ \exp \left[ -\frac{1}{2} \left( { z -h } \over \sigma_{z} \right)^2 \right] + \exp \left[ -\frac{1}{2} \left( { z + h } \over \sigma_{z} \right)^2 \right] \right\} $$
@@ -508,15 +508,15 @@ end
 ```
 
 
-## Modeling Dispersion
+## Modelling Dispersion
 
 There are two cases worth considering
 1. without accounting for plume rise
 1. with plume rise
 
-The first case would be very conservative and the stack plume would immediately point directly down-wind, at the stack height, this is far more likely to impact the work platform and any workers on the ground, though it is also quite unrealistic.
+The first case would be very conservative and the stack plume would immediately point directly downwind, at the stack height, this is far more likely to impact the work platform and any workers on the ground, though it is also quite unrealistic.
 
-*Note* the following contour plots max out at the time-weighted-average concentration, shown in mg/m^3
+*Note* the following contour plots max out at the time weighted average concentration, shown in mg/m^3
 
 
 ![svg](/images/gaussian_dispersion_example_files/output_41_0.svg)
@@ -553,13 +553,13 @@ C(x₁, 0u"m", h₁) > TWA
 
 ## Concluding Remarks
 
-This model assumed a continuous, steady-state, flow of stack gases. Boilers don't always operate that way and the model did not, for example, consider start-up or upset conditions that could lead to higher in-stack concentrations of carbon monoxide.
+This model assumed a continuous, steady-state, flow of stack gases. Boilers don't always operate that way and the model did not, for example, consider startup or upset conditions that could lead to higher in-stack concentrations of carbon monoxide.
 
-The model also assumed mixing was captured by a simple gaussian dispersion model. This model does not, for example, account for variability of wind-speed either with time or spatially -- wind-speed typically increases with height -- in this case I believe the model underestimates the degree of mixing. Nor does it account for interactions with buildings and potential down-wash, which can be very significant.
+The model also assumed mixing was captured by a simple Gaussian dispersion model. This model does not, for example, account for variability of wind speed either with time or spatially -- wind speed typically increases with height -- in this case I believe the model underestimates the degree of mixing. Nor does it account for interactions with buildings and potential down wash, which can be very significant.
 
 This also assumes no other sources of carbon monoxide, both at the facility surrounding the worksite but also potentially from some portable equipment.
 
-I think that, while modeling like this might be informative about the potential hazards, it is always good practise to develop a monitoring plan for the work area that includes the flue gases and any other potential substances to ensure workers on the scaffolding are not being exposed.
+I think that, while modelling like this might be informative about the potential hazards, it is always good practise to develop a monitoring plan for the work area that includes the flue gases and any other potential substances to ensure workers on the scaffolding are not being exposed.
 
 
 For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2020-12-05-gaussian_dispersion_example.ipynb)

@@ -18,7 +18,7 @@ header:
 
 # Chemical Release Screening Example - Butane leak
 
-A routine practice of process safety is to model scenarios for different chemiccal hazards present at a plant. Often there are more plausible scenarios than there is the time or resources to model at the highest level of fidelity, the more complex models take time to set up and run and often there are only so many software licenses available. There needs to be some prioritization and screening. It's fairly typical, especially for larger companies, to have screening tools that an engineer can use which incorporate simpler models and make conservative estimates to get a *first guess* at the impact of a given hazard, if this crosses a pre-set threshold then it is escalated to a more in depth level of modeling, drilling down to more and more detailed analysis as required.
+A routine practice of process safety is to model scenarios for different chemical hazards present at a plant. Often there are more plausible scenarios than there is the time or resources to model at the highest level of fidelity, the more complex models take time to set up and run and often there are only so many software licenses available. There needs to be some prioritization and screening. It's fairly typical, especially for larger companies, to have screening tools that an engineer can use which incorporate simpler models and make conservative estimates to get a *first guess* at the impact of a given hazard, if this crosses a preset threshold then it is escalated to a more in depth level of modelling, drilling down to more and more detailed analysis as required.
 
 <!--more-->
 
@@ -26,10 +26,10 @@ More often than not I've seen these simple tools implemented as excel spreadshee
 
 ## The Scenario
 
-As a simple scenario suppose a leak from a butane storage sphere. These are a fairly common sight around refineries and facilities that process large quantities of hydrocarbons. This sphere is 40ft in diameter and operates under 250psig of pressure, containing primarily n-butane, which I will assume is entirely n-butane for simplicity[<sup id="fnref-1">1</sup>](#fn-1). As for the leak itself I am supposing a leak area equivalent to a 2in rupture[<sup id="fnref-2">2</sup>](#fn-2). The sphere doesn't sit directly on the ground, it is supported 10ft above a concrete pad which has a dyked area of 500ft². The leak itself at the bottom somewhere, suppose exactly at the bottom for simplicilty[<sup id="fnref-3">3</sup>](#fn-3). Furthermore I am assuming the release occurs on a day with an ambient temperature of 25°C and that the tank contents and surroundings are at thermal equilibrium.
+As a simple scenario suppose a leak from a butane storage sphere. These are a fairly common sight around refineries and facilities that process large quantities of hydrocarbons. This sphere is 40ft in diameter and operates under 250psig of pressure, containing primarily n-butane, which I will assume is entirely n-butane for simplicity[<sup id="fnref-1">1</sup>](#fn-1). As for the leak itself I am supposing a leak area equivalent to a 2in rupture[<sup id="fnref-2">2</sup>](#fn-2). The sphere doesn't sit directly on the ground, it is supported 10ft above a concrete pad which has a diked area of 500ft². The leak itself at the bottom somewhere, suppose exactly at the bottom for simplicity[<sup id="fnref-3">3</sup>](#fn-3). Furthermore I am assuming the release occurs on a day with an ambient temperature of 25°C and that the tank contents and surroundings are at thermal equilibrium.
 
 {% capture footnote-1 %}
-<a name="fn-1"><strong>1</strong></a>: If the vessel contained a mixture, for the purposes of screening, conservatively choosing the most volatile of the major components would be a reasonable assumption. These simplifications are suitable for screening purposes however if more in depth modeling is required then performing mixture flash calculations would have to be considered, which very quickly becomes a lot of work to set-up outside of a process simulator like Aspen [↩](#fnref-1)
+<a name="fn-1"><strong>1</strong></a>: If the vessel contained a mixture, for the purposes of screening, conservatively choosing the most volatile of the major components would be a reasonable assumption. These simplifications are suitable for screening purposes however if more in depth modelling is required then performing mixture flash calculations would have to be considered, which very quickly becomes a lot of work to setup outside of a process simulator like Aspen [↩](#fnref-1)
 {% endcapture %}
 
 {% capture footnote-2 %}
@@ -46,7 +46,7 @@ As a simple scenario suppose a leak from a butane storage sphere. These are a fa
 
 **Key Assumptions**
 + Storage sphere with 40ft diameter
-+ Sphere located on a concrete pad with 500ft² dyked area
++ Sphere located on a concrete pad with 500ft² diked area
 + Sphere contains ~100% n-butane
 + Leak area equivalent to a 2in rupture
 + Leak located at the bottom of the vessel for maximum release pressure
@@ -133,11 +133,11 @@ pˢ(Tᵣ)<p
 Since the vapour pressure within the vessel is below the storage pressure, at ambient temperature, the butane within the storage sphere is a liquid. In general one would have to account for flashing and two-phase flow during the release, however for very short discharge distances (<10cm) there is typically not enough time for the liquid to flash during discharge[<sup id="fnref-4">4</sup>](#fn-4), over the thickness of a hole this especially true. The butane discharged from the tank will be a stream of liquid initially and the simple Bernoulli equation for a liquid jet can be used[<sup id="fnref-5">5</sup>](#fn-5).
 
 {% capture footnote-4 %}
-<a name="fn-4"><strong>4</strong></a>: See AIChE/CCPS ([1999](#ccps-1999)) page 37 for more of a disussion on two-phase discharge rates.[↩](#fnref-4)
+<a name="fn-4"><strong>4</strong></a>: See AIChE/CCPS ([1999](#ccps-1999)) page 37 for more of a discussion on two-phase discharge rates.[↩](#fnref-4)
 {% endcapture %}
 
 {% capture footnote-5 %}
-<a name="fn-5"><strong>5</strong></a>: This is also known as Toricelli's equation and can be derived from a mechanical energy balance and is found in a lot of references (e.g. *Perry's*), the form of it I'm using here comes from AIChE/CCPS ([1996](#ccps-1996)) page 29 equation 4-10. This is really a function of time as the liquid height $h_l$ will decrease as it leaks out. Using the discharge rate at the start of the leak throughout the analysis is a conservative assumption, again for the purposes of a simplified screening case. For more detailed modeling one could make this explicitly a function of time and integrate over the release.[↩](#fnref-5)
+<a name="fn-5"><strong>5</strong></a>: This is also known as Torricelli's equation and can be derived from a mechanical energy balance and is found in a lot of references (e.g. *Perry's*), the form of it I'm using here comes from AIChE/CCPS ([1996](#ccps-1996)) page 29 equation 4-10. This is really a function of time as the liquid height $h_l$ will decrease as it leaks out. Using the discharge rate at the start of the leak throughout the analysis is a conservative assumption, again for the purposes of a simplified screening case. For more detailed modelling one could make this explicitly a function of time and integrate over the release.[↩](#fnref-5)
 {% endcapture %}
 
 
@@ -146,7 +146,7 @@ $$ Q_l = c_d \rho_l A_h \sqrt{ 2 \left( p - p_a \over \rho_l \right) + 2gh_l } =
 Where $Q_l$ is the mass flow of liquid discharged through the hole (in kg/s), $c_d$ is the discharge coefficient which can be assumed to be 0.61[<sup id="fnref-6">6</sup>](#fn-6), $g$ is the acceleration due to gravity $9.81 m/s^2$ and the rest are as defined earlier. I am assuming, here, that the hole is circular for simplicity.
 
 {% capture footnote-6 %}
-<a name="fn-6"><strong>6</strong></a>: From AIChE/CCPS ([1999](#ccps-1999)) page 27, for sharp edged orifices and Reynolds numbers greater than 30,000 the discharge coefficient approaches 0.61, and the exit velocity is independent of the hole size. For a simple screening calculation one could also use a coefficient of 1.0, though that may be excessively conservative (large over-estimates end up wasting time modeling later)[↩](#fnref-6)
+<a name="fn-6"><strong>6</strong></a>: From AIChE/CCPS ([1999](#ccps-1999)) page 27, for sharp edged orifices and Reynolds numbers greater than 30,000 the discharge coefficient approaches 0.61, and the exit velocity is independent of the hole size. For a simple screening calculation one could also use a coefficient of 1.0, though that may be excessively conservative (large overestimates end up wasting time modelling later)[↩](#fnref-6)
 {% endcapture %}
 
 
@@ -175,7 +175,7 @@ Qₗ = cd*ρₗ(Tᵣ)*(π/4)*(dₕ^2)*√( 2*(p - pₐ)/ρₗ(Tᵣ) + 2*g*hₗ )
 
 ## Flashing Fraction
 
-Since the butane is significantly above it's normal boiling point, as the liquid stream exits the storage sphere it will flash. However not all of it will flash into a vapour as the quantity that can vapourize is limited by the available energy. A simplified model of flashing is to assume the process is so rapid that it is effectively adiabatic and, from a simple steady-state energy balance, one arrives at the following[<sup id="fnref-7">7</sup>](#fn-7)
+Since the butane is significantly above it's normal boiling point, as the liquid stream exits the storage sphere it will flash. However not all of it will flash into a vapour as the quantity that can vaporize is limited by the available energy. A simplified model of flashing is to assume the process is so rapid that it is effectively adiabatic and, from a simple steady-state energy balance, one arrives at the following[<sup id="fnref-7">7</sup>](#fn-7)
 
 {% capture footnote-7 %}
 <a name="fn-7"><strong>7</strong></a>: This can be easily derived, but the form given here is from AIChE/CCPS ([1996](#ccps-1996)) page 31, equation 4-14 [↩](#fnref-7)
@@ -221,13 +221,13 @@ One method is to estimate the droplet size and from that determine the degree of
 + the RELEASE model is used to estimate the degree of rain-out
 
 ### Mean droplet diameter
-There are three important mechanisms of drop formation, capillary breakup which occurs when subcooled liquids are discharged through very small holes (<2mm), aerodynamic breakup which occurs with larger holes with subcooled liquids or slightly superheated liquids, and flashing breakup which occurs as superheated liquids are discharged and flash to vapour in the form of bubbles which breakup the surrounding liquid.
+There are three important mechanisms of drop formation, capillary breakup which occurs when sub-cooled liquids are discharged through very small holes (<2mm), aerodynamic breakup which occurs with larger holes with sub-cooled liquids or slightly super-heated liquids, and flashing breakup which occurs as super-heated liquids are discharged and flash to vapour in the form of bubbles which breakup the surrounding liquid.
 
 Aerodynamic breakup is correlated with the Weber number, which is the ratio of shear forces on the surface of the liquid to the surface tension.
 
 $$ We = { { \rho_g u_d^2 d_p } \over \sigma } $$
 
-Where $\rho_g$ is the density of the gas, $u_d$ the discharge velocity, $d_p$ the mean droplet diameter, and $\sigma$ the surface tension. Experimentally, droplet breakup occurs at a critical Weber number between 12 and 22, and so the mean droplet size can be estimated by re-arranging[<sup id="fnref-8">8</sup>](#fn-8)
+Where $\rho_g$ is the density of the gas, $u_d$ the discharge velocity, $d_p$ the mean droplet diameter, and $\sigma$ the surface tension. Experimentally, droplet breakup occurs at a critical Weber number between 12 and 22, and so the mean droplet size can be estimated by rearranging[<sup id="fnref-8">8</sup>](#fn-8)
 
 {% capture footnote-8 %}
 <a name="fn-8"><strong>8</strong></a>: Woodward ([1998](#woodward-1998)), page 49 [↩](#fnref-8)
@@ -256,7 +256,7 @@ da = ( σ(Tc) * We)/(ρa(Tc) * ud^2)
 
     2.188550597862162e-5
 
-The diameter of droplets from flashing breakup can be calculated from the following empirical correlation[<sup id="fnref-9">9</sup>](#fn-9) and the mean droplet diameter is simply the smallest of either the aerodynamic or flashing diameter[<sup id="fnref-10">10</sup>](#fn-10) In almost all cases that are relevant for release modeling capillary breakup is not significant.
+The diameter of droplets from flashing breakup can be calculated from the following empirical correlation[<sup id="fnref-9">9</sup>](#fn-9) and the mean droplet diameter is simply the smallest of either the aerodynamic or flashing diameter[<sup id="fnref-10">10</sup>](#fn-10) In almost all cases that are relevant for release modelling capillary breakup is not significant.
 
 {% capture footnote-9 %}
 <a name="fn-9"><strong>9</strong></a>: Woodward ([1998](#woodward-1998)), page 50 [↩](#fnref-9)
@@ -452,7 +452,7 @@ Where $A_{pu}$ is the unconstrained pool area in m², $t$ is the time since the 
 
 $$ Q_{p} = Q_l - Q_v - Q_a $$
 
-In practice the area of the pool will be limited to be at most the dyked area. For large spills having a dyked area is significant, both in the obvious containing of the spill, but also since it can significantly reduce the amount of pool evaporation.
+In practice the area of the pool will be limited to be at most the diked area. For large spills having a diked area is significant, both in the obvious containing of the spill, but also since it can significantly reduce the amount of pool evaporation.
 
 
 ```julia
@@ -471,7 +471,7 @@ Aₚ(t) = min( Aₚᵤ(t) , Ad)
 
 ![svg](/images/butane_leak_example_files/output_30_0.svg)
 
-In general the evaporation rate is derived from a heat balance accounting for the heat transfer from the ground, from the ambient air, and from solar flux, however in this case a simplifying assumption is that the majority of the heat transfered to the liquid is from the ground.
+In general the evaporation rate is derived from a heat balance accounting for the heat transfer from the ground, from the ambient air, and from solar flux, however in this case a simplifying assumption is that the majority of the heat transferred to the liquid is from the ground.
 
 For a cryogenic liquid spilled on land a simple model of the evaporative flux $G_e$ in kg/s/m² is[<sup id="fnref-15">15</sup>](#fn-15)
 
@@ -487,7 +487,7 @@ The overall evaporation rate is the product of the pool area and the evaporative
 
 $$ Q_e \left( t \right) = G_e \left( t \right) \cdot A_p \left( t \right) $$
 
-It's worth taking a moment to note that the evaporative flux will decrease with time. This is because the ground under the spill cools down over time. The overall evaporation rate will grow as the pool grows -- in this model the pool grows $\propto t^{3/2}$ while the flux decreases  $\propto t^{-1/2}$, so the evaporation rate should grow $\propto t$ -- but once it hits the limit of the dyked area the overal evaporation rate will decrease over time.
+It's worth taking a moment to note that the evaporative flux will decrease with time. This is because the ground under the spill cools down over time. The overall evaporation rate will grow as the pool grows -- in this model the pool grows $\propto t^{3/2}$ while the flux decreases  $\propto t^{-1/2}$, so the evaporation rate should grow $\propto t$ -- but once it hits the limit of the diked area the overall evaporation rate will decrease over time.
 
 One thing worth noting is that the pool area equation does not take into account a mass balance. As time goes on the unconstrained pool only grows, even if the evaporation rate were to exceed the rate of new liquid being added to the pool. This limitation probably doesn't matter for short duration leaks in which it is expected that the pool evaporation rate is strictly lower than the rate at which new liquid is added to the pool, however for long duration spills or instantaneous spills this not appropriate and a more complex model of pool growth and evaporation should be considered.
 
@@ -582,15 +582,15 @@ In this case the secondary containment reduced the overall airborne quantity by 
 
 ## Closing Remarks
 
-There are always trade offs to be made with model accuracy, model complexity, and the shear amount of data required to run the models (often overlooked unless you're the flunky tasked with finding all of these constants). This notebook aimed at creating a simple screening model and made several simplifications along the way. One thing I tried to avoid, though, is the use of gross "rules of thumb" and any pre-calculating of constants. I see this fairly often in older works because, likely, the calculations were being done by hand and this greatly speeds that up. I don't think the justification for it is still valid, though, for a few reasons. For one many very rough rules of thumb were developed to avoid iterative solutions, but with modern computers there's really no reason to, the numerical solutions in this notebook took fractions of a second to calculate on my laptop. For another much of the work collecting constants and pre-calculating things simply makes it harder to validate formulas. With a notebook like this not only can I properly typeset the formula more-or-less as presented in the reference (while keeping a consistent nomenclature) but I can also fairly transparently type that into Julia, making it very clear what the code is doing, step by step, and where those formulae came from. This should make it very easy to verify that I haven't made a typo, for example. In my experience with some older excel tools that used a lot of pre-calculated re-arranged equations, it was often entirely not obvious how the reference (if there is one given at all) lead to the final equations in the spreadsheet and verifying that the spreadsheet worked as intended without some written down derivation could take hours.
+There are always trade offs to be made with model accuracy, model complexity, and the shear amount of data required to run the models (often overlooked unless you're the flunky tasked with finding all of these constants). This notebook aimed at creating a simple screening model and made several simplifications along the way. One thing I tried to avoid, though, is the use of gross "rules of thumb" and any pre-calculating of constants. I see this fairly often in older works because, likely, the calculations were being done by hand and this greatly speeds that up. I don't think the justification for it is still valid, though, for a few reasons. For one many very rough rules of thumb were developed to avoid iterative solutions, but with modern computers there's really no reason to, the numerical solutions in this notebook took fractions of a second to calculate on my laptop. For another much of the work collecting constants and pre-calculating things simply makes it harder to validate formulas. With a notebook like this not only can I properly typeset the formula more-or-less as presented in the reference (while keeping a consistent nomenclature) but I can also fairly transparently type that into Julia, making it very clear what the code is doing, step by step, and where those formulae came from. This should make it very easy to verify that I haven't made a typo, for example. In my experience with some older excel tools that used a lot of pre-calculated rearranged equations, it was often entirely not obvious how the reference (if there is one given at all) lead to the final equations in the spreadsheet and verifying that the spreadsheet worked as intended without some written down derivation could take hours.
 
-One feature that I didn't use, but could be a nice addition, is the unit-aware library `Unitful`, I included it at the beginning for some unit conversions. However it can be used to track the units for each number throughout, ensuring that results are in the appropriate units and that there are no unit mis-matches. I did not use that part of things because there are quite a few correlations and figuring out the appropriate units for the various constants in those correlations such that all the units match properly can be a pain in the butt. In general, though, using `Unitful` is a very powerful tool when working with physical modeling.
+One feature that I didn't use, but could be a nice addition, is the unit-aware library `Unitful`, I included it at the beginning for some unit conversions. However it can be used to track the units for each number throughout, ensuring that results are in the appropriate units and that there are no unit mismatches. I did not use that part of things because there are quite a few correlations and figuring out the appropriate units for the various constants in those correlations such that all the units match properly can be a pain in the butt. In general, though, using `Unitful` is a very powerful tool when working with physical modelling.
 
-That said, this notebook is far from perfect. Probably the biggest simplification that could be changed is the assumption that the liquid release rate is a constant and is at the highest rate. This could be made a function of time -- as the vessel empties there is less hydrostatic pressure -- and the rates of flashing and aerosol entrainment made explicitly time dependent as well. Like all things this would take some time to implement -- though not much -- and would improve model performance for long duration releases. The assumption made is on the conservative side and for short durations, and large vessels, is appropriate for screening purposes. Though, like all things with code, you only have to put the effort in once...
+That said, this notebook is far from perfect. Probably the biggest simplification that could be changed is the assumption that the liquid release rate is a constant and is at the highest rate. This could be made a function of time -- as the vessel empties there is less hydro-static pressure -- and the rates of flashing and aerosol entrainment made explicitly time dependent as well. Like all things this would take some time to implement -- though not much -- and would improve model performance for long duration releases. The assumption made is on the conservative side and for short duration, and large vessels, is appropriate for screening purposes. Though, like all things with code, you only have to put the effort in once...
 
 For re-useability the lowest hanging fruit for changes would be to link this to a database of substance properties. Probably the most tedious part of using this notebook is finding and filling in all of the correlations at the beginning for the various temperature dependent material properties. There's no reason why a small database couldn't be set up, containing everything in a given plant's inventory, and some code added so the notebook can look up the properties for you.
 
-There are also lots of opportunities for embedding some of the decision logic into the notebook, I set up the notebook to do a liquid discharge because I knew what the scenario was. Furthermore I knew that the boiling point of butane is less than ambient and so the pool evaporation would be for a cryogenic liquid spill. There's no reason why the logic behind those decisions, and others, couldn't be generalized and the notebook set-up to choose which model was appropriate in a clear and transparent way.
+There are also lots of opportunities for embedding some of the decision logic into the notebook, I set up the notebook to do a liquid discharge because I knew what the scenario was. Furthermore I knew that the boiling point of butane is less than ambient and so the pool evaporation would be for a cryogenic liquid spill. There's no reason why the logic behind those decisions, and others, couldn't be generalized and the notebook setup to choose which model was appropriate in a clear and transparent way.
 
 
 For a complete listing of code used to generate data and figures, please see the [corresponding julia notebook](https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2020-11-20-butane_leak_example.ipynb)

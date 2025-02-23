@@ -1,5 +1,5 @@
 ---
-title: "Compressible Flow Example - Sizing a goose neck vent"
+title: "Compressible Flow Example - Sizing a goose-neck vent"
 last_modified_at: 2024-10-11
 toc: true
 toc_label: "Contents"
@@ -19,23 +19,23 @@ header:
 
 # Compressible Flow Example - Sizing a goose neck vent
  
-When determining the required venting for aboveground storage tanks it is typical to calculate normal and emergency vent rates using standards such as API 2000, which gives the venting as an equivalent flowrate of air at standard state. Most off-the-shelf vents are sized in terms of pressure drop and SCFH through it, so after calculating the required venting one can simply buy a vent with the needed characteristics. For example for an emergency vent from Morrison brothers:
+When determining the required venting for above ground storage tanks it is typical to calculate normal and emergency vent rates using standards such as API 2000, which gives the venting as an equivalent flow rate of air at standard state. Most off-the-shelf vents are sized in terms of pressure drop and SCFH through it, so after calculating the required venting one can simply buy a vent with the needed characteristics. For example for an emergency vent from Morrison brothers:
 
 ![image.png](/images/sizing_a_gooseneck_example_files/att1.png)
 
 ![image.png](/images/sizing_a_gooseneck_example_files/att2.png)
 
-It's not uncommon, though, for tanks to have gooseneck vents constructed from piping. This is fairly normal for tanks holding water, or other non-volatile substances, where the tank is open to atmosphere and there are no dangerous vapours that need to be managed. The gooseneck itself is merely to keep rain, and wildlife, out of the tank.
+It's not uncommon, though, for tanks to have goose-neck vents constructed from piping. This is fairly normal for tanks holding water, or other nonvolatile substances, where the tank is open to atmosphere and there are no dangerous vapours that need to be managed. The goose-neck itself is merely to keep rain, and wildlife, out of the tank.
 
 <!--more-->
 
-Sizing the gooseneck to match the required venting involves performing some simple compressible flow calculations, which is fairly straight-forward to set up in a generalized way such that, beyond this motivating example, it can be extended to lots of other problems. Though it isn't at all uncommon, in this particular case, for the flow calculations to be done assuming an incompressible fluid as, over the length of the gooseneck, the pressure drop is typically slight and the compressibility of the gas (air usually) is not important.
+Sizing the goose-neck to match the required venting involves performing some simple compressible flow calculations, which is fairly straightforward to set up in a generalized way such that, beyond this motivating example, it can be extended to lots of other problems. Though it isn't at all uncommon, in this particular case, for the flow calculations to be done assuming an incompressible fluid as, over the length of the goose-neck, the pressure drop is typically slight and the compressibility of the gas (air usually) is not important.
 
 With that in mind, I am going to work through the problem in stages of escalating complexity, very likely the most complicated (fanno flow) is overkill for this specific example but it's worth putting it all down as the same tools can be used for compressible flow calculations through many piping situations.
 
 ## The Scenario
 
-Suppose an atmospheric storage tank with a normal venting requirement, as calulated from API 2000 or the like, of 200&times;10³ SCFH and a max pressure of 1 psig. We wish to design a gooseneck vent that can handle that level of venting. Suppose that the gooseneck design we have in mind is a vertical length of pipe extending up from the tank roof, two 90° bends, and an exit covered with a mesh screen (to keep birds from nesting in it, yes this is a thing). The gooseneck is a constant diameter of pipe throughout.
+Suppose an atmospheric storage tank with a normal venting requirement, as calculated from API 2000 or the like, of 200&times;10³ SCFH and a max pressure of 1 psig. We wish to design a goose-neck vent that can handle that level of venting. Suppose that the goose-neck design we have in mind is a vertical length of pipe extending up from the tank roof, two 90° bends, and an exit covered with a mesh screen (to keep birds from nesting in it, yes this is a thing). The goose-neck is a constant diameter of pipe throughout.
 
 For notation, the flow begins at the pipe entrance (1) and ends at the exit (2).
 
@@ -90,7 +90,7 @@ k = 1.4                # Ratio of heat capacities, Cp/Cv, ideal gas
 
 Regardless of the method of performing the compressible flow calculations, the frictional head loss in the piping needs to be accounted for. I am using the K factor method as it is convenient and K factors are tabulated for most everything in references such as Crane's TP-410. One thing to be very careful with is the difference between the Darcy and Fanning friction factors. I am using Crane's where everything is in terms of the Darcy friction factor, which is 4&times; the Fanning friction factor, but Perry's defaults to the Fanning friction factor.
 
-From Crane's I have the following K factors for each piece of the gooseneck<a href="#fn-2" class="sidenote-number"></a><span class="sidenote" id="fn-2">[Crane](#crane-2013) *Flow of Fluids*, A-30.</span>
+From Crane's I have the following K factors for each piece of the goose-neck<a href="#fn-2" class="sidenote-number"></a><span class="sidenote" id="fn-2">[Crane](#crane-2013) *Flow of Fluids*, A-30.</span>
 + Entrance - $K_1 = 0.5$
 + Vertical Pipe - $K_2 = f \frac{L}{D}$
 + First 90° bend - $K_3 = 14 f_T$
@@ -148,7 +148,7 @@ Where $\dot{m}$ is the mass flow rate in kg/s flowing through the vent, which is
 $$\dot{m} = Q_{std} \cdot \rho \left(p_{std}, T_{std} \right) $$
 with $Q$ the flow at standard conditions and $\rho$ the density at standard conditions.
 
-*Note* The required vent flow is given in SCFH, this is not temperature or pressure dependent and $\dot{m}$ is a constant. If the flow given was a true volumetric flowrate, then $\dot{m}$ would be a function of temperature and pressure in general. This is one of those things that routinely snags inexperienced engineers as a flow in terms of a standard volume *looks* like a volumetric flowrate, it's in units of volume, but really isn't one since the temperature and pressure are set to standard state by definition.
+*Note* The required vent flow is given in SCFH, this is not temperature or pressure dependent and $\dot{m}$ is a constant. If the flow given was a true volumetric flow rate, then $\dot{m}$ would be a function of temperature and pressure in general. This is one of those things that routinely snags inexperienced engineers as a flow in terms of a standard volume *looks* like a volumetric flow rate, it's in units of volume, but really isn't one since the temperature and pressure are set to standard state by definition.
 
 The Reynolds number in terms of the mass velocity is
 
@@ -187,7 +187,7 @@ pₘₐₓ/pₐ
     1.0680457267283614
 
 
-Typically flows are considered incompressible if the density varies by less than ~5-10%, so this example (where the density varies by ~7%) is right in that range. You could justify it either way and it's more a function of how accurate the calculations need to be. Since, ultimately, we are solving for the pipe diameter and choosing the next largest pipe size it's probably fine to use an incompressible flow assumption. If anything the incompressible flow assumption will overestimate the pressure drop and thus lead to an over-sized pipe (erring on the side of caution)
+Typically flows are considered incompressible if the density varies by less than ~5-10%, so this example (where the density varies by ~7%) is right in that range. You could justify it either way and it's more a function of how accurate the calculations need to be. Since, ultimately, we are solving for the pipe diameter and choosing the next largest pipe size it's probably fine to use an incompressible flow assumption. If anything the incompressible flow assumption will overestimate the pressure drop and thus lead to an oversized pipe (erring on the side of caution)
 
 The mechanical energy balance for an incompressible fluid is<a href="#fn-4" class="sidenote-number"></a><span class="sidenote" id="fn-4">[Tilton](#tilton-2007) "Fluid and Particle Dynamics," 6-16.</span>
 
@@ -195,8 +195,8 @@ $$ p_1 - p_2 = \alpha_2 \frac{\rho v_2^2}{2} - \alpha_1 \frac{\rho v_1^2}{2} + \
 
 With the following simplifications
 + given the assumption of incompressible flow and a vent with a constant cross-sectional area $v_1 = v_2 = v$, 
-+ the flow is uniform througout $\alpha_1 = \alpha_2 = 1.0$ 
-+ the contribution due to hydrostatic pressure is negligible as the gas density is very small, $\rho g \left( h_2 - h_1 \right) \approx 0$
++ the flow is uniform throughout $\alpha_1 = \alpha_2 = 1.0$ 
++ the contribution due to hydro-static pressure is negligible as the gas density is very small, $\rho g \left( h_2 - h_1 \right) \approx 0$
 
 This becomes 
 
@@ -234,15 +234,15 @@ At this point one would typically stop for this example, compressible flow calcu
 
 In general compressible flow situations can be very difficult to solve, since the density of the working fluid is a function of the pressure and temperature and the pressure and temperature are varying throughout, which means heat transfer must also be accounted for in some way. There are several key simplifying assumptions that take this from the sort of problem solved with CFD to something actually quite simple. The first is to assume an ideal gas, the second is to examine two *extreme* cases of heat transfer: isothermal flow and adiabatic flow.
 
-At these two extremal cases, the first where heat transfer is instantaneous and the second where it doesn't occur at all, provide bounds on the problem.
+At these two extreme cases, the first where heat transfer is instantaneous and the second where it doesn't occur at all, provide bounds on the problem.
 
 ### Isothermal Compressible Flow
 
-Isothermal compressible flow of an ideal gas is fairly straight forward. As already mentioned the Reynold's number depends only on temperature, which is constant by definition, so the Reynold's number is a constant. This means the frictional head loss is also constant throughout, and it is a simple matter to calculate the pressure drop.
+Isothermal compressible flow of an ideal gas is fairly straight forward. As already mentioned the Reynolds number depends only on temperature, which is constant by definition, so the Reynolds number is a constant. This means the frictional head loss is also constant throughout, and it is a simple matter to calculate the pressure drop.
 
 The assumption that the flow is isothermal is very reasonable in this case. We are assuming normal venting from a tank at thermal equilibrium with it's surroundings, that is that the air flowing through the vent starts and ends in reservoirs of equal temperature. As gases expand the temperature decreases but the pressure drop across the vent is small so this effect should be negligible.
 
-A quick check is to estimate the ratio of temperatures at the start and end of the vent assuming a frictionless adiabatic expansion
+A quick check is to estimate the ratio of temperatures at the start and end of the vent assuming a friction-less adiabatic expansion
 
 $$ p_1^{1-k} T_1^k = p_2^{1-k} T_2^k = \mathrm{const}$$
 
@@ -297,12 +297,12 @@ Adiabatic flow of an ideal gas through a pipe, also called Fanno flow, is somewh
 
 There are a few ways of setting up the calculations. We could assume the gas exits at ambient conditions -- both ambient temperature and pressure -- or assume the tank starts at thermal equilibrium with the environment but at a higher pressure and the gas exits at ambient pressure and some other temperature -- less than ambient due to adiabatic expansion. The first set of assumptions is in some ways easier to calculate, but the second set of assumptions is more physically realistic, and consistent with the assumptions made when solving the isothermal case.
 
-One thing we should check before proceeding is whether or not the flow will be choked, essentially will the flow velocity reach $Ma = 1$, the following discussion assumes flow remains sub-sonic, and this is easy to check. The critical pressure, at which flow becomes sonic, is given by<a href="#fn-6" class="sidenote-number"></a><span class="sidenote" id="fn-6">[Tilton](#tilton-2007) "Fluid and Particle Dynamics," 6-23.</span>
+One thing we should check before proceeding is whether or not the flow will be choked, essentially will the flow velocity reach $Ma = 1$, the following discussion assumes flow remains subsonic, and this is easy to check. The critical pressure, at which flow becomes sonic, is given by<a href="#fn-6" class="sidenote-number"></a><span class="sidenote" id="fn-6">[Tilton](#tilton-2007) "Fluid and Particle Dynamics," 6-23.</span>
 
 
 $$ { p^o \over p_1 } = \left(2 \over k+1 \right)^{k \over {k-1} } $$
 
-with the criteria that flow is sub-sonic if
+with the criteria that flow is subsonic if
 
 $$ { p_2 \over p_1 } > { p^o \over p_1 } $$
 
@@ -319,7 +319,7 @@ $$ Fa = \left( \frac{fL^{*} }{D} \right) = \frac{1 - Ma^{2} }{kMa^{2} } + \frac{
 
 Where I am defining $Fa$ to be the Fanno parameter. The Fanno parameter is calculated from some point in the flow path through to the critical point, where flow goes sonic. The critical point can be a hypothetical point, assuming the pipe is infinite, or it can be real. In this case I am assuming the flow within the vent will remain subsonic.
 
-It is worth noting that elbows near the exit of a pipe may choke the flow even though the $Ma &lt; 1$ due to the nonuniform velocity profile in the elbow. By the design of this gooseneck we know this is the case and should keep that in mind when evaluating the results.
+It is worth noting that elbows near the exit of a pipe may choke the flow even though the $Ma &lt; 1$ due to the nonuniform velocity profile in the elbow. By the design of this goose-neck we know this is the case and should keep that in mind when evaluating the results.
 
 For two points along a pipe, 1 and 2, the difference between their Fanno parameters is the frictional loss between those two points<a href="#fn-8" class="sidenote-number"></a><span class="sidenote" id="fn-8">[Tilton](#tilton-2007) "Fluid and Particle Dynamics," 6-24.</span>
 
@@ -339,7 +339,7 @@ $$ Ma = { v \over c } = G { {R T} \over {p  Mw} } \sqrt{ Mw \over {k R T} } = \f
 
 $$ Ma_{i} = \frac{v}{c} = \frac{G}{p_{i} } \sqrt{ \frac{RT_{i} }{kMw} } $$
 
-and the pressure can be calculated given a Mach number by re-arranging
+and the pressure can be calculated given a Mach number by rearranging
 
 $$ p_{i} = \frac{G}{Ma_{i} } \sqrt{ \frac{RT_{i} }{kMw} } $$
 
@@ -450,7 +450,7 @@ In general the incompressible model will always *overestimate* the pressure drop
 
 Often things like compressible flow can be intimidating since these problems, even in the simplified ideal gas case, require iterative solutions and often iterative solutions within iterative solutions. However, once the basic pieces are set up, compressible flow can be fairly simple to deal with. There are some pitfalls here that, if one wanted to create a nice generalized set of code, would have to be dealt with.
 
-The big one being all the `find_zero()` calls that rely on the initial guess being a good one, or the bracketed values actually bracketing the answer. It's more than possible to supply a terrible initial guess, especially for pipe diameter, and have the root solver fail outright. Adding some code to check that guesses are within the domains of functions would be a start, e.g. catching attempts to take `log(0)` and returning `-Inf` or something to ensure that the root-finding algorithms respect function domains. This also presents an opportunity to generate better default values, programatically, prior to solving. As opposed to me just picking reasonable numbers off the top of my head and having everything work out because I'm lucky.
+The big one being all the `find_zero()` calls that rely on the initial guess being a good one, or the bracketed values actually bracketing the answer. It's more than possible to supply a terrible initial guess, especially for pipe diameter, and have the root solver fail outright. Adding some code to check that guesses are within the domains of functions would be a start, e.g. catching attempts to take `log(0)` and returning `-Inf` or something to ensure that the root-finding algorithms respect function domains. This also presents an opportunity to generate better default values, programmatically, prior to solving. As opposed to me just picking reasonable numbers off the top of my head and having everything work out because I'm lucky.
 
 Relatedly there is a lot of room to fiddle around with which root finding algorithm is employed.
 

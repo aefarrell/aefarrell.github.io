@@ -1,5 +1,6 @@
 ---
 title: "Vessel Blowdown - Ideal Gases"
+last_modified_at: 2025-02-22
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -26,7 +27,7 @@ A recurring task of mine is to look at some old calculations, done by some previ
 </figure>
 
 
-Consider the blowdown of a pressure vessel to a vent stack, where the vessel contains a gas. What we want, in this case, is the time it takes to depressure and the pressure in the vessel as a function of time -- the blowdown curve. As a first approximation we can consider the ideal gas case and examine two limiting behaviours for the vessel: when the walls are perfect insulators (the adiabatic case) and when the walls are perfect conductors of heat (the isothermal case). Furthermore we assume the blowdown is through an isentropic nozzle.
+Consider the blowdown of a pressure vessel to a vent stack, where the vessel contains a gas. What we want is the time to fully depressure and the pressure curve (the blowdown curve). As a first approximation we can consider the ideal gas case and examine two limiting behaviours for the vessel: when the walls are perfect insulators (the adiabatic case) and when the walls are perfect conductors of heat (the isothermal case). Furthermore we assume the blowdown is through an isentropic nozzle.
 
 
 ## The Adiabatic Case
@@ -68,7 +69,7 @@ $$
 
 ### Fully Choked Flow
 
-Assuming the flow through the valve is choked, the velocity in the throat is the sonic velocity $a_t$ and, for an ideal gas, the speed of sound is given by
+Assuming the flow through the valve is choked, the velocity in the throat is the sonic velocity $a_t$ which, for an ideal gas, is given by
 
 $$
 a = \sqrt{ {k R T} \over M} = \sqrt{ {k P} \over \rho}
@@ -162,12 +163,12 @@ $$
 \frac{w}{w_0} = \left( \frac{P}{P_0} \right)^{ {k+1} \over {2k} } = \left( 1 + \left({k-1} \over 2 \right) \frac{t}{\tau} \right)^{\frac{1+k}{1-k} }
 $$
 
-This final model, for mass flow, is the model most often given in process safety references for blowdown rates. This makes some sense as early in a blowdown the observed pressure curve tend to approximate the adiabatic curve. However (foreshadowing) the isothermal curve leads to higher predicted vessel pressures, and generally higher Mass's flow rates, which might be more conservative depending on the context.
+This final model, for mass flow, is the model most often given in process safety references for blowdown rates. This makes some sense as early in a blowdown the observed pressure curve tend to approximate the adiabatic curve. However (foreshadowing) the isothermal curve leads to higher predicted vessel pressures, and generally higher mass flow rates, which might be more conservative depending on the context.
 
 
 ### In the Literature
 
-The adiabatic model is the only simple model given in Lees<a href="#fn-4" class="sidenote-number"></a><span class="sidenote" id="fn-4">[Lees](#lees-1996), *Loss Prevention in the Process Industries*, 15/44</span>, with the recommendation to use software such as BLOWDOWN to handle more complex, multi phase, mixtures and heat transfer problems. This is also what my older copy of Perry's gives<a href="#fn-5" class="sidenote-number"></a><span class="sidenote" id="fn-5">[Crowl *et al.*](#crowl-2008), "Process Safety," 23-57</span>, albeit with a typo.
+The adiabatic model is the only simple model given in Lees,<a href="#fn-4" class="sidenote-number"></a><span class="sidenote" id="fn-4">[Lees](#lees-1996), *Loss Prevention in the Process Industries*, 15/44</span> with the recommendation to use software such as BLOWDOWN to handle more complex, multi phase, mixtures and heat transfer problems. This is also what my older copy of Perry's gives,<a href="#fn-5" class="sidenote-number"></a><span class="sidenote" id="fn-5">[Crowl *et al.*](#crowl-2008), "Process Safety," 23-57</span> albeit with a typo.
 
 {% capture inlinenote-1 %}
 Perry's gives the following
@@ -200,6 +201,10 @@ $$
 \rho = \rho_0 \left(\frac{P}{P_0}\right)^{\frac{1}{k} }
 $$
 
+$$
+G = \sqrt{ \rho P \left( {2k} \over {k - 1} \right) \left( \left( \frac{P_t}{P}\right)^{ \frac{2}{k} } - \left( \frac{P_t}{P} \right)^{ \frac{k+1}{k} } \right) }
+$$
+
 
 ```julia
 function isentropic_mass_flow(P, ρ; k=1.4, Pₐ=101325)
@@ -227,6 +232,8 @@ function adiabatic_vessel(P, params, t)
 end
 ```
 
+with a callback function to terminate the integration once the vessel is fully depressured
+
 ```julia
 function depressured_callback(P, t, integrator; tol=0.001)
     c, A, V, k, ρ₀, P₀, Pₐ = integrator.p
@@ -248,7 +255,7 @@ begin
 end;
 ```
 
-I looked around online and a typical tank with a [80 cu. ft. capacity](https://www.divegearexpress.com/library/articles/calculating-scuba-cylinder-capacities) might have a "water volume" (actual internal volume) of 678 cu. in. (11.11L) and a working pressure of 3000 psi (20.68 MPa). I don't actually know the flow area of a tank valve, I couldn't find it easily, so I'm going to guess it's basically a 5 mm diameter tube when fully open, with a discharge coefficient of 0.85 -- all of this could be firmed up better with some real details of the valve. But this is a start.
+I looked around online and a typical tank with a [80 cu. ft. capacity](https://www.divegearexpress.com/library/articles/calculating-scuba-cylinder-capacities) might have a "water volume" (actual internal volume) of 678 cu. in. (11.11L) and a working pressure of 3000 psi (20.68 MPa). I don't actually know the flow area of a tank valve, I couldn't find it easily, so I'm going to guess it's basically a 1 mm diameter tube when fully open, with a discharge coefficient of 0.85 -- all of this could be firmed up better with some real details of the valve. But this is a start.
 
 
 ```julia
@@ -286,7 +293,7 @@ end;
 <figcaption> The adiabatic blowdown curve for a fully charged SCUBA tank, showing both the fully choked model and the ODE solution.</figcaption>
 </figure>
 
-So this is saying it blows down pretty fast, in less than 30s. Probably my guess for the valve area is too large. I did just make it up.
+This model has the tank blowing down pretty fast, in less than 30s. Probably my guess for the valve area is too large. I did just make it up.
 
 Regarding the models themselves, the adiabatic choked model is a very good approximation to the full ODE until the last few fractions of a second, at which point the models diverge. This likely to be true for any high pressure blowdowns, where the vessel pressure starts well above ~2atm, as in that case the majority of the blowdown will be entirely in the choked flow regime.
 
@@ -468,7 +475,7 @@ That said...I'm being a little coy about something: the full ODE predicts that t
 
 ## The Isothermal Case
 
-The other limiting case worth exploring is the isothermal case, which is equivalent to the vessel having perfectly conductive walls and remaining always at thermal equilibrium with the environment. This is often a good approximation for large vessels where the blowdown rate is small relative ti the thermal mass of the gas in the vessel.
+The other limiting case worth exploring is the isothermal case, which is equivalent to the vessel having perfectly conductive walls and remaining always at thermal equilibrium with the environment. This is often a good approximation for large vessels where the blowdown rate is small relative to the thermal mass of the gas in the vessel.
 
 Recalling, for the adiabatic case, we had the following
 
@@ -563,7 +570,7 @@ with the units
 + Initial pressure, $P_0$, in psia
 + Ambient pressure, $P_a$, in psia
 
-Though I have found a few sources that leave the value of the constant as a mystery for the user to puzzle out<a href="#fn-9" class="sidenote-number"></a><span class="sidenote" id="fn-9">[Temizel *et al.*](#temizel-2019), *Formulas and Calculations for Petroleum Engineering*, 262; [Engineers Edge](#engineers-2025), "Blowdown Time in Unsteady Gas Flow Calculator and Equation."</span>. I was honestly surprised at the quality of the results when I first googled this and looked it up in [Knovel](https://app.knovel.com/kn). The highest ranked results, at the time, were cryptic to the point of uselessness or included obvious mistakes (several referred to *t* as the "interstitial velocity" with units of cm/s, an obvious misprint being blindly recopied in several places, including some e-books on Knovel where one would hope the quality control would be better). There are a few places with useful derivations<a href="#fn-10" class="sidenote-number"></a><span class="sidenote" id="fn-10">[Wheeler](#wheeler-2019), "Tank Blowdown Math."; [Botros, Jungowski, and Weiss](#botros-1989), "Models and Methods of Simulating Gas Pipeline Blowdown."; [Botros and Van Hardeveld](#botros-2018), *Pipeline Pumping and Compression Systems*, 447; [Saad](#saad-1985), *Compressible Fluid Flow*, 98-103, to list but a few.</span> but I think a good starting point is the [Tank Blowdown Math](http://www.et.byu.edu/~wheeler/Tank_Blowdown_Math.pdf) set of notes. It is pretty straight forward and does not require a lot of prior knowledge of the partial derivatives of various thermodynamic state variables.
+I have also found a few sources that leave the value of the constant as a mystery for the user to puzzle out.<a href="#fn-9" class="sidenote-number"></a><span class="sidenote" id="fn-9">[Temizel *et al.*](#temizel-2019), *Formulas and Calculations for Petroleum Engineering*, 262; [Engineers Edge](#engineers-2025), "Blowdown Time in Unsteady Gas Flow Calculator and Equation."</span> I was honestly surprised at the quality of the results when I first googled this and looked it up in [Knovel](https://app.knovel.com/kn). The highest ranked results, at the time, were cryptic to the point of uselessness or included obvious mistakes (several referred to *t* as the "interstitial velocity" with units of cm/s, an obvious misprint being blindly recopied in several places, including some e-books on Knovel where one would hope the quality control would be better). There are a few places with useful derivations<a href="#fn-10" class="sidenote-number"></a><span class="sidenote" id="fn-10">[Wheeler](#wheeler-2019), "Tank Blowdown Math."; [Botros, Jungowski, and Weiss](#botros-1989), "Models and Methods of Simulating Gas Pipeline Blowdown."; [Botros and Van Hardeveld](#botros-2018), *Pipeline Pumping and Compression Systems*, 447; [Saad](#saad-1985), *Compressible Fluid Flow*, 98-103, to list but a few.</span> but I think a good starting point is the [Tank Blowdown Math](http://www.et.byu.edu/~wheeler/Tank_Blowdown_Math.pdf) set of notes. It is pretty straight forward and does not require a lot of prior knowledge of the partial derivatives of various thermodynamic state variables.
 
 I personally would not bother with the models that pre-calculate the constant for you. We no longer live in the age of slide-rules. The blowdown time equation for fully choked flow is well within the capabilities of excel or any competent person with a scientific calculator. I think it is easier to justify and explain, will be a better model for gases where *k* is not 1.4, and allows one to incorporate small levels of non-ideality through the [isentropic expansion factor](https://aefarrell.github.io/2024/10/28/relief_valve_sizing/#the-isentropic-expansion-factor) *n*.
 
@@ -613,6 +620,8 @@ We can solve this numerically given that, for an isothermal system, the density 
 $$
 \rho = \rho_0 \left(\frac{P}{P_0}\right)
 $$
+
+and using the definition of *G* given in the adiabatic case.
 
 ```julia
 function isothermal_vessel(P, params, t)
