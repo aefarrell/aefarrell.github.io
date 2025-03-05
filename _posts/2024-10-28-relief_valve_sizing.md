@@ -409,11 +409,12 @@ $$ 2 \int_0^{\Delta P_t} v d \left( \Delta P \right) - c^2 = 0 $$
 which is simply restating $u_t = c_t$.
 
 ```julia
-function ∂G²_callback(∫vdP, ΔP, integrator)
-    model, P, T0, s, z = integrator.p
-    T = isentropic_temperature(model, P-ΔP, s, T0; z=z)
-    c = speed_of_sound(model, P-ΔP, T, z)
-    return 2∫vdP - c^2
+function ∂G²_callback(u, ΔP, integrator)
+	∫vdP, Tₜ = u
+	model, P₁, s₁, z, Mw = integrator.p
+	Pₜ = P₁ - ΔP
+	c = speed_of_sound(model, Pₜ, Tₜ, z)
+	return 2∫vdP - c^2
 end
 ```
 
