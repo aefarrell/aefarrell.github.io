@@ -8,7 +8,7 @@ comments: true
 categories:
   - examples
 tags:
-  - dispersion modeling
+  - dispersion modelling
   - explosion
   - hazard screening
 tagline: "Using the Baker-Strehlow-Tang model for a vapour cloud explosion."

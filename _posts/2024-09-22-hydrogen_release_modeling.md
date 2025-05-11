@@ -1,5 +1,5 @@
 ---
-title: "Modeling Hydrogen Releases Using HyRAM+"
+title: "Modelling Hydrogen Releases Using HyRAM+"
 toc: true
 toc_label: "Contents"
 toc_sticky: true
@@ -8,20 +8,20 @@ categories:
   - examples
 tags:
   - hydrogen
-  - dispersion modeling
+  - dispersion modelling
   - indoor accumulation
-tagline: "hydrogen plume modeling and indoor accumulation"
+tagline: "hydrogen plume modelling and indoor accumulation"
 header:
   overlay_image: /images/hydrogen_release_modeling_files/chuttersnap-unsplash-gas-cylinder.jpg
   overlay_filter: 0.25
   caption: "Photo by [CHUTTERSNAP](https://unsplash.com/@chuttersnap?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/black-and-yellow-oxygen-tank-at-daytime-5v9S6Rw02Lw?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)"
 ---
 
-# Modeling Hydrogen Releases Using HyRAM+
+# Modelling Hydrogen Releases Using HyRAM+
 
-Continuing on a [series](https://aefarrell.github.io/2022/11/10/hydrogen_blending/) of [posts](https://aefarrell.github.io/2024/01/13/fugitive-hydrogen/) on [hydrogen](https://aefarrell.github.io/tags/#hydrogen) of sorts, this post is on modeling hydrogen releases for risk assessment. Industry in many places, and in Alberta in particular, is looking to hydrogen as a key component of the transition to a low carbon future. This means that, suddenly, there will by hydrogen pressure equipment in a lot of process areas where it wasn't before, as fuel gas. 
+Continuing on a [series](https://aefarrell.github.io/2022/11/10/hydrogen_blending/) of [posts](https://aefarrell.github.io/2024/01/13/fugitive-hydrogen/) on [hydrogen](https://aefarrell.github.io/tags/#hydrogen) of sorts, this post is on modelling hydrogen releases for risk assessment. Industry in many places, and in Alberta in particular, is looking to hydrogen as a key component of the transition to a low carbon future. This means that, suddenly, there will by hydrogen pressure equipment in a lot of process areas where it wasn't before, as fuel gas. 
 
-Hydrogen presents an interesting challenge for hazard analysis as it is lighter than air, rising and accumulating in places a more standard analysis would neglect. In my experience, the typical release modeling tools are for neutrally buoyant or negatively buoyant (heavier than air) gas releases, such as Gaussian plume models or dense gas models like SLAB, DEGADIS, and PHAST. They are not designed for, and may not accurately capture, the dispersion of hydrogen.
+Hydrogen presents an interesting challenge for hazard analysis as it is lighter than air, rising and accumulating in places a more standard analysis would neglect. In my experience, the typical release modelling tools are for neutrally buoyant or negatively buoyant (heavier than air) gas releases, such as Gaussian plume models or dense gas models like SLAB, DEGADIS, and PHAST. They are not designed for, and may not accurately capture, the dispersion of hydrogen.
 
 Dense gas models typically assume cloud dynamics that are particular to denser than air clouds, with limiting behavior that brings the results in line with a neutrally buoyant release. Denser than air clouds pile up around the source, leading to dispersion upwind of the source, and have sharper cloud fronts than a more neutral cloud. These features are often written into the governing equations for plume dispersion from the outset.
 
@@ -69,7 +69,7 @@ theta = np.pi/4
 orifice = hp.Orifice(d_H, c_d)
 ```
 
-### Modeling the Jet
+### Modelling the Jet
 
 The jet is modeled, by HyRAM+, as as a steady-state jet consisting of 3 distinct zones<a href="#fn-3" class="sidenote-number"></a><span class="sidenote" id="fn-3">[Ehrhart, Hecht, and Schroeder](#erhart-2023). *HyRAM+ Technical Reference Manual*</span>:
 
@@ -136,7 +136,7 @@ jet.mass_flow_rate/ideal_gas_jet
 
 The HyRAM+ model is estimating a ~6% greater mass flow rate through the orifice than a simple ideal gas jet model. From an end user perspective, this adds a dimension of realism to the model without requiring really anything more from the user. There are probably several opportunities to use more realistic fluid models, elsewhere in the standard literature of hazard analysis, that haven't been realized more for reasons of tradition and laziness than anything else. 
 
-In the past, modeling an isentropic nozzle with a real gas from scratch was a pain as there is a lot of overhead in implementing a more realistic equation of state. Especially gathering all of the relevant model parameters. With libraries like `CoolProp`, it really drops the barrier for incorporating more realistic fluid models into ones calculations.
+In the past, modelling an isentropic nozzle with a real gas from scratch was a pain as there is a lot of overhead in implementing a more realistic equation of state. Especially gathering all of the relevant model parameters. With libraries like `CoolProp`, it really drops the barrier for incorporating more realistic fluid models into ones calculations.
 
 ### Calculating Downstream Distances
 

@@ -9,7 +9,7 @@ categories:
   - notes
 tags:
   - turbulent jets
-  - dispersion modeling
+  - dispersion modelling
 tagline: "Notes on turbulent jets and velocity profiles."
 header:
   overlay_image: /images/chuttersnap-unsplash-header.jpg

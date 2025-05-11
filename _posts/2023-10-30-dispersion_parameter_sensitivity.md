@@ -8,7 +8,7 @@ comments: true
 categories:
   - examples
 tags:
-  - dispersion modeling
+  - dispersion modelling
 tagline: "The importance of choosing the right references"
 header:
   overlay_image: /images/gaussian_dispersion_example_files/veeterzy-unsplash-header.jpg

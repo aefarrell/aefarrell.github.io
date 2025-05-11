@@ -8,7 +8,7 @@ comments: true
 categories:
   - notes
 tags:
-  - dispersion modeling
+  - dispersion modelling
 tagline: "successive approximations to ... an integrated gaussian puff model"
 header:
   overlay_image: /images/gaussian_dispersion_example_files/veeterzy-unsplash-header.jpg

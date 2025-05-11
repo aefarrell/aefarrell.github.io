@@ -8,7 +8,7 @@ comments: true
 categories:
   - examples
 tags:
-  - dispersion modeling
+  - dispersion modelling
 tagline: "an integrated gaussian puff model"
 header:
   overlay_image: /images/gaussian_dispersion_example_files/veeterzy-unsplash-header.jpg

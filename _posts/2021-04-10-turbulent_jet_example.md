@@ -9,7 +9,7 @@ categories:
   - examples
 tags:
   - chemical releases
-  - dispersion modeling
+  - dispersion modelling
   - hazard screening
   - turbulent jets
 tagline: "Estimating the explosive mass"

@@ -8,7 +8,7 @@ comments: true
 categories:
   - notes
 tags:
-  - dispersion modeling
+  - dispersion modelling
   - explosion
   - hazard screening
 tagline: "Re-evaluating plume extents and determing the explosive mass"
