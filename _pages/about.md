@@ -11,12 +11,12 @@ That's where these notebooks come from, they are mostly worked examples of thing
 
 ## Caveat Emptor
 
-While I may be an engineer, I am not *your* engineer. You should not blindly follow whatever you read on anyone's blog, and instead see this as a starting point for your own work and research. I try to provide references, so you can check my work and my assumptions, and these can be very fruitful starting points to read more of the context around what I'm doing. It's entirely possible that there is a better model out there, in the same reference that I use, for your particular problem! Also I often simplify the example I'm doing to zoom in on details I'm interested  in while glossing over pieces that are important to a more fullsome engineering analysis.
+While I may be an engineer, I am not *your* engineer. You should not blindly follow whatever you read on anyone's blog, and instead see this as a starting point for your own work and research. I try to provide references, so you can check my work and my assumptions, and these can be very fruitful starting points to read more of the context around what I'm doing. It's entirely possible that there is a better model out there, in the same reference that I use, for your particular problem! Also I often simplify the example I'm doing to zoom in on details I'm interested  in while glossing over pieces that are important to a more fulsome engineering analysis.
 
 And let's not forget that I can simply be wrong!
 
 ## Technical Details
 
-Each post has a [corresponding notebook](https://nbviewer.jupyter.org/github/aefarrell/aefarrell.github.io/tree/main/_notebooks/) which should be a stand alone document. The notebooks also include a bunch of boiler plate, especially for importing modules and generating plots, if you want to run any of the code presented I recommend downloading the notebook and running that.
+Each post has a [corresponding notebook](https://github.com/aefarrell/aefarrell.github.io/tree/main/_notebooks) which should be a stand alone document. The notebooks also include a bunch of boiler plate, especially for importing modules and generating plots, if you want to run any of the code presented I recommend downloading the notebook and running that.
 
-The notebooks are [jupyter notebooks](https://jupyter.org/) and running either [Julia](https://julialang.org/) or [Python](https://www.python.org/).
+The notebook format is either [jupyter](https://jupyter.org/) or [Pluto](https://plutojl.org/).

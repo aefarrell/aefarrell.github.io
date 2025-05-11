@@ -105,6 +105,15 @@
     </script>
 
     <style>
+    
+    /* change the size of the article and sidebar */
+		@media (min-width: 80em) {
+			.sidebar { width:calc(350px - 1em) }
+			.page { width:calc(100% - 350px); padding-inline-end:200px}
+        	.archive { width:calc(100% - 350px); padding-inline-end:200px} 
+		}
+	
+	
     /* change the default size of inline formulas  */
         .katex { font-size: 1.0em !important; }
 

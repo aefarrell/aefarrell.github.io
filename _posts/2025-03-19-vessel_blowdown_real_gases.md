@@ -796,6 +796,9 @@ I did not put a lot of effort into making exceptionally performant code. Firstly
 
 Given those limitations, the performance of the two models can be compared using `BenchmarkTools.jl`.
 
+```julia
+@benchmark adiabatic_blowdown(nitrogen, vessel, atm)
+```
 
 ```
 BenchmarkTools.Trial: 42 samples with 1 evaluation.
@@ -810,11 +813,11 @@ BenchmarkTools.Trial: 42 samples with 1 evaluation.
  Memory estimate: 59.87 MiB, allocs estimate: 948090.
 ```
 
-```julia
-@benchmark adiabatic_blowdown(nitrogen, vessel, atm)
-```
-
 The adiabatic blowdown using the energy model is about 35% faster than the pressure model. Partly this is due to the choice of terminating callbacks. Whether or not integration is terminated with a `DiscreteCallback` or a `ContinuousCallback` does not meaningfully change the performance for the pressure model. However, this choice dramatically changes the performance of the energy model. Changing to a `ContinuousCallback` erases the difference between the two models.
+
+```julia
+@benchmark energy_eqn_blowdown(nitrogen, vessel, atm)
+```
 
 ```
 BenchmarkTools.Trial: 56 samples with 1 evaluation.
@@ -829,9 +832,6 @@ BenchmarkTools.Trial: 56 samples with 1 evaluation.
  Memory estimate: 44.30 MiB, allocs estimate: 727470.
 ```
 
-```julia
-@benchmark energy_eqn_blowdown(nitrogen, vessel, atm)
-```
 
 The pressure model performance at the end of the blowdown is strongly dependent on whether molar volume is used as a state variable. When used as a state variable there is a major performance hit compared to moving the volume into the RHS, nearly double the compute time. Removing it as a state variable comes with a cost to the accuracy near the termination of the blowdown. It is not obvious to me why this is the case (maybe using volume as a system variable forces the solver to take smaller time steps?), but it hints that there are opportunities to improve the pressure model by tweaking how molar volume is incorporated.
 
