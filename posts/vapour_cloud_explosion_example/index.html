@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Allan Farrell">
+<meta name="dcterms.date" content="2021-01-09">
+<meta name="description" content="Using the Baker-Strehlow-Tang model for a vapour cloud explosion.">
+
+<title>VCE Example - Butane Vapour Cloud – A Chemical Engineer’s Notebook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-59228ce9c52eba116baca5d538563979.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: #ffffff;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: #ffffff;
+background: url(../../images/pipes-unsplash-header.jpg);
+      }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<style>
+.quarto-title-block .quarto-title-banner {
+  min-height: 100%;
+  background-size: cover;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
+}
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="VCE Example - Butane Vapour Cloud – A Chemical Engineer’s Notebook">
+<meta property="og:description" content="Using the Baker-Strehlow-Tang model for a vapour cloud explosion.">
+<meta property="og:image" content="https://aefarrell.github.io/posts/vapour_cloud_explosion_example/index_files/figure-html/fig-curves-output-1.svg">
+<meta property="og:site_name" content="A Chemical Engineer's Notebook">
+</head>
+
+<body class="floating nav-fixed slimcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">A Chemical Engineer’s Notebook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> <i class="bi bi-info-circle" role="img">
+</i> 
+<span class="menu-text">about</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> <i class="bi bi-wrench-adjustable-circle" role="img">
+</i> 
+<span class="menu-text">projects</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">VCE Example - Butane Vapour Cloud</h1>
+                  <div>
+        <div class="description">
+          Using the Baker-Strehlow-Tang model for a vapour cloud explosion.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">julia</div>
+                <div class="quarto-category">chemical releases</div>
+                <div class="quarto-category">hazard screening</div>
+                <div class="quarto-category">dispersion modelling</div>
+                <div class="quarto-category">explosions</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Allan Farrell </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 9, 2021</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#vapour-cloud-dispersion" id="toc-vapour-cloud-dispersion" class="nav-link active" data-scroll-target="#vapour-cloud-dispersion">Vapour Cloud Dispersion</a>
+  <ul class="collapse">
+  <li><a href="#atmospheric-stability-and-wind-profile" id="toc-atmospheric-stability-and-wind-profile" class="nav-link" data-scroll-target="#atmospheric-stability-and-wind-profile">Atmospheric Stability and Wind Profile</a></li>
+  <li><a href="#release-type" id="toc-release-type" class="nav-link" data-scroll-target="#release-type">Release Type</a></li>
+  <li><a href="#dense-gas-dispersion" id="toc-dense-gas-dispersion" class="nav-link" data-scroll-target="#dense-gas-dispersion">Dense Gas Dispersion</a></li>
+  <li><a href="#britter-mcquaid-model" id="toc-britter-mcquaid-model" class="nav-link" data-scroll-target="#britter-mcquaid-model">Britter-McQuaid model</a></li>
+  </ul></li>
+  <li><a href="#vapour-cloud-explosion" id="toc-vapour-cloud-explosion" class="nav-link" data-scroll-target="#vapour-cloud-explosion">Vapour Cloud Explosion</a>
+  <ul class="collapse">
+  <li><a href="#explosive-energy" id="toc-explosive-energy" class="nav-link" data-scroll-target="#explosive-energy">Explosive Energy</a></li>
+  <li><a href="#the-bst-model" id="toc-the-bst-model" class="nav-link" data-scroll-target="#the-bst-model">The BST model</a></li>
+  <li><a href="#sensitivity" id="toc-sensitivity" class="nav-link" data-scroll-target="#sensitivity">Sensitivity</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<p>In a <a href="../../posts/butane_leak_example/">previous post</a> I worked through estimating the airborne quantity of butane due to a leak from a storage sphere. That example stopped at estimating the total quantity released, here I would like to go further into the potential for a vapour cloud explosion.</p>
+<p>As a recap the scenario is a leak from a butane storage sphere, the leak is 10ft above grade and results in cloud of mostly aerosolized butane that is initially below ambient temperature. The scenario parameters and results are summarized below.</p>
+<p>As a quick note, the whole purpose of this exercise is a sort of high-level hazard screening. Detailed enough to decide whether or not the consequences of a hazard warrant more detailed modeling.</p>
+<div id="cell-2" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Unitful</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Interpolations</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CSV</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DataFrames</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">gr</span>()</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>ft <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"m"</span>, <span class="fl">1</span>u<span class="st">"ft"</span>)     <span class="co"># unit conversion ft-&gt;m</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>inch <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"m"</span>, <span class="fl">1</span>u<span class="st">"inch"</span>) <span class="co"># unit conversion inch-&gt;m</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>psi <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"Pa"</span>, <span class="fl">1</span>u<span class="st">"psi"</span>)  <span class="co"># unit conversion psi-&gt;Pa</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-3" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scenario parameters</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>hᵣ <span class="op">=</span> <span class="fl">10</span>ft       <span class="co"># height of release point, m</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pₐ<span class="op">=</span> <span class="fl">14.7</span>psi     <span class="co"># atmospheric pressure, Pa</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Tₐ<span class="op">=</span> <span class="fl">25</span> <span class="op">+</span> <span class="fl">273.15</span> <span class="co"># the ambient temperature, K</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>td <span class="op">=</span> <span class="fl">10</span><span class="op">*</span><span class="fl">60</span>      <span class="co"># release duration, 10 minutes, s</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Constants</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> <span class="fl">8.31446261815324</span> <span class="co"># universal gas constant, J/mol/K</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="fl">9.806</span>            <span class="co"># acceleration due to gravity, m/s2</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Properties of Butane, from Perry's or DIPPR</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>Mw <span class="op">=</span> <span class="fl">58.122</span>    <span class="co"># molar weight kg/kmol</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ρₗ</span>(T) <span class="op">=</span> <span class="fu">Mw*</span>( <span class="fl">1.0677</span><span class="op">/</span><span class="fl">0.27188</span><span class="op">^</span>(<span class="fl">1</span><span class="op">+</span> (<span class="fl">1</span><span class="op">-</span>T<span class="op">/</span><span class="fl">425.12</span>)<span class="op">^</span><span class="fl">0.28688</span>) ) <span class="co"># density liquid, kg/m3</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ρg</span>(T) <span class="op">=</span> (pₐ<span class="op">*</span>Mw)<span class="op">/</span>(R<span class="op">*</span>T)<span class="op">/</span><span class="fl">1000</span> <span class="co"># density gas, ideal gas law, kg/m3</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>ΔHc <span class="op">=</span> <span class="fl">2657.320</span> <span class="co"># heat of combustion, kJ/mol</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>LFL <span class="op">=</span> <span class="fl">1.86e-2</span>  <span class="co"># lower flammability limit, vol/vol</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Properties of Air</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>MWₐᵢᵣ <span class="op">=</span> <span class="fl">28.960</span>                  <span class="co"># molar weight air, kg/kmol</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ρa</span>(T) <span class="op">=</span> (pₐ<span class="op">*</span>MWₐᵢᵣ)<span class="op">/</span>(R<span class="op">*</span>T)<span class="op">/</span><span class="fl">1000</span>   <span class="co"># density of air, ideal gas law, kg/m^3</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculated previously</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>Tc <span class="op">=</span> <span class="op">-</span><span class="fl">0.6</span> <span class="op">+</span> <span class="fl">273.15</span>       <span class="co"># cloud temperature, K</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>fᵥ <span class="op">=</span> <span class="fl">0.17128269541302374</span> <span class="co"># flashed fraction</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>fₐ <span class="op">=</span> <span class="fl">0.9227949810754577</span>  <span class="co"># aerosol fraction</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>Qaq <span class="op">=</span> <span class="fl">52.82002170865257</span> <span class="co"># airborne quantity, kg/s</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This example focuses on a next step in a standard hazard screening, namely estimating the scale of a potential vapour cloud explosion. Typically, for flammable gases, the potential for a vapour cloud explosion is the worst case outcome of a release.</p>
+<section id="vapour-cloud-dispersion" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="vapour-cloud-dispersion">Vapour Cloud Dispersion</h2>
+<p>The first step in determining the consequences of a vapour cloud explosion is to estimate the size of the vapour cloud that could take part in the explosion. This is generally done through some sort of dispersion modeling. There are many ways of defining the portion of the vapour cloud that can explode, in this case I am going to assume the flammable portion of the cloud is that with a concentration <span class="math inline">\(\ge \frac{1}{2} LFL\)</span> .</p>
+<p>There is a fair bit of discussion in the literature as to whether to use the LFL or 1/2 LFL, using half the LFL is, at the very least, more conservative and given the simplified methods I am using to estimate the size of the cloud it is probably best to err on the side of an overly large cloud.</p>
+<section id="atmospheric-stability-and-wind-profile" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="atmospheric-stability-and-wind-profile">Atmospheric Stability and Wind Profile</h3>
+<p>Prior to determining the particular dispersion model some meteorological parameters must be decided upon. Atmospheric stability and the wind profile define the extent of vertical mixing, which governs how large the cloud can grow and how dispersed the butane, in this case, will get during the release. They are also important in the decision criteria for which type of dispersion model to use.</p>
+<p>In general, the worst case atmospheric stability is the most stable, Pasquill stability class F, for neutral to negatively buoyant clouds at ground level. This limits the degree of mixing and leads to a larger explosive mass, since we define the explosive mass as the portion of the cloud greater than half the lower flammability limit. If the cloud mixes thoroughly with the air it will be dispersed to levels well below the LFL and thus cannot explode</p>
+<p>For this scenario I am supposing <em>class F</em> stability and a moderate windspeed of <em>3m/s</em> at the release point.</p>
+<p>There are two other important wind-speeds that will be needed, the <em>friction velocity</em>, <span class="math inline">\(u_{\star}\)</span>, and the wind-speed at the standard elevation of 10m, <span class="math inline">\(u_{10}\)</span> which can be obtained from the wind profile. The wind profile can be estimated using a power law distribution parameterized based on the Pasquill stability class.</p>
+<p><span class="math display">\[ {u \over u_r} = \left( h \over h_r \right)^p \]</span></p>
+<p>Where the parameter <em>p</em> is tabulated<span class="citation" data-cites="ccps-1999"><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></span> here</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;<a href="#ref-ccps-1999" role="doc-biblioref">AIChE/CCPS, <em>Guidelines for Consequence Analysis of Chemical Releases.</em>, 83</a>.</p></div></div><table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Stability</th>
+<th style="text-align: center;">urban</th>
+<th style="text-align: center;">rural</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">0.15</td>
+<td style="text-align: center;">0.07</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">0.15</td>
+<td style="text-align: center;">0.07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">C</td>
+<td style="text-align: center;">0.20</td>
+<td style="text-align: center;">0.10</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">D</td>
+<td style="text-align: center;">0.25</td>
+<td style="text-align: center;">0.15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">E</td>
+<td style="text-align: center;">0.40</td>
+<td style="text-align: center;">0.35</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">0.60</td>
+<td style="text-align: center;">0.55</td>
+</tr>
+</tbody>
+</table>
+<p>There are several ways to estimate the friction velocity, but a simple rule of thumb used in the EPA TSCREEN model is to assume</p>
+<p><span class="math display">\[ u_{\star} = 0.06 u_{10} \]</span></p>
+<p>This is a very simplified approach and there are many alternatives to calculating the friction velocity, and parameterizing the atmospheric stability. For the purposes of this simple example this is fine but it is an opportunity for future refinement of the hazard screening.</p>
+<div id="cell-6" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># wind profile</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>uᵣ <span class="op">=</span> <span class="fl">3.0</span>     <span class="co"># the wind-speed at release height, m/s</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fl">0.55</span>     <span class="co"># parameter, pasquill stability class F</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">u</span>(h) <span class="op">=</span> <span class="fu">uᵣ*</span>(h<span class="op">/</span>hᵣ)<span class="op">^</span>p</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>u₁₀ <span class="op">=</span> <span class="fu">u</span>(<span class="fl">10</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>u₊ <span class="op">=</span> <span class="fl">0.06</span> <span class="op">*</span> u₁₀</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>0.3459905806850393</code></pre>
+</div>
+</div>
+</section>
+<section id="release-type" class="level3">
+<h3 class="anchored" data-anchor-id="release-type">Release Type</h3>
+<p>The first important decision is whether to model the release as a continuous plume or an instantaneous puff. In reality the answer is neither but these limiting cases are easier to model and are used as first approximations.</p>
+<p>A simple rule of thumb is that if the distance traveled by a parcel of air over the release duration is greater than 2.5 times the distance to the point of interest, then the release can be modeled as continuous, otherwise it would be treated as instantaneous.</p>
+<p><span class="math display">\[ 2.5 \le { u_r t_d \over x^{\star} } \]</span></p>
+<p>Roughly speaking if the plume is still attached to the release point when the leading edge hits the downwind point of interest then it looks like a continuous plume to an observer at this point.</p>
+<p>This can be used to define a critical distance, such that any distance <em>less</em> than that is best modeled by a continuous release and any distance greater is best modeled by an instantaneous release. This is useful as the downwind distance is, as of yet, unknown. The distance to half the LFL concentration, which defines the extent of the cloud involved in the explosion, depends upon which model is used and is in fact one of the key parameters we need to solve for.</p>
+<div id="cell-8" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x⁺ <span class="op">=</span> uᵣ<span class="op">*</span>td<span class="op">/</span><span class="fl">2.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>720.0</code></pre>
+</div>
+</div>
+<p>From prior experience, the distance to 1/2 LFL will likely be &lt;~200m and so a continuous release can be assumed. If after performing the calculation the downwind distance turns out to be greater than 720m then this can be re-assessed.</p>
+</section>
+<section id="dense-gas-dispersion" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="dense-gas-dispersion">Dense Gas Dispersion</h3>
+<p>The second critical factor for determining which model to use is whether or not the cloud is significantly denser than air. Dense clouds slump and hug the ground to a far greater extent than neutrally buoyant clouds and models for neutral clouds can lead to significant overestimations of the size of the vapour cloud when used on a dense cloud.</p>
+<p>The relevant parameter for determining if a dense gas dispersion model should be used is the Richardson number, the ratio of the potential energy from the excess density to the kinetic energy from ambient turbulence. The Richardson number for continuous releases is defined as<span class="citation" data-cites="ccps-1996"><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></span></p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;<a href="#ref-ccps-1996" role="doc-biblioref">AIChE/CCPS, <em>Guidelines for Use of Vapour Cloud Dispersion Models, 2nd Ed.</em>, 50</a>.</p></div></div><p><span class="math display">\[ \mathrm{Ri} = { { g_o V_r } \over { D_c u_{\star} } } \]</span></p>
+<p>where</p>
+<p><span class="math display">\[ g_o = g { {\rho_c - \rho_a } \over \rho_a } \]</span></p>
+<p>with <span class="math inline">\(\rho_c\)</span> the density of the cloud and <span class="math inline">\(\rho_a\)</span> the density of the ambient air. <span class="math inline">\(V_r\)</span> is the volumetric release rate, and <span class="math inline">\(D_c\)</span> a critical distance, in this case we take <span class="math inline">\(D_c\)</span> to be the release height.</p>
+<p>The density of the cloud is significantly larger than the vapour density of butane as the cloud has a large fraction of aerosolized droplets, overall the cloud density can be estimated by</p>
+<p><span class="math display">\[ \frac{1}{\rho_c} = { f_v \over \rho_g } + { \left(1 - f_v \right) f_a \over \rho_l }\]</span></p>
+<p>The critical Richardson number is about 50 such that if the Richardson number is greater than 50 then a dense gas model must be used.</p>
+<div id="cell-11" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ρc</span>(T) <span class="op">=</span> ((fᵥ<span class="op">/</span><span class="fu">ρg</span>(T)) <span class="op">+</span> ((<span class="fl">1</span><span class="op">-</span>fᵥ)<span class="op">*</span>fₐ<span class="op">/</span><span class="fu">ρₗ</span>(T)))<span class="op">^-</span><span class="fl">1</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>gₒ <span class="op">=</span> g <span class="op">*</span> ((<span class="fu">ρc</span>(Tc) <span class="op">-</span> <span class="fu">ρa</span>(Tₐ))<span class="op">/</span> <span class="fu">ρa</span>(Tₐ))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>Vr <span class="op">=</span> Qaq<span class="op">/</span><span class="fu">ρc</span>(Tc)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>Ri <span class="op">=</span> (gₒ <span class="op">*</span> Vr)<span class="op">/</span>(hᵣ <span class="op">*</span> u₊)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>381.8214520915426</code></pre>
+</div>
+</div>
+<div id="cell-12" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Ri <span class="op">&gt;</span> <span class="fl">50</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>true</code></pre>
+</div>
+</div>
+<p>This suggests that a dense gas model should be used, which conforms to our expectations as the vapour cloud is significantly denser than the ambient air.</p>
+<p>An additional check is to use the criteria from <span class="citation" data-cites="britter-1988">Britter and McQuaid<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></span></p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;<a href="#ref-britter-1988" role="doc-biblioref"><span>“Workbook on the Dispersion of Dense Gases”</span></a>.</p></div></div><p><span class="math display">\[ \left( g_o V_r \over { u_{10}^3 D} \right)^{1/3} \ge 0.15 \]</span></p>
+<p>Where <span class="math inline">\(D\)</span> is a critical distance defined as</p>
+<p><span class="math display">\[ D = \sqrt{ V_r \over u_{10} } \]</span></p>
+<div id="cell-14" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> <span class="fu">√</span>(Vr<span class="op">/</span>u₁₀)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>( (gₒ <span class="op">*</span> Vr) <span class="op">/</span> (u₁₀<span class="op">^</span><span class="fl">3</span> <span class="op">*</span> D) )<span class="op">^</span>(<span class="fl">1</span><span class="op">/</span><span class="fl">3</span>) <span class="op">≥</span> <span class="fl">0.15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>true</code></pre>
+</div>
+</div>
+</section>
+<section id="britter-mcquaid-model" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="britter-mcquaid-model">Britter-McQuaid model</h3>
+<p>The Britter-McQuaid model<span class="citation" data-cites="britter-1988"><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></span> is a dense cloud dispersion model based on dimensional analysis and fitting to experimental data. It is given as a series of correlation curves for six different concentrations and the distance to the concentration of interest is interpolated from these. The concentrations represent a mean concentration over the whole cloud at that distance.</p>
+<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;<a href="#ref-britter-1988" role="doc-biblioref">Britter and McQuaid</a>.</p></div></div><p>This is one of the simpler models to use directly, and is appropriate for a screening case. Dense gas dispersion modeling is a large field with many different models that could be used and, like many things, as the models grow in detail they also grow in the number of parameters that must be provided. For the purposes of screening the limiting factor is often not computing power or model complexity <em>per se</em> as much as the information required to even run the models and the time needed to gather that information.</p>
+<p><em>Note</em> the concentrations in this model are given in volume fraction and it is assumed that the in-cloud concentration of butane is 1.0 (i.e 100%) at the release point.</p>
+<p>The Britter-McQuaid curves can be approximated with a series of piece-wise linear functions<span class="citation" data-cites="ccps-2000"><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></span></p>
+<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;<a href="#ref-ccps-2000" role="doc-biblioref">AIChE/CCPS, <em>Guidelines for Chemical Process Quantitative Risk Analysis</em></a>.</p></div></div><p><span class="math display">\[ \beta = m \alpha + b \]</span></p>
+<div id="cell-16" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">piecewise</span>(α; αs, ms, bs)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> <span class="fu">findnext</span>(x <span class="op">-&gt;</span> x <span class="op">&gt;</span> α, αs, <span class="fl">1</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ms[i]<span class="op">*</span>α <span class="op">+</span> bs[i]</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">piecewise</span>(; αs, ms, bs)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> α <span class="op">-&gt;</span> <span class="fu">piecewise</span>(α, αs<span class="op">=</span>αs, ms<span class="op">=</span>ms, bs<span class="op">=</span>bs)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>Britter_McQuaid_correlations <span class="op">=</span> <span class="fu">Dict</span><span class="dt">{Float64, Function}</span>(</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.001</span> <span class="op">=&gt;</span> <span class="fu">piecewise</span>(αs<span class="op">=</span>[<span class="op">-</span><span class="fl">0.69</span>, <span class="op">-</span><span class="fl">0.25</span>, <span class="op">-</span><span class="fl">0.13</span>, <span class="fl">1.0</span>],</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>                       ms<span class="op">=</span>[<span class="fl">0.00</span>, <span class="fl">0.39</span>, <span class="fl">0.00</span>, <span class="op">-</span><span class="fl">0.50</span>],</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>                       bs<span class="op">=</span>[<span class="fl">2.60</span>, <span class="fl">2.87</span>, <span class="fl">2.77</span>, <span class="fl">2.71</span>]),</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.005</span> <span class="op">=&gt;</span> <span class="fu">piecewise</span>(αs<span class="op">=</span>[<span class="op">-</span><span class="fl">0.67</span>, <span class="op">-</span><span class="fl">0.28</span>, <span class="op">-</span><span class="fl">0.15</span>, <span class="fl">1.0</span>],</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>                       ms<span class="op">=</span>[<span class="fl">0.00</span>, <span class="fl">0.59</span>, <span class="fl">0.00</span>, <span class="op">-</span><span class="fl">0.49</span>],</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>                       bs<span class="op">=</span>[<span class="fl">2.40</span>, <span class="fl">2.80</span>, <span class="fl">2.63</span>, <span class="fl">2.56</span>]),</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.010</span> <span class="op">=&gt;</span> <span class="fu">piecewise</span>(αs<span class="op">=</span>[<span class="op">-</span><span class="fl">0.70</span>, <span class="op">-</span><span class="fl">0.29</span>, <span class="op">-</span><span class="fl">0.20</span>, <span class="fl">1.0</span>],</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>                       ms<span class="op">=</span>[<span class="fl">0.00</span>, <span class="fl">0.49</span>, <span class="fl">0.00</span>, <span class="op">-</span><span class="fl">0.52</span>],</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>                       bs<span class="op">=</span>[<span class="fl">2.25</span>, <span class="fl">2.59</span>, <span class="fl">2.45</span>, <span class="fl">2.35</span>]),</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.020</span> <span class="op">=&gt;</span> <span class="fu">piecewise</span>(αs<span class="op">=</span>[<span class="op">-</span><span class="fl">0.69</span>, <span class="op">-</span><span class="fl">0.31</span>, <span class="op">-</span><span class="fl">0.16</span>, <span class="fl">1.0</span>],</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>                       ms<span class="op">=</span>[<span class="fl">0.00</span>, <span class="fl">0.45</span>, <span class="fl">0.00</span>, <span class="op">-</span><span class="fl">0.54</span>],</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>                       bs<span class="op">=</span>[<span class="fl">2.08</span>, <span class="fl">2.39</span>, <span class="fl">2.25</span>, <span class="fl">2.16</span>]),</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.050</span> <span class="op">=&gt;</span> <span class="fu">piecewise</span>(αs<span class="op">=</span>[<span class="op">-</span><span class="fl">0.68</span>, <span class="op">-</span><span class="fl">0.29</span>, <span class="op">-</span><span class="fl">0.18</span>, <span class="fl">1.0</span>],</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>                       ms<span class="op">=</span>[<span class="fl">0.00</span>, <span class="fl">0.36</span>, <span class="fl">0.00</span>, <span class="op">-</span><span class="fl">0.56</span>],</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>                       bs<span class="op">=</span>[<span class="fl">1.92</span>, <span class="fl">2.16</span>, <span class="fl">2.06</span>, <span class="fl">1.96</span>]),</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.100</span> <span class="op">=&gt;</span> <span class="fu">piecewise</span>(αs<span class="op">=</span>[<span class="op">-</span><span class="fl">0.55</span>, <span class="op">-</span><span class="fl">0.14</span>, <span class="fl">1.0</span>],</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>                       ms<span class="op">=</span>[<span class="fl">0.00</span>, <span class="fl">0.24</span>, <span class="op">-</span><span class="fl">0.50</span>],</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>                       bs<span class="op">=</span>[<span class="fl">1.75</span>, <span class="fl">1.88</span>, <span class="fl">1.78</span>]),</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>Dict{Float64,Function} with 6 entries:
+  0.01  =&gt; #7
+  0.005 =&gt; #7
+  0.02  =&gt; #7
+  0.001 =&gt; #7
+  0.1   =&gt; #7
+  0.05  =&gt; #7</code></pre>
+</div>
+</div>
+<div id="cell-fig-curves" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div id="fig-curves" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-curves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-curves-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-curves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: The digitized Britter-McQuaid correlation curves.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The correlations are given in terms of the parameters α and β, which are</p>
+<p><span class="math display">\[ \alpha = 0.2 \cdot \log \left( g_o^2 V_r u_{10}^{-5} \right) \]</span></p>
+<p>and</p>
+<p><span class="math display">\[ \beta = \log \left( x \over D \right) \]</span></p>
+<p>At first glance it is not obvious how to use these plots, or the associated piecewise functions, since, at least to me, the obvious form of a model is to compute the concentration at a given point whereas the Britter-McQuaid model does the opposite. One supplies a concentration of interest and solves for the downwind distance where the leading edge of the plume hits this concentration.</p>
+<p>The general procedure is:</p>
+<ol type="1">
+<li>Compute the parameter α for the given scenario</li>
+<li>Find the concentration curves that bracket the concentration of interest</li>
+<li>Calculate β at these two concentrations and interpolate to find β at the concentration of interest</li>
+<li>Calculate the downwind concentration, x, from β</li>
+</ol>
+<p>The function below is a convenience function that calculates the β for each concentration curve at a fixed α and returns a function that linearly interpolates to find the downwind distance for a given concentration.</p>
+<div id="cell-19" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="st">    britter_mcquaid_model(α, D; table=Britter_McQuaid_correlations)</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="st">Generate the interpolation function x(c), using the Britter-McQuaid correlations.</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="st">The system is parameterized by α and D, which are defined in the Britter-McQuaid</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="st">model documentation.</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">britter_mcquaid_model</span>(α, D; table<span class="op">=</span>Britter_McQuaid_correlations)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    interp_data <span class="op">=</span> [ [conc, <span class="fu">bfun</span>(α)] for (conc, bfun) <span class="kw">in</span> table ]</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    interp_data <span class="op">=</span> <span class="fu">hcat</span>(interp_data<span class="op">...</span>)<span class="ch">'</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    interp_data <span class="op">=</span> <span class="fu">sortslices</span>(interp_data, dims<span class="op">=</span><span class="fl">1</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    linterp <span class="op">=</span> <span class="fu">LinearInterpolation</span>(interp_data[<span class="op">:</span>,<span class="fl">1</span>], interp_data[<span class="op">:</span>,<span class="fl">2</span>], extrapolation_bc<span class="op">=</span><span class="fu">Line</span>())</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> c <span class="op">-&gt;</span> <span class="fl">10</span><span class="op">^</span>(<span class="fu">linterp</span>(c))<span class="op">*</span>D</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>britter_mcquaid_model</code></pre>
+</div>
+</div>
+<div id="cell-20" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>α <span class="op">=</span> <span class="fl">0.2</span><span class="fu">*log10</span>( gₒ<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> Vr <span class="op">*</span> u₁₀<span class="op">^-</span><span class="fl">5</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>0.17108241842192004</code></pre>
+</div>
+</div>
+<div id="cell-21" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fu">britter_mcquaid_model</span>(α, D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>#11 (generic function with 1 method)</code></pre>
+</div>
+</div>
+<p>The Britter-McQuaid model assumes an isothermal case and the following correction is suggested for non-isothermal cases</p>
+<p><span class="math display">\[ C^\prime = { C \over { C + (1-C) \frac{T_a}{T_c} } }\]</span></p>
+<p>In this case the concentration of interest is half the lower flammability limit and the cloud is assumed to be well below ambient conditions.</p>
+<div id="cell-23" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fl">0.5</span><span class="op">*</span>LFL</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>Cᵢ <span class="op">=</span> c <span class="op">/</span> (c <span class="op">+</span> (<span class="fl">1</span> <span class="op">-</span> c)<span class="fu">*</span>(Tₐ<span class="op">/</span>Tc) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>0.008508269826866945</code></pre>
+</div>
+</div>
+<p>The down-wind distance to half the LFL can then be estimated, and checked to ensure it is within the region for which a continuous release is a reasonable approximation.</p>
+<div id="cell-25" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>xᵢ <span class="op">=</span> <span class="fu">x</span>(Cᵢ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>165.85001073807788</code></pre>
+</div>
+</div>
+<div id="cell-26" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>xᵢ <span class="op">≤</span> x⁺</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>true</code></pre>
+</div>
+</div>
+<p>The Britter-McQuaid model also has a correlation for short distances, <span class="math inline">\(x \lt 30D\)</span></p>
+<p><span class="math display">\[ C = { { 306 \left( \frac{x}{D} \right)^{-2} } \over { 1 + 306 \left( \frac{x}{D} \right)^{-2} } } \]</span></p>
+<div id="cell-fig-concentrations" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="16">
+<div id="fig-concentrations" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-concentrations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-concentrations-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-concentrations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: The Britter-McQuaid concentration curve for the example release.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The Britter-McQuaid model does provide some further correlations to calculate the dimensions of the plume, though with many caveats as the model can over-estimate the width of the plume. Also I’ve noticed several sources give an obviously incorrect equation for plume height – it returns heights on the order of a few centimeters for plumes extending hundreds of meters in horizontal directions.</p>
+<div id="fig-plume-dimens" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plume-dimens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/cell-29-1-1b77966f-9017-41be-9ec9-db0110d00730.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plume-dimens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: The Britter-McQuaid plume shape and dimensions.
+</figcaption>
+</figure>
+</div>
+<p>Instead of that I am going to use a simple rule-of-thumb for small plumes</p>
+<p><span class="math display">\[ V_{PES} = 0.03 x_{\frac{1}{2}LFL}^3 \]</span></p>
+<p>where <span class="math inline">\(V_{PES}\)</span> is the volume of the <em>potential explosion site</em>. In general this more than just the volume of a plume dispersing in open space, since buildings and equipment can confine the cloud and create multiple potential explosion sites of various sizes. This is a simple rule-of-thumb for screening purposes only</p>
+<div id="cell-30" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>Vₚₑₛ <span class="op">=</span> <span class="fl">0.03</span> <span class="op">*</span> xᵢ<span class="op">^</span><span class="fl">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>136857.23663150807</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="vapour-cloud-explosion" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="vapour-cloud-explosion">Vapour Cloud Explosion</h2>
+<p>There are several parameters that can be estimated to characterize explosions with the positive overpressure perhaps being the most useful for simple screening cases. Tables exist relating different levels of positive overpressure to possible damage of nearby structures.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 17%">
+<col style="width: 73%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">psi</th>
+<th style="text-align: center;">kPa</th>
+<th>Damage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.14</td>
+<td>Annoying noise</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.04</td>
+<td style="text-align: center;">0.28</td>
+<td>Loud noise, sonic boom, glass failure</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">0.15</td>
+<td style="text-align: center;">1.03</td>
+<td>Typical pressure for glass breakage</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.4</td>
+<td style="text-align: center;">2.76</td>
+<td>Limited minor structural damage</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">6.9</td>
+<td>Partial demolition of houses, made uninhabitable</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2 - 3</td>
+<td style="text-align: center;">13.8 - 20.7</td>
+<td>Concrete or cinder block walls, not reinforced, shattered</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">20.7</td>
+<td>Steel framed buildings distorted and pulled away from foundations</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">27.6</td>
+<td>Cladding of light industrial buildings ruptured</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">34.5</td>
+<td>Wooden utility poles snapped</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">48.2</td>
+<td>Loaded train wagon overturned</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">68.9</td>
+<td>Probable total destruction of buildings</td>
+</tr>
+</tbody>
+</table>
+<p>It’s worth taking a moment to talk briefly about <a href="https://en.wikipedia.org/wiki/Deflagration">deflagrations</a> and <a href="https://en.wikipedia.org/wiki/Detonation">detonations</a>. Deflagrations are characterized by subsonic flame propagation where the reaction zone moves through the flammable vapour by diffusion of heat and mass. Deflagrations typically result in relatively modest overpressures. A detonation, on the other hand, is characterized by a supersonic flame propagation and the reaction zone propagates by a pressure wave compressing the flammable vapour adiabatically to a temperature above the autoignition temperature. Detonations typically have significantly higher overpressures than deflagrations. Typically vapour cloud explosions in an open space with little congestion are deflagrations, however confinement and obstacles in the flame path can can accelerate a subsonic deflagration into a supersonic detonation. This is one reason why confinement and obstacles around a potential explosion site are important in the calculations.</p>
+<p>The simplest way of calculating the overpressure is the TNT model, where the volume previously defined is used to estimate a potential explosion energy in TNT equivalents and this is compared to blast curves for TNT. For most major vapour cloud explosion incidents the TNT equivalences have been estimated to be from 1-10% of the full energy content of the cloud.</p>
+<p>This is conceptually simple but can lead to very conservative estimates as vapour clouds, basically, don’t explode like TNT. These methods typically overestimate pressure close to the explosion source and underestimate it far afield. Even though the TNT method is generally not recommended, at least not in any of the references I have, it is still used in some places and it does crop up.</p>
+<p>A better approach is to use blast curves specifically for VCEs, in this case I am using the Baker-Strehlow-Tang curves but there are others.</p>
+<section id="explosive-energy" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="explosive-energy">Explosive Energy</h3>
+<p>There are several ways of estimating explosive energy and all depend, in some way, on the size of the vapour cloud. Supposing the vapour cloud explosion is a deflagration and the energy in the explosion, fundamentally, comes from the combustion of the butane in the cloud then the energy can be found by estimating how much butane will combust and multiplying that by the heat of combustion of butane.</p>
+<p>In some references the entire volume of the cloud will be assumed butane, but that can be excessively conservative – we are assuming the edge of the cloud to be 1/2 LFL or ~0.93% (v/v) butane so assuming it to be 100% butane in that region is a serious over-estimate.</p>
+<p>An alternative method<span class="citation" data-cites="ccps-2010"><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></span> is to assume the cloud overall is at stoichiometric conditions. That is find the value of the stoichiometric concentration <span class="math inline">\(\eta\)</span></p>
+<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;<a href="#ref-ccps-2010" role="doc-biblioref">AIChE/CCPS, <em>Guidelines for Vapour Cloud Explosion, Pressure Vessel Burst, BLEVE and Flash Fire Hazards</em></a>.</p></div></div><p><span class="math display">\[ \eta = { \textrm{moles fuel} \over \textrm{moles fuel + air} } = { n_f \over { n_f + \frac{n_o}{f_o} } } \]</span></p>
+<p>where <span class="math inline">\(n_f\)</span> is the moles of fuel, <span class="math inline">\(n_o\)</span> the moles of oxygen, and <span class="math inline">\(f_o\)</span> the mole fraction of oxygen in air, 20.946%. For the combustion of n-butane</p>
+<p><span class="math display">\[ C_{4} H_{10} + \frac{13}{2} O_{2} \longrightarrow 4 C O_{2} + 5 H_{2} O\]</span></p>
+<p>and so for <span class="math inline">\(n_f = 1\)</span> we have <span class="math inline">\(n_o = 6.5\)</span></p>
+<div id="cell-33" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>η <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> (<span class="fl">1</span> <span class="op">+</span> <span class="fl">6.5</span><span class="op">/</span><span class="fl">0.20946</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>0.031218607756809045</code></pre>
+</div>
+</div>
+<p>Using the ideal gas law the total moles of gas in the cloud can be estimated</p>
+<p><span class="math display">\[ n_c = { { p_a V_{PES} } \over { R T_c } }\]</span></p>
+<p>and the explosive energy is then</p>
+<p><span class="math display">\[ E_{PES} = \eta n_c \Delta H_c \]</span></p>
+<div id="cell-35" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>nc <span class="op">=</span> ( pₐ <span class="op">*</span> Vₚₑₛ )<span class="op">/</span>(R <span class="op">*</span> Tc)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>Eₚₑₛ <span class="op">=</span> η <span class="op">*</span> nc <span class="op">*</span> ΔHc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>5.0778644110258764e8</code></pre>
+</div>
+</div>
+</section>
+<section id="the-bst-model" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="the-bst-model">The BST model</h3>
+<p>The Baker-Strehlow-Tang model provides a series of correlation curves for different flame speeds and relates the positive overpressure to an energy scaled distance. The curves are based on spherical explosions and so it is important to include ground reflection when calculating the scaled distance.</p>
+<p>The positive overpressure used in the BST model is a dimensionless pressure</p>
+<p><span class="math display">\[ P = { { p - p_a } \over p_a } \]</span></p>
+<p>where <span class="math inline">\(p\)</span> is the positive overpressure and <span class="math inline">\(p_a\)</span> the atmospheric pressure. This is correlated to the scaled distance</p>
+<p><span class="math display">\[ R = r \cdot \left( p_a \over E \right)^{1/3} \]</span></p>
+<p>where <span class="math inline">\(E\)</span> is the explosive energy and <span class="math inline">\(r\)</span> the distance from the explosion epicentre. Which in this case we can take as the centre of the cloud and estimate to be half-way to <span class="math inline">\(x_i\)</span></p>
+<p>A spreadsheet with the BST curves is provided along with the AIChE/CCPS <em>Guidelines for Chemical Process Quantitative Risk Analysis</em><span class="citation" data-cites="ccps-2000"><a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></span> from which I’ve extracted just the positive overpressure curves as a csv.</p>
+<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;<a href="#ref-ccps-2000" role="doc-biblioref">AIChE/CCPS, <em>Guidelines for Chemical Process Quantitative Risk Analysis</em></a>.</p></div></div><div id="cell-37" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>bst_curves <span class="op">=</span> CSV.<span class="fu">read</span>(<span class="st">"data/BST-curves.csv"</span>, DataFrame)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co"># just show the first 5 rows</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">first</span>(bst_curves, <span class="fl">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<p>5 rows × 3 columns</p><table class="data-frame table table-sm table-striped small"><thead><tr><th></th><th>Mf</th><th>Scaled Distance</th><th>Overpressure</th></tr><tr><th></th><th>Float64</th><th>Float64</th><th>Float64</th></tr></thead><tbody><tr><th>1</th><td>0.037</td><td>0.010179</td><td>0.0100961</td></tr><tr><th>2</th><td>0.037</td><td>0.0104867</td><td>0.0100271</td></tr><tr><th>3</th><td>0.037</td><td>0.0108027</td><td>0.0100993</td></tr><tr><th>4</th><td>0.037</td><td>0.0111287</td><td>0.0101009</td></tr><tr><th>5</th><td>0.037</td><td>0.0114646</td><td>0.0101025</td></tr></tbody></table>
+</div>
+</div>
+<div id="cell-fig-overpress" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="21">
+<div id="fig-overpress" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-overpress-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-overpress-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-overpress-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: The Baker-Strehlow-Tank overpressure curves
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The following table<span class="citation" data-cites="ccps-2010"><a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></span> cross-references flame speed – the key parameter of the BST curves – with qualitative descriptors of fuel reactivity, density of surrounding process equipment, and degree of confinement</p>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;<a href="#ref-ccps-2010" role="doc-biblioref">AIChE/CCPS, <em>Guidelines for Vapour Cloud Explosion, Pressure Vessel Burst, BLEVE and Flash Fire Hazards</em></a>.</p></div></div><p><img src="index_files/figure-html/cell-39-1-621f59ba-b505-4b67-b5d0-2ab3182b34bc.png" class="img-fluid"></p>
+<p>The dimensionality given is referencing the number of dimensions along which the pressure wave can travel. For example an explosion confined to a tunnel is considered one dimensional since the pressure wave can only travel along the tunnel, whereas an explosion in an open field is three dimensional since it can expand in all directions. The entries labeled <em>DDT</em> are where a deflagration to detonation transition may occur, due to the flame speed and potential congestion. In these cases it is recommended to use the <span class="math inline">\(Mf = 5.2\)</span> curve, sometimes referred to as the detonation blast curve.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 44%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Dimension</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">3-D</td>
+<td>Unconfined volume, almost completely free expansion</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2.5-D</td>
+<td>Blockage partially prevents flame in one direction, such as piperacks with tightly packed pipes, lightweight roofs, or frangible panels</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2-D</td>
+<td>Platforms carrying process equipment, space beneath cars, open sided multistory buildings</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1-D</td>
+<td>Tunnels, corridors, or sewage systems</td>
+</tr>
+</tbody>
+</table>
+<p>For the storage sphere I am assuming it is standing freely on its own without any platforms or structures confining it, so the dimension is <em>3-D</em></p>
+<p>The density of surrounding equipment is defined qualitatively in terms of how much the surrounding area obstructs the expansion of the pressure wave. This can be defined in terms of the percentage of area in a plane occupied by obstacles.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 20%">
+<col style="width: 68%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Type</th>
+<th style="text-align: center;">Blockage Ratio</th>
+<th>Pitch for Obstacle Layers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Low</td>
+<td style="text-align: center;">&lt; 10%</td>
+<td>One or two layers of obstacles</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Medium</td>
+<td style="text-align: center;">10 - 40%</td>
+<td>Two to three layers of obstacles</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">High</td>
+<td style="text-align: center;">&gt; 40%</td>
+<td>Three of more fairly closely spaced obstacle layers</td>
+</tr>
+</tbody>
+</table>
+<p>For the storage sphere suppose that there is some process equipment nearby but it is not highly confined, defaulting to <em>medium</em>.</p>
+<p>The fuel reactivity categories are defined in terms of the laminar burning velocity</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Reactivity</th>
+<th style="text-align: center;">Laminar Burning Velocity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Low</td>
+<td style="text-align: center;">&lt; 45 cm/s</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Medium</td>
+<td style="text-align: center;">45 - 75 cm/s</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">High</td>
+<td style="text-align: center;">&gt; 75 cm/s</td>
+</tr>
+</tbody>
+</table>
+<p>The best resource for finding these tabulated is Appendix D of NFPA 68<span class="citation" data-cites="nfpa-2018">.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></span> For butane the laminar burning velocity is 45cm/s<span class="citation" data-cites="nfpa-2018"><a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></span> and thus is <em>medium reactivity</em></p>
+<div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;<a href="#ref-nfpa-2018" role="doc-biblioref"><em>NFPA 68</em></a>.</p></div><div id="fn10"><p><sup>10</sup>&nbsp;<a href="#ref-nfpa-2018" role="doc-biblioref"><em>NFPA 68</em></a> Table D.1(a).</p></div></div><p>Returning to the table we find that the flame speed for a <em>medium reactivity fuel</em>, <em>medium obstacle density</em>, <em>3D case</em> is 0.44 (in terms of Mach number)</p>
+<div id="cell-40" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>Mf <span class="op">=</span> <span class="fl">0.44</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>0.44</code></pre>
+</div>
+</div>
+<p><em>Note</em> the flame speeds given in the table do not correspond to the flame speeds given in the BST curves. In general one will have to double-interpolate to get the results. Find the curves that bracket the desired flame speed, interpolate to find the corresponding pair of overpressures at the given scaled distance then interpolate to find the overpressure at the desired flame speed.</p>
+<p>The following code sets this up in an easy way, though probably a very sub-optimal one, by doing the following:</p>
+<ol type="1">
+<li>An interpolation function is created for each flame speed, these are stored in <code>bst_interps</code></li>
+<li>The function Δp₊ calculates the <em>positive</em> overpressure by stepping through the array <code>bst_interps</code> and calculating the overpressures at each tabulated flame speed for a given distance, then interpolates for the desired flame speed</li>
+</ol>
+<div id="cell-42" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>bst_interps <span class="op">=</span> []</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>flame_speeds <span class="op">=</span> <span class="fu">unique</span>(bst_curves[!, <span class="st">"Mf"</span>])</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> speed <span class="kw">in</span> flame_speeds</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> bst_curves[ bst_curves.<span class="st">"Mf"</span> <span class="op">.==</span> speed, <span class="op">:</span>]</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    interp <span class="op">=</span> <span class="fu">LinearInterpolation</span>(data[!, <span class="st">"Scaled Distance"</span>], </span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>                                 data[!, <span class="st">"Overpressure"</span>], </span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>                                 extrapolation_bc<span class="op">=</span><span class="fu">Line</span>())</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">push!</span>(bst_interps, (speed, interp))</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-43" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="st">    Δp₊(r ; Mf=Mf, E=2*Eₚₑₛ, p₀=pₐ, curves=bst_interps)</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="st">Calculate the positive overpressure at distance r from the explosion epicentre.</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="st">The model parameters are the apparent flame speed, Mf, in terms of Mach number,</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="st">the explosion energy, E, and the atmospheric pressure p₀. The units of E and p₀</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="st">must agree, e.g. kJ and kPa.</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="st">The Baker-Strehlow-Tang curves are supplied through the curves keyword.</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Δp₊</span>(r ; Mf<span class="op">=</span>Mf, E<span class="op">=</span><span class="fl">2</span><span class="op">*</span>Eₚₑₛ, p₀<span class="op">=</span>pₐ, curves<span class="op">=</span>bst_interps)</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    E <span class="op">=</span> <span class="fl">1000</span><span class="op">*</span>E <span class="co"># Energy must be in J</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    R <span class="op">=</span> <span class="fu">r*</span>(p₀<span class="op">/</span>E)<span class="op">^</span>(<span class="fl">1</span><span class="op">/</span><span class="fl">3</span>)</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>    Mfs <span class="op">=</span> []</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    Ps <span class="op">=</span> []</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (speed, interp) <span class="kw">in</span> bst_interps</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">push!</span>(Mfs, speed)</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">push!</span>(Ps, <span class="fu">interp</span>(R))</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> <span class="fu">LinearInterpolation</span>(Mfs, Ps)</span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">P</span>(Mf)<span class="op">*</span>p₀</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<pre><code>Δp₊</code></pre>
+</div>
+</div>
+<p>This generates a new blast curve interpolated between the curves supplied with the BST model, as shown in the plot below. Though care should be taken when the curve is used outside the range of the original curves.</p>
+<p><em>Note</em> that the explosion energy is being multiplied by 2. This is to account for ground reflection as the BST curves are based on spherical explosions. In general the explosion energy is multiplied by a factor, which ranges from 1 to 2, to account for ground reflection where a factor of 2 is for explosions exactly at ground level and a factor of 1 is for explosions at significant elevation. The simpler and more conservative approach is to use a factor of 2.</p>
+<div id="cell-fig-bst-scn" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="25">
+<div class="cell-output cell-output-display" data-execution_count="25">
+<div id="fig-bst-scn" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bst-scn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-bst-scn-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bst-scn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: The Baker-Strehlow-Tank overpressure curves with the current scenario indicated.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The explosion epicentre is assumed to be the centre of the vapour cloud, here approximated to be half way between the release point and the downwind distance to 1/2 LFL, and in this simple model the explosion is a hemispherical pressure wave expanding in all directions unobstructed. More advanced modeling will take into account buildings and equipment and their impact on shaping the pressure wave.</p>
+<p>The plot below shows the <em>maximum positive overpressure</em> experienced at that distance. Which is what is typically tabulated for different types of consequences. In general when I refer to <em>overpressure</em> this is what I am referring to.</p>
+<div id="cell-fig-blast-contours" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="26">
+<div class="cell-output cell-output-display" data-execution_count="26">
+<div id="fig-blast-contours" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-blast-contours-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-blast-contours-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-blast-contours-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: The overpressure contours for the given example, showing the maximum overpressure experienced at the location.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="sensitivity" class="level3">
+<h3 class="anchored" data-anchor-id="sensitivity">Sensitivity</h3>
+<p>A useful question to ask at this point is how sensitive is the predicted overpressure to the parameters of the model.</p>
+<p>The figure below shows the impact of varying reactivity, while holding all other parameters constant. Clearly whether or not the explosion is treated as a detonation or deflagration matters hugely, the high reactivity curve corresponds to a detonation. The difference between a medium and low reactivity material is a approximately a factor of 4 in terms of max overpressure. So finding an appropriate value of reactivity while not being overly conservative is important.</p>
+<div id="cell-fig-sens-react" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="27">
+<div class="cell-output cell-output-display" data-execution_count="27">
+<div id="fig-sens-react" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sens-react-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-sens-react-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sens-react-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: The sensitivity of the overpressure curve to reactivity.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The following figure shows the impact of varying the levels of congestion. There is a fair amount of sensitivity going from low to medium but less from medium to high, which is perhaps what you would expect. I think the somewhat strange shape of the peaks is an artifact of linear interpolation.</p>
+<div id="cell-fig-sens-cong" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="28">
+<div class="cell-output cell-output-display" data-execution_count="28">
+<div id="fig-sens-cong" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sens-cong-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-sens-cong-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sens-cong-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: The sensitivity of the overpressure curve to levels of congestion.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>As is clear from the figure below the results are much less sensitive to changes in the level of confinement. At least while neglecting the one dimensional case, which should always be treated as a special case regardless.</p>
+<div id="cell-fig-sens-conf" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="29">
+<div class="cell-output cell-output-display" data-execution_count="29">
+<div id="fig-sens-conf" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sens-conf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-sens-conf-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sens-conf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: The sensitivity of the overpressure curve to levels of confinement.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The last parameter worth investigating is the explosive energy, a significant portion of this exercise was in estimating the size of the vapour cloud and the consequent explosive energy. As is clear from the following figure the model is much less sensitive to changes in the explosive energy than the other parameters.</p>
+<div id="cell-fig-sens-expl" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="30">
+<div class="cell-output cell-output-display" data-execution_count="30">
+<div id="fig-sens-expl" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sens-expl-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-sens-expl-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sens-expl-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: The sensitivity of the overpressure curve to +/- 50% change in explosive energy
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-ccps-2000" class="csl-entry" role="listitem">
+AIChE/CCPS. <em>Guidelines for Chemical Process Quantitative Risk Analysis</em>. 2nd ed. New York: American Institute of Chemical Engineers, 2000.
+</div>
+<div id="ref-ccps-1999" class="csl-entry" role="listitem">
+———. <em>Guidelines for Consequence Analysis of Chemical Releases.</em> New York: American Institute of Chemical Engineers, 1999.
+</div>
+<div id="ref-ccps-1996" class="csl-entry" role="listitem">
+———. <em>Guidelines for Use of Vapour Cloud Dispersion Models, 2nd Ed.</em> New York: American Institute of Chemical Engineers, 1996.
+</div>
+<div id="ref-ccps-2010" class="csl-entry" role="listitem">
+———. <em>Guidelines for Vapour Cloud Explosion, Pressure Vessel Burst, BLEVE and Flash Fire Hazards</em>. 2nd ed. New York: American Institute of Chemical Engineers, 2000.
+</div>
+<div id="ref-britter-1988" class="csl-entry" role="listitem">
+Britter, Rex E., and J. McQuaid. <span>“Workbook on the Dispersion of Dense Gases. HSE Contract Research Report No. 17/1988,”</span> 1988.
+</div>
+<div id="ref-nfpa-2018" class="csl-entry" role="listitem">
+<em>NFPA 68: Standard on Explosion Protection by Deflagration Venting</em>. Boston, MA: National Fire Protection Association, 2018.
+</div>
+</div>
+
+
+</section>
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/aefarrell\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="aefarrell/aefarrell.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

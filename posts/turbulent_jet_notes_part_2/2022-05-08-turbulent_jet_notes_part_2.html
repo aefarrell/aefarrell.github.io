@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>turbulent_jet_notes_part_2 – A Chemical Engineer's Notebook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-59228ce9c52eba116baca5d538563979.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: #ffffff;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: #ffffff;
+background: url(../../images/pipes-unsplash-header.jpg);
+      }
+</style>
+<style>
+.quarto-title-block .quarto-title-banner {
+  min-height: 100%;
+  background-size: cover;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
+}
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="A Chemical Engineer’s Notebook">
+<meta property="og:description" content="A collection of notebooks about chemical engineering and analysis">
+<meta property="og:image" content="https://aefarrell.github.io/images/turbulent_jet_notes_part_2_files/output_8_0.svg">
+<meta property="og:site_name" content="A Chemical Engineer's Notebook">
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">A Chemical Engineer’s Notebook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> <i class="bi bi-info-circle" role="img">
+</i> 
+<span class="menu-text">about</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> <i class="bi bi-wrench-adjustable-circle" role="img">
+</i> 
+<span class="menu-text">projects</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#more-on-turbulent-jets" id="toc-more-on-turbulent-jets" class="nav-link active" data-scroll-target="#more-on-turbulent-jets">More on Turbulent Jets</a>
+  <ul class="collapse">
+  <li><a href="#concentration" id="toc-concentration" class="nav-link" data-scroll-target="#concentration">Concentration</a>
+  <ul class="collapse">
+  <li><a href="#prandtl-mixing-length-models" id="toc-prandtl-mixing-length-models" class="nav-link" data-scroll-target="#prandtl-mixing-length-models">Prandtl mixing length models</a></li>
+  <li><a href="#eddy-diffusivity-models" id="toc-eddy-diffusivity-models" class="nav-link" data-scroll-target="#eddy-diffusivity-models">Eddy diffusivity models</a></li>
+  <li><a href="#gaussian-models" id="toc-gaussian-models" class="nav-link" data-scroll-target="#gaussian-models">Gaussian models</a></li>
+  <li><a href="#schmidt-number" id="toc-schmidt-number" class="nav-link" data-scroll-target="#schmidt-number">Schmidt number</a></li>
+  <li><a href="#mass-balance" id="toc-mass-balance" class="nav-link" data-scroll-target="#mass-balance">Mass balance</a></li>
+  <li><a href="#practical-considerations" id="toc-practical-considerations" class="nav-link" data-scroll-target="#practical-considerations">Practical considerations</a></li>
+  </ul></li>
+  <li><a href="#temperature" id="toc-temperature" class="nav-link" data-scroll-target="#temperature">Temperature</a></li>
+  <li><a href="#volumetric-flow" id="toc-volumetric-flow" class="nav-link" data-scroll-target="#volumetric-flow">Volumetric Flow</a></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="more-on-turbulent-jets" class="level1">
+<h1>More on Turbulent Jets</h1>
+<p><a href="https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/">Previously</a> I worked through the velocity profiles for turbulent jets and left off claiming that everything else of interest followed simply from those profiles. This time I am going to follow through by sketching out how to derive the concentration profile and volumetric flow rate.</p>
+<section id="concentration" class="level2">
+<h2 class="anchored" data-anchor-id="concentration">Concentration</h2>
+<p>For hazard identification, among other purposes, what one often wants is not the velocity distribution of the jet, but the concentration profile. For example, suppose a vessel develops a small hole and a jet of process fluid is exiting out into the air, to determine how bad that is and what sort of hazard is presented (explosive, toxic, etc.) we first need to determine the concentration profile.</p>
+<p>Suppose the concentration of a species <em>A</em> is <em>c<sub>A</sub></em>, for the sake of simplicity let this be a time-averaged concentration done in a way that is consistent with Reynolds averaging.<a href="#fn-1" class="sidenote-number"></a><span id="fn-1" class="sidenote">Note the concentration is given in units of <span class="math inline">\([[ quantity ]] \times [[length]]^{-3}\)</span>, e.g.&nbsp;kmol/m³</span></p>
+<p>The continuity equation for species A is given by<a href="#fn-2" class="sidenote-number"></a><span id="fn-2" class="sidenote"><a href="#bird-2007">Bird, Stewart, and Lightfoot</a>. <em>Transport Phenomena</em>, 850.</span></p>
+<p><span class="math display">\[ {\mathrm{D} \over \mathrm{D}t} c_A = - \nabla \cdot \mathbf{J}_A + r_A \]</span></p>
+<p>where <strong>J</strong> is the molar flux and <em>r</em> is the rate of reaction<a href="#fn-3" class="sidenote-number"></a><span id="fn-3" class="sidenote">The molar flux <strong>J</strong> is the <em>time averaged</em> molar flux and is the sum of both viscous and turbulent terms. <span class="math inline">\(\mathbf{J}_A = \mathbf{J}_A^{(v)} + \mathbf{J}_A^{(t)}\)</span></span></p>
+<p>In cylindrical coordinates this is:</p>
+<p><span class="math display">\[ {\partial c_A \over \partial t}  + \bar{v}_r {\partial c_A \over \partial r} + {\bar{v}_{\theta} \over r } {\partial c_A \over \partial \theta} + \bar{v}_z {\partial c_A \over \partial x}
+\\ = -\left[ {1 \over r} {\partial \over \partial r} \left(r J_{A,r}\right) + {1 \over r} {\partial \over \partial \theta} J_{A,\theta} + {\partial \over \partial z} J_{A,z} \right] + r_A\]</span></p>
+<p>Making the following assumptions: 1. Steady state ( <span class="math inline">\({\partial \over \partial t} \left( \dots \right) = 0\)</span> ) 1. Axisymmetric ( <span class="math inline">\({\partial \over \partial \theta} \left( \dots \right) = 0\)</span> ) 1. <a href="https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#fn-2">Boundary layer approximation</a> ( $ $ ) 1. Non-reacting ( <span class="math inline">\(r_A = 0\)</span> )</p>
+<p>This simplifies down to <span class="math display">\[ \bar{v}_r {\partial c_A \over \partial r} +  \bar{v}_z {\partial c_A \over \partial z} = {-1 \over r} {\partial \over \partial r} \left( r J_{A,r} \right) \]</span></p>
+<p>We suppose that, much like the velocity profile, the concentration profile is self-similar. That is, at any given downstream distance <em>z</em> the profile has the same shape, just scaled and stretched.</p>
+<p><span class="math display">\[ c_A = {k_c \over z} g\left(\xi\right) \]</span></p>
+<p>where ξ is <em>r/z</em> and <em>k<sub>c</sub></em> is some constant to be determined.</p>
+<p>from this we can work out some useful partial derivatives</p>
+<p><span class="math display">\[ {\partial c_A \over \partial r} = {k_c \over z^2} g^{\prime}\left(\xi\right) \]</span></p>
+<p><span class="math display">\[ {\partial c_A \over \partial z} = {-k_c \over z^2} \left[ g\left(\xi\right) + \xi g^{\prime}\left(\xi\right) \right]\]</span></p>
+<p>recalling the <a href="https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#stokes-stream-function">velocity profiles</a> in terms of <em>F(ξ)</em> and substituting into the equation of continuity we arrive at</p>
+<p><span class="math display">\[{ k k_c \over z^2 } {d \over d\xi} \left(F g\right) = -{ \partial \over \partial r} \left( r J_{A,r} \right)\]</span></p>
+<p>Which gives us our path forward: find a model for <span class="math inline">\(J_{A,r}\)</span> and substitute into the right hand side of the equation, integrate both sides and solve for <em>g</em> in terms of <em>F</em> and ξ.</p>
+<section id="prandtl-mixing-length-models" class="level3">
+<h3 class="anchored" data-anchor-id="prandtl-mixing-length-models">Prandtl mixing length models</h3>
+<p>We are going to assume that the overall molar flux is proportional to the concentration gradient and some mixing length<a href="#fn-4" class="sidenote-number"></a><span id="fn-4" class="sidenote"><a href="#bird-2007">Bird, Stewart, and Lightfoot</a>. <em>Transport Phenomena</em>, 659.</span> <em>l</em>, that is</p>
+<p><span class="math display">\[ J_{A,r} = -l_c^2 \left\vert \partial \bar{v}_z \over \partial r \right\vert \left(\partial c_A \over \partial r \right)\]</span></p>
+<p>we assume the mixing length is proportional to the downstream distance for the same reasons as when we <a href="https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#prandtl-mixing-length">derived the velocity profile</a> and, anticipating the form of the constants from how it worked out for the velocity distribution, <span class="math inline">\(l_c = a_c^{3/2} z\)</span></p>
+<p>Putting this into the equation of continuity for <em>A</em> and doing some rearranging gives</p>
+<p><span class="math display">\[{ k k_c \over z^2 } {d \over d\xi} \left(F g\right) = { k k_c \over z^2 } a_c^3 {d \over d\xi}\left(g^{\prime}F^{\prime\prime} - {g^{\prime}F^{\prime} \over \xi} \right)\]</span></p>
+<p>Cancelling some terms and integrating both sides gives us</p>
+<p><span class="math display">\[ F g = a_c^3 \left(g^{\prime}F^{\prime\prime} - {g^{\prime}F^{\prime} \over \xi} \right) + \mathrm{const} \]</span></p>
+<p>Where we can see from the <a href="https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#boundary-conditions">boundary conditions</a> that the constant of integration is zero. We can separate F and g</p>
+<p><span class="math display">\[ {g^{\prime} \over g} = { a_c^{-3} F \over F^{\prime \prime} - {F^{\prime} \over \xi} }\]</span></p>
+<p>and integrating both sides again, we arrive at</p>
+<p><span class="math display">\[ \log{c_A \over c_{A,max} } = \log{g\left(\xi\right) \over g\left(0\right)} = a_c^{-3} \int_0^{\xi} {F \over F^{\prime \prime} - {F^{\prime} \over \xi} } d\xi\]</span></p>
+<p>Note that, when setting up <a href="https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#setting-up-the-ode">the original ode</a>, we had</p>
+<p><span class="math display">\[ F F^{\prime} = a^3 \left( F^{\prime\prime} - {F^{\prime} \over \xi} \right)^2 \]</span></p>
+<p>or</p>
+<p><span class="math display">\[ F^{\prime\prime} - {F^{\prime} \over \xi} = \sqrt{ F F^{\prime} \over a^3 } \]</span></p>
+<p>Making the substitution gives us an integral entirely in terms of <em>F</em>, <em>F′</em> and ξ</p>
+<p><span class="math display">\[ \log{g\left(\xi\right) \over g\left(0\right)} = a_c^{-3} a^{3/2} \int_0^{\xi} {F \over \sqrt{ F F^{\prime} } } d\xi\]</span></p>
+<p>Taking the exponential of both sides gives us:</p>
+<p><span class="math display">\[ {g\left(\xi\right) \over g\left(0\right)} = \left( \exp \left(\int_0^{\xi} {F \over \sqrt{ F F^{\prime} } } d\xi \right)\right)^{ a_c^{-3} a^{3/2} } \]</span></p>
+<p>Which is something we can compute using <a href="https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#solving-the-ode">the ode solution from last time</a>, by importing the code for the ode from the previous notebook and running it get the velocity distribution.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># importing just the ODE solution</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NBInclude</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@nbinclude</span>(<span class="st">"2022-04-08-turbulent_jet_notes.ipynb"</span>; counters<span class="op">=</span>[<span class="fl">1</span> <span class="fl">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can then perform the integration numerically, in this case the cumulative integral</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NumericalIntegration</span>: cumul_integrate</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ϕ, F, F′ <span class="op">=</span> sol.t, sol[<span class="fl">1</span>,<span class="op">:</span>], sol[<span class="fl">2</span>,<span class="op">:</span>]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># trim any unphysical values</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>F[ F<span class="op">.&gt;</span><span class="fl">0</span> ] <span class="op">.=</span> <span class="fl">0.0</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>F′[F′<span class="op">.&gt;</span><span class="fl">0</span>] <span class="op">.=</span> <span class="fl">0.0</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">intgrnd</span>(F, F′) </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> F <span class="op">==</span> <span class="fl">0.0</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">0.0</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elseif</span> F′ <span class="op">==</span> <span class="fl">0.0</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span><span class="cn">Inf</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> F <span class="op">./</span> .<span class="fu">√</span>(F<span class="op">.*</span>F′)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>log_g <span class="op">=</span> <span class="fu">cumul_integrate</span>(ϕ, <span class="fu">intgrnd</span>.(F, F′));</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For some context we can plot the concentration along with the velocity, with the constants <span class="math inline">\(a_c^{-3} a^{3/2} = 1\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/turbulent_jet_notes_part_2_files/output_8_0.svg" class="img-fluid figure-img"></p>
+<figcaption>svg</figcaption>
+</figure>
+</div>
+<p>Well, that’s interesting, it looks like we have arrived at</p>
+<p><span class="math display">\[ {c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{\mathrm{const} } \]</span></p>
+<p>Which is, in fact, the case and is generally the case – the Prandtl mixing length, eddy diffusion, and Gaussian models work out to the same conclusion.</p>
+<p>Consider the following derivative</p>
+<p><span class="math display">\[ {d \over d\xi} \log{f\left(\xi\right)} = {d \over d\xi} \log \left( -F^{\prime} \over \xi \right) = {1 \over F^{\prime} } \left( F^{\prime\prime} - {F^{\prime} \over \xi} \right)\]</span></p>
+<p>Recalling back to our original ode for the Prandtl mixing length velocity distribution, we had the relationship</p>
+<p><span class="math display">\[ F F^{\prime} = a^3 \left( F^{\prime\prime} - {F^{\prime} \over \xi} \right)^2 \]</span></p>
+<p>or</p>
+<p><span class="math display">\[ {F \over F^{\prime\prime} - {F^{\prime} \over \xi} } = a^3 { {F^{\prime\prime} - {F^{\prime} \over \xi} } \over F^{\prime} } \]</span></p>
+<p>and so</p>
+<p><span class="math display">\[ {d \over d\xi} \log{f\left(\xi\right)} =  a^{-3} {F \over F^{\prime\prime} - {F^{\prime} \over \xi} } \]</span></p>
+<p>and recalling that the integral we originally wished to solve was</p>
+<p><span class="math display">\[ \log{c_A \over c_{A,max} } = a_c^{-3} \int_0^{\xi} {F \over F^{\prime \prime} - {F^{\prime} \over \xi} } d\xi\]</span></p>
+<p>we get</p>
+<p><span class="math display">\[ \log{c_A \over c_{A,max} } = \left(a \over a_c\right)^{3} \left[ \log \left( f\left(\xi\right) \over f\left(0\right) \right) \right] = \log \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{\left(a \over a_c\right)^{3} } \]</span></p>
+<p>and finally</p>
+<p><span class="math display">\[ { c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{\left(a \over a_c\right)^{3} }\]</span></p>
+<p>Where, rather pleasingly, the constant <span class="math inline">\({\left(a \over a_c\right)^{3} }\)</span> works out to be the ratio of the mixing lengths, all squared<a href="#fn-5" class="sidenote-number"></a><span id="fn-5" class="sidenote">Suppose an “equivalent” eddy viscosity for the Prandtl mixing length model of <span class="math display">\[\varepsilon = -l^2 \left\vert \partial \bar{v}_z \over \partial r \right\vert\]</span> and eddy diffusivity of <span class="math display">\[\mathscr{D}_{AB} = -l_c^2 \left\vert \partial \bar{v}_z \over \partial r \right\vert\]</span> the turbulent <a href="https://en.wikipedia.org/wiki/Schmidt_number">Schmidt number</a> is then <span class="math display">\[\mathrm{Sc} = {\varepsilon \over \mathscr{D}_{AB} } = \left( l \over l_c \right)^2\]</span> making the final result <span class="math display">\[{c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Sc}\]</span></span></p>
+<p><span class="math display">\[ {\left(a \over a_c\right)^{3} } = \left( l \over l_c \right)^2 \]</span></p>
+<p>We can now plot the concentration profile along with the velocity profile and see that the two profiles have a similar shape, with the concentration profile stretched to be wider. Concentration spreads out more than velocity.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/turbulent_jet_notes_part_2_files/output_11_0.svg" class="img-fluid figure-img"></p>
+<figcaption>svg</figcaption>
+</figure>
+</div>
+</section>
+<section id="eddy-diffusivity-models" class="level3">
+<h3 class="anchored" data-anchor-id="eddy-diffusivity-models">Eddy diffusivity models</h3>
+<p>In the eddy diffusivity model we assume the molar flux is proportional to the concentration gradient with the constant of proportionality being an effective diffusivity, the eddy diffusivity. In some treatments the viscous and turbulent diffusivities are treated separately, in this model we lump it all together into one constant</p>
+<p><span class="math display">\[ J_{A,r} = -\mathscr{D}_{AB} {\partial c_A \over \partial r} \]</span></p>
+<p>where <span class="math inline">\(\mathscr{D}_{AB}\)</span> is the eddy diffusivity for species A. Using the definition of <em>c<sub>A</sub></em> we can work out the right hand side of the equation of continuity for A</p>
+<p><span class="math display">\[ -{ \partial \over \partial r} \left( r J_{A,r} \right) = {k_c \over z^2} \mathscr{D}_{AB} {d \over d\xi} \left( \xi g^{\prime} \right) \]</span></p>
+<p>putting that into the equation of continuity for A, we get</p>
+<p><span class="math display">\[{ k k_c \over z^2 } {d \over d\xi} \left(F g\right) =  {k_c \over z^2} \mathscr{D}_{AB} {d \over d\xi} \left( \xi g^{\prime} \right) \]</span></p>
+<p>cancelling some terms and integrating once gives us</p>
+<p><span class="math display">\[k F g =  \mathscr{D}_{AB} \xi g^{\prime} + \mathrm{const}\]</span></p>
+<p>where, by use of <a href="https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#boundary-conditions">boundary conditions</a>, the constant of integration is zero. This can be rearranged to isolate F and g</p>
+<p><span class="math display">\[ {g^{\prime} \over g} = {k \over \mathscr{D}_{AB} } {F \over \xi} \]</span></p>
+<p>integrating once more</p>
+<p><span class="math display">\[ \log \left( g\left(\xi\right) \over g\left(0\right) \right) = {k \over \mathscr{D}_{AB} } \int_0^{\xi} {F \over \xi} d\xi \]</span></p>
+<p>recalling that, for the eddy diffusivity model</p>
+<p><span class="math display">\[ F\left( \xi \right) = { - c \left( C_2 \xi \right)^2 \over {1 + \frac{1}{4} \left( C_2 \xi \right)^2 } } \]</span></p>
+<p><span class="math display">\[ \int_0^{\xi} {F \over \xi} d\xi = {c} \int_0^{\xi} { -C_2^2 \xi \over {1 + \frac{1}{4} \left( C_2 \xi \right)^2 } } d\xi = {c} \log \left(1 + \frac{1}{4} \left( C_2 \xi \right)^2 \right)^{-2} \]</span></p>
+<p>and so we have</p>
+<p><span class="math display">\[ \log \left( g\left(\xi\right) \over g\left(0\right) \right) = {k c \over \mathscr{D}_{AB} } \log \left(1 + \frac{1}{4} \left( C_2 \xi \right)^2 \right)^{-2} \]</span></p>
+<p>recalling that the constant <em>k</em> is related to the eddy diffusivity <span class="math inline">\(\varepsilon\)</span> by <span class="math inline">\(\varepsilon=ck\)</span>, we have</p>
+<p><span class="math display">\[ {c_A \over c_{A,max} } = \left( g\left(\xi\right) \over g\left(0\right) \right) = \left(1 + \frac{1}{4} \left( C_2 \xi \right)^2 \right)^{-2{\varepsilon \over \mathscr{D}_{AB} } } \]</span></p>
+<p>and, looking back on the definition of <em>f(ξ)</em> from the eddy viscosity model, we get<a href="#fn-6" class="sidenote-number"></a><span id="fn-6" class="sidenote">The turbulent <a href="https://en.wikipedia.org/wiki/Schmidt_number">Schmidt number</a> is defined as the ratio of the eddy viscosity to the eddy diffusivity <span class="math display">\[\mathrm{Sc} = {\varepsilon \over \mathscr{D}_{AB} }\]</span> making the final result <span class="math display">\[{c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Sc}\]</span></span></p>
+<p><span class="math display">\[ {c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{\varepsilon \over \mathscr{D}_{AB} } \]</span></p>
+<p>We can plot the concentration and velocity profiles for the eddy diffusivity model as well, and it is a similar story. The shapes of the profiles are the same but the concentration profile is stretched, such that concentration “spreads out” more than velocity does.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/turbulent_jet_notes_part_2_files/output_14_0.svg" class="img-fluid figure-img"></p>
+<figcaption>svg</figcaption>
+</figure>
+</div>
+</section>
+<section id="gaussian-models" class="level3">
+<h3 class="anchored" data-anchor-id="gaussian-models">Gaussian models</h3>
+<p>The <a href="https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#empirical-velocity-profiles">standard Gaussian model</a> was defined as</p>
+<p><span class="math display">\[ f\left(\xi\right) = \exp \left( -c \xi^2 \right) \]</span></p>
+<p>where the constant <em>c</em> (note: not the concentration) was found to be</p>
+<p><span class="math display">\[ c = \log{2} \left(z \over b_{1/2}\right)^2 = \log{2} \left(1 \over \beta\right)^2 \]</span></p>
+<p>where I am introducing the constant <em>β</em> to represent the spreading constant (i.e.&nbsp;the ratio of <em>b</em> to <em>z</em>) mostly to cut down on all the constants I call <em>c</em> given that I am also using <em>c</em> to represent concentrations.</p>
+<p>We can then write the velocity distribution as</p>
+<p><span class="math display">\[ f\left(\xi\right) = \exp \left( -c \xi^2 \right) = \exp \left( -\log{2} \left(\xi \over \beta\right)^2 \right) = \exp \left(- \log 2 \left(\xi \over \beta\right)^2 \right)\]</span></p>
+<p>The concentration distribution is similarly defined empirically in terms of a half-width, <span class="math inline">\(b_{1/2,c}\)</span> and entirely analogously we end up with a distribution</p>
+<p><span class="math display">\[ g\left(\xi\right) = \exp \left( -\log 2 \left(\xi \over \beta_c\right)^2 \right)\]</span></p>
+<p>where <em>β<sub>c</sub></em> is the spreading constant for the concentration profile. But it’s fairly easy to see that this is equivalent to</p>
+<p><span class="math display">\[ g\left(\xi\right) = \exp \left( -\log 2 \left(\xi \over \beta\right)^2 \left(\beta \over \beta_c\right)^2 \right) = f\left(\xi\right)^{\left(\beta \over \beta_c\right)^2} \]</span></p>
+<p>or<a href="#fn-7" class="sidenote-number"></a><span id="fn-7" class="sidenote">We can argue, in a manner analogous to the Prandtl mixing length theory, that the eddy viscosity is proportional to the characteristic length squared, and similarly for the eddy diffusivity and thus the turbulent <a href="https://en.wikipedia.org/wiki/Schmidt_number">Schmidt number</a> is then <span class="math display">\[\mathrm{Sc} = {\varepsilon \over \mathscr{D}_{AB} } = \left( b_{1/2} \over b_{1/2,c} \right)^2 = \left( \beta \over \beta_c \right)^2\]</span> thus making the final result <span class="math display">\[{c_A \over c_{A,max} } = \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Sc}\]</span></span></p>
+<p><span class="math display">\[ {c_A \over c_{A,max} } = \left({\bar{v}_z \over \bar{v}_{z,max} }\right)^{\left(\beta \over \beta_c\right)^2} \]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/turbulent_jet_notes_part_2_files/output_16_0.svg" class="img-fluid figure-img"></p>
+<figcaption>svg</figcaption>
+</figure>
+</div>
+</section>
+<section id="schmidt-number" class="level3">
+<h3 class="anchored" data-anchor-id="schmidt-number">Schmidt number</h3>
+<p>All three of the turbulent jet models looked at so far ended up with a concentration profile of</p>
+<p><span class="math display">\[{c_A \over c_{A,max} } = \left( \bar{v} \over \bar{v}_{z,max} \right)^{Sc} \]</span></p>
+<p>where I declared the constant <em>Sc</em> to be the turbulent Schmidt number. There are, of course, several ways of arriving at this value but literature generally gives <span class="math inline">\(Sc \approx 0.7\)</span>. This also tends to be the same value given for the turbulent Prandtl number, which is convenient.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Sc</th>
+<th style="text-align: left;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0.7</td>
+<td style="text-align: left;">Bird (<a href="#bird-2007">2007</a>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.73</td>
+<td style="text-align: left;">Kaye (<a href="#kaye-2018">2018</a>)<a href="#fn-8" class="sidenote-number"></a><span id="fn-8" class="sidenote">Kaye gives the ratio <span class="math display">\[{b_c \over b} = 1.17\]</span> and taking <span class="math display">\[Sc=\left(b \over b_c\right)^2 = 1.17^{-2} = 0.73\]</span></span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mass-balance" class="level3">
+<h3 class="anchored" data-anchor-id="mass-balance">Mass balance</h3>
+<p>Throughout all of this there has been a constant <em>k<sub>c</sub></em> floating around, unaddressed. In practice this is usually a free parameter determined by fitting with experimental data. However it can also be determined by a mass balance.</p>
+<p>The total molar flux through any plane <em>z=m</em> is the same for all <em>m</em> (in the region of fully developed flow), which is to say</p>
+<p><span class="math display">\[ n_A = \int_0^{2\pi} \int_0^{\infty}  c_A \bar{v}_z r dr d\theta = \mathrm{const} \]</span></p>
+<p>We also know what total molar flux is from the initial conditions of the jet</p>
+<p><span class="math display">\[ n_A = c_0 v_0 {\pi \over 4} d_0^2 \]</span></p>
+<p>and we can write the integral for any downstream distance <em>z</em></p>
+<p><span class="math display">\[ n_A = 2\pi \int_0^{\infty}  c_A \bar{v}_z r dr = 2 \pi k k_c \int_0^{\infty} \left(\bar{v}_z \over \bar{v}_{z,max} \right)^{Sc+1} \xi d\xi \]</span></p>
+<p>and so we can write <em>k<sub>c</sub></em> in terms of the other parameters</p>
+<p><span class="math display">\[ k_c = { c_0 v_0 d_0^2 \over 8 k I_c } \]</span></p>
+<p>where</p>
+<p><span class="math display">\[I_c = \int_0^{\infty} \left(\bar{v}_z \over \bar{v}_{z,max} \right)^{Sc+1} \xi d\xi\]</span></p>
+<p><a href="https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#momentum-balance">recalling that</a> <span class="math inline">\(k = {v_0 d_0 \over \sqrt{8I} }\)</span> where <span class="math display">\[I = \int_0^{\infty} \left(\bar{v}_z \over \bar{v}_{z,max} \right)^{2} \xi d\xi\]</span></p>
+<p>we can simplify this to</p>
+<p><span class="math display">\[ k_c = \sqrt{I \over 8 I_c^2} c_0 d_0 \]</span></p>
+<p>or</p>
+<p><span class="math display">\[ {c_A \over c_0} = \sqrt{I \over 8 I_c^2} {d_0 \over z} \left(\bar{v}_z \over \bar{v}_{z,max} \right)^{Sc} \]</span></p>
+<p>These integrals can get difficult to solve analytically – except for the Gaussian case which is fairly simple – but are very easy to estimate numerically.<a href="#fn-9" class="sidenote-number"></a><span id="fn-9" class="sidenote">It is worth keeping in mind, when using the empirical constants provided in the literature, that they are often fitted parameters and as such mass and momentum conservation is not necessarily guaranteed.</span></p>
+<p>As an example, suppose we wish to calculate the constant for the Prandtl mixing length model, we have already imported the solution to the ode for the velocity profile and it is a simple matter to numerically integrate (using the trapezoidal rule) the two integrals in question.</p>
+<p>We still need two parameters to complete the integration, the parameter <em>a</em> and <em>a<sub>c</sub></em> or, equivalently, <em>β</em> and the Schmidt number <em>Sc</em>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NumericalIntegration</span>: integrate</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># solutions of the ode</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ϕ, F′ <span class="op">=</span> sol.t, sol[<span class="fl">2</span>,<span class="op">:</span>]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># trim any unphysical values</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>F′[F′<span class="op">.&gt;</span><span class="fl">0</span>] <span class="op">.=</span> <span class="fl">0</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># parameters of the model</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>β <span class="op">=</span> <span class="fl">0.0848</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> β<span class="op">/</span><span class="fl">1.2277667062444657</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>Sc <span class="op">=</span> <span class="fl">0.7</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>f  <span class="op">=</span> <span class="op">-</span>F′<span class="op">./</span>ϕ</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>ξ  <span class="op">=</span> a<span class="op">.*</span>ϕ</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># momentum balance integrand</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>int <span class="op">=</span> (f<span class="op">.^</span><span class="fl">2</span>)<span class="op">.*</span>ξ</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>int[ξ<span class="op">.≤</span><span class="fl">0</span>] <span class="op">.=</span> <span class="fl">0</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># mass balance integrand</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>int_c <span class="op">=</span> (f<span class="op">.^</span>(Sc<span class="op">+</span><span class="fl">1</span>))<span class="op">.*</span>ξ</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>int_c[ξ<span class="op">.≤</span><span class="fl">0</span>] <span class="op">.=</span> <span class="fl">0</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>I   <span class="op">=</span> <span class="fu">integrate</span>(ξ, int)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>I_c <span class="op">=</span> <span class="fu">integrate</span>(ξ, int_c)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>k_c <span class="op">=</span> <span class="fu">√</span>(I<span class="op">/</span>(<span class="fl">8</span><span class="op">*</span>I_c<span class="op">^</span><span class="fl">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>5.793131625346911</code></pre>
+<p>The other two models could also be integrated numerically, for example the eddy diffusivity model</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">QuadGK</span>: quadgk</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>C₂ <span class="op">=</span> <span class="fl">2</span><span class="fu">*√</span>(<span class="fu">√</span>(<span class="fl">2</span>)<span class="op">-</span><span class="fl">1</span>)<span class="op">/</span>β</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">f_ev</span>(ξ) <span class="op">=</span> ( <span class="fl">1</span> <span class="op">+</span> (C₂<span class="op">*</span>ξ<span class="op">/</span><span class="fl">2</span>)<span class="op">^</span><span class="fl">2</span> )<span class="op">^-</span><span class="fl">2</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>I, err   <span class="op">=</span> <span class="fu">quadgk</span>((ξ) <span class="op">-&gt;</span> <span class="fu">ξ*f_ev</span>(ξ)<span class="op">^</span><span class="fl">2</span>, <span class="fl">0</span>, <span class="cn">Inf</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>I_c, err <span class="op">=</span> <span class="fu">quadgk</span>((ξ) <span class="op">-&gt;</span> <span class="fu">ξ*f_ev</span>(ξ)<span class="op">^</span>(Sc<span class="op">+</span><span class="fl">1</span>), <span class="fl">0</span>, <span class="cn">Inf</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>k_c <span class="op">=</span> <span class="fu">√</span>(I<span class="op">/</span>(<span class="fl">8</span><span class="op">*</span>I_c<span class="op">^</span><span class="fl">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>5.258197856093409</code></pre>
+<p>and the Gaussian model</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fu">log</span>(<span class="fl">2</span>)<span class="op">/</span>β<span class="op">^</span><span class="fl">2</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">f_emp</span>(ξ) <span class="op">=</span> <span class="fu">exp</span>(<span class="op">-</span>c<span class="op">*</span>ξ<span class="op">^</span><span class="fl">2</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>I, err   <span class="op">=</span> <span class="fu">quadgk</span>((ξ) <span class="op">-&gt;</span> <span class="fu">ξ*f_emp</span>(ξ)<span class="op">^</span><span class="fl">2</span>, <span class="fl">0</span>, <span class="cn">Inf</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>I_c, err <span class="op">=</span> <span class="fu">quadgk</span>((ξ) <span class="op">-&gt;</span> <span class="fu">ξ*f_emp</span>(ξ)<span class="op">^</span>(Sc<span class="op">+</span><span class="fl">1</span>), <span class="fl">0</span>, <span class="cn">Inf</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>k_c <span class="op">=</span> <span class="fu">√</span>(I<span class="op">/</span>(<span class="fl">8</span><span class="op">*</span>I_c<span class="op">^</span><span class="fl">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>5.900934664729693</code></pre>
+<p>In these cases I followed my convention from the previous notebook of setting each of the velocity distributions to have the same width at half height, and using the same Schmidt number for the concentration profiles. This makes it more of an “apples to apples” comparison.</p>
+<p>Looking at the results we see that the constant for the concentration is smaller than the velocity profiles, indicating that the centerline concentration drops off faster than the velocity. Which makes some sense as we saw above that the concentration also spreads out radially more than the velocity.</p>
+<p>We can combine the velocity and concentration profiles and get a sense of how the jet expands. Note that the plot is looking at the fully-developed jet, in this case ~4 diameters downstream.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/turbulent_jet_notes_part_2_files/output_26_0.svg" class="img-fluid figure-img"></p>
+<figcaption>svg</figcaption>
+</figure>
+</div>
+</section>
+<section id="practical-considerations" class="level3">
+<h3 class="anchored" data-anchor-id="practical-considerations">Practical considerations</h3>
+<p>In most practical cases I’ve encountered, by far the easiest approach is to use a standard Gaussian model with parameters from literature. That said, there is a lot of variability of recommended parameters and some thought needs to go into what the model is being used for. Consider the following table giving model parameters for various gaseous jets entering into air.<a href="#fn-10" class="sidenote-number"></a><span id="fn-10" class="sidenote"><a href="#long-1963">Long</a>, “Estimation of the Extent of Hazard Areas Around a Vent,” 7.</span></p>
+<p><span class="math display">\[ {c_A \over c_0} = k_2 {d_0 \over z} \sqrt{ \rho_a \over \rho_j} \exp \left( - \left(k_3 {r \over z} \right)^2 \right) \]</span></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Jet</th>
+<th style="text-align: center;">Re</th>
+<th style="text-align: center;"><span class="math inline">\(k_2\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(k_3\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">CO₂</td>
+<td style="text-align: center;">50 000</td>
+<td style="text-align: center;">5.4</td>
+<td style="text-align: center;">9.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">N₂</td>
+<td style="text-align: center;">27 000</td>
+<td style="text-align: center;">5.4</td>
+<td style="text-align: center;">7.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">He</td>
+<td style="text-align: center;">3 400</td>
+<td style="text-align: center;">4.1</td>
+<td style="text-align: center;">5.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">air + 1.1% towngas</td>
+<td style="text-align: center;">67 000</td>
+<td style="text-align: center;">5.3</td>
+<td style="text-align: center;">8.8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">hot air</td>
+<td style="text-align: center;">67 000</td>
+<td style="text-align: center;">5.3</td>
+<td style="text-align: center;">8.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">air + N₂O tracer</td>
+<td style="text-align: center;">27-57 000</td>
+<td style="text-align: center;">4.5</td>
+<td style="text-align: center;">7.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">hot air</td>
+<td style="text-align: center;">18-25 000</td>
+<td style="text-align: center;">4.5</td>
+<td style="text-align: center;">7.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">hot air</td>
+<td style="text-align: center;">30-60 000</td>
+<td style="text-align: center;">5.3</td>
+<td style="text-align: center;">7.8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">hot air</td>
+<td style="text-align: center;">10-20 000</td>
+<td style="text-align: center;">5.0</td>
+<td style="text-align: center;">6.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">hot air</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">4.8</td>
+<td style="text-align: center;">7.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">hot air</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">5.9</td>
+<td style="text-align: center;">7.7</td>
+</tr>
+</tbody>
+</table>
+<p>Below is a plot showing the range of values this generates for the Gaussian jet model, along with the <em>recommended</em> parameters for use when estimating the extent of a hazardous area around a vent<a href="#fn-11" class="sidenote-number"></a><span id="fn-11" class="sidenote">Clearly the recommendation is a conservative approach, which is what you would want for a hazard analysis.</span>. The range of values is quite wide.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/turbulent_jet_notes_part_2_files/output_28_0.svg" class="img-fluid figure-img"></p>
+<figcaption>svg</figcaption>
+</figure>
+</div>
+<p>It is also worth noting that the concentration model breaks down when <em>z&lt;k<sub>2</sub></em>, it will register concentrations greater than is possible. The normal way of dealing with this is a so-called top-hat model: chop off any concentrations <em>c<sub>A</sub> &gt; c<sub>0</sub></em>, though if the region of interest is primarily very close to the hole a different model should be used.</p>
+</section>
+</section>
+<section id="temperature" class="level2">
+<h2 class="anchored" data-anchor-id="temperature">Temperature</h2>
+<p>The temperature profiles follow directly from the velocity profiles in an entirely analogous way to concentration. The temperature profile is given by:</p>
+<p><span class="math display">\[ {T - T_a \over T_0 - T_a} = k_T {d_0 \over z} \left( \bar{v}_z \over \bar{v}_{z,max} \right)^{Pr} \]</span></p>
+<p>Where <em>T<sub>a</sub></em> is the ambient temperature, <em>T<sub>0</sub></em> is the jet temperature, and <em>Pr</em> is a turbulent <a href="https://en.wikipedia.org/wiki/Turbulent_Prandtl_number">Prandtl number</a>. The constant <em>k<sub>T</sub></em> is then determined by an energy balance, again entirely analogously to the case for concentration.</p>
+</section>
+<section id="volumetric-flow" class="level2">
+<h2 class="anchored" data-anchor-id="volumetric-flow">Volumetric Flow</h2>
+<p>The volumetric flow-rate of the jet grows with the downstream distance, as the jet entrains the surrounding fluid. This can be calculated from an integral of the velocity distribution</p>
+<p><span class="math display">\[ Q = \int_0^{2\pi} \int_0^{\infty} \bar{v}_z r dr d\theta \]</span></p>
+<p>recalling <a href="https://aefarrell.github.io/2022/04/08/turbulent_jet_notes/#stokes-stream-function">the definition</a> of <span class="math inline">\(\bar{v}_z\)</span> in terms of the function <em>F</em> and making the change of variables to ξ</p>
+<p><span class="math display">\[ Q = \int_0^{2\pi} \int_0^{\infty} {-k \over z} {F^{\prime} \over \xi} (z \xi) z d\xi d\theta \\
+= 2 \pi k z \int_0^{\infty} -F^{\prime} d\xi \\
+= 2 \pi k z \left[ -F\left(\xi\right) \right]_{0}^{\infty} \]</span></p>
+<p>let’s define the limit</p>
+<p><span class="math display">\[ \lim_{\xi \to \infty} F\left(\xi\right) = F_{\infty}\]</span></p>
+<p>and recall that from boundary conditions <em>F(0)=0</em>, so</p>
+<p><span class="math display">\[ \left[ -F\left(\xi\right) \right]_{0}^{\infty} = -F_{\infty} \]</span></p>
+<p>recalling the definition of <em>k</em></p>
+<p><span class="math display">\[ k = {v_0 d_0 \over \sqrt{8 I} }\]</span></p>
+<p>and putting it all together we get</p>
+<p><span class="math display">\[ Q = -{ 2 \pi \over \sqrt{8 I} } F_{\infty} v_0 d_0 z  \]</span></p>
+<p>It is often more convenient to put things in in dimensionless terms, so let</p>
+<p><span class="math display">\[ Q_0 = {\pi \over 4} v_0 d_0^2 \]</span></p>
+<p>which gives us</p>
+<p><span class="math display">\[ {Q \over Q_0} = - \sqrt{8 \over I} F_{\infty} {z \over d_0} \]</span></p>
+<p>we can define a new constant <em>k<sub>Q</sub></em></p>
+<p><span class="math display">\[ k_Q = - \sqrt{8 \over I} F_{\infty} \]</span></p>
+<p>and finally</p>
+<p><span class="math display">\[ {Q \over Q_0} = k_Q {z \over d_0} \]</span></p>
+<p>Where <span class="math inline">\(k_Q\)</span> is some constant defined by the particular model and the corresponding model parameter.</p>
+<p>For the Prandtl mixing length model we can compute this constant numerically</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> β<span class="op">/</span><span class="fl">1.2277667062444657</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>I   <span class="op">=</span> <span class="fu">integrate</span>(ξ, int)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>F∞  <span class="op">=</span> a<span class="op">^</span><span class="fl">2</span><span class="op">*</span>sol[<span class="fl">1</span>,<span class="kw">end</span>]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>k_Q <span class="op">=</span> <span class="fu">-√</span>(<span class="fl">8</span><span class="op">/</span>I)<span class="op">*</span>F∞</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>0.3026710383017731</code></pre>
+<p>For the eddy viscosity model this can be worked out analytically to be</p>
+<p><span class="math display">\[k_Q = {4\sqrt{3} \over C_2}\]</span></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>C₂ <span class="op">=</span> <span class="fl">2</span><span class="fu">*√</span>(<span class="fu">√</span>(<span class="fl">2</span>)<span class="op">-</span><span class="fl">1</span>)<span class="op">/</span>β</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>k_Q <span class="op">=</span> <span class="fl">4</span><span class="op">*</span>√<span class="fl">3</span><span class="op">/</span>C₂</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>0.4564301431180997</code></pre>
+<p>The Gaussian model can also be worked out analytically, giving</p>
+<p><span class="math display">\[k_Q = {4 \over \sqrt{2 c} }\]</span></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fu">log</span>(<span class="fl">2</span>)<span class="op">/</span>β<span class="op">^</span><span class="fl">2</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>k_Q <span class="op">=</span> <span class="fl">4</span><span class="op">/</span><span class="fu">√</span>(<span class="fl">2</span><span class="op">*</span>c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>0.28808995465769605</code></pre>
+<p>The literature<a href="#fn-12" class="sidenote-number"></a><span id="fn-12" class="sidenote"><a href="#rajaratnam-1974">Rajaratnam</a>, <em>Turbulent Jets</em></span>gives <span class="math inline">\(k_Q = 0.32\)</span> which compares well with the calculations above. Though it’s worth noting that the eddy viscosity model over predicts the volumetric flow rate quite noticeably, this is not surprising considering that it has fatter tails than either the Prandtl mixing length model or the Gaussian model. In the tails is where the eddy viscosity model no longer matches well with the observed data, so this is just a weakness of the model itself.</p>
+</section>
+<section id="conclusions" class="level2">
+<h2 class="anchored" data-anchor-id="conclusions">Conclusions</h2>
+<p>This was just a brief tour of the different parameters that can be calculated from the velocity distribution or stream function, once it is known. In practice, very often the constants encountered along the way are treated like fitting parameters and so it is always worth keeping in mind what the model is being used for and what conditions must be strictly followed or not. For example, if one wants a very accurate fit to concentration, that may result in mass no longer being conserved because a model may not have enough degrees of freedom to fit the one and guarantee the other.</p>
+<p>If you are not fitting data, there is a wide range of parameters given in the literature and I think it is more important to find a set of parameters that work for the situation of interest – for whichever model they were fit, but generally it is Gaussian – than it is to fiddle around in the margins of whether or not one should use a Prandtl mixing length model versus an eddy viscosity model. Very often the answer is going to be Gaussian because that’s what the best model in the literature was fit to.</p>
+<p>For a complete listing of code used to generate data and figures, please see the <a href="https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2022-05-08-turbulent_jet_notes_part_2.ipynb">corresponding julia notebook</a> {: .notice–info}</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li><a name="bird-2007">Bird</a>, R. Byron, Warren E. Stewart, and Edwin N. Lightfoot. <em>Transport Phenomena</em>. 2nd ed.&nbsp;Hoboken: John Wiley &amp; Sons, 2007. <a href="https://archive.org/details/transportphenome0000bird_n8h5">archive</a></li>
+<li><a name="garde-2010">Garde</a>, R. J. <em>Turbulent Flows</em>. 3rd ed.&nbsp;London: New Academic Science, 2010.</li>
+<li><a name="kaye-2018">Kaye</a>, Nigel B., Abdul A. Khan, and Firat Y. Testik. “Environmental Fluid Mechanics” in <em>Handbook of Environmental Engineering</em>. Edited by Myer Kutz. New York: John Wiley &amp; Sons, 2018.</li>
+<li><a name="long-1963">Long</a>, V.D. “Estimation of the Extent of Hazard Areas Around a Vent,” <em>Second Symposium On Chemical Process Hazards</em> (1963): 6-14</li>
+<li><a name="pope-2000">Pope</a>, Stephen B. <em>Turbulent Flows</em>. Cambridge: Cambridge University Press, 2000.</li>
+<li><a name="rajaratnam-1974">Rajaratnam</a> N. <em>Turbulent Jets</em>. Amsterdam: Elsevier, 1974.</li>
+<li><a name="tollmien-1926">Tollmien</a>, Walter. “Berechnung turbulenter Ausbreitungsvorgänge,” <em>Zeitschrift für angewandte Mathematik und Mechanik</em> <em>6</em>, (1926): 468-478. <a href="https://doi.org/10.1002/zamm.19260060604">doi:10.1002/zamm.19260060604</a>, reprinted and translated in <a href="https://ntrs.nasa.gov/search?reportNumber=NACA-TM-1085">NACA-TM-1085</a></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/aefarrell\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="aefarrell/aefarrell.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

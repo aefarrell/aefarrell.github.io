@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Allan Farrell">
+<meta name="dcterms.date" content="2023-03-12">
+<meta name="description" content="Re-evaluating plume extents and determining the explosive mass">
+
+<title>Taking a second look at the Britter-McQuaid model – A Chemical Engineer’s Notebook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-59228ce9c52eba116baca5d538563979.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: #ffffff;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: #ffffff;
+background: url(./christianbuehner-unsplash-header.jpg);
+      }
+</style>
+<style>
+.quarto-title-block .quarto-title-banner {
+  min-height: 100%;
+  background-size: cover;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
+}
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Taking a second look at the Britter-McQuaid model – A Chemical Engineer’s Notebook">
+<meta property="og:description" content="Re-evaluating plume extents and determining the explosive mass">
+<meta property="og:image" content="https://aefarrell.github.io/posts/Britter-McQuaid/att1.png">
+<meta property="og:site_name" content="A Chemical Engineer's Notebook">
+<meta property="og:image:height" content="562">
+<meta property="og:image:width" content="897">
+</head>
+
+<body class="floating nav-fixed slimcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">A Chemical Engineer’s Notebook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> <i class="bi bi-info-circle" role="img">
+</i> 
+<span class="menu-text">about</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> <i class="bi bi-wrench-adjustable-circle" role="img">
+</i> 
+<span class="menu-text">projects</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Taking a second look at the Britter-McQuaid model</h1>
+                  <div>
+        <div class="description">
+          Re-evaluating plume extents and determining the explosive mass
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">julia</div>
+                <div class="quarto-category">dispersion modelling</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Allan Farrell </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 12, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#a-motivating-example" id="toc-a-motivating-example" class="nav-link active" data-scroll-target="#a-motivating-example">A motivating example</a></li>
+  <li><a href="#looking-again-at-plume-dimensions" id="toc-looking-again-at-plume-dimensions" class="nav-link" data-scroll-target="#looking-again-at-plume-dimensions">Looking again at plume dimensions</a>
+  <ul class="collapse">
+  <li><a href="#upwind-region" id="toc-upwind-region" class="nav-link" data-scroll-target="#upwind-region">Upwind region</a></li>
+  <li><a href="#vertical-extent" id="toc-vertical-extent" class="nav-link" data-scroll-target="#vertical-extent">Vertical extent</a></li>
+  <li><a href="#recommendations" id="toc-recommendations" class="nav-link" data-scroll-target="#recommendations">Recommendations</a></li>
+  </ul></li>
+  <li><a href="#calculating-the-explosive-mass" id="toc-calculating-the-explosive-mass" class="nav-link" data-scroll-target="#calculating-the-explosive-mass">Calculating the explosive mass</a>
+  <ul class="collapse">
+  <li><a href="#a-nice-property-of-top-hat-models" id="toc-a-nice-property-of-top-hat-models" class="nav-link" data-scroll-target="#a-nice-property-of-top-hat-models">A nice property of top hat models</a></li>
+  <li><a href="#added-complications" id="toc-added-complications" class="nav-link" data-scroll-target="#added-complications">Added complications</a></li>
+  </ul></li>
+  <li><a href="#final-thoughts" id="toc-final-thoughts" class="nav-link" data-scroll-target="#final-thoughts">Final thoughts</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<p>I recently spent some time looking in detail at the Britter-McQuaid workbook model for dense gas dispersion and I thought the plume model deserved some extra attention. Firstly because I believe there is an error in the plume dimensions, and secondly because I think an important feature of top-hat models is often neglected and the Britter-McQuaid workbook model should be used more.</p>
+<p>As a re-cap the Britter-McQuaid model<span class="citation" data-cites="britter-1988"><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></span> is a series of correlations for the dispersion of denser than air gases. These are given as a series of correlation curves and the typical procedure is to interpolate the downwind distance to the concentration of interest, for example to the Lower Flammability Limit (LFL). The model also gives some equations for estimating the plume horizontal and vertical dimensions, where conventional practice is to assume the plume has a rectangular cross-section and a uniform concentration.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;<a href="#ref-britter-1988" role="doc-biblioref">Britter and McQuaid, <span>“Workbook on the Dispersion of Dense Gases”</span></a>.</p></div></div><section id="a-motivating-example" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="a-motivating-example">A motivating example</h2>
+<p>Just to have some numbers to look at, I am going to use a scenario adapted from the Burro series of trials of LNG dispersion.<span class="citation" data-cites="ccps-1999"><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></span> The release conditions are:</p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;<a href="#ref-ccps-1999" role="doc-biblioref">AIChE/CCPS, <em>Guidelines for Consequence Analysis of Chemical Releases.</em>, 122</a>.</p></div></div><ul>
+<li>release temperature: -162°C</li>
+<li>release rate: 0.23 m³/s (liquid)</li>
+<li>release duration: 174 s</li>
+<li>windspeed at 10m: 10.9 m/s</li>
+<li>LNG liquid density (at release conditions): 425.6 kg/m³</li>
+<li>LNG gas density (at release conditions): 1.76 kg/m³</li>
+</ul>
+<p>The goal is to find the distance to the lower flammability limit (LFL) which is 5%(v/v) and ultimately work out the extent of the plume and total explosive mass.</p>
+<div id="3e0ab224-c20a-4676-a52f-2006af30ffaf" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Unitful</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Tₐ  <span class="op">=</span> <span class="fl">288.15</span>u<span class="st">"K"</span>      <span class="co"># ambient air temperature </span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ρₐ  <span class="op">=</span> <span class="fl">1.225</span>u<span class="st">"kg/m^3"</span>  <span class="co"># density of air at 15°C and 1atm</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>u₁₀ <span class="op">=</span> <span class="fl">10.9</span>u<span class="st">"m/s"</span>      <span class="co"># windspeed at 10m </span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>ρₗ  <span class="op">=</span> <span class="fl">425.6</span>u<span class="st">"kg/m^3"</span>  <span class="co"># liquid density of LNG, given</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>ρᵥ  <span class="op">=</span> <span class="fl">1.76</span>u<span class="st">"kg/m^3"</span>   <span class="co"># vapour density of LNG, given</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>ṁ   <span class="op">=</span> ρₗ<span class="op">*</span><span class="fl">0.23</span>u<span class="st">"m^3/s"</span> <span class="co"># mass release rate</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Tᵣ  <span class="op">=</span> (<span class="fl">273.15</span> <span class="op">-</span> <span class="fl">162</span>)u<span class="st">"K"</span> <span class="co"># boiling point of LNG, given</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>LFL <span class="op">=</span> <span class="fl">0.05</span> <span class="co"># lower flammability limit, volume fraction</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>Qₒ <span class="op">=</span> ṁ<span class="op">/</span>ρᵥ <span class="co"># gas volumetric flowrate: mass flowrate divided by gas density</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>First calculate the critical length, <em>D</em>, and the dimensionless parameter <em>α</em> for the model</p>
+<div id="ce5c3bc2-97c6-476c-bd84-7bbf871530cc" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> <span class="fu">√</span>(Qₒ<span class="op">/</span>u₁₀)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="fl">9.806</span>u<span class="st">"m/s^2"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>gₒ <span class="op">=</span> g <span class="op">*</span> (ρᵥ <span class="op">-</span> ρₐ )<span class="op">/</span> ρₐ</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>α <span class="op">=</span> <span class="fl">0.2</span><span class="fu">*log10</span>(gₒ<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> Qₒ <span class="op">/</span> u₁₀<span class="op">^</span><span class="fl">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then, using digitized curves<span class="citation" data-cites="ccps-1999">,<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></span> work out the points for the linear interpolation in terms of <span class="math inline">\(\beta = \log_{10}(x/D)\)</span></p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;<a href="#ref-ccps-1999" role="doc-biblioref">AIChE/CCPS, 118</a>.</p></div></div><div id="e52641b4-c472-4025-8484-dcdf5205bc39" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Cs <span class="op">=</span> [ <span class="fl">0.1</span>,         <span class="fl">0.05</span>,        <span class="fl">0.02</span>,        <span class="fl">0.01</span>,        <span class="fl">0.005</span>,       <span class="fl">0.002</span>]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>βs <span class="op">=</span> [ <span class="fl">0.24</span><span class="op">*</span>α<span class="op">+</span><span class="fl">1.88</span>, <span class="fl">0.36</span><span class="op">*</span>α<span class="op">+</span><span class="fl">2.16</span>, <span class="fl">0.45</span><span class="op">*</span>α<span class="op">+</span><span class="fl">2.39</span>, <span class="fl">0.49</span><span class="op">*</span>α<span class="op">+</span><span class="fl">2.59</span>, <span class="fl">0.59</span><span class="op">*</span>α<span class="op">+</span><span class="fl">2.80</span>, <span class="fl">0.39</span><span class="op">*</span>α<span class="op">+</span><span class="fl">2.87</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>These points only cover the middle region of the concentration curve, where the concentration ratio, <span class="math inline">\({ c_m \over c_0 }\)</span>, is between 0.1 and 0.002, there is a near-field correlation that needs to be connected for concentration ratios &gt;0.1</p>
+<div id="fd2a3642-4625-420e-823a-7013d79d14c1" class="cell" data-tags="[]" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Cm_nf</span>(x′)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x′ <span class="op">&gt;</span> <span class="fl">0</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">306</span><span class="op">/</span>(<span class="fl">306</span> <span class="op">+</span> x′<span class="op">^</span><span class="fl">2</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">1.0</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>xnf <span class="op">=</span> <span class="fl">30</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>βnf <span class="op">=</span> <span class="fu">log10</span>(xnf)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>Cnf <span class="op">=</span> <span class="fu">Cm_nf</span>(xnf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And a far field correlation for when the concentration ratio is &lt;0.002 which is basically just continuing the curve from the last point but such that the concentration decays with <em>1/x<sup>2</sup></em></p>
+<div id="cfe25b61-334c-4383-ad8d-932e635040c3" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>xff <span class="op">=</span> <span class="fl">10</span><span class="op">^</span>(<span class="fu">maximum</span>(βs))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="fu">minimum</span>(Cs)<span class="op">*</span>xff<span class="op">^</span><span class="fl">2</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Cm_ff</span>(x′; A<span class="op">=</span>A)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A<span class="op">/</span>x′<span class="op">^</span><span class="fl">2</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, putting together the pieces: near field correlation, a linear interpolation for the middle of the concentration curve, and a far field correlation, to form the complete concentration function, along with a correction for non-isothermal releases (of which this is an example)</p>
+<div id="64d1219d-fc54-4834-9712-cc7abd9ceef8" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Interpolations</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>itp <span class="op">=</span> <span class="fu">interpolate</span>( ([βnf; βs],), [Cnf; Cs], <span class="fu">Gridded</span>(<span class="fu">Linear</span>()) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="3c720df7-8608-4c80-a9d3-60a82769aad7" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Cm</span>(x<span class="op">::</span><span class="dt">Quantity</span>; xnf<span class="op">=</span>xnf, xff<span class="op">=</span>xff, D<span class="op">=</span>D, T′<span class="op">=</span>Tᵣ<span class="op">/</span>Tₐ)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    x′ <span class="op">=</span> x<span class="op">/</span>D</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    c′ <span class="op">=</span> <span class="cf">if</span> x′ <span class="op">&lt;</span> xnf</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">Cm_nf</span>(x′)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elseif</span> xnf <span class="op">≤</span> x′ <span class="op">&lt;</span> xff</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">itp</span>(<span class="fu">log10</span>(x′))</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">Cm_ff</span>(x′)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> c′ <span class="op">/</span> (c′ <span class="op">+</span> (<span class="fl">1</span> <span class="op">-</span> c′)<span class="op">*</span>T′)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> c</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-fig-conc-profile" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div id="fig-conc-profile" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-conc-profile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-conc-profile-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-conc-profile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: The concentration profile for the Britter-McQuaid dense gas model, with the LFL shown for reference.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>If all one needs is the distance to the LFL there is an easier way of doing this: interpolate the concentrations to find the <em>β</em> corresponding to the LFL (after applying the non-isothermal correction). However, if one also requires the plume dimensions the concentration profile is required.</p>
+<p>From the concentration profile calculating the downwind distance to the LFL is very straight-forward.</p>
+<div id="fd2c1ba0-b326-4b48-aa85-5f709eed97dc" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>xn <span class="op">=</span> <span class="fu">find_zero</span>((x) <span class="op">-&gt;</span> <span class="fu">Cm</span>(x) <span class="op">-</span> LFL, (<span class="fl">300</span>,<span class="fl">400</span>)<span class="op">.*</span><span class="fl">1</span>u<span class="st">"m"</span>, Roots.<span class="fu">Brent</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>354.5630187009715 m</code></pre>
+</div>
+</div>
+</section>
+<section id="looking-again-at-plume-dimensions" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="looking-again-at-plume-dimensions">Looking again at plume dimensions</h2>
+<p>At first glance the workbook seems to be giving the user everything they need to workout the size of the plume, giving the following diagram</p>
+<div id="fig-diagram" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/47a693ec-3597-4c02-9462-40185d0ffb38-1-28b141a6-e12c-48f3-9264-64ac9eb91ec6.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Dense plume concentration contour<span class="citation" data-cites="britter-1988">.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></span>
+</figcaption>
+<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;<a href="#ref-britter-1988" role="doc-biblioref">Britter and McQuaid, <span>“Workbook on the Dispersion of Dense Gases,”</span> fig. 10</a>.</p></div></div></figure>
+</div>
+<p>and the following relations for the labeled distances</p>
+<p><span class="math display">\[ L_U = {D \over 2} + 2 l_b \]</span></p>
+<p><span class="math display">\[ L_{Ho} = D + 8 l_b \]</span></p>
+<p><span class="math display">\[ L_H = L_{Ho} + 2.5 \sqrt[3]{ l_b x^2 } \]</span></p>
+<p>with the buoyancy scale <em>l<sub>b</sub></em> defined as <span class="math display">\[ l_b = { { g_o Q_o } \over u_{ref}^{3} } \]</span></p>
+<div id="0824525a-09de-4815-b856-07095ab81c89" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> (gₒ<span class="op">*</span>Qₒ)<span class="op">/</span>u₁₀<span class="op">^</span><span class="fl">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>0.18392758812310803 m</code></pre>
+</div>
+</div>
+<div id="9325cc24-ba5d-4a58-b248-99dd3c7879bc" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Lᵤ  <span class="op">=</span> D<span class="op">/</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">2</span>lb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>1.4973003373658906 m</code></pre>
+</div>
+</div>
+<div id="e0b14449-f2a8-4334-8600-01ff11d2e2c8" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Lₕₒ <span class="op">=</span> D <span class="op">+</span> <span class="fl">8</span>lb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>3.7303110272242135 m</code></pre>
+</div>
+</div>
+<div id="895da9f3-e885-45ee-8088-e0da07801300" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Lₕ</span>(x) <span class="op">=</span> Lₕₒ <span class="op">+</span> <span class="fl">2.5</span><span class="fu">∛</span>(lb<span class="op">*</span>x<span class="op">^</span><span class="fl">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="upwind-region" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="upwind-region">Upwind region</h3>
+<p>The curve given for <em>L<sub>H</sub></em> for <em>x</em> &gt; 0 is <strong>not</strong> the curve for <em>x</em> &lt; 0, the upwind extent of the plume. This is the blue curve in the figure below. The orange curve is slightly adjusting <em>L<sub>H</sub></em> such that for <em>x</em> &lt; 0 the second term is subtracted (so the curve actually converges to zero instead of blowing up to +∞ as <em>x</em> → -∞). The black dots are points taken from the diagram given by Britter and McQuaid, using a graph digitizer and scaling to the actual <em>L<sub>Ho</sub></em> and <em>L<sub>U</sub></em>. Clearly the given curve for <em>L<sub>H</sub></em> is not at all what is shown in the diagram for the upwind region.</p>
+<p>A conservative approach to estimating the size of the upwind extent is to assume <em>L<sub>H</sub></em> = <em>L<sub>Ho</sub></em> for <em>L<sub>U</sub></em> &lt; <em>x</em> &lt; 0, i.e.&nbsp;making the upwind region a rectangle of width <em>L<sub>Ho</sub></em> and length <em>L<sub>U</sub></em>.<span class="citation" data-cites="bakkum-2005"><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></span> This is the green curve in the figure below.</p>
+<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;<a href="#ref-bakkum-2005" role="doc-biblioref">Bakkum and Duijm., <span>“Vapour Cloud Dispersion”</span></a>.</p></div></div><p>Alternatively one could “fit” a curve to hit the end points while also having the same power of <em>x</em>: <span class="math inline">\(L_H = L_{Ho} \left( {x + L_U} \over L_U \right)^{2/3}\)</span> where <em>L<sub>U</sub></em> &lt; <em>x</em> &lt; 0, this at least retains the same general shape and is the red curve in the figure below. I think this should be taken with the giant caveat that I don’t know if insisting on the same power law is truly justified.</p>
+<div id="cell-fig-upwind" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="14">
+<div id="fig-upwind" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-upwind-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-upwind-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-upwind-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: The various approaches to estimating the upwind plume extent, black dots are a digitization of the corresponding diagram from Britter and McQuaid shown for reference.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>For most typical cases I would think the upwind region would be a small component of the overall plume and taking the conservative, rectangle, approach would be a small error.</p>
+</section>
+<section id="vertical-extent" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="vertical-extent">Vertical extent</h3>
+<p>The vertical extent is not given on the diagram, but an equation is given in the text, with the note that this comes from continuity, however I think this is incorrect.</p>
+<p><span class="math display">\[ L_V = {Q_o \over {u_{ref} L_H} } = { D^2 \over L_H } \]</span></p>
+<p>Suppose a steady state plume with a system boundary such that the plume is sliced along the <em>y-z</em> plane at some downwind distance <em>x</em>. All of the mass entering the plume, from the source, exits the plume through this plane</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/bf1df5b1-1e57-4604-9d4f-69045279efd3-1-5502f497-792d-4375-bd80-664107a07d5d.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<p>Consider the steady state mass balance</p>
+<p><span class="math display">\[ \textrm{mass in} = \textrm{mass out} \]</span></p>
+<p><span class="math display">\[ c_o Q_o = \iint_A c u \,dA = \int_{0}^{\infty} \int_{-\infty}^{\infty} c(x,y,z) u(x,y,z) \,dy \,dz \]</span></p>
+<p>By the nature of a top-hat model the plume cross section is a rectangle with half-width <em>L<sub>H</sub></em> and height <em>L<sub>V</sub></em> and the concentration everywhere <em>inside</em> the rectangle is <em>c<sub>m</sub></em>. Assuming a constant advection velocity, <em>u</em>, the integral can be simplified to</p>
+<p><span class="math display">\[ \iint_A c u \,dA = c_m u \int_{0}^{L_V} \int_{-L_H}^{L_H} \,dy \,dz = 2 c_m u L_H L_V \]</span></p>
+<p>The steady state mass balance is then</p>
+<p><span class="math display">\[ c_o Q_o = 2 c_m u L_H L_V \]</span></p>
+<p>and the vertical extent can be solved for with some simple re-arrangement</p>
+<p><span class="math display">\[ L_V = { { c_o Q_o } \over { 2 c_m u L_H } } = {1 \over 2}{ c_o \over c_m } { Q_o \over {u L_H} } \]</span></p>
+<p>Setting the advection velocity of the plume to the reference windspeed gives</p>
+<p><span class="math display">\[ L_V = {1 \over 2}{ c_o \over c_m } { Q_o \over {u_{ref} L_H} } = {1 \over 2} { c_o \over c_m } { D^2 \over L_H }\]</span></p>
+<div id="e8d233f6-e668-4df5-b7b3-ba5ccbb5d78a" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Lᵥ</span>(x) <span class="op">=</span> D<span class="op">^</span><span class="fl">2</span><span class="op">/</span>(<span class="fl">2</span><span class="fu">*Cm</span>(x)<span class="fu">*Lₕ</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is definitely similar to what is given by Britter and McQuaid but with two big differences:</p>
+<ul>
+<li>it depends upon the concentration</li>
+<li>it is divided by two</li>
+</ul>
+<p>The last point could equally be a mistake in the diagram (I have no real way of checking) as while the diagram shows <em>L<sub>H</sub></em> as the plume <em>half-width</em>, the text simply refers to it as the “lateral plume extent”, which is ambiguous – do they mean the entire lateral extent or from the center-line of the plume?</p>
+<p>The TNO Yellow Book gives a different equation<span class="citation" data-cites="bakkum-2005"><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></span> for the vertical extent:</p>
+<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;<a href="#ref-bakkum-2005" role="doc-biblioref">Bakkum and Duijm.</a> equation 4.104.</p></div></div><p><span class="math display">\[ L_V = {1 \over 2} { Q_o \over {u_{ref} L_H} } = {1 \over 2} { D^2 \over L_H }\]</span></p>
+<p>Which clearly follows from assuming <em>L<sub>H</sub></em> is the <em>half-width</em>, and the corresponding figure is labeled as such (using the same equation for <em>L<sub>H</sub></em> as Britter and McQuaid). But it doesn’t depend upon concentration.</p>
+<p>I think the vertical extent has to depend upon the concentration as otherwise mass will simply disappear from the plume as it extends downwind. There is also the obvious problem that since the plume lateral extent monotonically increases, and the vertical extent is inversely related to it, the vertical extent is monotonically decreasing. In fact it becomes vanishingly small quite quickly. This entirely the opposite of what is observed with actual dense plume dispersion.</p>
+<p>This can be seen most clearly in the following figure in which the vertical extent is shown as a function of downwind distance along with the mass flowrate in the plume (i.e.&nbsp;<span class="math inline">\(c_m u A\)</span> )</p>
+<div id="cell-fig-plume-height" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="16">
+<div id="fig-plume-height" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plume-height-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-plume-height-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plume-height-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Approaches to plume height estimation (top) and the corresponding conservation of mass (bottom).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>I think it is fairly obvious that both the Britter-McQuaid and TNO models give silly answers for the vertical extent. Though the corrected curve, the green curve, clearly has problems too: it has an odd bumpiness, as a result of the linear interpolation, and it is also too small due to both assuming the concentration everywhere is equal to the ground level concentration and due to an overly large advection velocity (the windspeed at 10m is quite a bit higher than the windspeed at ~1m).</p>
+<p>An alternative approach to using the reference windspeed as the advection velocity is to assume the advection velocity is some constant fraction of the reference velocity, e.g.&nbsp;<span class="math inline">\(u = 0.4 u_{ref}\)</span>, which is what Britter and McQuaid use for the instantaneous model.</p>
+<p>Another alternative might be to use an <em>average</em> windspeed, <em>ū</em> over cross-section of the plume as the advection velocity, assuming windspeed is only a function of height.</p>
+<p><span class="math display">\[ \bar{u} = { { \iint_A u \,dA } \over A } =  { { \int_{0}^{L_V} u(z) \,dz } \over L_V } \]</span></p>
+<p>Assuming the windspeed follows a powerlaw distribution <span class="math inline">\(u = u_{ref} \left( z \over z_{ref} \right)^p\)</span> gives</p>
+<p><span class="math display">\[ \bar{u} = { { \int_{0}^{L_V} u(z) \,dz } \over L_V } \]</span></p>
+<p><span class="math display">\[ = {1 \over L_V} \int_{0}^{L_V} u_{ref} \left( z \over z_{ref} \right)^p \,dz \]</span></p>
+<p><span class="math display">\[ = { u_{ref} \over {p+1} } \left( L_V \over z_{ref} \right)^p \]</span></p>
+<p>plugging it into the simple mass balance</p>
+<p><span class="math display">\[ c_o Q_o = c_m \bar{u} A \]</span></p>
+<p><span class="math display">\[ = c_m {u_{ref} \over {p+1} } \left( L_V \over z_{ref} \right)^p { 2 L_H L_V } \]</span></p>
+<p>re-arranging to solve for <em>L<sub>V</sub></em></p>
+<p><span class="math display">\[ L_V = \left( { {p+1} \over 2 } { c_o \over c_m } z_{ref}^p {Q_o \over {u_{ref} L_H} } \right)^{1 \over {p+1} } \]</span></p>
+<p><span class="math display">\[ = \left( { {p+1} \over 2 } { c_o \over c_m } z_{ref}^p {D^2 \over L_H } \right)^{1 \over {p+1} }\]</span></p>
+<p>The red curve in the figure above is this model, using <em>p</em> = 0.15<span class="citation" data-cites="ccps-1999">.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></span></p>
+<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;<a href="#ref-ccps-1999" role="doc-biblioref">AIChE/CCPS, <em>Guidelines for Consequence Analysis of Chemical Releases.</em>, 83</a>.</p></div></div><p>This could also be done using the logarithmic windspeed curve <span class="math inline">\(u = {u_{\star} \over \kappa} \log \left( z \over z_) \right)\)</span> where <span class="math inline">\(u_{\star}\)</span> is the friction velocity and <em>z<sub>0</sub></em> is the roughness length. Though I don’t imagine the expression would work out as nicely.</p>
+</section>
+<section id="recommendations" class="level3">
+<h3 class="anchored" data-anchor-id="recommendations">Recommendations</h3>
+<p>For the upwind region, assuming a simple rectangular prism with length <em>L<sub>U</sub></em>, width <em>2L<sub>Ho</sub></em>, height <em>L<sub>Vo</sub></em> and uniform concentration <em>c<sub>o</sub></em> is a conservative approach. Likely the plume downwind of the source will be much larger than the upwind area and so this will be a small overestimate.</p>
+<p>The simple mass balance approach to calculating the plume height is a reasonable approach if one simply wants to reference Britter and McQuaid and not have to justify additional assumptions. It is not what is given in the text, but it is what is <em>described</em> in the text. The other models for plume height may be more realistic, in the sense that they represent more realistic advection velocities, and will give larger explosive masses for the plume, however they have not been validated against any actual data. That validation may be a worthwhile exercise but is well beyond the scope of this blog post.</p>
+</section>
+</section>
+<section id="calculating-the-explosive-mass" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="calculating-the-explosive-mass">Calculating the explosive mass</h2>
+<p>The explosive mass in the cloud is the given by the volume integral</p>
+<p><span class="math display">\[ m_e = \iiint_V c dV \]</span></p>
+<p>where <em>V</em> is defined as the region where <em>c</em> ≥ <em>LFL</em>.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;Some sources recommend <em>1/2 LFL</em>.</p></div></div><p>Using the concentration profile and the plume extents, we could work out the function <code>c(x,y,z)</code> such that the concentration is returned if we are:</p>
+<ul>
+<li>within the plume, and</li>
+<li>the concentration is ≥ <em>LFL</em></li>
+</ul>
+<p>To determine the explosive mass in the downwind region this might be done by the following</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>cₒ <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"kg/m^3"</span>, ṁ<span class="op">/</span>Qₒ)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">Lₕ</span>(x<span class="op">::</span><span class="dt">Number</span>) <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"m"</span>, <span class="fu">Lₕ</span>(x<span class="op">*</span><span class="fl">1</span>u<span class="st">"m"</span>))</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Lᵥ</span>(x<span class="op">::</span><span class="dt">Number</span>) <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"m"</span>, D)<span class="op">^</span><span class="fl">2</span><span class="op">/</span>(<span class="fl">2</span><span class="fu">*Cm</span>(x)<span class="fu">*Lₕ</span>(x))</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">c</span>(x,y,z; lim<span class="op">=</span>LFL)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    c_ <span class="op">=</span> <span class="fu">Cm</span>(x)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> c_ <span class="op">≥</span> lim</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">abs</span>(y) <span class="op">≤</span> <span class="fu">Lₕ</span>(x)) <span class="op">&amp;&amp;</span> (z <span class="op">≤</span> <span class="fu">Lᵥ</span>(x))</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> cₒ<span class="op">*</span>c_</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="fl">0.0</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">0.0</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">HCubature</span>: hcubature</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>x_min, x_max <span class="op">=</span> <span class="fl">0</span>, xn</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>y_min, y_max <span class="op">=</span> <span class="fu">-Lₕ</span>(xn), <span class="fu">Lₕ</span>(xn)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>z_min, z_max <span class="op">=</span> <span class="fl">0</span>, <span class="fu">Lᵥ</span>(xn)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>m_e, err <span class="op">=</span> <span class="fu">hcubature</span>( c, [x_min, y_min, z_min], [x_max, y_max, z_max])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is a pretty tedious integration, is very inefficient, and doesn’t take into account any of the <em>structure</em> of the model and it turns out that a top-hat model has some pretty convenient structure.</p>
+<section id="a-nice-property-of-top-hat-models" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="a-nice-property-of-top-hat-models">A nice property of top hat models</h3>
+<p>Returning to the integral for the explosive mass, the plume can be divided into an upwind region (<em>x</em> &lt; 0) and a downwind region (<em>x</em> ≥ 0)</p>
+<p><span class="math display">\[ m_e = \iiint_V c \,dV = m_{e,u} + m_{e,d} \]</span></p>
+<p>with the explosive mass of the downwind region being</p>
+<p><span class="math display">\[ m_{e,d} = \int_0^{x_n} \iint_A c \,dA \,dx \]</span></p>
+<p>For a top-hat model, since the concentration at a given downwind distance is constant everywhere within the plume cross-section <span class="math inline">\(\iint_A c dA = c_m A\)</span>, and, from a mass balance on the plume</p>
+<p><span class="math display">\[ c_m A u = c_o Q_o \]</span></p>
+<p><span class="math display">\[ c_m A = { {c_o Q_o} \over u} \]</span></p>
+<p>which is a constant, thus</p>
+<p><span class="math display">\[ m_{e,d} = \int_0^{x_n} c_m A \,dx \]</span></p>
+<p><span class="math display">\[ = \int_0^{x_n} { {c_o Q_o} \over u} \,dx \]</span></p>
+<p><span class="math display">\[ = { {c_o Q_o} \over u} x_n \]</span></p>
+<p>For the explosive mass of the upwind region a simple box model gives <span class="math inline">\(m_{e,u} = 2 c_o L_U L_{Ho} L_{Vo}\)</span>. Putting everything together<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;This is not specific to the Britter-McQuaid model, it works for <em>any</em> top hat model.</p></div></div><p><span class="math display">\[ m_e = 2 c_o L_U L_{Ho} L_{Vo} + { {c_o Q_o} \over u} x_n \]</span></p>
+<p>This can be simplified greatly by setting the advection velocity to <em>u<sub>ref</sub></em></p>
+<p><span class="math display">\[ m_e = 2 c_o L_U L_{Ho} L_{Vo} + { {c_o Q_o} \over u_{ref} } x_n \]</span></p>
+<p><span class="math display">\[ = 2 c_o L_U L_{Ho} {1 \over 2}{D^2 \over L_{Ho} } + c_o D^2 x_n \]</span></p>
+<p><span class="math display">\[ = c_o D^2 \left( L_U + x_n \right)\]</span></p>
+<div id="dab48e6e-44d1-4bec-bf45-2da635d57de1" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cₒ <span class="op">=</span> ṁ<span class="op">/</span>Qₒ</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>mₑ <span class="op">=</span> cₒ<span class="op">*</span>D<span class="op">^</span><span class="fl">2</span><span class="fu">*</span>(Lᵤ<span class="op">+</span>xn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>3197.617661470163 kg</code></pre>
+</div>
+</div>
+<p>This very simple expression is the obvious strength of a top-hat model: it makes calculating the explosive mass incredibly easy<span class="citation" data-cites="woodward-1998">.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></span> It also retroactively justifies why the Britter McQuaid model is oriented around calculating <em>x<sub>n</sub></em>: that’s all you actually need.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn10"><p><sup>10</sup>&nbsp;<a href="#ref-woodward-1998" role="doc-biblioref">Woodward, <em>Estimating the Flammable Mass of a Vapour Cloud</em></a>.</p></div><div id="fn11"><p><sup>11</sup>&nbsp;Some sources recommend calculating the explosive mass as the region of the plume with the concentration <em>LFL</em> ≤ <em>c</em> ≤ <em>UFL</em>, in which case <span class="math inline">\(m_e = c_o D^2 \left( x_{n,LFL} - x_{n,UFL} \right)\)</span></p></div></div><p>If this seems too good to be true, the integration can be performed numerically by taking</p>
+<p><span class="math display">\[ \iint_A c \,dA = c_m \cdot 2L_H \cdot L_V \]</span></p>
+<div id="ff116de9-ba98-4c92-8e53-4262ada3ba09" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">QuadGK</span>: quadgk</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">∫∫cdA</span>(x)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="fu">Cm</span>(x) <span class="op">≥</span> LFL</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">cₒ*Cm</span>(x)<span class="fu">*</span>(<span class="fl">2</span><span class="fu">Lₕ</span>(x))<span class="fu">*Lᵥ</span>(x)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">0.0</span>u<span class="st">"kg/m"</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>m_ed, err <span class="op">=</span> <span class="fu">quadgk</span>(∫∫cdA, <span class="fl">0</span>u<span class="st">"m"</span>, xn)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>m_eu <span class="op">=</span> <span class="fl">2</span><span class="fu">*cₒ*Lᵤ*Lₕₒ*Lᵥ</span>(<span class="fl">0</span>u<span class="st">"m"</span>)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>m_eu <span class="op">+</span> m_ed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>3197.617661470163 kg</code></pre>
+</div>
+</div>
+<p>Which is exactly the same.</p>
+<p>Above I claimed the upwind region was “small” relative to the downwind region, this can be shown easily as the mass in each region is directly proportional to the length.</p>
+<div id="20b52fcc-d551-4021-adc9-9572aa23c07c" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Lᵤ<span class="op">/</span>(Lᵤ<span class="op">+</span>xn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>0.004205187316042018</code></pre>
+</div>
+</div>
+<p>Since the mass in the upwind region is &lt;0.5% of the total mass in the cloud, I think the simple box model is justified.</p>
+</section>
+<section id="added-complications" class="level3">
+<h3 class="anchored" data-anchor-id="added-complications">Added complications</h3>
+<p>According to Britter and McQuaid the top-hat model generates an overly conservative plume extent and they recommend using given the lateral extent curve up to <em>2/3 x<sub>n</sub></em> and after which connecting to <em>x<sub>n</sub></em> using straight lines, as shown in the plume diagram. This makes the integration for explosive mass a little more complicated.</p>
+<p>For simplicity the plume can be divided into three regions, the upwind region (<em>x</em> &lt; 0), the downwind region up to the cutoff (0 ≤ <em>x</em> &lt; 2/3 <em>x<sub>n</sub></em>), and the downwind cutoff region (2/3 <em>x<sub>n</sub></em> ≤ <em>x</em> &lt; <em>x<sub>n</sub></em> )</p>
+<p><span class="math display">\[ m_{e, \textrm{cut off} } = m_{e,u} + m_{e,d1} + m_{e,d2} \]</span></p>
+<p>The upwind region, <em>m<sub>e,u</sub></em>, and the first downwind region <em>m<sub>e,d1</sub></em> are already known, they are the same as above up to 2/3 <em>x<sub>n</sub></em>. What is left to determine is the explosive mass in the cutoff region.</p>
+<p><span class="math display">\[ m_{e,d2} = \int_{2/3 x_n}^{x_n} \iint_A c \,dA \,dx \]</span></p>
+<p>The integral can be re-written to take advantage of <em>c<sub>m</sub>A</em> being an invariant for a top-hat model,</p>
+<p><span class="math display">\[ m_{e,d2} = \int_{2/3 x_n}^{x_n} \iint_A c \,dA \,dx \]</span></p>
+<p><span class="math display">\[ = c_m A_{\textrm{original} } \int_{2/3 x_n}^{x_n} { A_{\textrm{cut off} } \over A_{\textrm{original} } } \,dx \]</span></p>
+<p>Assuming the vertical extent remains unchanged in this operation, the ratio of areas is the same as the ratio of horizontal extents</p>
+<p><span class="math display">\[ { A_{\textrm{cut off} } \over A_{\textrm{original} } } = { L_{H, \textrm{cut off} } \over L_{H, \textrm{original} } } \]</span></p>
+<p>From some simple geometry, the horizontal extent is</p>
+<p><span class="math display">\[ L_{H, \textrm{cut off} } = 3 L_{H, 2/3 x_n}  { {x_n - x} \over x_n }\]</span></p>
+<p>Which then leads to</p>
+<p><span class="math display">\[ m_{e,d2} = 3 c_o D^2 \int_{2/3 x_n}^{x_n} { L_{H, 2/3 x_n} \over L_H } { {x_n - x} \over x_n } \,dx \]</span></p>
+<p>There is probably a closed form for this integral but it is just as easy to integrate that numerically.</p>
+<p><span class="math display">\[ m_{e, \textrm{cut off} } = c_o D^2 \left( L_U + \frac{2}{3}x_n + 3 L_{H, 2/3 x_n} \int_{2/3 x_n}^{x_n} { 1 \over L_H(x) } { {x_n - x} \over x_n } \,dx   \right)\]</span></p>
+<div id="4542aa2b-35b4-4cd8-92eb-532ce03c795a" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>mₑ_cutoff <span class="op">=</span> cₒ<span class="op">*</span>D<span class="op">^</span><span class="fl">2</span><span class="fu">*</span>(Lᵤ <span class="op">+</span> (<span class="fl">2</span><span class="op">/</span><span class="fl">3</span>)<span class="op">*</span>xn </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> <span class="fl">3</span><span class="fu">*Lₕ</span>((<span class="fl">2</span><span class="op">/</span><span class="fl">3</span>)<span class="op">*</span>xn)<span class="fu">*quadgk</span>( (x) <span class="op">-&gt;</span> (xn <span class="op">-</span> x)<span class="op">/</span>(<span class="fu">xn*Lₕ</span>(x)), (<span class="fl">2</span><span class="op">/</span><span class="fl">3</span>)<span class="op">*</span>xn, xn)[<span class="fl">1</span>] )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>2620.489605856347 kg</code></pre>
+</div>
+</div>
+<p>This works out to be about 20% less than the original explosive mass.</p>
+<div id="e233ee82-ee31-48f8-9c1c-b2571d12756b" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>mₑ_cutoff<span class="op">/</span>mₑ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<pre><code>0.8195131136008078</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="final-thoughts" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="final-thoughts">Final thoughts</h2>
+<p>I think the error in the vertical extent may have limited the apparent utility of the Britter-McQuaid model. Most references I have do use the Britter-McQuaid model, noting that it is “reasonably simple to apply, and produces results which appear to be as good as more sophisticated models”<span class="citation" data-cites="ccps-1999">,<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></span> however they either claim that it is <em>only</em> good for calculating <em>x<sub>n</sub></em> or gloss over how it could be used for anything else. The CCPS references seem consistent in neglecting to mention at all that the model can also estimate the plume extent. So, while I can’t imagine I’m the first person to have noticed that the given equation for <em>L<sub>V</sub></em> doesn’t work, I have yet to encounter anyone <em>actually admitting it</em>.</p>
+<div class="no-row-height column-margin column-container"><div id="fn12"><p><sup>12</sup>&nbsp;<a href="#ref-ccps-1999" role="doc-biblioref">AIChE/CCPS, <em>Guidelines for Consequence Analysis of Chemical Releases.</em>, 122</a>.</p></div><div id="fn13"><p><sup>13</sup>&nbsp;<a href="#ref-lees-1996" role="doc-biblioref">Lees, <em>Loss Prevention in the Process Industries</em></a>; <a href="#ref-casal-2018" role="doc-biblioref">Casal, <em>Evaluation of the Effects of Consequences of Major Accidents in Industrial Plants</em></a>.</p></div><div id="fn14"><p><sup>14</sup>&nbsp;<a href="#ref-bakkum-2005" role="doc-biblioref">Bakkum and Duijm., <span>“Vapour Cloud Dispersion”</span></a>.</p></div></div><p>That said, the correction also seems obvious to me: one simply follows what is described in the text which is exactly how Britter and McQuaid calculated the cloud height for the instantaneous model (which is correct) in the same workbook. That the incorrect equation for <em>L<sub>V</sub></em> is repeated in other references<span class="citation" data-cites="lees-1996 casal-2018">,<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a></span> with only the <em>TNO Yellow Book</em><span class="citation" data-cites="bakkum-2005"><a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a></span> making a correction, while still repeating a critical mistake, strikes me as very odd.</p>
+<p>The Britter-McQuaid model would seem to be the perfect fit for screening models, which are often only order of magnitude estimates at best anyways. It gives reasonable concentrations, plausible plume extents, and the explosive mass is ridiculously easy to calculate (slightly more tedious if you are using the 2/3 cut-off region but nothing that couldn’t be worked out in advance if this was going to be incorporated into a routine calculation tool).</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-ccps-1999" class="csl-entry" role="listitem">
+AIChE/CCPS. <em>Guidelines for Consequence Analysis of Chemical Releases.</em> New York: American Institute of Chemical Engineers, 1999.
+</div>
+<div id="ref-bakkum-2005" class="csl-entry" role="listitem">
+Bakkum, E. A., and N. J. Duijm. <span>“Vapour Cloud Dispersion.”</span> In <em>Methods for the Calculation of Physical Effects, CPR 14E</em>, edited by C. J. H. van den Bosch and R. A. P. M. Weterings, 3rd ed. The Hague: TNO, 2005.
+</div>
+<div id="ref-britter-1988" class="csl-entry" role="listitem">
+Britter, Rex E., and J. McQuaid. <span>“Workbook on the Dispersion of Dense Gases. HSE Contract Research Report No. 17/1988,”</span> 1988.
+</div>
+<div id="ref-casal-2018" class="csl-entry" role="listitem">
+Casal, Joachim. <em>Evaluation of the Effects of Consequences of Major Accidents in Industrial Plants</em>. 2nd ed. Amsterdam: Elsevier, 2018.
+</div>
+<div id="ref-lees-1996" class="csl-entry" role="listitem">
+Lees, Frank P. <em>Loss Prevention in the Process Industries</em>. 2nd ed. Oxford: Butterworth-Heinemann, 1996.
+</div>
+<div id="ref-woodward-1998" class="csl-entry" role="listitem">
+Woodward, John L. <em>Estimating the Flammable Mass of a Vapour Cloud</em>. New York: American Institute of Chemical Engineers, 1998.
+</div>
+</div>
+
+
+</section>
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/aefarrell\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="aefarrell/aefarrell.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

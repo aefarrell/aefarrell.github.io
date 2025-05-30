@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Allan Farrell">
+<meta name="dcterms.date" content="2025-03-19">
+<meta name="description" content="Modelling vessel blowdowns using equations of state.">
+
+<title>Vessel Blowdown - Real Gases – A Chemical Engineer’s Notebook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-59228ce9c52eba116baca5d538563979.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: #ffffff;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: #ffffff;
+background: url(../../images/pexels-daniil-prikhno-header.jpg);
+      }
+</style>
+<style>
+.quarto-title-block .quarto-title-banner {
+  min-height: 100%;
+  background-size: cover;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
+}
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Vessel Blowdown - Real Gases – A Chemical Engineer’s Notebook">
+<meta property="og:description" content="Modelling vessel blowdowns using equations of state.">
+<meta property="og:image" content="https://aefarrell.github.io/posts/vessel_blowdown_real_gases/figure-1.svg">
+<meta property="og:site_name" content="A Chemical Engineer's Notebook">
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">A Chemical Engineer’s Notebook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> <i class="bi bi-info-circle" role="img">
+</i> 
+<span class="menu-text">about</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> <i class="bi bi-wrench-adjustable-circle" role="img">
+</i> 
+<span class="menu-text">projects</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Vessel Blowdown - Real Gases</h1>
+                  <div>
+        <div class="description">
+          Modelling vessel blowdowns using equations of state.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">julia</div>
+                <div class="quarto-category">compressible flow</div>
+                <div class="quarto-category">blowdown</div>
+                <div class="quarto-category">equations of state</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Allan Farrell </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 19, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#data-structures" id="toc-data-structures" class="nav-link active" data-scroll-target="#data-structures">Data Structures</a></li>
+  <li><a href="#equations-of-state" id="toc-equations-of-state" class="nav-link" data-scroll-target="#equations-of-state">Equations of State</a>
+  <ul class="collapse">
+  <li><a href="#ideal-gases" id="toc-ideal-gases" class="nav-link" data-scroll-target="#ideal-gases">Ideal gases</a></li>
+  <li><a href="#real-gases-with-clapeyron.jl" id="toc-real-gases-with-clapeyron.jl" class="nav-link" data-scroll-target="#real-gases-with-clapeyron.jl">Real Gases with <code>Clapeyron.jl</code></a></li>
+  </ul></li>
+  <li><a href="#isentropic-nozzle-flow" id="toc-isentropic-nozzle-flow" class="nav-link" data-scroll-target="#isentropic-nozzle-flow">Isentropic Nozzle Flow</a></li>
+  <li><a href="#adiabatic-blowdown" id="toc-adiabatic-blowdown" class="nav-link" data-scroll-target="#adiabatic-blowdown">Adiabatic Blowdown</a>
+  <ul class="collapse">
+  <li><a href="#the-pressure-equation" id="toc-the-pressure-equation" class="nav-link" data-scroll-target="#the-pressure-equation">The Pressure Equation</a></li>
+  <li><a href="#the-energy-equation" id="toc-the-energy-equation" class="nav-link" data-scroll-target="#the-energy-equation">The Energy Equation</a></li>
+  <li><a href="#performance" id="toc-performance" class="nav-link" data-scroll-target="#performance">Performance</a></li>
+  </ul></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>Continuing on from where <a href="../../posts/vessel_blowdown_ideal_gases/">I left off previously</a>, examining vessel blowdown, it is time to implement real gases. I left the ideal gas case promising that implementing a real gas was easy, well now is the time to prove it. Instead of implementing real gas equations of state myself, I am going to use <a href="https://clapeyronthermo.github.io/Clapeyron.jl/stable/">Clapeyron.jl</a> but, as a first step, it is worthwhile to consider how the problem can be divided up into sub-problems and what data structures would be the most useful. I would like to write code that is general enough that any equation of state can be used with minimal changes. With that in mind, I am going to consider the problem as being composed of three distinct subsets: the vessel, the fluid model, and the ambient conditions.</p>
+<section id="data-structures" class="level2">
+<h2 class="anchored" data-anchor-id="data-structures">Data Structures</h2>
+<p>The properties of the vessel form a natural data structure containing the valve properties, the vessel volume, and the initial conditions. It can also be divided into two distinct sub-problems: the gas expansion within the vessel and the gas expansion across the valve. The gas expansion within the vessel will be governed by the ODE or DAE for the particular expansion type – isothermal, adiabatic, &amp;c.&nbsp;– whereas the expansion across the valve will always be isentropic. These sub-problems can then be solved in a way that is agnostic to the equation of state.</p>
+<p>An important decision must be made regarding which subset of the state variables, <span class="math inline">\(P, v, T\)</span>, will be used to define the system. The remaining variable will be defined by the equation of state. Equations of state are typically given in relation to the Helmholtz free energy, <span class="math inline">\(A\)</span>, a function of molar volume and temperature, which makes those a natural choice. The pressure vessel can then be instantiated with the total volume, total mass of material contained, and the vessel temperature. The pressure then varies with the equation of state. Alternatively, the pressure and temperature of the vessel could be chosen as the state variables. But then the total mass in the vessel depends on the particular equation of state, which strikes me as weird.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> PressureVessel{F <span class="op">&lt;:</span><span class="dt"> Number</span>}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    c<span class="op">::</span><span class="dt">F </span><span class="co"># valve discharge coefficient</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    A<span class="op">::</span><span class="dt">F </span><span class="co"># valve flow area</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    V<span class="op">::</span><span class="dt">F </span><span class="co"># vessel volume</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    T<span class="op">::</span><span class="dt">F </span><span class="co"># vessel temperature</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    m<span class="op">::</span><span class="dt">F </span><span class="co"># total mass of material</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">PressureVessel</span>(c, A, V, T, m) <span class="op">=</span> </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">PressureVessel</span>(<span class="fu">promote</span>(c, A, V, T, m)<span class="op">...</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Abstracting the fluid properties – the P-v-T relationship, entropy, enthalpy, and the like – allows the vessel blowdown model to be re-used easily. Using Julia’s multiple dispatch no code even needs to change, just add new methods for a new fluid model and everything works. This leads naturally to a way of checking that the vessel model is working by comparing an ideal gas model to the known analytic solution. Verifying that it works with an ideal gas then gives confidence that the model is working with a real gas, for which the analytic solution is unknown.</p>
+<p>Collecting the ambient conditions into a data structure does not lead to any spectacular improvements or insights, it is just neat and tidy.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> Environment{F <span class="op">&lt;:</span><span class="dt"> Number</span>}</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    P<span class="op">::</span><span class="dt">F</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    T<span class="op">::</span><span class="dt">F</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">Environment</span>(P, T) <span class="op">=</span> <span class="fu">Environment</span>(<span class="fu">promote</span>(P,T)<span class="op">...</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Finally, a data structure for blowdown solutions is useful for dispatch.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> Blowdown{S}</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    pv<span class="op">::</span><span class="dt">PressureVessel</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    env<span class="op">::</span><span class="dt">Environment</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    sol<span class="op">::</span><span class="dt">S</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Base</span>.<span class="fu">length</span>(<span class="op">::</span><span class="dt">Blowdown</span>) <span class="op">=</span> <span class="fl">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Base</span>.<span class="fu">iterate</span>(b<span class="op">::</span><span class="dt">Blowdown</span>, state<span class="op">=</span><span class="fl">1</span>) <span class="op">=</span> state <span class="op">&gt;</span> <span class="fu">length</span>(b) ? <span class="cn">nothing</span> <span class="op">:</span> (b,state<span class="op">+</span><span class="fl">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="equations-of-state" class="level2">
+<h2 class="anchored" data-anchor-id="equations-of-state">Equations of State</h2>
+<section id="ideal-gases" class="level3">
+<h3 class="anchored" data-anchor-id="ideal-gases">Ideal gases</h3>
+<p>The first fluid model worth creating is the ideal gas model that corresponds to the known, analytic, solution. Specifically an ideal gas with constant heat capacities such that <span class="math inline">\(c_p - c_v = R\)</span>. Starting with the following data structure.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> R <span class="op">=</span> <span class="fl">8.31446261815324</span> <span class="co"># m³⋅Pa/K/mol</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> IdealGas{F <span class="op">&lt;:</span><span class="dt"> Number</span>}</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    cᵥ<span class="op">::</span><span class="dt">F </span><span class="co"># J/kg/K</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    cₚ<span class="op">::</span><span class="dt">F </span><span class="co"># J/kg/K</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    k<span class="op">::</span><span class="dt">F</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    R<span class="op">::</span><span class="dt">F  </span><span class="co"># J/kg/K</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    MW<span class="op">::</span><span class="dt">F </span><span class="co"># kg/mol</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">IdealGas</span>(cᵥ,MW; R<span class="op">=</span>R)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    cᵥ, MW <span class="op">=</span> <span class="fu">promote</span>(cᵥ,MW)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    cₚ <span class="op">=</span> cᵥ <span class="op">+</span> R</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> cₚ<span class="op">/</span>cᵥ</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">IdealGas</span>(cᵥ,cₚ,k,R,MW)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">IdealGas</span>(model<span class="op">::</span><span class="dt">Clapeyron.EoSModel</span>; </span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>                  P<span class="op">=</span><span class="fl">101325</span>, T<span class="op">=</span><span class="fl">288.15</span>, z<span class="op">=</span>[<span class="fl">1</span>.])</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    MW <span class="op">=</span> Clapeyron.<span class="fu">molecular_weight</span>(model, z) <span class="co"># kg/mol</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    cᵥ <span class="op">=</span> Clapeyron.<span class="fu">isochoric_heat_capacity</span>(model, P, T, z) <span class="co"># J/mol/K</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">IdealGas</span>(cᵥ, MW)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A good practice, when solving ODEs, is to use <a href="https://github.com/JuliaMath/NaNMath.jl">NaNMath.jl</a> for roots, logarithms, and the like. These versions return <code>NaN</code> when results are outside of the function domain – for example <span class="math inline">\(\sqrt{-1}\)</span> – instead of throwing a <code>DomainError</code>. Returning <code>NaNs</code> makes it easier for the ODE solver to detect when it has left the domain of a valid solution.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NaNMath</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>√ <span class="op">=</span> NaNMath.sqrt</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>log <span class="op">=</span> NaNMath.log</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The equation of state is implemented as a series of high-level functions, dispatching on the fluid model and returning the relevant fluid properties. Extending the blowdown model to use a different equation of state involves merely overloading these to dispatch on a different fluid type.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pressure</span>(model<span class="op">::</span><span class="dt">IdealGas</span>, v, T) <span class="op">=</span> model.R<span class="op">*</span>T<span class="op">/</span>v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">volume</span>(model<span class="op">::</span><span class="dt">IdealGas</span>, P, T) <span class="op">=</span> model.R<span class="op">*</span>T<span class="op">/</span>P</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">molecular_weight</span>(model<span class="op">::</span><span class="dt">IdealGas</span>) <span class="op">=</span> model.MW</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">molar_enthalpy</span>(model<span class="op">::</span><span class="dt">IdealGas</span>, v, T) <span class="op">=</span> model.cₚ<span class="op">*</span>T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">molar_entropy</span>(model<span class="op">::</span><span class="dt">IdealGas</span>, v, T) <span class="op">=</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a> model.<span class="fu">cᵥ*log</span>(T) <span class="op">+</span> model.<span class="fu">R*log</span>(v)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">molar_internal_energy</span>(model<span class="op">::</span><span class="dt">IdealGas</span>, v, T) <span class="op">=</span> model.cᵥ<span class="op">*</span>T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">speed_of_sound</span>(model<span class="op">::</span><span class="dt">IdealGas</span>, v, T) <span class="op">=</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">√</span>(model.k<span class="op">*</span>model.R<span class="op">*</span>T<span class="op">/</span>model.MW)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="real-gases-with-clapeyron.jl" class="level3">
+<h3 class="anchored" data-anchor-id="real-gases-with-clapeyron.jl">Real Gases with <code>Clapeyron.jl</code></h3>
+<p>The high-level functions defined above are mapped to the corresponding <a href="https://clapeyronthermo.github.io/Clapeyron.jl/stable/">Clapeyron.jl</a> functions. And that’s it. Everything is ready to use for whichever equation of state your heart desires.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">Clapeyron</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pressure</span>(model<span class="op">::</span><span class="dt">Clapeyron.EoSModel</span>, v, T) <span class="op">=</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a> Clapeyron.<span class="fu">pressure</span>(model, v, T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">volume</span>(model<span class="op">::</span><span class="dt">Clapeyron.EoSModel</span>, P, T; v0<span class="op">=</span><span class="cn">nothing</span>) <span class="op">=</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a> Clapeyron.<span class="fu">volume</span>(model, P, T; phase<span class="op">=:</span>vapor, vol0<span class="op">=</span>v0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">molecular_weight</span>(model<span class="op">::</span><span class="dt">Clapeyron.EoSModel</span>) <span class="op">=</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a> Clapeyron.<span class="fu">molecular_weight</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">molar_enthalpy</span>(model<span class="op">::</span><span class="dt">Clapeyron.EoSModel</span>, v, T) <span class="op">=</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a> Clapeyron.<span class="fu">VT_enthalpy</span>(model, v, T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">molar_entropy</span>(model<span class="op">::</span><span class="dt">Clapeyron.EoSModel</span>, v, T) <span class="op">=</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a> Clapeyron.<span class="fu">VT_entropy</span>(model, v, T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">molar_internal_energy</span>(model<span class="op">::</span><span class="dt">Clapeyron.EoSModel</span>, v, T) <span class="op">=</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a> Clapeyron.<span class="fu">VT_internal_energy</span>(model, v, T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">speed_of_sound</span>(model<span class="op">::</span><span class="dt">Clapeyron.EoSModel</span>, v, T) <span class="op">=</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a> Clapeyron.<span class="fu">VT_speed_of_sound</span>(model, v, T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="isentropic-nozzle-flow" class="level2">
+<h2 class="anchored" data-anchor-id="isentropic-nozzle-flow">Isentropic Nozzle Flow</h2>
+<p>The vessel blowdown relies on a good model of isentropic nozzle flow. This involves finding the pressure and temperature in the throat of the nozzle which maximizes the mass flux, <em>G</em>, while satisfying the constraints that the path from a stagnation point in the vessel through the nozzle is isentropic and that the enthalpy is conserved. The flow is further constrained to be either sonic or subsonic, i.e.&nbsp;the Mach number is less than or equal to one.</p>
+<p><span class="math display">\[
+s_1 = s_t
+\]</span></p>
+<p><span class="math display">\[
+h_1 = h(v_t, T_t) + \frac{1}{2} M u_t^2
+\]</span></p>
+<p>For almost all of the blowdown the flow will be sonic and the pressure in the throat of the nozzle will be greater than atmospheric, this is called choked flow. The entropy and enthalpy balances can be solved for the throat conditions, <span class="math inline">\(v_t, T_t\)</span>, assuming the velocity is the local speed of sound. I do this here using <a href="https://docs.sciml.ai/NonlinearSolve/stable/">NonlinearSolve.jl</a>, where the objective function, <code>choked_nozzle_balance!</code>, is in-place.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NonlinearSolve</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">choked_nozzle_balance!</span>(obj, y, prms)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># y = [v; T]</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    obj <span class="op">.=</span> [ prms.entropy <span class="op">-</span> <span class="fu">molar_entropy</span>(prms.model, y[<span class="fl">1</span>], y[<span class="fl">2</span>])</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>             prms.enthalpy <span class="op">-</span> <span class="fu">molar_enthalpy</span>(prms.model, y[<span class="fl">1</span>], y[<span class="fl">2</span>]) <span class="op">-</span> <span class="fl">0.5</span><span class="fu">*molecular_weight</span>(prms.model)<span class="fu">*speed_of_sound</span>(prms.model, y[<span class="fl">1</span>], y[<span class="fl">2</span>])<span class="op">^</span><span class="fl">2</span> ]</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="cn">nothing</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>choked_nozzle_prob <span class="op">=</span> <span class="fu">NonlinearProblem</span>(choked_nozzle_balance!, [<span class="fl">0.0</span>; <span class="fl">0.0</span>], </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                                      (model<span class="op">=</span><span class="cn">nothing</span>, env<span class="op">=</span><span class="cn">nothing</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                                       entropy<span class="op">=</span><span class="fl">0.0</span>, enthalpy<span class="op">=</span><span class="fl">0.0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the case where the flow is subsonic, the pressure in the throat of the nozzle is atmospheric and the entropy and enthalpy balances are solved for gas velocity and temperature, <span class="math inline">\(u_t, T_t\)</span>.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">non_choked_nozzle_balance!</span>(obj, y, prms)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># y = [u; T]</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> <span class="fu">volume</span>(prms.model, prms.env.P, y[<span class="fl">2</span>])</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    obj <span class="op">.=</span> [ prms.entropy <span class="op">-</span> <span class="fu">molar_entropy</span>(prms.model, v, y[<span class="fl">2</span>])</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>             prms.enthalpy <span class="op">-</span> <span class="fu">molar_enthalpy</span>(prms.model, v, y[<span class="fl">2</span>]) <span class="op">-</span> <span class="fl">0.5</span><span class="fu">*molecular_weight</span>(prms.model)<span class="op">*</span>y[<span class="fl">1</span>]<span class="op">^</span><span class="fl">2</span> ]</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="cn">nothing</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>non_choked_nozzle_prob <span class="op">=</span> <span class="fu">NonlinearProblem</span>(non_choked_nozzle_balance!,</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                                             [<span class="fl">0.0</span>; <span class="fl">0.0</span>],</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                                             (model<span class="op">=</span><span class="cn">nothing</span>, env<span class="op">=</span><span class="cn">nothing</span>,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                                              entropy<span class="op">=</span><span class="fl">0.0</span>, enthalpy<span class="op">=</span><span class="fl">0.0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The most obvious and direct way of solving the entropy and energy balances is to solve the optimization problem. However, I could not get that to work reliably. Using the same constraints on entropy and enthalpy as well as constraining the Mach number to be less than or equal to one, I <em>could</em> get it to work but only with very good guesses of the initial conditions. Using <code>Optimization.jl</code>, it would either get stuck in a local maximum or, depending on the solver, sometimes return results that simply did not satisfy the constraints (but came with return code “Success”). Given that this is going to be wrapped in an ODE and executed, potentially, hundreds of times, that is not good.</p>
+<p>My completely stupid but it works approach is to solve the choked flow nonlinear system first and, if the nozzle pressure is below atmospheric, solve the non-choked flow system instead. This works perfectly though, presumably, is not nearly as efficient as solving the optimization problem directly would be if I could get it to work properly.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flow</span>(model, pv, env, v, T)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate the molar entropy and molar enthalpy</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># at vessel conditions</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    s₁ <span class="op">=</span> <span class="fu">molar_entropy</span>(model, v, T)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    h₁ <span class="op">=</span> <span class="fu">molar_enthalpy</span>(model, v, T)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># solve the choked flow energy balance for</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># an isentropic nozzle</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    params <span class="op">=</span> (model<span class="op">=</span>model, env<span class="op">=</span>env, entropy<span class="op">=</span>s₁, enthalpy<span class="op">=</span>h₁)</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    y₀ <span class="op">=</span> [v; T]</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    prob <span class="op">=</span> <span class="fu">remake</span>(choked_nozzle_prob, u0<span class="op">=</span>y₀, p<span class="op">=</span>params)</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    sol <span class="op">=</span> <span class="fu">solve</span>(prob, <span class="fu">NewtonRaphson</span>())</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    vₜ, Tₜ <span class="op">=</span> sol.u</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    Pₜ <span class="op">=</span> <span class="fu">pressure</span>(model, vₜ, Tₜ)</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> Pₜ <span class="op">&gt;</span> env.P</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># flow is choked, we're done</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>        uₜ <span class="op">=</span> <span class="fu">speed_of_sound</span>(model, vₜ, Tₜ)</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># flow is not choked, solve the non-choked problem</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>        v₀ <span class="op">=</span> <span class="fu">volume</span>(model, env.P, T)</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>        y₀ <span class="op">=</span> [ <span class="fu">speed_of_sound</span>(model, v₀, T); T ]</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>        prob <span class="op">=</span> <span class="fu">remake</span>(non_choked_nozzle_prob, u0<span class="op">=</span>y₀, p<span class="op">=</span>params)</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>        sol <span class="op">=</span> <span class="fu">solve</span>(prob, <span class="fu">NewtonRaphson</span>())</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>        uₜ, Tₜ <span class="op">=</span> sol.u</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>        vₜ <span class="op">=</span> <span class="fu">volume</span>(model, env.P, Tₜ)</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>    ρₜ <span class="op">=</span> <span class="fu">molecular_weight</span>(model)<span class="op">/</span>vₜ</span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pv.c<span class="op">*</span>pv.A<span class="op">*</span>ρₜ<span class="op">*</span>uₜ</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="adiabatic-blowdown" class="level2">
+<h2 class="anchored" data-anchor-id="adiabatic-blowdown">Adiabatic Blowdown</h2>
+<section id="the-pressure-equation" class="level3">
+<h3 class="anchored" data-anchor-id="the-pressure-equation">The Pressure Equation</h3>
+<p>The general adiabatic blowdown solution proceeds in the same way as <a href="../../posts/vessel_blowdown_ideal_gases/#the-complete-ode">the ideal gas case (solved previously)</a>. Here the isentropic path is not directly available, so the problem is rewritten as a Differential Algebraic Equation (DAE), where the vessel state is constrained to be isentropic.</p>
+<p>The first step is to define a basic type, <code>PressureODE</code>; which will allow functions like <code>blowdown_pressure</code> to dispatch on solution type.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> PressureODE{S}</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    ode_sol<span class="op">::</span><span class="dt">S</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The governing equations are the ODE as defined before, plus the constraints that the P-v-T behaviour follows the equation of state and the entropy is constant.</p>
+<p><span class="math display">\[
+\frac{dP}{dt} = -\frac{c_D A}{V} a^2 G
+\]</span></p>
+<p><span class="math display">\[
+0 = v - volume(P, T)
+\]</span></p>
+<p><span class="math display">\[
+0 = s_0 - entropy(v, T)
+\]</span></p>
+<p>The equation of state does not need to be pulled into the DAE like this. It could be incorporated into the right hand side of the ODE. However, it is often convenient to have all of the state variables directly accessible in the solution.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">OrdinaryDiffEq</span>, <span class="bu">DiffEqCallbacks</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">adiabatic_vessel!</span>(dy, y, prms, t)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    P, v, T <span class="op">=</span> y</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    a² <span class="op">=</span> <span class="fu">speed_of_sound</span>(prms.model, v, T)<span class="op">^</span><span class="fl">2</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> <span class="fu">mass_flow</span>(prms.model, prms.pv, prms.env, v, T)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    dy <span class="op">.=</span> [<span class="op">-</span>w<span class="op">*</span>a²<span class="op">/</span>prms.pv.V</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>            v <span class="op">-</span> <span class="fu">volume</span>(prms.model, P, T)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>            prms.init <span class="op">-</span> <span class="fu">molar_entropy</span>(prms.model, v, T) ]</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="cn">nothing</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>abd_rhs <span class="op">=</span> <span class="fu">ODEFunction</span>(adiabatic_vessel!, mass_matrix <span class="op">=</span> [<span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                                                        <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                                                        <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A callback function is used to terminate the integration once the vessel is within a given tolerance of atmospheric pressure. Without this the blowdown would continue forever, or until the limits of machine precision (whichever came first). Technically, this blowdown model predicts the pressure in the vessel will get arbitrarily close to atmospheric pressure but never actually achieve it.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">depressured_callback</span>(y, t, I; reltol<span class="op">=</span><span class="fl">0.001</span>) <span class="op">=</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    y[<span class="fl">1</span>] <span class="op">-</span> (<span class="fl">1</span><span class="op">+</span>reltol)<span class="op">*</span>I.p.env.P</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The entire model is packaged into a function which takes a fluid, pressure vessel, and environment and returns a <code>Blowdown</code> solution. By splitting the problem up like this, different fluid models, vessels or ambient conditions can be swapped around while reusing what has already been defined.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">adiabatic_blowdown</span>(model, pv<span class="op">::</span><span class="dt">PressureVessel</span>, </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                            env<span class="op">::</span><span class="dt">Environment</span>;</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                            solver<span class="op">=</span><span class="fu">Rodas5</span>(), </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                            tspan<span class="op">=</span>(<span class="fl">0.0</span>, <span class="fl">600.0</span>))</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># vessel initial conditions</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    V, T₀, m <span class="op">=</span> pv.V, pv.T, pv.m</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    n₀ <span class="op">=</span> m<span class="op">/</span><span class="fu">molecular_weight</span>(model)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    v₀ <span class="op">=</span> V<span class="op">/</span>n₀</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    P₀ <span class="op">=</span> <span class="fu">pressure</span>(model, v₀, T₀)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># defining the parameters</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>    s₀ <span class="op">=</span> <span class="fu">molar_entropy</span>(model, v₀, T₀)</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>    params <span class="op">=</span> (model<span class="op">=</span>model, pv<span class="op">=</span>pv, env<span class="op">=</span>env, init<span class="op">=</span>s₀)</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># callbacks</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>    dpcb <span class="op">=</span> <span class="fu">ContinuousCallback</span>(depressured_callback, terminate!)</span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># set up the ODEProblem and solve</span></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>    y₀ <span class="op">=</span> [P₀; v₀; T₀]</span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>    prob <span class="op">=</span> <span class="fu">ODEProblem</span>(abd_rhs, y₀, tspan, params)</span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>    sol <span class="op">=</span> <span class="fu">solve</span>(prob, solver; callback<span class="op">=</span>dpcb)</span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">Blowdown</span>(pv,env,<span class="fu">PressureODE</span>(sol))</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>From the ODE solution the blowdown time, pressure curve, and temperature can be recovered.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">blowdown_time</span>(bd<span class="op">::</span><span class="dt">Blowdown{&lt;:PressureODE}</span>) <span class="op">=</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    bd.sol.ode_sol.t[<span class="kw">end</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">blowdown_pressure</span>(bd<span class="op">::</span><span class="dt">Blowdown{&lt;:PressureODE}</span>, t)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    bdt <span class="op">=</span> <span class="fu">blowdown_time</span>(bd)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> <span class="fu">min</span>(t, bdt)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> bd.sol.<span class="fu">ode_sol</span>(t; idxs<span class="op">=</span><span class="fl">1</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">blowdown_temperature</span>(bd<span class="op">::</span><span class="dt">Blowdown{&lt;:PressureODE}</span>, t)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    bdt <span class="op">=</span> <span class="fu">blowdown_time</span>(bd)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> <span class="fu">min</span>(t, bdt)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> bd.sol.<span class="fu">ode_sol</span>(t; idxs<span class="op">=</span><span class="fl">3</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="the-ideal-gas-choked-flow-model" class="level4">
+<h4 class="anchored" data-anchor-id="the-ideal-gas-choked-flow-model">The Ideal Gas Choked Flow Model</h4>
+<p>The entire model, including all of the sub-models, is complicated and could easily have typos and hard to notice errors in it. An easy way to check this is to compare the results against the known analytic solution for the case where the gas is an ideal gas and the flow through the nozzle is always choked.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> IdealGasChoked{F <span class="op">&lt;:</span><span class="dt"> Number</span>}</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    P₀<span class="op">::</span><span class="dt">F</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    k<span class="op">::</span><span class="dt">F</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    τ<span class="op">::</span><span class="dt">F</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">adiabatic_choked_blowdown</span>(model<span class="op">::</span><span class="dt">IdealGas</span>, pv<span class="op">::</span><span class="dt">PressureVessel</span>,</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>                                   env<span class="op">::</span><span class="dt">Environment</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># vessel parameters</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    c, A <span class="op">=</span> pv.c, pv.A</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># vessel initial conditions</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    V, T₀, m <span class="op">=</span> pv.V, pv.T, pv.m</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    n₀ <span class="op">=</span> m<span class="op">/</span><span class="fu">molecular_weight</span>(model)</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    v₀ <span class="op">=</span> V<span class="op">/</span>n₀</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    P₀ <span class="op">=</span> <span class="fu">pressure</span>(model, v₀, T₀)</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    k, R, MW <span class="op">=</span> model.k, model.R, model.MW</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>    τ <span class="op">=</span> <span class="fl">1</span><span class="op">/</span>( (c<span class="op">*</span>A<span class="op">/</span>V)<span class="fu">*√</span>(k<span class="op">*</span>R<span class="op">*</span>T₀<span class="op">/</span>MW)<span class="fu">*</span>(<span class="fl">2</span><span class="op">/</span>(k<span class="op">+</span><span class="fl">1</span>))<span class="op">^</span>((k<span class="op">+</span><span class="fl">1</span>)<span class="op">/</span>(<span class="fl">2</span><span class="fu">*</span>(k<span class="op">-</span><span class="fl">1</span>))) )</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">Blowdown</span>(pv,env,<span class="fu">IdealGasChoked</span>(P₀,k,τ))</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">blowdown_time</span>(bd<span class="op">::</span><span class="dt">Blowdown{&lt;:IdealGasChoked}</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    P₀, Pₐ, k, τ <span class="op">=</span> bd.sol.P₀, bd.env.P, bd.sol.k, bd.sol.τ</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (<span class="fl">2</span>τ<span class="op">/</span>(<span class="fl">1</span><span class="op">-</span>k))<span class="fu">*</span>(<span class="fl">1</span> <span class="op">-</span> (Pₐ<span class="op">/</span>P₀)<span class="op">^</span>((<span class="fl">1</span><span class="op">-</span>k)<span class="op">/</span><span class="fl">2</span>k))</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">blowdown_pressure</span>(bd<span class="op">::</span><span class="dt">Blowdown{&lt;:IdealGasChoked}</span>, t)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    P₀, k, τ <span class="op">=</span> bd.sol.P₀, bd.sol.k, bd.sol.τ</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> <span class="fu">min</span>(t, <span class="fu">blowdown_time</span>(bd))</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">P₀*</span>( <span class="fl">1</span> <span class="op">+</span> <span class="fl">0.5</span><span class="fu">*</span>(k<span class="op">-</span><span class="fl">1</span>)<span class="fu">*</span>(t<span class="op">/</span>τ))<span class="op">^</span>((<span class="fl">2</span><span class="op">*</span>k)<span class="op">/</span>(<span class="fl">1</span><span class="op">-</span>k))</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">blowdown_temperature</span>(bd<span class="op">::</span><span class="dt">Blowdown{&lt;:IdealGasChoked}</span>, t)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    T₀, P₀, k <span class="op">=</span> bd.pv.T, bd.sol.P₀, bd.sol.k</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> <span class="fu">min</span>(t, <span class="fu">blowdown_time</span>(bd))</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> <span class="fu">blowdown_pressure</span>(bd, t)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">T₀*</span>(P<span class="op">/</span>P₀)<span class="op">^</span>((k<span class="op">-</span><span class="fl">1</span>)<span class="op">/</span>k)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="checking-our-work" class="level4">
+<h4 class="anchored" data-anchor-id="checking-our-work">Checking our work</h4>
+<p>The same situation as the previous post on ideal gas blowdown is used here, a gas cylinder at 3000psia blowing down through a valve into the air. In this case the gas is nitrogen, instead of air, as having a single species is simpler than a mixture (though not by much).</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>atm <span class="op">=</span> <span class="fu">Environment</span>(<span class="fl">101325</span>,<span class="fl">288.15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>vessel <span class="op">=</span> <span class="kw">let</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> <span class="fl">0.85</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    D <span class="op">=</span> <span class="fl">0.005</span> <span class="co"># m</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> <span class="fl">0.25</span><span class="op">*</span><span class="cn">π</span><span class="op">*</span>D<span class="op">^</span><span class="fl">2</span> <span class="co"># m²</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    V <span class="op">=</span> <span class="fl">0.01111</span> <span class="co"># m³</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> <span class="fl">2.743</span> <span class="co"># kg</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="fl">288.15</span> <span class="co"># K</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">PressureVessel</span>(c, A, V, T, m)</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The real gas is modelled using a volume translated Peng-Robinson equation of state.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Clapeyron</span>:PR, ReidIdeal, RackettTranslation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>nitrogen <span class="op">=</span> <span class="fu">PR</span>([<span class="st">"nitrogen"</span>]; idealmodel<span class="op">=</span>ReidIdeal, </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>              translation<span class="op">=</span>RackettTranslation);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>ig_nitrogen <span class="op">=</span> <span class="fu">IdealGas</span>(nitrogen);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>choked_model <span class="op">=</span> <span class="fu">adiabatic_choked_blowdown</span>(ig_nitrogen, vessel, atm);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>ideal_gas <span class="op">=</span> <span class="fu">adiabatic_blowdown</span>(ig_nitrogen, vessel, atm);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>real_gas <span class="op">=</span> <span class="fu">adiabatic_blowdown</span>(nitrogen, vessel, atm);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: The adiabatic blowdown curve for a tank of nitrogen, showing the fully choked ideal gas model model and the DAE solutions for both the ideal gas and real gas case.
+</figcaption>
+</figure>
+</div>
+<p>The blowdown using an ideal gas equation of state matches the known solution for the entire domain where flow is actually choked. This gives some assurance that the general model is working properly. The real gas model, VTPR, appears to work well and is not too far from the ideal case, as expected.</p>
+<p>When I first played around with this I assumed flow through the nozzle was always choked (as a test) and this led to numerical difficulties near the end of the integration. I had to manually stop the integration at around 20s. Each subsequent time step would end up venting a physically unrealistic amount of material and the thermodynamic models would start to suffer from domain errors. Pleasingly, once a better model for the valve was swapped in, these problems went away.</p>
+<div id="fig-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure-2.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: The vessel temperature for the nitrogen blowdown, showing the fully choked ideal gas model model and the DAE solutions for both the ideal gas and real gas case.
+</figcaption>
+</figure>
+</div>
+<p>Another problem that can happen, depending upon the equation of state, is that the vessel may be outside the range where the equation of state can return a physically real gas. The temperature in the vessel, and especially within the nozzle, drops dramatically and in this case it drops below the boiling point of nitrogen by the time the vessel is fully depressured. This is a real result. It is not a consequence of some numerical error. It is a consequence of assuming a perfectly adiabatic vessel.</p>
+</section>
+</section>
+<section id="the-energy-equation" class="level3">
+<h3 class="anchored" data-anchor-id="the-energy-equation">The Energy Equation</h3>
+<p>Another way of approaching this problem is to perform a mass and energy balance. This is a more general approach and is what underlies more complex blowdown simulators (such as BLOWDOWN). Starting with a mass balance:</p>
+<p><span class="math display">\[
+\frac{dm}{dt} = -w
+\]</span></p>
+<p>The energy balance is that the change in the internal energy within the vessel is equal to the rate of heat in, through the walls of the vessel, minus the rate of heat lost due to flow out of the vessel.</p>
+<p><span class="math display">\[
+\frac{dU}{dt} = Q_i - Q_o
+\]</span></p>
+<p><span class="math display">\[
+\frac{dU}{dt} = Q_i - w \bar{h}
+\]</span></p>
+<p>Where <span class="math inline">\(\bar{h}\)</span> is the specific enthalpy, note this is at vessel conditions. The boundary for the energy balance is around the vessel, not including the valve.</p>
+<p>The total internal energy is the product of the mass remaining in the vessel and the specific internal energy, <span class="math inline">\(U=m \bar{u}\)</span>. Applying the chain rule:</p>
+<p><span class="math display">\[
+\frac{dU}{dt} = m \frac{d \bar{u}}{dt} + \bar{u} \frac{dm}{dt} = m \frac{d \bar{u}}{dt} - \bar{u} w
+\]</span></p>
+<p>Combining these two expressions:</p>
+<p><span class="math display">\[
+\frac{d \bar{u}}{dt} = \frac{1}{m} \left( Q_i + \left(\bar{u} - \bar{h} \right) w \right)
+\]</span></p>
+<p>The specific internal energy, <span class="math inline">\(\bar{u}\)</span>, is related to the molar internal energy, <span class="math inline">\(u\)</span>, by the molar weight, <span class="math inline">\(M \bar{u} = u\)</span>, similarly for the specific and molar enthalpy. Substituting and multiplying through by the molar weight gives:</p>
+<p><span class="math display">\[
+\frac{d u}{dt} = \frac{1}{m} \left( M Q_i + \left(u - h \right) w \right)
+\]</span></p>
+<p>The remaining mass, <span class="math inline">\(m\)</span>, can be written in terms of the molar volume, <span class="math inline">\(v\)</span>:</p>
+<p><span class="math display">\[
+\frac{d u}{dt} = \frac{v}{M V} \left( M Q_i + \left(u - h \right) w \right)
+\]</span></p>
+<p>The mass balance can also be written in terms of the molar volume:</p>
+<p><span class="math display">\[
+\frac{dv}{dt} = \frac{w v^2}{M V}
+\]</span></p>
+<p>The full system of equations, in terms of <span class="math inline">\(u, v, T\)</span> is then:</p>
+<p><span class="math display">\[
+\frac{d u}{dt} = \left( M Q_i + \left(u - h \right) w \right) \frac{v}{M V}
+\]</span></p>
+<p><span class="math display">\[
+\frac{dv}{dt} = \frac{w v^2}{M V}
+\]</span></p>
+<p><span class="math display">\[
+0 = u - internal\_energy(v, T)
+\]</span></p>
+<p>The adiabatic case is the special case where <span class="math inline">\(Q_i = 0\)</span>.</p>
+<section id="the-adiabatic-ideal-gas-case" class="level4">
+<h4 class="anchored" data-anchor-id="the-adiabatic-ideal-gas-case">The Adiabatic Ideal Gas Case</h4>
+<p>It is not immediately clear that this is the same model as the adiabatic pressure equation. The adiabatic pressure equation assumes the expansion within the vessel is isentropic, but that condition is not explicitly applied in the energy equation. One hint this is the same model is that the ideal gas solution can be derived from the energy balance.</p>
+<p>Consider an ideal gas with constant heat capacities such that <span class="math inline">\(u = c_v T\)</span> and <span class="math inline">\(h = c_p T\)</span>. For the adiabatic case the energy balance becomes:</p>
+<p><span class="math display">\[
+c_v \frac{d T}{dt} = \frac{1}{m} \left( c_v T - c_p T \right) w
+\]</span></p>
+<p>Isentropic choked flow of an ideal gas occurs with:</p>
+<p><span class="math display">\[
+w = c_d A \rho_t \sqrt{ \frac{k R T_t}{M} }
+\]</span></p>
+<p>With nozzle density and temperature related to the vessel conditions by:</p>
+<p><span class="math display">\[
+\rho_t = \rho \left( 2 \over {k+1} \right)^{\frac{1}{k-1}}
+\]</span></p>
+<p><span class="math display">\[
+T_t = T \left( 2 \over {k+1} \right)
+\]</span></p>
+<p>Substituting all of this into the energy equation and dividing by <span class="math inline">\(c_v\)</span> gives:</p>
+<p><span class="math display">\[
+\frac{dT}{dt} = \frac{c_d A}{V} \left( 1 - k \right) \left(2 \over {k+1} \right)^{\frac{k+1}{2(k-1)}} \sqrt{ \frac{k R T}{M} } T
+\]</span></p>
+<p>Where <span class="math inline">\(k = \frac{c_p}{c_v}\)</span>. The time constant <span class="math inline">\(\tau\)</span> is defined such that:</p>
+<p><span class="math display">\[
+\frac{1}{\tau} = \frac{c_d A}{V} \left(2 \over {k+1} \right)^{\frac{k+1}{2(k-1)}} \sqrt{ \frac{k R T_0}{M} }
+\]</span></p>
+<p>Which simplifies the ODE to:</p>
+<p><span class="math display">\[
+\frac{dT}{dt} = \frac{1-k}{\tau} T \sqrt{\frac{T}{T_0}}
+\]</span></p>
+<p>This is a separable equation and can be integrated to give:</p>
+<p><span class="math display">\[
+\frac{T}{T_0} = \left( 1 + \frac{k-1}{2} \frac{t}{\tau} \right)^{-2}
+\]</span></p>
+<p>For an adiabatic expansion of an ideal gas:</p>
+<p><span class="math display">\[
+\frac{P}{P_0} = \left( \frac{T}{T_0} \right)^{\frac{k}{k-1}}
+\]</span></p>
+<p>Which recovers the original solution:</p>
+<p><span class="math display">\[
+\frac{P}{P_0} = \left( 1 + \frac{k+1}{2} \frac{t}{\tau} \right)^{\frac{2k}{1-k}}
+\]</span></p>
+</section>
+<section id="implementing-the-dae" class="level4">
+<h4 class="anchored" data-anchor-id="implementing-the-dae">Implementing the DAE</h4>
+<p>The governing equations for the vessel blowdown can be implemented as a DAE though, as the state variables, <span class="math inline">\(u, v, T\)</span>, no longer include pressure, determining when the vessel has fully depressured is slightly more complicated. The callback function must first calculate the pressure in the system. Previously, the callback function was a <code>ContinuousCallback</code>, which adjusts the final time step to exactly depressurize the vessel. Here the callback is a <code>DiscreteCallback</code> which terminates once a time step has crossed the threshold.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">energy_eqn!</span>(dy, y, prms, t)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    u, v, T <span class="op">=</span> y</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> <span class="fu">molar_enthalpy</span>(prms.model, v, T)</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> <span class="fu">mass_flow</span>(prms.model, prms.pv, prms.env, v, T)</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    M <span class="op">=</span> <span class="fu">molecular_weight</span>(prms.model)</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    V <span class="op">=</span> prms.pv.V</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>    dy <span class="op">.=</span> [ (M<span class="op">*</span>prms.<span class="fu">Qᵢ</span>(T) <span class="op">+</span> (u<span class="op">-</span>h)<span class="op">*</span>w)<span class="op">*</span>v<span class="op">/</span>(M<span class="op">*</span>V)</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>            (w<span class="op">*</span>v<span class="op">^</span><span class="fl">2</span>)<span class="op">/</span>(M<span class="op">*</span>V)</span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>            u <span class="op">-</span> <span class="fu">molar_internal_energy</span>(prms.model, v, T) ]</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="cn">nothing</span></span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>ueqn_rhs <span class="op">=</span> <span class="fu">ODEFunction</span>(energy_eqn!, mass_matrix <span class="op">=</span> [ <span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>                                                    <span class="fl">0</span> <span class="fl">1</span> <span class="fl">0</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>                                                    <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">depressured_callback_2</span>(y, t, I; reltol<span class="op">=</span><span class="fl">0.001</span>) <span class="op">=</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pressure</span>(I.p.model, y[<span class="fl">2</span>], y[<span class="fl">3</span>]) <span class="op">&lt;</span> (<span class="fl">1</span><span class="op">+</span>reltol)<span class="op">*</span>I.p.env.P</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To generate the blowdown curve the pressure must be calculated, as it is no longer an output of the ODE. This could be done on demand, retrieving the molar volume and temperature for a given time and calculating the pressure. Another approach is to calculate the pressure at each time step and interpolate. This is implemented here as a <code>SavingCallback</code>, which calculates and saves the pressure after each time step. A cubic interpolation of the pressure is created from the results and used to generate the blowdown curve. The solution type contains two pieces: the ode solution and the pressure-time interpolation.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DataInterpolations</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> EnergyODE{S,I}</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    ode_sol<span class="op">::</span><span class="dt">S</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    p_interp<span class="op">::</span><span class="dt">I</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">energy_eqn_blowdown</span>(model, pv<span class="op">::</span><span class="dt">PressureVessel</span>, </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>                             env<span class="op">::</span><span class="dt">Environment</span>;</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>                             Qi<span class="op">=</span>(T)<span class="op">-&gt;</span><span class="fl">0.0</span>, </span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>                             solver<span class="op">=</span><span class="fu">Rodas5</span>(), </span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>                             tspan<span class="op">=</span>(<span class="fl">0.0</span>, <span class="fl">600.0</span>))</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># vessel initial conditions</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>    V, T₀, m <span class="op">=</span> pv.V, pv.T, pv.m</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>    Mw <span class="op">=</span> <span class="fu">molecular_weight</span>(model)</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>    v₀ <span class="op">=</span> Mw<span class="op">*</span>V<span class="op">/</span>m</span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>    u₀ <span class="op">=</span> <span class="fu">molar_internal_energy</span>(model, v₀, T₀)</span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># defining the parameters</span></span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>    params <span class="op">=</span> (model<span class="op">=</span>model, pv<span class="op">=</span>pv, env<span class="op">=</span>env, Qᵢ<span class="op">=</span>Qi)</span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># callbacks</span></span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a>    svs <span class="op">=</span> <span class="fu">SavedValues</span>(<span class="dt">Float64</span>, <span class="dt">Float64</span>)</span>
+<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a>    svcb <span class="op">=</span> <span class="fu">SavingCallback</span>((y, t, I) <span class="op">-&gt;</span> <span class="fu">pressure</span>(I.p.model,y[<span class="fl">2</span>],y[<span class="fl">3</span>]), svs)</span>
+<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a>    dpcb <span class="op">=</span> <span class="fu">DiscreteCallback</span>(depressured_callback_2, terminate!)</span>
+<span id="cb56-20"><a href="#cb56-20" aria-hidden="true" tabindex="-1"></a>    cbs <span class="op">=</span> <span class="fu">CallbackSet</span>(svcb,dpcb)</span>
+<span id="cb56-21"><a href="#cb56-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-22"><a href="#cb56-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># set up the ODEProblem and solve</span></span>
+<span id="cb56-23"><a href="#cb56-23" aria-hidden="true" tabindex="-1"></a>    y₀ <span class="op">=</span> [u₀; v₀; T₀]</span>
+<span id="cb56-24"><a href="#cb56-24" aria-hidden="true" tabindex="-1"></a>    prob <span class="op">=</span> <span class="fu">ODEProblem</span>(ueqn_rhs, y₀, tspan, params)</span>
+<span id="cb56-25"><a href="#cb56-25" aria-hidden="true" tabindex="-1"></a>    sol <span class="op">=</span> <span class="fu">solve</span>(prob, solver; callback<span class="op">=</span>cbs)</span>
+<span id="cb56-26"><a href="#cb56-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-27"><a href="#cb56-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># set up pressure interpolation</span></span>
+<span id="cb56-28"><a href="#cb56-28" aria-hidden="true" tabindex="-1"></a>    <span class="cn">pi</span> <span class="op">=</span> <span class="fu">AkimaInterpolation</span>(svs.saveval, svs.t)</span>
+<span id="cb56-29"><a href="#cb56-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-30"><a href="#cb56-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">Blowdown</span>(pv,env,<span class="fu">EnergyODE</span>(sol,<span class="cn">pi</span>))</span>
+<span id="cb56-31"><a href="#cb56-31" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The methods for blowdown time, pressure, and temperature are easily implemented.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">blowdown_time</span>(bd<span class="op">::</span><span class="dt">Blowdown{&lt;:EnergyODE}</span>) <span class="op">=</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    bd.sol.ode_sol.t[<span class="kw">end</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">blowdown_pressure</span>(bd<span class="op">::</span><span class="dt">Blowdown{&lt;:EnergyODE}</span>, t)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>    bdt <span class="op">=</span> <span class="fu">blowdown_time</span>(bd)</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> <span class="fu">min</span>(t, bdt)</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> bd.sol.<span class="fu">p_interp</span>(t)</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">blowdown_temperature</span>(bd<span class="op">::</span><span class="dt">Blowdown{&lt;:EnergyODE}</span>, t)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>    bdt <span class="op">=</span> <span class="fu">blowdown_time</span>(bd)</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> <span class="fu">min</span>(t, bdt)</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> bd.sol.<span class="fu">ode_sol</span>(t; idxs<span class="op">=</span><span class="fl">3</span>)</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The results from the energy model can be compared to the pressure model, they are functionally identical.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>ideal_gas_energybd <span class="op">=</span> <span class="fu">energy_eqn_blowdown</span>(ig_nitrogen, vessel, atm);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>real_gas_energybd <span class="op">=</span> <span class="fu">energy_eqn_blowdown</span>(nitrogen, vessel, atm);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure-3.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: The blowdown curve for the nitrogen blowdown, showing the DAE solutions for both the pressure model and the energy balance model (ideal gas and real gas cases). The curves for the pressure model and energy balance model overlap.
+</figcaption>
+</figure>
+</div>
+<div id="fig-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure-4.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: The vessel temperature for the nitrogen blowdown, showing the DAE solutions for both the pressure model and the energy balance model (ideal gas and real gas cases). The curves for the pressure model and energy balance model overlap.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="performance" class="level3">
+<h3 class="anchored" data-anchor-id="performance">Performance</h3>
+<p>I did not put a lot of effort into making exceptionally performant code. Firstly, the model for isentropic flow through the valve could be improved. Presumably this could also be incorporated into the governing equations of the ODEs, at a cost to model simplicity and reusability, which might unlock some performance opportunities.</p>
+<p>Given those limitations, the performance of the two models can be compared using <code>BenchmarkTools.jl</code>.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">adiabatic_blowdown</span>(nitrogen, vessel, atm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>BenchmarkTools.Trial: 42 samples with 1 evaluation.
+ Range (min … max):  111.588 ms … 149.424 ms  ┊ GC (min … max): 0.00% … 20.45%
+ Time  (median):     120.515 ms               ┊ GC (median):    6.11%
+ Time  (mean ± σ):   120.226 ms ±   5.882 ms  ┊ GC (mean ± σ):  4.39% ±  4.00%
+
+    ▂          ██ ▅█ █                                           
+  ▅██▁▅█▅▁▁▁▅▅███▅████▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▅ ▁
+  112 ms           Histogram: frequency by time          149 ms &lt;
+
+ Memory estimate: 59.87 MiB, allocs estimate: 948090.</code></pre>
+<p>The adiabatic blowdown using the energy model is about 35% faster than the pressure model. Partly this is due to the choice of terminating callbacks. Whether or not integration is terminated with a <code>DiscreteCallback</code> or a <code>ContinuousCallback</code> does not meaningfully change the performance for the pressure model. However, this choice dramatically changes the performance of the energy model. Changing to a <code>ContinuousCallback</code> erases the difference between the two models.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">energy_eqn_blowdown</span>(nitrogen, vessel, atm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>BenchmarkTools.Trial: 56 samples with 1 evaluation.
+ Range (min … max):  82.811 ms … 122.534 ms  ┊ GC (min … max): 0.00% … 28.08%
+ Time  (median):     89.420 ms               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   89.381 ms ±   6.032 ms  ┊ GC (mean ± σ):  4.05% ±  5.62%
+
+        ▂ ▂  ▂     ▂                        █▂                  
+  █▅▅▅▁▅█▅█▅▅█▅▁▅▅██▅▁▁▁▁▁▁▁▁▁▅▁▁▁▁▅▁▁▁▁▅▅█▅██▁██▅█▁▁▅▅▁▅▁█▁▁▅ ▁
+  82.8 ms         Histogram: frequency by time         95.7 ms &lt;
+
+ Memory estimate: 44.30 MiB, allocs estimate: 727470.</code></pre>
+<p>The pressure model performance at the end of the blowdown is strongly dependent on whether molar volume is used as a state variable. When used as a state variable there is a major performance hit compared to moving the volume into the RHS, nearly double the compute time. Removing it as a state variable comes with a cost to the accuracy near the termination of the blowdown. It is not obvious to me why this is the case (maybe using volume as a system variable forces the solver to take smaller time steps?), but it hints that there are opportunities to improve the pressure model by tweaking how molar volume is incorporated.</p>
+<div id="fig-bad-blowdown" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bad-blowdown-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="bad_blowdown.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bad-blowdown-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: The blowdown curve for the pressure model when molar volume is moved to the RHS of the ODE. The pressure model curves have a weird bump at the end.
+</figcaption>
+</figure>
+</div>
+<p>A big caveat to the kind of loose performance comparison I did here is that I did not define a metric for performance. If you wanted to more rigorously benchmark these two approaches defining what constitutes “good enough” in terms of the blowdown curve is necessary. You can always make a model faster by making it less precise.</p>
+</section>
+</section>
+<section id="conclusions" class="level2">
+<h2 class="anchored" data-anchor-id="conclusions">Conclusions</h2>
+<p>Extending the ideal gas blowdown to real gases using <code>Clapeyron.jl</code> is straightforward. Though the adiabatic case immediately calls into question the point in doing so. Even for a system as simple as a cylinder of nitrogen, the adiabatic assumption is too extreme to be plausible: it predicts the blowdown of a room temperature cylinder will result in a spray of liquid nitrogen. Really, though, the model breaks down once it results in the gas inside the vessel dropping below the boiling point while remaining a gas.</p>
+<p>Rapid blowdowns often lead to cryogenic conditions where the assumption that the fluid in the vessel remains a gas becomes increasingly unlikely. The energy model given here can already accommodate variable heat transfer, for example <span class="math inline">\(Q = k \left( T - T_a \right)\)</span>, and it could be extended to include phase change by performing an isothermal flash calculation at each time step (and adjusting the enthalpy and internal energy calculations to account for the multiple phases). For a more realistic SCUBA tank model, this level of complexity isn’t needed, once a realistic heat transfer model is added the liquefaction problem would go away.</p>
+<p>Slower blowdowns, relative to the volume of the vessel, make more sense to model as always a gas. In these cases however, modelling the vessel as having no internal flow may be a serious limitation. Modelling the blowdown of pipeline segments, for example, without accounting for the frictional losses from internal flows leads to a significant error. I didn’t include an example of isothermal blowdowns here, but it is even easier to implement than the adiabatic case (for the pressure equation).</p>
+<p>I think there is a limited space between the pure ideal gas blowdown model and a full real fluid model with heat transfer &amp;c.&nbsp;Most real situations either don’t require meticulously accounting for fluid non-ideality, and the ideal gas model works well enough, or are complex enough that a realistic model that includes phase change and heat transfer is required. However, building up from the ideal gas case step by step offers multiple points where the intermediate steps can be checked against known solutions. This is a useful exercise when building complex models, which can otherwise be difficult to test and troubleshoot.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/aefarrell\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="aefarrell/aefarrell.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

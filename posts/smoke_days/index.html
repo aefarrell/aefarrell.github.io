@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Allan Farrell">
+<meta name="dcterms.date" content="2021-07-18">
+<meta name="description" content="Frequency of forest fire smoke events.">
+
+<title>Smoke Days – A Chemical Engineer’s Notebook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-59228ce9c52eba116baca5d538563979.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: #ffffff;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: #ffffff;
+background: url(../../posts/building_infiltration_example/matt-palmer-unsplash.jpg);
+      }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<style>
+.quarto-title-block .quarto-title-banner {
+  min-height: 100%;
+  background-size: cover;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
+}
+</style>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Smoke Days – A Chemical Engineer’s Notebook">
+<meta property="og:description" content="Frequency of forest fire smoke events.">
+<meta property="og:image" content="https://aefarrell.github.io/posts/smoke_days/index_files/figure-html/fig-duration-output-1.svg">
+<meta property="og:site_name" content="A Chemical Engineer's Notebook">
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">A Chemical Engineer’s Notebook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> <i class="bi bi-info-circle" role="img">
+</i> 
+<span class="menu-text">about</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> <i class="bi bi-wrench-adjustable-circle" role="img">
+</i> 
+<span class="menu-text">projects</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Smoke Days</h1>
+                  <div>
+        <div class="description">
+          Frequency of forest fire smoke events.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">julia</div>
+                <div class="quarto-category">air quality</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Allan Farrell </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 18, 2021</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#particulates-as-a-proxy" id="toc-particulates-as-a-proxy" class="nav-link active" data-scroll-target="#particulates-as-a-proxy">Particulates as a proxy</a>
+  <ul class="collapse">
+  <li><a href="#ambient-air-data" id="toc-ambient-air-data" class="nav-link" data-scroll-target="#ambient-air-data">Ambient Air Data</a></li>
+  <li><a href="#parsing-the-data" id="toc-parsing-the-data" class="nav-link" data-scroll-target="#parsing-the-data">Parsing the Data</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#limitations-and-opportunities" id="toc-limitations-and-opportunities" class="nav-link" data-scroll-target="#limitations-and-opportunities">Limitations and Opportunities</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>Recently wildfire smoke has returned and blanketed the city in haze, causing the air quality health index (AQHI) to sky rocket, and as a result I’ve been spending a lot more time inside. This feels like it is a lot more common event than it used to be, but I’m not sure if that’s true or if it merely feels true because I’m looking out at a hazy skyline.</p>
+<p>I would like to look into this more using air quality data and see if this truly is a recent change, or maybe Edmonton has always been like this and I’ve simply forgotten.</p>
+<section id="particulates-as-a-proxy" class="level2">
+<h2 class="anchored" data-anchor-id="particulates-as-a-proxy">Particulates as a proxy</h2>
+<p>Alberta has a series of air quality monitoring stations set up around the province and I can pull a data-set from the Edmonton Central station (the closest one to me) and look at airborne particulates (pm2.5) as a proxy for wildfire smoke. Though the smoke itself is more than just particulates &lt;2.5μm in diameter, it is those particulates that cause the AQHI to rise significantly.</p>
+<p>However there are more sources of pm2.5 than just wildfires, vehicles are a major source for one, and in the winter atmospheric inversions can lead to really poor air quality during which time the pm2.5 concentration rises. Additionally farmers around the city often burn stubble and other stuff in the fall, leading to smoke days that have nothing to do with wildfires.</p>
+<p>So this is a proxy for wildfire smoke, but not a great one.</p>
+<section id="ambient-air-data" class="level3">
+<h3 class="anchored" data-anchor-id="ambient-air-data">Ambient Air Data</h3>
+<p>I downloaded just the pm2.5 measurements for Edmonton Central from October 2000, the earliest reported values, through to the end of December 2020, the latest values in the database at this time, from <a href="https://airdata.alberta.ca/reporting/Download/MultipleParameters">Alberta’s Ambient Air Data Warehouse</a>. This is a csv with 177,072 rows of data and several columns each corresponding to, I’m guessing, a different instrument. Over time the station has swapped out instruments for measuring pm2.5s and those are recorded as a different measurement type.</p>
+<div id="9bedce3f-f797-417c-8a38-69fc2ca1d963" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CSV</span>, <span class="bu">DataFrames</span>, <span class="bu">Dates</span>, <span class="bu">Pipe</span>, <span class="bu">Plots</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="f5eb747b-43a1-489c-a9f5-7a9e13f5a020" class="cell" data-tags="[]" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_file <span class="op">=</span> <span class="st">"data/Long Term pm2.5 Edmonton Central.csv"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ambient_data <span class="op">=</span> <span class="pp">@pipe</span> data_file <span class="op">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    CSV.<span class="fu">File</span>( _ ; </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>             dateformat<span class="op">=</span><span class="st">"mm/dd/yyyy HH:MM:SS"</span>, </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>             types<span class="op">=</span>[<span class="dt">DateTime</span>, <span class="dt">DateTime</span>, <span class="dt">Float64</span>, <span class="dt">Float64</span>, <span class="dt">Float64</span>, <span class="dt">Float64</span>], </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>             header<span class="op">=</span><span class="fl">16</span>, silencewarnings<span class="op">=</span><span class="cn">true</span>) <span class="op">|&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">DataFrame</span>(_);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="a300e7eb-1eaa-4dda-86ef-31d2dc5edb32" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="3">
+<div class="cell-output cell-output-stdout">
+<div class="ansi-escaped-output">
+<pre>177072×6 DataFrame
+
+<span class="ansi-bold">6×6 DataFrame</span>
+
+<span class="ansi-bold"> Row </span>│<span class="ansi-bold"> IntervalStart       </span><span class="ansi-bold"> IntervalEnd         </span><span class="ansi-bold"> MeasurementValue </span><span class="ansi-bold"> MeasurementValue_1 </span><span class="ansi-bold"> MeasurementValue_2 </span><span class="ansi-bold"> MeasurementValue_3 </span>
+
+<span class="ansi-bold">     </span>│<span class="ansi-bright-black-fg"> DateTime            </span><span class="ansi-bright-black-fg"> DateTime            </span><span class="ansi-bright-black-fg"> Float64?         </span><span class="ansi-bright-black-fg"> Float64?           </span><span class="ansi-bright-black-fg"> Float64?           </span><span class="ansi-bright-black-fg"> Float64?           </span>
+
+─────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+   1 │ 2000-10-20T00:00:00  2000-10-20T00:59:00 <span class="ansi-bright-black-fg">          missing </span><span class="ansi-bright-black-fg">            missing </span><span class="ansi-bright-black-fg">            missing </span>                2.3
+
+   2 │ 2000-10-20T01:00:00  2000-10-20T01:59:00 <span class="ansi-bright-black-fg">          missing </span><span class="ansi-bright-black-fg">            missing </span><span class="ansi-bright-black-fg">            missing </span>                1.8
+
+   3 │ 2000-10-20T02:00:00  2000-10-20T02:59:00 <span class="ansi-bright-black-fg">          missing </span><span class="ansi-bright-black-fg">            missing </span><span class="ansi-bright-black-fg">            missing </span>                1.8
+
+   4 │ 2000-10-20T03:00:00  2000-10-20T03:59:00 <span class="ansi-bright-black-fg">          missing </span><span class="ansi-bright-black-fg">            missing </span><span class="ansi-bright-black-fg">            missing </span>                1.0
+
+   5 │ 2000-10-20T04:00:00  2000-10-20T04:59:00 <span class="ansi-bright-black-fg">          missing </span><span class="ansi-bright-black-fg">            missing </span><span class="ansi-bright-black-fg">            missing </span>                1.8
+
+   6 │ 2000-10-20T05:00:00  2000-10-20T05:59:00 <span class="ansi-bright-black-fg">          missing </span><span class="ansi-bright-black-fg">            missing </span><span class="ansi-bright-black-fg">            missing </span>                2.0</pre>
+</div>
+</div>
+</div>
+</section>
+<section id="parsing-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="parsing-the-data">Parsing the Data</h3>
+<p>What I want to know is when smoke events happened and how long they were. To estimate that I am going to assume a smoke event is a period in which the hourly pm2.5 exceed the ambient air quality guideline for pm2.5s. The event starts at the first hour greater than that limit and ends on the first hour less than that limit. This has the obvious weakness that sometimes the clouds of wildfire smoke has breaks in it, so what feels like a week long smoke event would end up as a series of smaller events as the pm2.5 count might dip overnight or something. But this is a start.</p>
+<p>One complication is that the dataset has four columns of pm2.5 data that are full of mostly missing values since they each only correspond to the period in which the given instrument is running. So I first need to collect those measurement values, drop the missing values, and take the mean of what remains. I assume there is no overlap and so it’s the mean of one number, but I haven’t checked to see if that’s true and the mean seems like the most sensible thing to do if there is overlap.</p>
+<p>If there is a missing hour entirely, i.e.&nbsp;no instrument has a reading, then I skip it. That neither counts as the start nor the end of a smoke event and I move to the next row.</p>
+<div id="ef4d29b1-1f51-4b01-91cc-7cdc570e7b82" class="cell" data-tags="[]" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Statistics</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>lim_1h <span class="op">=</span> <span class="fl">80.0</span>  <span class="co">#μg/m³ 1-hr limit</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>lim_24h <span class="op">=</span> <span class="fl">29.0</span> <span class="co">#μg/m³ 24-hr limit</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">exceedences</span>(df; limit<span class="op">=</span>lim_1h)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> <span class="fu">DataFrame</span>(start_date <span class="op">=</span> <span class="dt">DateTime</span>[], end_date <span class="op">=</span> <span class="dt">DateTime</span>[], month <span class="op">=</span> <span class="dt">Int64</span>[], year <span class="op">=</span> <span class="dt">Int64</span>[], duration <span class="op">=</span> <span class="dt">Float64</span>[], max_conc <span class="op">=</span> <span class="dt">Float64</span>[])</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    flag <span class="op">=</span> <span class="cn">false</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    start_date <span class="op">=</span> <span class="cn">nothing</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    end_date <span class="op">=</span> <span class="cn">nothing</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    max_conc <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> r <span class="kw">in</span> <span class="fu">eachrow</span>(ambient_data)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        measurements <span class="op">=</span> [r[<span class="op">:</span>MeasurementValue], r[<span class="op">:</span>MeasurementValue_1], r[<span class="op">:</span>MeasurementValue_2], r[<span class="op">:</span>MeasurementValue_3]]</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        measurements <span class="op">=</span> <span class="fu">collect</span>( <span class="fu">skipmissing</span>(measurements) )</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        conc <span class="op">=</span> <span class="cf">if</span> (<span class="fu">sizeof</span>(measurements)<span class="op">&gt;</span><span class="fl">0</span>) <span class="fu">mean</span>(measurements) <span class="cf">else</span> <span class="cn">missing</span> <span class="cf">end</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="fu">typeof</span>(conc) <span class="op">==</span> <span class="dt">Missing</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>            <span class="co"># ignore missing data</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elseif</span> conc <span class="op">&gt;</span> limit</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> flag <span class="op">==</span> <span class="cn">true</span>            <span class="co"># we are already in a sequence</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>                end_date <span class="op">=</span> r[<span class="op">:</span>IntervalEnd]</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>                max_conc <span class="op">=</span> <span class="fu">max</span>(conc, max_conc)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>                       <span class="co"># we are starting a sequence</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>                flag <span class="op">=</span> <span class="cn">true</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>                start_date <span class="op">=</span> r[<span class="op">:</span>IntervalStart]</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>                end_date <span class="op">=</span> r[<span class="op">:</span>IntervalEnd]</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>                max_conc <span class="op">=</span> <span class="fu">max</span>(conc, max_conc)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">end</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> flag <span class="op">==</span> <span class="cn">true</span>           <span class="co"># we are ending a sequence</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>                flag <span class="op">=</span> <span class="cn">false</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>                duration <span class="op">=</span> <span class="bu">Dates</span>.<span class="fu">value</span>.(end_date <span class="op">-</span> start_date)<span class="op">/</span><span class="fl">3.6e6</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>                <span class="fu">push!</span>(results, [start_date, end_date, <span class="fu">month</span>(start_date), <span class="fu">year</span>(start_date), duration, max_conc])</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>                max_conc <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>            <span class="cf">end</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> results</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="81618648-c98a-42f9-a605-aa7473cc3730" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;outputs_hidden&quot;:true}}" data-tags="[]" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>result_1hr <span class="op">=</span> <span class="fu">exceedences</span>(ambient_data, limit<span class="op">=</span>lim_1h)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="a9931224-5d8f-4b52-8e8d-ae1d2ff0a1bc" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="6">
+<div class="cell-output cell-output-stdout">
+<div class="ansi-escaped-output">
+<pre>Results: 53×6 DataFrame
+
+
+
+Summary: 
+
+<span class="ansi-bold">6×7 DataFrame</span>
+
+<span class="ansi-bold"> Row </span>│<span class="ansi-bold"> variable   </span><span class="ansi-bold"> mean    </span><span class="ansi-bold"> min                 </span><span class="ansi-bold"> median  </span><span class="ansi-bold"> max                 </span> ⋯
+
+<span class="ansi-bold">     </span>│<span class="ansi-bright-black-fg"> Symbol     </span><span class="ansi-bright-black-fg"> Union…  </span><span class="ansi-bright-black-fg"> Any                 </span><span class="ansi-bright-black-fg"> Union…  </span><span class="ansi-bright-black-fg"> Any                 </span> ⋯
+
+─────┼──────────────────────────────────────────────────────────────────────────
+
+   1 │ start_date <span class="ansi-bright-black-fg">         </span> 2001-05-24T11:00:00 <span class="ansi-bright-black-fg">         </span> 2019-05-31T15:00:00  ⋯
+
+   2 │ end_date   <span class="ansi-bright-black-fg">         </span> 2001-05-24T12:59:00 <span class="ansi-bright-black-fg">         </span> 2019-05-31T15:59:00
+
+   3 │ month       5.84906  1                    7.0      12
+
+   4 │ year        2011.15  2001                 2010.0   2019
+
+   5 │ duration    3.85126  0.983333             1.98333  26.9833              ⋯
+
+   6 │ max_conc    135.9    80.3                 93.9     867.0
+
+<span class="ansi-cyan-fg">                                                               2 columns omitted</span></pre>
+</div>
+</div>
+</div>
+<p>Over the past 20yrs there were 53 periods with the pm2.5 concentration above the limit, these range from 1hr to 27hrs long and a max concentration observed of 867μg/m³</p>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>A plot of the results, showing each period in excess of the hourly limit and the duration of that period, is very suggestive that these are becoming more frequent events. If we also plot the maximum hourly concentration observed it appears that the extreme smoke days are a more recent phenomenon. Though with the big caveat that the data only goes back 20 years, it could be that the period between 2000 and 2010 was an abnormally smoke-less period.</p>
+<div id="cell-fig-duration" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div id="fig-duration" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-duration-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-duration-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-duration-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Duration of AAQO exceedances in Edmonton from 2001 through 2019
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-fig-concentration" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div id="fig-concentration" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-concentration-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-concentration-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-concentration-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Observed concentrations for AAQO exceedances in Edmonton, 2001 through 2019
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The plots below aggregate the events by year, and it certainly seems like smoke events are becoming more frequent and lasting longer, with more time spent in haze than in the early 2000s. But there are notable years such as 2010 and 2018 which could simply be outliers. Interestingly the most notable, in the news, years for wildfires are not obvious ones here – the Slave Lake fire of 2011 and Ft. McMurray fire of 2016. I think it is often the case that the wildfire smoke in Alberta has less to do with fires in Alberta itself and more to do with smoke being carried in from neighbouring states and provinces. That is certainly true now when the major wildfires are in BC, northern Saskatchewan, and northern Manitoba.</p>
+<div id="cell-fig-smoke-days" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div id="fig-smoke-days" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-smoke-days-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-smoke-days-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-smoke-days-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Frequency of smoke days in Edmonton, 2001 through 2019
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>One thing these plots may mask is that while the median duration perhaps hasn’t changed much, it’s clear from the scatter plots that the outlier periods are more common in the last decade than the one preceding it.</p>
+<div id="cell-fig-duration-5hrs" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div id="fig-duration-5hrs" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-duration-5hrs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-duration-5hrs-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-duration-5hrs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Frequency of smoke days exceeding 5 hours in duration, Edmonton 2001-2019.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>When grouped by month, we can see winter months have notable representation, which is likely those atmospheric inversions trapping pollutants near ground level, but the summer months appears to be when the hazy periods are longest and that likely corresponds to wildfire smoke.</p>
+<div id="cell-fig-monthly" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div id="fig-monthly" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-monthly-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-monthly-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-monthly-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Frequency of smoke events by month, Edmonton 2001-2019
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Filtering out only the extended periods, with a duration &gt;5 hrs, we see that prolonged periods of excess pm2.5 appears to be a summer phenomena, especially August. Which is certainly consistent with my experience of noticeable smokey days, corresponding with wildfire season.</p>
+<div id="cell-fig-monthly-5hr" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div id="fig-monthly-5hr" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-monthly-5hr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-monthly-5hr-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-monthly-5hr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Frequency of smoke events exceeding 5 hours in duration by month, Edmonton 2001-2019
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="limitations-and-opportunities" class="level2">
+<h2 class="anchored" data-anchor-id="limitations-and-opportunities">Limitations and Opportunities</h2>
+<p>An opportunity for further analysis would be to look for correlations between pm2.5 and other pollutants, say NOx, to allow one to exclude pm2.5s from vehicle emissions. That would still leave road dust, construction dust, and just farmers burning stubble, but I imagine that would go pretty far in terms of removing unrelated bad air quality days from the dataset. If one was only concerned with the most extreme cases, when the sky turns orange and visibility drops to only a few blocks, well that’s visible from space and could presumably be pulled out a dataset of satellite images, taking care to distinguish smoke from cloud cover.</p>
+<p>I would like to see a longer dataset. The dataset I was looking at was relatively short, only twenty years, which doesn’t allow me to answer the question of whether or not extended periods of wildfire smoke is truly a recent phenomenon versus a “return to normal”, i.e.&nbsp;it could be that 2000-2010 were the abnormal years and that is equally consistent with this dataset. Just looking around the air data warehouse it doesn’t look like this kind of air analysis was routine before the 2000s, but I could simply be ignorant of some other studies or datasets.</p>
+<p>Finally I picked pm2.5s since that is the variable responsible for the high risk AQHI levels, but there could be much better proxies for wildfire smoke that have better datasets. I can’t think of anything off the top of my head, but I’m a chemical engineer not an air quality expert.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/aefarrell\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="aefarrell/aefarrell.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

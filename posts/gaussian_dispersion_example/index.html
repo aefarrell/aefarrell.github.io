@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Allan Farrell">
+<meta name="dcterms.date" content="2020-12-05">
+<meta name="description" content="Estimating the airborne quantity.">
+
+<title>Air Dispersion Example - Gaussian Dispersion Model of Stack Emissions – A Chemical Engineer’s Notebook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-59228ce9c52eba116baca5d538563979.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: #ffffff;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: #ffffff;
+background: url(veeterzy-unsplash-header.jpg);
+      }
+</style>
+<style>
+.quarto-title-block .quarto-title-banner {
+  min-height: 100%;
+  background-size: cover;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
+}
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Air Dispersion Example - Gaussian Dispersion Model of Stack Emissions – A Chemical Engineer’s Notebook">
+<meta property="og:description" content="Estimating the airborne quantity.">
+<meta property="og:image" content="https://aefarrell.github.io/posts/gaussian_dispersion_example/index_files/figure-html/cell-1-1-44a13cc8-6433-4e69-9301-56432c424b32.png">
+<meta property="og:site_name" content="A Chemical Engineer's Notebook">
+<meta property="og:image:height" content="259">
+<meta property="og:image:width" content="333">
+</head>
+
+<body class="floating nav-fixed slimcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">A Chemical Engineer’s Notebook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> <i class="bi bi-info-circle" role="img">
+</i> 
+<span class="menu-text">about</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> <i class="bi bi-wrench-adjustable-circle" role="img">
+</i> 
+<span class="menu-text">projects</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Air Dispersion Example - Gaussian Dispersion Model of Stack Emissions</h1>
+                  <div>
+        <div class="description">
+          Estimating the airborne quantity.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">julia</div>
+                <div class="quarto-category">hazard screening</div>
+                <div class="quarto-category">dispersion modelling</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Allan Farrell </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">December 5, 2020</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#the-scenario" id="toc-the-scenario" class="nav-link active" data-scroll-target="#the-scenario">The Scenario</a>
+  <ul class="collapse">
+  <li><a href="#mass-emission-rate" id="toc-mass-emission-rate" class="nav-link" data-scroll-target="#mass-emission-rate">Mass Emission Rate</a></li>
+  <li><a href="#volumetric-flow-rate-of-flue-gas" id="toc-volumetric-flow-rate-of-flue-gas" class="nav-link" data-scroll-target="#volumetric-flow-rate-of-flue-gas">Volumetric Flow Rate of Flue Gas</a></li>
+  <li><a href="#the-concentration-of-interest" id="toc-the-concentration-of-interest" class="nav-link" data-scroll-target="#the-concentration-of-interest">The Concentration of Interest</a></li>
+  </ul></li>
+  <li><a href="#meteorological-conditions" id="toc-meteorological-conditions" class="nav-link" data-scroll-target="#meteorological-conditions">Meteorological Conditions</a>
+  <ul class="collapse">
+  <li><a href="#atmospheric-stability" id="toc-atmospheric-stability" class="nav-link" data-scroll-target="#atmospheric-stability">Atmospheric Stability</a></li>
+  <li><a href="#effective-stack-height" id="toc-effective-stack-height" class="nav-link" data-scroll-target="#effective-stack-height">Effective Stack Height</a></li>
+  </ul></li>
+  <li><a href="#gaussian-dispersion-model" id="toc-gaussian-dispersion-model" class="nav-link" data-scroll-target="#gaussian-dispersion-model">Gaussian Dispersion Model</a>
+  <ul class="collapse">
+  <li><a href="#a-differential-mass-balance" id="toc-a-differential-mass-balance" class="nav-link" data-scroll-target="#a-differential-mass-balance">A Differential Mass Balance</a></li>
+  <li><a href="#boundary-conditions" id="toc-boundary-conditions" class="nav-link" data-scroll-target="#boundary-conditions">Boundary Conditions</a></li>
+  <li><a href="#gaussian-model" id="toc-gaussian-model" class="nav-link" data-scroll-target="#gaussian-model">Gaussian Model</a></li>
+  <li><a href="#ground-reflection" id="toc-ground-reflection" class="nav-link" data-scroll-target="#ground-reflection">Ground Reflection</a></li>
+  </ul></li>
+  <li><a href="#pasquill-gifford-model" id="toc-pasquill-gifford-model" class="nav-link" data-scroll-target="#pasquill-gifford-model">Pasquill-Gifford Model</a>
+  <ul class="collapse">
+  <li><a href="#effect-of-plume-rise" id="toc-effect-of-plume-rise" class="nav-link" data-scroll-target="#effect-of-plume-rise">Effect of Plume Rise</a></li>
+  </ul></li>
+  <li><a href="#modelling-dispersion" id="toc-modelling-dispersion" class="nav-link" data-scroll-target="#modelling-dispersion">Modelling Dispersion</a></li>
+  <li><a href="#concluding-remarks" id="toc-concluding-remarks" class="nav-link" data-scroll-target="#concluding-remarks">Concluding Remarks</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<p>This is an interesting example that came up in conversation with another engineer related to a construction project happening at an existing facility. Imagine construction involving scaffolding and workers at an elevation that potentially puts them within the plume of an existing stack – say from an adjacent boiler. If the facility is still operating while this construction work happens then it is possible that workers will be exposed to combustion products in excess of the occupational exposure limits. The operating boiler does not have to be all that close by for the plume – which is very visible this time of year in the cold weather – to envelope a similarly tall set of scaffolding.</p>
+<p>So, how would one determine whether or not the operating stack presents a hazard to the workers? In practice by hiring a consultant to do detailed modelling, because safety issues like this are not the time to pencil-whip some number. But we may want to come up with a rough estimate regardless, and for that a Gaussian dispersion model of the stack can be a useful first start.</p>
+<div id="fig-plume" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plume-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/cell-1-1-44a13cc8-6433-4e69-9301-56432c424b32.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plume-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: The problem domain, a stack with a Gaussian plume (<a href="https://commons.wikimedia.org/wiki/File:Gaussian_Plume.png">Mbeychok</a>, <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>, via Wikimedia Commons).
+</figcaption>
+</figure>
+</div>
+<section id="the-scenario" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="the-scenario">The Scenario</h2>
+<p>Suppose a natural gas boiler with a rated capacity, <span class="math inline">\(W\)</span>, of 300GJ/h, stack height, <span class="math inline">\(h_s\)</span>, of 10m and diameter, <span class="math inline">\(D_s\)</span> of 2m, and an exit temperature of 450K.</p>
+<p>In this case we are interested in the carbon monoxide concentrations at a work platform at the same height as the stack and 100m away, we also would like to know the concentration for a worker at ground level. I am approximately 2m tall let’s suppose the relevant height is 2m (for anyone shorter than that the concentration should be lower and thus this is conservative).</p>
+<p>Additionally I am assuming ambient conditions of 25°C and 1atm</p>
+<div id="cell-2" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Unitful</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>W <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"GJ/s"</span>, <span class="fl">300</span>u<span class="st">"GJ/hr"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>hₛ <span class="op">=</span> <span class="fl">10</span>u<span class="st">"m"</span>   <span class="co"># stack height</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Dₛ <span class="op">=</span> <span class="fl">2</span>u<span class="st">"m"</span>    <span class="co"># stack diameter</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Tₛ <span class="op">=</span> <span class="fl">450</span>u<span class="st">"K"</span>  <span class="co"># stack exit temperature</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>h₁ <span class="op">=</span> hₛ      <span class="co"># height of platform, m</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>x₁ <span class="op">=</span> <span class="fl">100</span>u<span class="st">"m"</span> <span class="co"># distance to platform, m</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>pₐ <span class="op">=</span> <span class="fl">101.325</span>u<span class="st">"kPa"</span> <span class="co"># ambient pressure, 1atm</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Tₐ <span class="op">=</span> <span class="fl">298.15</span>u<span class="st">"K"</span>    <span class="co"># ambient temperature, 25°C</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>298.15 K</code></pre>
+</div>
+</div>
+<p>Prior to any dispersion modelling, the following parameters need to be collected:</p>
+<ul>
+<li>the mass emission rate of the species, carbon monoxide, in kg/s</li>
+<li>the concentration of interest, in this case the occupational exposure limit of carbon monoxide in kg/m3</li>
+<li>the wind speed and atmospheric stability</li>
+<li>the <em>effective</em> stack height, in m</li>
+</ul>
+<section id="mass-emission-rate" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="mass-emission-rate">Mass Emission Rate</h3>
+<p>The EPA has tabulated <em>emission factors</em> for most combustion products in EPA AP-42 and for a natural gas boiler it is <em>84 lb/10^6 SCF</em><span class="citation" data-cites="epa-1995a"><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></span> with a reference higher heating value of <em>1020 MMBTU/10^6 SCF</em>.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;<a href="#ref-epa-1995a" role="doc-biblioref">EPA, <span>“AP 42”</span></a> Table 1.4-1. The emission factor is relative to the volume of natural gas consumed not the volume of stack gas emitted.</p></div></div><p>If we suppose the boiler is operating at max rates then the mass emission rate is</p>
+<p><span class="math display">\[ Q = { W \cdot EF \over HV}  \]</span></p>
+<p>Where <em>EF</em> is the emission factor and <em>HV</em> the higher heating value.</p>
+<div id="cell-4" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>HV <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"GJ/m^3"</span>, <span class="fl">1020</span>u<span class="st">"btu/ft^3"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>EF <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"kg/m^3"</span>, <span class="fl">84</span><span class="op">*</span><span class="fl">1e-6</span>u<span class="st">"lb/ft^3"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> EF <span class="op">*</span> W <span class="op">/</span> HV <span class="co"># mass emission rate in kg/s</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>0.002950437713234783 kg s^-1</code></pre>
+</div>
+</div>
+<p>This gives a mass flow rate of carbon monoxide in the plume, but we will also need some sense of how large the plume is in general, i.e.&nbsp;what is the volumetric flow rate of stack gas exiting the stack?</p>
+</section>
+<section id="volumetric-flow-rate-of-flue-gas" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="volumetric-flow-rate-of-flue-gas">Volumetric Flow Rate of Flue Gas</h3>
+<p>There are several ways the volumetric flow rate of flue gas could be estimated. One simple method is to use EPA Method 19<span class="citation" data-cites="epa-2017"><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></span> with the equation</p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;<a href="#ref-epa-2017" role="doc-biblioref">EPA, <span>“Method 19”</span></a>.</p></div></div><p><span class="math display">\[ V_s^o = F_w { 20.9 \over 20.9 \left( 1 - B_{wa} \right) - \%O_{2w} } \cdot W\]</span></p>
+<p>Where <span class="math inline">\(V_s^o\)</span> is the volumetric flow of flue gas at <em>standard conditions</em>, <span class="math inline">\(B_{wa}\)</span> the moisture fraction of ambient air, <span class="math inline">\(\%O_{2w}\)</span> the percentage of oxygen on a wet basis, and the parameter <span class="math inline">\(F_w\)</span> captures the differences in combustion stoichiometry for different fuels and is tabulated. Alternatively one could work out the volume of stack gas from the stoichiometry of combustion, this is just a shortcut.</p>
+<ul>
+<li>the default value for <span class="math inline">\(B_{wa} = 0.027\)</span></li>
+<li><span class="math inline">\(\%O_{2w}\)</span> usually ranges from 2-6% and for this case I am assuming <span class="math inline">\(\%O_{2w} = 4\)</span></li>
+<li>from Method 19 for natural gas, <span class="math inline">\(F_w = 2.85 \times 10^{-7} \mathrm{sm^3 \over J}\)</span></li>
+</ul>
+<div id="cell-6" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Fw <span class="op">=</span> <span class="fl">2.85e-7</span>u<span class="st">"m^3/J"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pct_O2 <span class="op">=</span> <span class="fl">4</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>Bwa <span class="op">=</span> <span class="fl">0.027</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>Vₛᵒ <span class="op">=</span> Fw <span class="op">*</span> (<span class="fl">20.9</span> <span class="op">/</span> (<span class="fl">20.9</span><span class="fu">*</span>(<span class="fl">1</span><span class="op">-</span>Bwa) <span class="op">-</span> pct_O2)) <span class="op">*</span> W</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>Vₛᵒ <span class="op">=</span> <span class="fu">upreferred</span>(Vₛᵒ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>30.385903267077627 m^3 s^-1</code></pre>
+</div>
+</div>
+<p>The actual volumetric flow rate can be calculated assuming the ideal gas law</p>
+<p><span class="math display">\[ { p^o V_s^o \over T^o } = { p_a V_s \over T_s } \]</span></p>
+<p><span class="math display">\[ V_s = { T_s \over T^o } { p^o \over p_a } V_s^o \]</span></p>
+<p>Where the standard conditions of Method 19 are <span class="math inline">\(T^o = 20 \mathrm{C}\)</span> and <span class="math inline">\(p^o = 760 \mathrm{mm Hg}\)</span></p>
+<div id="cell-8" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unitful doesn't know what "mm Hg" is</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@unit</span> mmHg <span class="st">"mm Hg"</span> MillimetersMercury <span class="fl">133.322387415</span>u<span class="st">"Pa"</span> <span class="cn">false</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>Tᵒ <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"K"</span>, <span class="fl">20</span>u<span class="st">"°C"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>pᵒ <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"kPa"</span>, <span class="fl">760</span>mmHg)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>Vₛ <span class="op">=</span> (Tₛ <span class="op">/</span> Tᵒ) <span class="op">*</span> (pᵒ <span class="op">/</span> pₐ) <span class="op">*</span> Vₛᵒ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>46.6438970432218 m^3 s^-1</code></pre>
+</div>
+</div>
+</section>
+<section id="the-concentration-of-interest" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="the-concentration-of-interest">The Concentration of Interest</h3>
+<p>This analysis is fundamentally about identifying whether a worker on the work platform would experience flue gases in excess of some concentration of interest. In this case I am supposing the Occupational Exposure Limit (OEL) for carbon monoxide alone because it is simple. In practice, since flue gas is a mixture of many substances that each have an associated OEL, one would have to look at the cumulative impact of all of these substances instead of treating them all individually<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;For example <a href="https://www.ccohs.ca/oshanswers/hsprograms/occ_hygiene/occ_exposure_limits.html">CCOHS</a> recommends calculating the sum <span class="math display">\[ \sum_i {C_i \over T_i } \]</span> for each substance <em>i</em> where <em>C</em> is the observed concentration and <em>T</em> is the threshold, and this sum should be less than one.</p></div><div id="fn4"><p><sup>4</sup>&nbsp;From the <a href="https://www.cdc.gov/niosh/npg/npgd0105.html">NIOSH Handbook</a>, using the conversion 1.15 mg/m^3 per ppm</p></div></div><p>For carbon monoxide there are three concentrations of interest worth considering<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<ul>
+<li>the Time Weighted Average (TWA) concentration which represents the limit for workers in that environment for a standard shift and 40 hours per week</li>
+<li>the Ceiling concentration which is the level that the concentration cannot exceed</li>
+<li>the Immediately Dangerous to Life and Health (IDLH) limit which is a concentration that could either kill a worker outright or render them incapable of saving themselves</li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Limit</th>
+<th>ppm</th>
+<th>mg/m^3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TWA</td>
+<td>35</td>
+<td>40</td>
+</tr>
+<tr class="even">
+<td>Ceiling</td>
+<td>200</td>
+<td>229</td>
+</tr>
+<tr class="odd">
+<td>IDLH</td>
+<td>1200</td>
+<td>1380</td>
+</tr>
+</tbody>
+</table>
+<div id="cell-10" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>TWA <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"kg/m^3"</span>, <span class="fl">40</span>u<span class="st">"mg/m^3"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Ceil <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"kg/m^3"</span>, <span class="fl">229</span>u<span class="st">"mg/m^3"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>IDLH <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"kg/m^3"</span>, <span class="fl">1380</span>u<span class="st">"mg/m^3"</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can check if the stack gas concentration at the exit exceeds the TWA. If it does not exceed the TWA then there is no reason to proceed with the calculations as a worker could work <em>in the stack</em> and not exceed the limits and they certainly would not exceed the limits after the plume mixed with ambient air.</p>
+<div id="cell-12" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">uconvert</span>(u<span class="st">"mg/m^3"</span>, Q<span class="op">/</span>Vₛᵒ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>97.0988977125952 mg m^-3</code></pre>
+</div>
+</div>
+<div id="cell-13" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Q<span class="op">/</span>Vₛᵒ <span class="op">&gt;</span> TWA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>true</code></pre>
+</div>
+</div>
+<p>The concentration in the flue gas is above the limit for long term work exposure but below the ceiling. At this point we are justified in continuing on to estimate the concentration at the work platform.</p>
+</section>
+</section>
+<section id="meteorological-conditions" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="meteorological-conditions">Meteorological Conditions</h2>
+<p>The ambient conditions impact the release in some obvious ways and in some non-obvious ways. Obviously the wind speed impacts how far the plume is moved, through advection. Somewhat non-obviously the ambient conditions also govern how high the plume will rise due to buoyancy as well as the extent of mixing as the plume moves through the air.</p>
+<p>Suppose a wind speed of 1.5m/s at the stack height, just arbitrarily.</p>
+<div id="cell-16" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>uₛ <span class="op">=</span> <span class="fl">1.5</span>u<span class="st">"m/s"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>1.5 m s^-1</code></pre>
+</div>
+</div>
+<section id="atmospheric-stability" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="atmospheric-stability">Atmospheric Stability</h3>
+<p>The atmospheric stability relates to the vertical mixing of the air due to a temperature gradient, during the day air temperature decreases with elevation and this temperature gradient induces a vertical flow that leads to vertical mixing.</p>
+<div id="fig-stability" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-stability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/cell-17-1-484527d5-7bee-471b-a866-9a9333e7e9d6.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-stability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: The effect of atmospheric stability on plume dispersion.
+</figcaption>
+</figure>
+</div>
+<p>This is captured by the atmospheric stability parameter <span class="math inline">\(s\)</span> which is given by<span class="citation" data-cites="epa-1995b"><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></span></p>
+<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;<a href="#ref-epa-1995b" role="doc-biblioref">EPA, <span>“EPA-454/b-95-003b,”</span> 2:1–9</a>.</p></div></div><p><span class="math display">\[ s = \frac{g}{T_a} { \partial \theta \over \partial z } \]</span></p>
+<p>Where <span class="math inline">\(\partial \theta \over \partial z\)</span> is the lapse rate in K/m</p>
+<p>The “worst case” is the case with the least mixing and corresponds to a class F <a href="https://en.wikipedia.org/wiki/Outline_of_air_pollution_dispersion#Characterization_of_atmospheric_turbulence">Pasquill stability</a>, i.e.&nbsp;very stable, which has a corresponding default lapse rate of <span class="math inline">\({ \partial \theta \over \partial z } = 0.035 K/m\)</span>.<span class="citation" data-cites="epa-1995b"><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></span></p>
+<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;<a href="#ref-epa-1995b" role="doc-biblioref">EPA, 2:1–9</a>.</p></div></div><div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Addendum
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This isn’t entirely true. For neutrally buoyant plumes released at ground level, or in this case level with the elevated work platform, class F is likely the worst case. For buoyant plumes released at elevation the minimal vertical dispersion with stable atmospheres means the bulk of the plume will rise and be dispersed far above the ground and another class and wind speed should be considered. See <em>Guidelines for Use of Vapour Cloud Dispersion Models</em>, 2nd ed.&nbsp;section 5.8 for more details</p>
+</div>
+</div>
+<div id="cell-18" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># acceleration due to gravity</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="fl">9.80616</span>u<span class="st">"m/s^2"</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># default lapse rate for class F</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>Γ <span class="op">=</span> <span class="fl">0.035</span>u<span class="st">"K/m"</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># stability parameter</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> (g<span class="op">/</span>Tₐ) <span class="op">*</span> Γ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>0.0011511507630387393 s^-2</code></pre>
+</div>
+</div>
+</section>
+<section id="effective-stack-height" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="effective-stack-height">Effective Stack Height</h3>
+<p>The plume rising out of the stack will rise higher than the stack height due to buoyancy – in this case because the stack gas is at a higher temperature than the ambient air – and because the stack gas is ejected with some kinetic energy. What follows is essentially a simplified version of the Brigg’s model for plume rise for stable plumes.</p>
+<p>As a first check, verify that stack down wash will not be relevant. For low momentum releases the effective stack height of the plume is reduced by vortices shed downwind of the stack that pull the plume downwards. This is only really relevant when <span class="math inline">\(v_s \lt 1.5 u\)</span></p>
+<p>Where <span class="math inline">\(v_s\)</span> is the stack exit velocity and is calculated from the volumetric flow as</p>
+<p><span class="math display">\[ v_s = { V_s \over A_s} = { V_s \over \frac{\pi}{4} D^2 } \]</span></p>
+<div id="cell-20" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>vₛ <span class="op">=</span> Vₛ <span class="op">/</span> ((<span class="cn">π</span><span class="op">/</span><span class="fl">4</span>)<span class="op">*</span>Dₛ<span class="op">^</span><span class="fl">2</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>vₛ <span class="op">&gt;</span> <span class="fl">1.5</span>uₛ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>true</code></pre>
+</div>
+</div>
+<p>The following assumes a <em>stable</em> plume rise, recall that Pasquill stability class F corresponds to very stable conditions.</p>
+<p>The first question that must be answered is whether or not the plume rise is dominated by buoyancy or by momentum. For buoyant plume rise to dominate the actual temperature difference – the difference between the stack exit temperature and the ambient temperature – must be greater than a critical temperature difference<span class="citation" data-cites="epa-1995b"><a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></span></p>
+<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;<a href="#ref-epa-1995b" role="doc-biblioref">EPA, 2:1–9</a>.</p></div></div><p><span class="math display">\[ T_s - T_a = \Delta T \gt \left( \Delta T \right)_c = 0.019582 T_s v_s \sqrt{s} \]</span></p>
+<div id="cell-22" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ΔTc <span class="op">=</span> <span class="fl">0.019582</span>u<span class="st">"m^-1*s^2"</span> <span class="op">*</span> Tₛ <span class="op">*</span> vₛ <span class="op">*</span> <span class="fu">√</span>(s)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>(Tₛ <span class="op">-</span> Tₐ) <span class="op">&gt;</span> ΔTc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>true</code></pre>
+</div>
+</div>
+<p>In this case buoyant plume rise is dominant, and the stable plume rise equation is<span class="citation" data-cites="epa-1995b"><a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></span></p>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;<a href="#ref-epa-1995b" role="doc-biblioref">EPA, 2:1–9</a>.</p></div></div><p><span class="math display">\[ \Delta h = 2.6 \left( F_b \over u_s s \right)^{1/3} \]</span></p>
+<p>where <span class="math inline">\(\Delta h\)</span> is the increase in effective stack height due to plume rise, and <span class="math inline">\(F_b\)</span> is the buoyancy flux parameter<span class="citation" data-cites="epa-1995b"><a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></span></p>
+<div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;<a href="#ref-epa-1995b" role="doc-biblioref">EPA, 2:1–6</a>.</p></div></div><p><span class="math display">\[ F_b = g v_s D_s^2 { \left( T_s - T_a \right) \over 4 T_s } \]</span></p>
+<p>Plume rise is not instantaneous and the distance to the final rise, <span class="math inline">\(x_f\)</span> is given by<span class="citation" data-cites="epa-1995b"><a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></span></p>
+<div class="no-row-height column-margin column-container"><div id="fn10"><p><sup>10</sup>&nbsp;<a href="#ref-epa-1995b" role="doc-biblioref">EPA, 2:1–9</a>.</p></div></div><p><span class="math display">\[ x_f = 2.0715 {u_s \over \sqrt{s} } \]</span></p>
+<p>with any distance closer to the source than <span class="math inline">\(x_f\)</span> experiencing a lesser plume rise, given by<span class="citation" data-cites="epa-1995b"><a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></span></p>
+<div class="no-row-height column-margin column-container"><div id="fn11"><p><sup>11</sup>&nbsp;<a href="#ref-epa-1995b" role="doc-biblioref">EPA, 2:1–10</a>.</p></div></div><p><span class="math display">\[ \Delta h = 1.60 \left( F_b x^2 \over u_s^3 \right)^{1/3} \]</span></p>
+<p>this can be put together into a function that calculates <span class="math inline">\(\Delta h\)</span> as a function of distance <em>x</em></p>
+<div id="cell-24" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>Fb <span class="op">=</span> g <span class="op">*</span> vₛ <span class="op">*</span> Dₛ<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> (Tₛ <span class="op">-</span> Tₐ) <span class="op">/</span> (<span class="fl">4</span>Tₛ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>49.1299376393856 m^4 s^-3</code></pre>
+</div>
+</div>
+<div id="cell-25" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>xf <span class="op">=</span> <span class="fl">2.0715</span><span class="op">*</span>uₛ<span class="op">/</span><span class="fu">√</span>(s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>91.58199372993636 m</code></pre>
+</div>
+</div>
+<div id="cell-26" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Δh</span>(x)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    xf <span class="op">=</span> <span class="fl">2.0715</span><span class="op">*</span>uₛ<span class="op">/</span><span class="fu">√</span>(s)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x <span class="op">&lt;</span> xf</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">1.60</span><span class="fu">*</span>(Fb<span class="op">*</span>x<span class="op">^</span><span class="fl">2</span><span class="op">/</span>uₛ<span class="op">^</span><span class="fl">3</span>)<span class="op">^</span>(<span class="fl">1</span><span class="op">/</span><span class="fl">3</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">2.6</span><span class="fu">*</span>(Fb<span class="op">/</span>(uₛ<span class="op">*</span>s))<span class="op">^</span>(<span class="fl">1</span><span class="op">/</span><span class="fl">3</span>)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-fig-plume-height" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="15">
+<div id="fig-plume-height" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plume-height-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-plume-height-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plume-height-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Plume rise as a function of downwind distance.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Plume rise is impacted by the wind speed at the stack height, as the following plot shows, but with several large caveats. For one the model for plume rise given is not defined at no wind speed and for very low wind speeds the value should be treated with suspicion. Similarly for very large wind speeds the assumption of stable rise is likely quite invalid.</p>
+<div id="cell-fig-plume-wind" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="16">
+<div id="fig-plume-wind" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plume-wind-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-plume-wind-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plume-wind-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Plume rise as a function of windspeed.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="gaussian-dispersion-model" class="level2">
+<h2 class="anchored" data-anchor-id="gaussian-dispersion-model">Gaussian Dispersion Model</h2>
+<p>As the plume is carried downwind it will mix with the ambient air and the pollutant, carbon monoxide, will be dispersed. A simple model of this is a Gaussian dispersion model, the derivation for which is sketched out as follows.</p>
+<section id="a-differential-mass-balance" class="level3">
+<h3 class="anchored" data-anchor-id="a-differential-mass-balance">A Differential Mass Balance</h3>
+<p>Starting with a coordinate system centred at the top of the stack, emitting a mass flow of <em>Q</em> kg/s, which is assumed to be released from a point, the <a href="https://en.wikipedia.org/wiki/Convection%E2%80%93diffusion_equation">advection-diffusion equation</a> for mass can be written as</p>
+<p><span class="math display">\[ {\partial C \over \partial t} = - \nabla \cdot \mathbf{D} \cdot \nabla C + \nabla \cdot \mathbf{u} C \]</span></p>
+<p>Where <span class="math inline">\(\mathbf{D}\)</span> is the diffusivity, <span class="math inline">\(C\)</span> the concentration of the species, and <span class="math inline">\(\mathbf{u}\)</span> the wind speed. The diffusivity in this case is a vector and depends upon the direction, i.e.&nbsp;<span class="math inline">\(D_x \ne D_y \ne D_z\)</span> and represents an <em>eddy diffusion</em> as opposed to a simple Fickian diffusion.</p>
+<p>Some simplifying assumptions can be made</p>
+<ul>
+<li>the wind speed <em>u</em> is a constant everywhere</li>
+<li>the air is moving entirely in the x direction, i.e.&nbsp;<span class="math inline">\(u_{y} = u_{z} = 0\)</span> and <span class="math inline">\(u_x = u\)</span> and thus <span class="math inline">\(\nabla \cdot \mathbf{u} C = u {\partial C \over \partial x}\)</span></li>
+<li>the diffusivities <span class="math inline">\(D_x\)</span>, <span class="math inline">\(D_y\)</span>, and <span class="math inline">\(D_z\)</span> are constant everywhere</li>
+<li>advection is much more significant than diffusion in the x direction i.e.&nbsp;<span class="math inline">\(\left \vert {\partial \over \partial x} C u \right \vert \gg \left \vert {\partial^{2} \over \partial x^{2} } D_{x} C \right \vert\)</span>, leading to <span class="math inline">\(\nabla \cdot \mathbf{D} \cdot \nabla C = D_y {\partial^2 C \over \partial y^2} + D_z {\partial^2 C \over \partial z^2}\)</span></li>
+<li>the system is at steady state, <span class="math inline">\({\partial C \over \partial t} = 0\)</span></li>
+</ul>
+<p>Reducing the PDE to</p>
+<p><span class="math display">\[ u {\partial C \over \partial x} = D_{y} {\partial^{2} C \over \partial y^{2} } + D_{z} {\partial^{2} C \over \partial z^{2} } \]</span></p>
+<p>Which has <a href="https://en.wikipedia.org/wiki/Heat_equation#Fundamental_solutions">solutions for particular boundary conditions</a></p>
+<p><span class="math display">\[ C = {k \over x} \exp \left[ - \left( {y^{2} \over D_{y} } + {z^{2} \over D_{z} } \right) { u \over 4x } \right] \]</span></p>
+<p>Where <em>k</em> is a constant set by the boundary conditions.</p>
+</section>
+<section id="boundary-conditions" class="level3">
+<h3 class="anchored" data-anchor-id="boundary-conditions">Boundary Conditions</h3>
+<p>To solve for <em>k</em> note that <em>Q</em> is assumed to be constant and that mass must be conserved as it is carried downwind which has the effect that for any given <em>x</em> the flux through the y-z plane is <em>Q</em>.</p>
+<p><span class="math display">\[ Q = \int \int C  u  dy  dz \]</span></p>
+<p><span class="math display">\[ Q = \int_{0}^{\infty} \int_{-\infty}^{\infty} {k u \over x} \exp \left[ - \left( {y^{2} \over D_{y} } + {z^{2} \over D_{z} } \right) { u \over 4x } \right] dy dz \]</span></p>
+<p>where the release point is assumed to be at ground level (<em>z=0</em>).</p>
+<p>Making the change of variables <span class="math inline">\(y' = {y \over \sqrt{D_{y} } }\)</span> and <span class="math inline">\(z' = {z \over \sqrt{D_{z} } }\)</span> gives</p>
+<p><span class="math display">\[ Q = {k u \over x} \sqrt{D_{y} D_{z} } \int_{-\infty}^{\infty}  \exp \left[ - {u \over 4 x} y'^{2} \right] dy' \int_{0}^{\infty} \exp \left[ - {u \over 4 x} z'^{2} \right] dz' \]</span></p>
+<p>which are gaussian integrals <a href="https://en.wikipedia.org/wiki/Gaussian_function#Integral_of_a_Gaussian_function">that can be integrated</a></p>
+<p><span class="math display">\[ Q = {k u \over x} \sqrt{D_{y} D_{z} } \left( \sqrt{\pi} \over \sqrt{u \over 4x} \right) \left( \sqrt{\pi} \over 2 \sqrt{u \over 4x} \right) \]</span></p>
+<p>simplifying</p>
+<p><span class="math display">\[ Q = 2 \pi k \sqrt{D_{y} D_{z} } \]</span></p>
+<p>and solving for <em>k</em></p>
+<p><span class="math display">\[ k = {Q \over 2 \pi \sqrt{D_{y} D_{z} } }\]</span></p>
+</section>
+<section id="gaussian-model" class="level3">
+<h3 class="anchored" data-anchor-id="gaussian-model">Gaussian Model</h3>
+<p>Substituting <em>k</em> back into the model gives the gaussian dispersion model.</p>
+<p><span class="math display">\[ C = {Q \over 2 \pi x \sqrt{D_{y} D_{z} } } \exp \left[ - \left( {y^{2} \over D_{y} } + {z^{2} \over D_{z} } \right) { u \over 4x } \right] \]</span></p>
+<p>However this is more commonly expressed in terms of dispersion by letting</p>
+<p><span class="math display">\[ \sigma_{y}^{2} = {2 D_{y} x \over u}\]</span></p>
+<p><span class="math display">\[ \sigma_{z}^{2} = {2 D_{z} x \over u}\]</span></p>
+<p>which gives a more explicitly gaussian distribution of concentration at a given point <em>x</em></p>
+<p><span class="math display">\[ C = {Q \over \pi u \sigma_{y} \sigma_{z} } \exp \left[ -\frac{1}{2} \left( {y^{2} \over \sigma_{y}^{2} } + {z^{2} \over \sigma_{z}^{2} } \right) \right] \]</span></p>
+<p><em>Note</em> the parameters <span class="math inline">\(\sigma_y\)</span> and <span class="math inline">\(\sigma_z\)</span> have units of length.</p>
+</section>
+<section id="ground-reflection" class="level3">
+<h3 class="anchored" data-anchor-id="ground-reflection">Ground Reflection</h3>
+<p>When solving for <em>k</em>, I assumed the release point was at ground level, this simplified the integration by making one of the bounds of the integral zero.</p>
+<p>However what we want is a generalized equation with the emissions released at some elevation <em>h</em>. The plume can disperse downwards but only to a distance <em>h</em> below the release point, at which point the mass can neither disperse further downwards (pass through the ground) nor does it just disappear. This is ground reflection.</p>
+<div id="fig-ground-reflection" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ground-reflection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/cell-31-1-1845ad68-e996-4e56-981e-8178cd5d9b27.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ground-reflection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: A sketch of ground reflection by method of images.
+</figcaption>
+</figure>
+</div>
+<p>One way to capture this is to integrate <em>z</em> from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(\infty\)</span> (recall that the release point is at the origin) and introduce a <em>mirror image</em> of the stack shifted <em>2h</em> below. The ground being the x-y plane at <em>z = -h</em>. By symmetry the portion of the mirror plume extending up above this plane is the same as the portion of the plume that, in this simple model, has extended below the ground. By adding the stack and the mirror stack together and shifting the z-coordinate so <em>z = 0</em> is the ground, ground reflection is captured and the expression for a release point at elevation <em>h</em> is given by</p>
+<p><span class="math display">\[ C = {Q \over 2 \pi u \sigma_{y} \sigma_{z} } \exp \left[ -\frac{1}{2} \left( y \over \sigma_{y} \right)^2 \right] \]</span></p>
+<p><span class="math display">\[ \times \left\{ \exp \left[ -\frac{1}{2} \left( { z -h } \over \sigma_{z} \right)^2 \right] + \exp \left[ -\frac{1}{2} \left( { z + h } \over \sigma_{z} \right)^2 \right] \right\} \]</span></p>
+</section>
+</section>
+<section id="pasquill-gifford-model" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="pasquill-gifford-model">Pasquill-Gifford Model</h2>
+<p>The <span class="math inline">\(\sigma_{y}\)</span> and <span class="math inline">\(\sigma_{z}\)</span> are functions of the downwind distance <em>x</em>. In the derivation of the model they were assumed to be linear in <em>x</em> however in practice they are typically of the form:</p>
+<p><span class="math display">\[ \sigma_{y} = a x^{b} \]</span></p>
+<p><span class="math display">\[ \sigma_{z} = c x^{d} \]</span></p>
+<p>With the constants tabulated based on the <a href="https://en.wikipedia.org/wiki/Outline_of_air_pollution_dispersion#Characterization_of_atmospheric_turbulence">Pasquill stability class criteria</a>.</p>
+<p>These particular correlations come from Lees<span class="citation" data-cites="lees-1996"><a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></span> and are for a Pasquill stability class F</p>
+<div class="no-row-height column-margin column-container"><div id="fn12"><p><sup>12</sup>&nbsp;<a href="#ref-lees-1996" role="doc-biblioref">Lees, <em>Loss Prevention in the Process Industries</em>, 15</a>/113. There is a typo in the 4th edition of <em>Lees’</em> for the <span class="math inline">\(\sigma_{z}\)</span> corresponding to class F stability. For <span class="math inline">\(x&gt;500\)</span> it is given as <span class="math display">\[ \sigma_{z} = 10^{(1.91 - 1.37 \log(x) - 0.119 \log(x)^2)} \]</span> when it should be (note the signs) <span class="math display">\[ \sigma_{z} = 10^{(-1.91 + 1.37 \log(x) - 0.119 \log(x)^2)} \]</span>. I happen to have the paper version of the 2nd edition at home, which does not have the typo, whereas the standard version I use at work is the 4th edition on Knovel.</p></div></div><div id="cell-33" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">σy</span>(x) <span class="op">=</span> <span class="fl">0.067</span><span class="op">*</span>x<span class="op">^</span><span class="fl">0.90</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">σz</span>(x)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x <span class="op">&lt;</span> <span class="fl">500.0</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">0.057</span><span class="op">*</span>x<span class="op">^</span><span class="fl">0.80</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Note: Lee's gives the commented out form but it is wrong</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 10^(1.91 - 1.37*log10(x) - 0.119*log10(x)^2)</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">10</span><span class="op">^</span>(<span class="op">-</span><span class="fl">1.91</span> <span class="op">+</span> <span class="fl">1.37</span><span class="fu">*log10</span>(x) <span class="op">-</span> <span class="fl">0.119</span><span class="fu">*log10</span>(x)<span class="op">^</span><span class="fl">2</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>These correlations are currently not unit-aware, so we can add that using a macro</p>
+<div id="cell-35" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this macro adds a method to handle units</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">macro</span> <span class="fu">correl</span>(f, in_unit, out_unit)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">quote</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">function</span> <span class="op">$</span>(<span class="fu">esc</span>(f))(x<span class="op">::</span><span class="dt">Quantity</span>)<span class="op">::</span><span class="dt">Quantity</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> <span class="fu">ustrip</span>(<span class="op">$</span>in_unit, x)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>            res <span class="op">=</span> <span class="op">$</span><span class="fu">f</span>(x)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> res<span class="op">*$</span>out_unit</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>σy <span class="op">=</span> <span class="pp">@correl</span>(σy, u<span class="st">"m"</span>, u<span class="st">"m"</span>)</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>σz <span class="op">=</span> <span class="pp">@correl</span>(σz, u<span class="st">"m"</span>, u<span class="st">"m"</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-fig-sigmas" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="19">
+<div class="cell-output cell-output-display" data-execution_count="19">
+<div id="fig-sigmas" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sigmas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-sigmas-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sigmas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Pasquill-Gifford dispersion parameters as a function of downwind distance, for class F atmospheric stability.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="effect-of-plume-rise" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="effect-of-plume-rise">Effect of Plume Rise</h3>
+<p>The effect of plume rise on this model is to shift from the actual stack height to an effective stack height <span class="math inline">\(h_e = h_s + \Delta h\)</span> with <span class="math inline">\(\Delta h\)</span> given by the plume rise model already discussed. Additionally the dispersion is adjusted by the following<span class="citation" data-cites="vallero-2014"><a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a></span></p>
+<div class="no-row-height column-margin column-container"><div id="fn13"><p><sup>13</sup>&nbsp;<a href="#ref-vallero-2014" role="doc-biblioref">Vallero, <em>Fundamentals of Air Pollution</em>, 696–97</a>.</p></div></div><p><span class="math display">\[ \sigma_{ze}^2 = \left( \Delta h \over 3.5 \right)^2 + \sigma_z^2 \]</span></p>
+<p><span class="math display">\[ \sigma_{ye}^2 = \left( \Delta h \over 3.5 \right)^2 + \sigma_y^2 \]</span></p>
+<p>and the final model of concentration is given in respect to the effective stack height</p>
+<p><span class="math display">\[ C = {Q \over 2 \pi u \sigma_{ye} \sigma_{ze} } \exp \left[ -\frac{1}{2} \left( y \over \sigma_{ye} \right)^2 \right] \]</span></p>
+<p><span class="math display">\[ \times \left\{ \exp \left[ -\frac{1}{2} \left( { z -h_e } \over \sigma_{ze} \right)^2 \right] + \exp \left[ -\frac{1}{2} \left( { z + h_e } \over \sigma_{ze} \right)^2 \right] \right\} \]</span></p>
+<div id="cell-38" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">C</span>(x, y, z)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    hₑ  <span class="op">=</span> hₛ <span class="op">+</span> <span class="fu">Δh</span>(x)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    σyₑ <span class="op">=</span> <span class="fu">√</span>( (<span class="fu">Δh</span>(x)<span class="op">/</span><span class="fl">3.5</span>)<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fu">σy</span>(x)<span class="op">^</span><span class="fl">2</span> )</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    σzₑ <span class="op">=</span> <span class="fu">√</span>( (<span class="fu">Δh</span>(x)<span class="op">/</span><span class="fl">3.5</span>)<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fu">σz</span>(x)<span class="op">^</span><span class="fl">2</span> )</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> (Q<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span><span class="cn">π</span><span class="op">*</span>uₛ<span class="op">*</span>σyₑ<span class="op">*</span>σzₑ)) <span class="op">*</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>         <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>(y<span class="op">/</span>σyₑ)<span class="op">^</span><span class="fl">2</span>) <span class="op">*</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>         ( <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>((z<span class="op">-</span>hₑ)<span class="op">/</span>σzₑ)<span class="op">^</span><span class="fl">2</span>) <span class="op">+</span> <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>((z<span class="op">+</span>hₑ)<span class="op">/</span>σzₑ)<span class="op">^</span><span class="fl">2</span>) )</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>C (generic function with 1 method)</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="modelling-dispersion" class="level2">
+<h2 class="anchored" data-anchor-id="modelling-dispersion">Modelling Dispersion</h2>
+<p>There are two cases worth considering</p>
+<ol type="1">
+<li>without accounting for plume rise</li>
+<li>with plume rise</li>
+</ol>
+<p>The first case would be very conservative and the stack plume would immediately point directly downwind, at the stack height, this is far more likely to impact the work platform and any workers on the ground, though it is also quite unrealistic.</p>
+<p><em>Note</em> the following contour plots max out at the time weighted average concentration, shown in mg/m^3</p>
+<div id="cell-fig-norise" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="21">
+<div id="fig-norise" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-norise-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-norise-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-norise-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Contour plots of concentration with no plume rise.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This clearly represents something of an extreme case, and I believe illustrates something of interest. While the work platform is ultimately below the TWA, to get even close to that concentration at the work platform the model is assuming extremely little mixing and no plume rise.</p>
+<p>A more realistic model would take into account the buoyant rise of hot stack gases.</p>
+<div id="cell-fig-with-rise" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="22">
+<div class="cell-output cell-output-display" data-execution_count="22">
+<div id="fig-with-rise" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-with-rise-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-with-rise-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-with-rise-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Contour plots of concentration with using Briggs’ plume rise equations.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In this model the plume clearly rises significantly and, as it goes, mixes into the air column to such an extent that there is hardly any carbon monoxide at the elevations of interest downwind of the stack.</p>
+<div id="cell-44" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">uconvert</span>(u<span class="st">"mg/m^3"</span>,<span class="fu">C</span>(x₁, <span class="fl">0</span>u<span class="st">"m"</span>, h₁))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>0.0014282911474771348 mg m^-3</code></pre>
+</div>
+</div>
+<div id="cell-45" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">C</span>(x₁, <span class="fl">0</span>u<span class="st">"m"</span>, h₁) <span class="op">&gt;</span> TWA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<pre><code>false</code></pre>
+</div>
+</div>
+</section>
+<section id="concluding-remarks" class="level2">
+<h2 class="anchored" data-anchor-id="concluding-remarks">Concluding Remarks</h2>
+<p>This model assumed a continuous, steady-state, flow of stack gases. Boilers don’t always operate that way and the model did not, for example, consider startup or upset conditions that could lead to higher in-stack concentrations of carbon monoxide.</p>
+<p>The model also assumed mixing was captured by a simple Gaussian dispersion model. This model does not, for example, account for variability of wind speed either with time or spatially – wind speed typically increases with height – in this case I believe the model underestimates the degree of mixing. Nor does it account for interactions with buildings and potential down wash, which can be very significant.</p>
+<p>This also assumes no other sources of carbon monoxide, both at the facility surrounding the worksite but also potentially from some portable equipment.</p>
+<p>I think that, while modelling like this might be informative about the potential hazards, it is always good practise to develop a monitoring plan for the work area that includes the flue gases and any other potential substances to ensure workers on the scaffolding are not being exposed.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-ccps-1996" class="csl-entry" role="listitem">
+AIChE/CCPS. <em>Guidelines for Use of Vapour Cloud Dispersion Models, 2nd Ed.</em> New York: American Institute of Chemical Engineers, 1996.
+</div>
+<div id="ref-epa-1995a" class="csl-entry" role="listitem">
+EPA. <span>“AP 42: Compilation of Air Emissions Factors.”</span> 5th ed. Research Triangle Park, NC: Environmental Protection Agency, 1995. <a href="https://www.epa.gov/air-emissions-factors-and-quantification/ap-42-compilation-air-emissions-factors">https://www.epa.gov/air-emissions-factors-and-quantification/ap-42-compilation-air-emissions-factors</a>.
+</div>
+<div id="ref-epa-1995b" class="csl-entry" role="listitem">
+———. <span>“EPA-454/b-95-003b: User’s Guide for the ISC3 Dispersion Models.”</span> Vol. 2. Environmental Protection Agency, 1995.
+</div>
+<div id="ref-epa-2017" class="csl-entry" role="listitem">
+———. <span>“Method 19: Determination of Sulfur Dioxide Removal Efficiency and Particulate Matter, Sulfur Dioxide, and Nitrogen Oxide Emission Rates.”</span> Environmental Protection Agency, 2017. <a href="https://www.epa.gov/sites/default/files/2017-08/documents/method_19.pdf">https://www.epa.gov/sites/default/files/2017-08/documents/method_19.pdf</a>.
+</div>
+<div id="ref-lees-1996" class="csl-entry" role="listitem">
+Lees, Frank P. <em>Loss Prevention in the Process Industries</em>. 2nd ed. Oxford: Butterworth-Heinemann, 1996.
+</div>
+<div id="ref-vallero-2014" class="csl-entry" role="listitem">
+Vallero, Daniel. <em>Fundamentals of Air Pollution</em>. 5th ed. Amsterdam: Elsevier, 2014.
+</div>
+</div>
+
+
+</section>
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/aefarrell\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="aefarrell/aefarrell.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

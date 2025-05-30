@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Allan Farrell">
+<meta name="dcterms.date" content="2025-05-10">
+<meta name="description" content="Calculating how far the wind blows.">
+
+<title>Mapping Pollen Dispersion – A Chemical Engineer’s Notebook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-59228ce9c52eba116baca5d538563979.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: #ffffff;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: #ffffff;
+background-image: url(banner.jpg);
+background-size: cover;
+      }
+</style>
+<style>
+.quarto-title-block .quarto-title-banner {
+  min-height: 100%;
+  background-size: cover;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
+}
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Mapping Pollen Dispersion – A Chemical Engineer’s Notebook">
+<meta property="og:description" content="Calculating how far the wind blows.">
+<meta property="og:image" content="https://aefarrell.github.io/posts/pollen_dispersion/figure-1.png">
+<meta property="og:site_name" content="A Chemical Engineer's Notebook">
+<meta property="og:image:height" content="1658">
+<meta property="og:image:width" content="2152">
+</head>
+
+<body class="floating nav-fixed slimcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">A Chemical Engineer’s Notebook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> <i class="bi bi-info-circle" role="img">
+</i> 
+<span class="menu-text">about</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> <i class="bi bi-wrench-adjustable-circle" role="img">
+</i> 
+<span class="menu-text">projects</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Mapping Pollen Dispersion</h1>
+                  <div>
+        <div class="description">
+          Calculating how far the wind blows.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">julia</div>
+                <div class="quarto-category">dispersion modelling</div>
+                <div class="quarto-category">pollen</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Allan Farrell </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 10, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#building-a-model-of-pollen-dispersion" id="toc-building-a-model-of-pollen-dispersion" class="nav-link active" data-scroll-target="#building-a-model-of-pollen-dispersion">Building a Model of Pollen Dispersion</a>
+  <ul class="collapse">
+  <li><a href="#a-model-elm-tree" id="toc-a-model-elm-tree" class="nav-link" data-scroll-target="#a-model-elm-tree">A Model Elm Tree</a></li>
+  <li><a href="#pollen-settling" id="toc-pollen-settling" class="nav-link" data-scroll-target="#pollen-settling">Pollen Settling</a></li>
+  <li><a href="#atmospheric-dispersion" id="toc-atmospheric-dispersion" class="nav-link" data-scroll-target="#atmospheric-dispersion">Atmospheric Dispersion</a></li>
+  <li><a href="#the-ermak-equation" id="toc-the-ermak-equation" class="nav-link" data-scroll-target="#the-ermak-equation">The Ermak Equation</a></li>
+  <li><a href="#a-tree-data-structure" id="toc-a-tree-data-structure" class="nav-link" data-scroll-target="#a-tree-data-structure">A Tree Data Structure</a></li>
+  </ul></li>
+  <li><a href="#mapping-elm-pollen-in-wîhkwêntôwin" id="toc-mapping-elm-pollen-in-wîhkwêntôwin" class="nav-link" data-scroll-target="#mapping-elm-pollen-in-wîhkwêntôwin">Mapping Elm Pollen in Wîhkwêntôwin</a>
+  <ul class="collapse">
+  <li><a href="#defining-the-local-grid" id="toc-defining-the-local-grid" class="nav-link" data-scroll-target="#defining-the-local-grid">Defining the Local Grid</a></li>
+  <li><a href="#finding-the-neighbourhood-elm-trees" id="toc-finding-the-neighbourhood-elm-trees" class="nav-link" data-scroll-target="#finding-the-neighbourhood-elm-trees">Finding the Neighbourhood Elm Trees</a></li>
+  <li><a href="#mapping-wîhkwêntôwin" id="toc-mapping-wîhkwêntôwin" class="nav-link" data-scroll-target="#mapping-wîhkwêntôwin">Mapping Wîhkwêntôwin</a></li>
+  <li><a href="#mapping-the-pollen-from-all-elm-trees" id="toc-mapping-the-pollen-from-all-elm-trees" class="nav-link" data-scroll-target="#mapping-the-pollen-from-all-elm-trees">Mapping the Pollen from all Elm Trees</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<p>It has been a beautiful spring in Edmonton and the trees are tentatively flowering and throwing pollen to the wind. Watching the trees come back from their barren winter state left me wondering about the wind dispersal of pollen. Pollen grains must be small enough to travel quite a distance to encounter any other trees to pollinate, but they do settle out eventually. So, how far do they actually go? I’ve been wanting to play around with the mapping tools in the julia ecosystem, and this question gave me an opportunity to make some maps exploring pollen dispersal in my neighbourhood.</p>
+<p>I live in an older core neighbourhood in Edmonton, which has a beautiful canopy of boulevard trees. Primarily elm, but also ash, maple, and oak. The legacy of people like <a href="https://letsfindoutpodcast.com/2019/02/27/episode-31-how-nature-shapes-us/">Gladys Reeves</a> and the Edmonton Tree Planting Committee who, starting in 1923, defended our city green spaces and built up our urban forest. A legacy we still fight for over a century later.</p>
+<p>In particular I’m going to be looking at American Elm, the most common boulevard tree in my neighbourhood, and I’ll restrict myself to just here (not the whole city).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Some Notes on Unitful
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For a lot of problems, I find it easier to work with <code>Unitful.jl</code>. It enforces unit consistency and inconsistent units in an answer is a good indication that I have made a math mistake somewhere. However there are two questions that I need to answer before getting too deep into things:</p>
+<ol type="1">
+<li>What units am I using for pollen dispersal?</li>
+<li>How will I be handling all the correlations?</li>
+</ol>
+<p>I could calculate the pollen concentration on a mass basis, but that seems kind of weird to me. I think the logical unit is in terms of individual pollen grains. That is not a unit that <code>Unitful.jl</code> is aware of and so I need to define first what a pollen grain is. It is a unit of “number”, like a mole, and in fact there are 6.022×10²³ grains in a mole of pollen.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Unitful</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="pp">@unit</span> grains <span class="st">"grains"</span> Grains (<span class="fl">1</span><span class="op">/</span><span class="fl">6.02214076e23</span>)<span class="op">*</span>u<span class="st">"mol"</span> <span class="cn">true</span>;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Unitful.<span class="fu">register</span>(<span class="pp">@__MODULE__</span>);</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Correlations can be annoying with <code>Unitful.jl</code> since the various constants in a correlation are not usually given with units and figuring them all out so that units remain consistent is kind of tedious. The easiest workaround is to <a href="https://github.com/aefarrell/UnitfulCorrelations.jl">use a macro</a> to strip the units off the input to a correlation function and then stick the correct units back on the output.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">macro</span> <span class="fu">ucorrel</span>(f<span class="op">::</span><span class="dt">Symbol</span>, in_unit<span class="op">::</span><span class="dt">Expr</span>, out_unit<span class="op">::</span><span class="dt">Expr</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>   <span class="kw">quote</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>       <span class="kw">function</span> <span class="op">$</span>(<span class="fu">esc</span>(f))(x<span class="op">::</span><span class="dt">Quantity</span>)<span class="op">::</span><span class="dt">Quantity</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>           x <span class="op">=</span> <span class="fu">ustrip</span>(<span class="op">$</span>in_unit, x)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>           res <span class="op">=</span> <span class="op">$</span>(<span class="fu">esc</span>(f))(x)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>           <span class="cf">return</span> res<span class="op">*$</span>out_unit</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>       <span class="kw">end</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>   <span class="kw">end</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<section id="building-a-model-of-pollen-dispersion" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="building-a-model-of-pollen-dispersion">Building a Model of Pollen Dispersion</h2>
+<p>For an initial sketch I’m going to consider a single tree as an elevated point source producing pollen at a constant rate <em>P</em> and with the wind carrying the pollen away with a constant wind speed <em>u</em>. Individual pollen grains settle out of the plume as they are carried downwind with velocity <span class="math inline">\(W_{set}\)</span>. The coordinate system is centred at the base of the tree with an x-axis parallel to the wind.</p>
+<div id="fig-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: A sketch of a single Elm tree as an elevated point source.
+</figcaption>
+</figure>
+</div>
+<section id="a-model-elm-tree" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="a-model-elm-tree">A Model Elm Tree</h3>
+<p>There are a few things I will need to know about each elm tree in the neighbourhood:</p>
+<ol type="1">
+<li>The height at which pollen is released</li>
+<li>The rate at which pollen is released</li>
+</ol>
+<p>Neither of these are typically measured and available in data sets for urban forests. I will need to use correlations – what foresters call <a href="https://en.wikipedia.org/wiki/Tree_allometry">allometric equations</a>. These correlate physical parameters of trees to something easier to measure, such as the <a href="https://en.wikipedia.org/wiki/Diameter_at_breast_height">diameter at breast height</a> or DBH.</p>
+<p>To build an example elm tree, suppose it has a DBH of 88 cm</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model Elm tree</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>DBH <span class="op">=</span> <span class="fl">88</span>u<span class="st">"cm"</span> <span class="op">|&gt;</span> u<span class="st">"m"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The crown height for an American Elm is correlated to DBH by the following equation<span class="citation" data-cites="mcpherson-2016"><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></span> for urban trees in the North climate zone</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;<a href="#ref-mcpherson-2016" role="doc-biblioref">McPherson, Doorn, and Peper, <span>“Urban Tree Database and Allometric Equations”</span></a>.</p></div></div><div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># McPherson, van Doorn, and Peper, *Urban Tree Database*</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Ulmus Americana, North climate zone</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">crown_height</span>(DBH) <span class="op">=</span> <span class="fl">0.44998</span> <span class="op">+</span> <span class="fl">0.55096</span><span class="op">*</span>DBH <span class="op">-</span> <span class="fl">0.00666</span><span class="op">*</span>DBH<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">3e-5</span><span class="op">*</span>DBH<span class="op">^</span><span class="fl">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@ucorrel</span> crown_height u<span class="st">"cm"</span> u<span class="st">"m"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>I am going to assume this is the height at which pollen is released, that’s not particularly accurate but it is a start. A better value would be the “centre of mass” for pollen in the crown of an Elm tree, but that isn’t readily available.</p>
+<p>For the example tree, this predicts a height of 17.8 m which, just standing around and looking at the trees on my street seems plausible. The example elm tree should be taller than a 5 story building, and there is an elm tree at the end of my block that is about that in both diameter and height.</p>
+<p>The total amount of pollen in a given elm tree is given by the following equation<span class="citation" data-cites="katz-2020"><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></span> where <em>B</em> is the <a href="https://en.wikipedia.org/wiki/Basal_area">tree basal area</a>. The total pollen is based on counts of pollen per anther and an estimate of the total number of anthers per tree for urban elm trees in Ann Arbor, Michigan. Maybe not perfectly comparable to Edmonton, but it’s good enough for this exploratory work.</p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;<a href="#ref-katz-2020" role="doc-biblioref">Katz, Morris, and Batterman, <span>“Pollen Production for 13 Urban North American Tree Species”</span></a>.</p></div></div><div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ulmus Americana total pollen per tree</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Katz, Morris, and Batterman, "Pollen Production," Table 2</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">total_pollen</span>(DBH)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    B <span class="op">=</span> <span class="cn">π</span><span class="op">/</span><span class="fl">4</span><span class="op">*</span>DBH<span class="op">^</span><span class="fl">2</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">exp</span>(<span class="fl">5.86</span><span class="op">*</span>B <span class="op">+</span> <span class="fl">23.11</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@ucorrel</span> total_pollen u<span class="st">"m"</span> u<span class="st">"grains"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This gives a total pollen content of 384,082,918,235 grains for the model elm tree, which sounds like a lot.</p>
+<p>Elm trees release their pollen, in Edmonton, somewhere from the end of April to mid May and it usually lasts 1-2 weeks. As a very rough model I’m going to assume each tree releases its pollen at a constant rate over a 2 week period, and that the periods over which each of the trees are releasing overlap.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Δt <span class="op">=</span> <span class="fl">14</span>u<span class="st">"d"</span> <span class="op">|&gt;</span> u<span class="st">"s"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pollen_rate</span>(DBH) <span class="op">=</span> <span class="fu">total_pollen</span>(DBH)<span class="op">/</span>Δt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For the example tree, this gives a pollen release rate of 317,529 grains s^-1.</p>
+</section>
+<section id="pollen-settling" class="level3">
+<h3 class="anchored" data-anchor-id="pollen-settling">Pollen Settling</h3>
+<p>Elm pollen is relatively large and will settle out of the air. To account for this I am going to assume the pollen settles with a velocity equal to the terminal velocity given by <a href="https://en.wikipedia.org/wiki/Stokes%27_law">Stokes’ Law</a>, where each individual pollen grain is a solid sphere.</p>
+<div id="fig-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure-2.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: A single pollen grain as a solid sphere falling at terminal velocity.
+</figcaption>
+</figure>
+</div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ulmus Americana pollen</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Brush and Brush, "Transport of Pollen," Tables 3 and 12.</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>d  <span class="op">=</span> <span class="fl">31</span>u<span class="st">"μm"</span> <span class="op">|&gt;</span> u<span class="st">"m"</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>SG <span class="op">=</span> <span class="fl">1.1</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>ρ  <span class="op">=</span> SG<span class="op">*</span><span class="fl">1000</span>u<span class="st">"kg/m^3"</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>g  <span class="op">=</span> <span class="fl">9.80665</span>u<span class="st">"m/s^2"</span> <span class="co"># standard gravity</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>ρₐ <span class="op">=</span> <span class="fl">1.225</span>u<span class="st">"kg/m^3"</span>  <span class="co"># density of dry air (15°C, 1atm)</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>μₐ <span class="op">=</span> <span class="fl">17.89e-6</span>u<span class="st">"Pa*s"</span> <span class="op">|&gt;</span> u<span class="st">"kg/m/s"</span> <span class="co"># viscosity of dry air (15°C, 1atm)</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stokes Law</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>vₜ <span class="op">=</span> ((ρ <span class="op">-</span> ρₐ)<span class="op">*</span>g<span class="op">*</span>d<span class="op">^</span><span class="fl">2</span>)<span class="op">/</span>(<span class="fl">18</span><span class="op">*</span>μₐ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This gives a settling velocity for a grain of American Elm pollen in air of 3.22 cm s^-1</p>
+</section>
+<section id="atmospheric-dispersion" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="atmospheric-dispersion">Atmospheric Dispersion</h3>
+<p>We might naively consider the pollen being launched out of the tree like little cannon balls, with a velocity in the x-direction equal to the wind speed and the velocity in the z-direction equal to the terminal velocity of pollen. Assuming a wind speed of 2 m s^-1, then a pollen grain from our example tree would travel 1107 m before hitting the ground. That’s pretty far and also kind of unrealistic. It ignores all the turbulent mixing in the air column which will both loft it to much greater heights and, at times, push it towards the ground.</p>
+<p>The turbulent mixing in the air is captured using the dispersion parameters <span class="math inline">\(\sigma_y\)</span> and <span class="math inline">\(\sigma_z\)</span> which are functions of the downwind distance. This gives an average view, averaged over all of the pollen grains. In this case I will be using the Briggs’ correlations for Urban terrain.<span class="citation" data-cites="briggs-1973 griffiths-1994"><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></span> I am also assuming class D <a href="https://en.wikipedia.org/wiki/Outline_of_air_pollution_dispersion#The_Pasquill_atmospheric_stability_classes">atmospheric stability</a>.</p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;<a href="#ref-briggs-1973" role="doc-biblioref">Briggs, <span>“Diffusion Estimation for Small Emissions. Preliminary Report,”</span> 38</a>; <a href="#ref-griffiths-1994" role="doc-biblioref">Griffiths, <span>“Errors in the Use of the Briggs Parameterization for Atmospheric Dispersion Coefficients”</span></a>.</p></div></div><div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># wind speed, assumed</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> <span class="fl">2</span>u<span class="st">"m/s"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">σ_y</span>(x) <span class="op">=</span> <span class="fl">0.16</span>x<span class="op">/</span><span class="fu">√</span>(<span class="fl">1</span><span class="op">+</span><span class="fl">0.0004</span>x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@ucorrel</span> σ_y u<span class="st">"m"</span> u<span class="st">"m"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">σ_z</span>(x) <span class="op">=</span> <span class="fl">0.14</span>x<span class="op">/</span><span class="fu">√</span>(<span class="fl">1</span><span class="op">+</span><span class="fl">0.0003</span>x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@ucorrel</span> σ_z u<span class="st">"m"</span> u<span class="st">"m"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="the-ermak-equation" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="the-ermak-equation">The Ermak Equation</h3>
+<p>I will be using the Ermak equation<span class="citation" data-cites="ermak-1977"><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></span> to model the dispersion of pollen, which results in a Gaussian-like dispersion but with the pollutant falling out and collecting on the ground. The Ermak equation is the solution to the advection diffusion equation with a constant settling velocity <span class="math inline">\(W_{set}\)</span> and deposition velocity <span class="math inline">\(W_{dep}\)</span></p>
+<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;<a href="#ref-ermak-1977" role="doc-biblioref">Ermak, <span>“An Analytical Model for Air Pollutant Transport and Deposition from a Point Source”</span></a>.</p></div></div><p><span class="math display">\[
+\frac{\partial c}{\partial r} - \frac{W_{set}}{K} \frac{\partial c}{\partial z} = \frac{\partial^2 c}{\partial y^2} + \frac{\partial^2 c}{\partial z^2}
+\]</span></p>
+<p>with boundary condition at the ground</p>
+<p><span class="math display">\[
+\left( K \frac{\partial c}{\partial z} + W_{set} c \right)_{z=0} = W_{dep} c|_{z=0}
+\]</span></p>
+<p>where <em>K</em> is the eddy diffusivity and <em>r</em> is defined as</p>
+<p><span class="math display">\[
+r = \frac{1}{u} \int_0^x K dx^{\prime}
+\]</span></p>
+<p>and the other boundary conditions are as for the conventional Gaussian dispersion (e.g.&nbsp;constant mass emissions, <em>m</em>, at a point <em>h</em> above the origin, etc.). This can be solved and put in terms of <span class="math inline">\(\sigma_y\)</span> and <span class="math inline">\(\sigma_z\)</span> as, by definition, <span class="math inline">\(\sigma^2 = 2 r\)</span></p>
+<p><span class="math display">\[
+c = \frac{m}{2\pi u \sigma_y \sigma_z} \exp\left( - \frac{y^2}{2 \sigma_y^2} \right) \exp\left( { - {W_{set} (z-h)} \over {2K_z} } - { {W_{set}^2 \sigma_z^2} \over {8K_z^2} } \right)
+\]</span></p>
+<p><span class="math display">\[
+\times \left( \exp \left( - \left(z-h\right)^2 \over {2\sigma_z^2} \right) + \exp \left( - \left(z+h\right)^2 \over {2\sigma_z^2} \right) \right.
+\]</span></p>
+<p><span class="math display">\[
+\left. - { {\sqrt{2\pi} W_o \sigma_z} \over K_z} \exp\left( { - {W_o (z+h)} \over {K_z} } - { {W_o^2 \sigma_z^2} \over {2K_z^2} } \right) \mathrm{erfc} \left( { {W_o \sigma_z} \over {\sqrt{2}K_z} } + { {z + h} \over {\sqrt{2}\sigma_z} } \right) \right)
+\]</span></p>
+<p>where <span class="math inline">\(W_o = W_{dep} - \frac{1}{2}W_{set}\)</span>. In practice, relationships for <span class="math inline">\(\sigma\)</span>s are much easier to find than <em>K</em>s and the following is used to recover <span class="math inline">\(K_z\)</span></p>
+<p><span class="math display">\[
+K_z = \frac{1}{2} u \frac{d \sigma_z^2}{dx}
+\]</span></p>
+<p>This follows from the definition of <span class="math inline">\(\sigma_z\)</span> (and <em>r</em>). In this case I am going to generate the <span class="math inline">\(K_z\)</span> using automatic differentiation with <code>ForwardDiff.jl</code>.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ForwardDiff</span>: derivative</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">∂ₓσ_z²</span>(x) <span class="op">=</span> <span class="fl">2</span><span class="fu">*σ_z</span>(x)<span class="fu">*derivative</span>(σ_z, x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@ucorrel</span> ∂ₓσ_z² u<span class="st">"m"</span> u<span class="st">"m"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">K_z</span>(x; u) <span class="op">=</span> (<span class="fl">1</span><span class="op">/</span><span class="fl">2</span>)<span class="fu">*u*∂ₓσ_z²</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Models like this, with a point source emitting mass, have nonphysical results in the vicinity of the emission source. The concentration rises sharply and there is a singularity at the source itself. There are many ways of dealing with this, but the easiest is to define a maximum concentration, usually given from a mass balance, and cut off the dispersion model at that. I don’t have any specific upper bound, so I picked a large number simply to prevent the propagation of <code>Inf</code> or other errors.</p>
+<p>This is only a problem very close to the source, and I am more interested in concentrations far from the tree, so this is not a concern. A better model would calculate a “virtual origin” for the tree such that the pollen concentration in the crown of the tree was more realistic.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>max_pollen <span class="op">=</span> <span class="fl">1e6</span>grains<span class="op">/</span><span class="fl">1</span>u<span class="st">"m^3"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">SpecialFunctions</span>: erfc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ermak</span>(x, y, z; u<span class="op">=</span>u, h<span class="op">=</span><span class="fu">crown_height</span>(DBH), P<span class="op">=</span><span class="fu">pollen_rate</span>(DBH), </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                        W_set<span class="op">=</span>vₜ, W_dep<span class="op">=</span>vₜ, p_max<span class="op">=</span>max_pollen)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="fu">x&lt;zero</span>(x) <span class="op">||</span> <span class="fu">z&lt;zero</span>(z)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">zero</span>(p_max)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    s_y <span class="op">=</span> <span class="fu">σ_y</span>(x)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    s_z <span class="op">=</span> <span class="fu">σ_z</span>(x)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    K <span class="op">=</span> <span class="fu">K_z</span>(x; u)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    Wₒ <span class="op">=</span> W_dep <span class="op">-</span> <span class="fl">0.5</span><span class="op">*</span>W_set</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> (P<span class="op">/</span>(<span class="fl">2</span>π<span class="op">*</span>u<span class="op">*</span>s_y<span class="op">*</span>s_z))<span class="fu">*exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>(y<span class="op">/</span>s_y)<span class="op">^</span><span class="fl">2</span>)<span class="op">*</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*W_set*</span>(z<span class="op">-</span>h)<span class="op">/</span>K <span class="op">-</span> <span class="fl">0.125</span><span class="fu">*</span>(W_set<span class="op">*</span>s_z<span class="op">/</span>K)<span class="op">^</span><span class="fl">2</span>)<span class="fu">*</span>(</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>((z<span class="op">-</span>h)<span class="op">/</span>s_z)<span class="op">^</span><span class="fl">2</span>) <span class="op">+</span> <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>((z<span class="op">+</span>h)<span class="op">/</span>s_z)<span class="op">^</span><span class="fl">2</span>)</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">-</span> (<span class="fu">√</span>(<span class="fl">2</span>π)<span class="op">*</span>Wₒ<span class="op">*</span>s_z<span class="op">/</span>K)<span class="fu">*exp</span>(<span class="fu">Wₒ*</span>(z<span class="op">+</span>h)<span class="op">/</span>K <span class="op">+</span> <span class="fl">0.5</span><span class="fu">*</span>(Wₒ<span class="op">*</span>s_z<span class="op">/</span>K)<span class="op">^</span><span class="fl">2</span>)<span class="op">*</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>            <span class="fu">erfc</span>((Wₒ<span class="op">*</span>s_z<span class="op">/</span>K <span class="op">+</span> (z<span class="op">+</span>h)<span class="op">/</span>s_z)<span class="op">/</span><span class="fu">√</span>(<span class="fl">2</span>)) )</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">isnan</span>(p) ? <span class="fu">zero</span>(p_max) <span class="op">:</span> <span class="fu">min</span>(p, p_max)</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Using this model, the ground level pollen concentration 100 m downwind of the example tree is 105.82 grains m^-3. As shown in the figures below, the pollen is most concentrated in an area from about 75 m to 300 m downwind of the tree. Which is about 2.5 blocks going east-west (city blocks in Edmonton are longer in the north-south direction)</p>
+<div id="fig-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure-3.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Plan view of ground level pollen concentration downwind of the model Elm tree.
+</figcaption>
+</figure>
+</div>
+<div id="fig-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure-4.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Elevation view of pollen concentration downwind of the model Elm tree, through the centre of the plume (y=0).
+</figcaption>
+</figure>
+</div>
+<p>I am left with some questions about how much pollen is actually needed, in the air, for pollination to have a chance. The pollen has to end up on a corresponding flower, so there must be a point where the concentration is just too low to make this <em>likely</em>. Trees do put some effort into improving the odds, they typically flower and disperse pollen before their leaves have meaningfully come back, helping to remove obstructions. The branching structures of trees are both useful for light gathering and provide a large effective area over which their flowers sieve the air for pollen.</p>
+<p>On the other side, pollen grains are somewhat fragile too, they can dry out or be damaged by excessive UV exposure. While a single pollen grain may have the potential to make it thousands of meters away from the tree, it may not be viable by the time it gets there.</p>
+<p>I would guess, from these calculations, that Elm trees are getting most of their action within 300 m or less. Anything beyond that and the pollen is so dispersed that the odds of it finding a pistil are too low.</p>
+</section>
+<section id="a-tree-data-structure" class="level3">
+<h3 class="anchored" data-anchor-id="a-tree-data-structure">A Tree Data Structure</h3>
+<p>To move from modelling a single tree to an urban forest, I will need a data structure to contain the relevant parameters of a tree. In this case I need both the map location and the location of the tree relative to the origin of the local coordinate system, <span class="math inline">\(x_o, y_o, z_o\)</span>. Each tree also has a diameter, height, pollen release rate, and terminal velocity. In this case all the trees are Elm trees, and have the same pollen, but I’m leaving it general in case I want to model something else in the future.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> Tree{G,L,P,V}</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    geopt<span class="op">::</span><span class="dt">G</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    xₒ<span class="op">::</span><span class="dt">L</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    yₒ<span class="op">::</span><span class="dt">L</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    zₒ<span class="op">::</span><span class="dt">L</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    DBH<span class="op">::</span><span class="dt">L</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    h<span class="op">::</span><span class="dt">L</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    P<span class="op">::</span><span class="dt">P</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    vₜ<span class="op">::</span><span class="dt">V</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Tree</span>(geopt, xₒ, yₒ, DBH; v<span class="op">=</span>vₜ)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> <span class="fu">crown_height</span>(DBH)</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> <span class="fu">pollen_rate</span>(DBH) </span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    xₒ, yₒ, zₒ, DBH, h <span class="op">=</span> <span class="fu">promote</span>(xₒ, yₒ, <span class="fu">zero</span>(yₒ), DBH, h)</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">Tree</span>(geopt, xₒ, yₒ, zₒ, DBH, h, P, v)</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>elm <span class="op">=</span> <span class="fu">Tree</span>(<span class="cn">nothing</span>, <span class="fl">0</span>u<span class="st">"m"</span>,<span class="fl">0</span>u<span class="st">"m"</span>,DBH)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Tree{Nothing, Quantity{Float64, 𝐋, Unitful.FreeUnits{(m,), 𝐋, nothing}}, Quantity{Float64, 𝐍 𝐓^-1, Unitful.FreeUnits{(grains, s^-1), 𝐍 𝐓^-1, nothing}}, Quantity{Float64, 𝐋 𝐓^-1, Unitful.FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}}}(
+    geopt = nothing
+    xₒ = 0.0 m
+    yₒ = 0.0 m
+    zₒ = 0.0 m
+    DBH = 0.88 m
+    h = 17.803579999999993 m
+    P = 317528.8675882605 grains s^-1
+    vₜ = 0.032156589905762846 m s^-1
+)</code></pre>
+<p>I then added a method to <code>ermak</code> that takes a <code>Tree</code> object and returns the concentration of its pollen at a point <em>x</em>, <em>y</em>, and <em>z</em> on the local coordinate system.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ermak</span>(t<span class="op">::</span><span class="dt">Tree</span>, x, y, z; u<span class="op">=</span>u)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    x′ <span class="op">=</span> x <span class="op">-</span> t.xₒ</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    y′ <span class="op">=</span> y <span class="op">-</span> t.yₒ</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    z′ <span class="op">=</span> z <span class="op">-</span> t.zₒ</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">ermak</span>(x′, y′, z′; h<span class="op">=</span>t.h, P<span class="op">=</span>t.P, W_set<span class="op">=</span>t.vₜ, W_dep<span class="op">=</span>t.vₜ)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="mapping-elm-pollen-in-wîhkwêntôwin" class="level2">
+<h2 class="anchored" data-anchor-id="mapping-elm-pollen-in-wîhkwêntôwin">Mapping Elm Pollen in Wîhkwêntôwin</h2>
+<p>The Ermak equation assumes the local area is a flat Euclidean plane. The earth is not that, and so a central task is going to be defining a local coordinate system that approximates my neighbourhood, Wîhkwêntôwin, as a flat plane. Then I will need to find all of the local trees and place them in this local coordinate system before adding in their individual contributions to the local Elm pollen situation.</p>
+<section id="defining-the-local-grid" class="level3">
+<h3 class="anchored" data-anchor-id="defining-the-local-grid">Defining the Local Grid</h3>
+<p>I arbitrarily picked a point more-or-less in the middle of the neighbourhood to act as the origin. My neighbourhood is pretty flat and so I’m going to assume everything is at the same altitude.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Geodesy</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>latₒ, lonₒ, altₒ <span class="op">=</span> <span class="fl">53.54100</span>, <span class="op">-</span><span class="fl">113.52141</span>, <span class="fl">671</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>Δlat, Δlon <span class="op">=</span> <span class="fl">0.015</span>, <span class="fl">0.035</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>I oriented the grid such that the wind goes from west to east – which is usually the case. Another approach would be to look up the local windrose and orient the grid to the most frequent wind direction with the wind speed as the median wind speed.</p>
+<p>I am assuming that the area is locally flat relative to the curvature of the earth. Namely that the distance, in meters, per degree longitude is a constant across the whole neighbourhood – which I calculate from a straight line running through the origin going from the furthest west to the furthest east. Similarly for degrees latitude. This isn’t strictly true but the difference between the distance along the ellipsoid and the locally-flat distance is going to be trivially small, so I can safely ignore it.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>Δx <span class="op">=</span> <span class="fu">euclidean_distance</span>(<span class="fu">LLA</span>(latₒ, lonₒ <span class="op">-</span> Δlon<span class="op">/</span><span class="fl">2</span>, altₒ), </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">LLA</span>(latₒ, lonₒ <span class="op">+</span> Δlon<span class="op">/</span><span class="fl">2</span>, altₒ), wgs84)<span class="op">/</span>Δlon</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>Δy <span class="op">=</span> <span class="fu">euclidean_distance</span>(<span class="fu">LLA</span>(latₒ <span class="op">+</span> Δlat<span class="op">/</span><span class="fl">2</span>, lonₒ, altₒ), </span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">LLA</span>(latₒ <span class="op">-</span> Δlat<span class="op">/</span><span class="fl">2</span>, lonₒ, altₒ), wgs84)<span class="op">/</span>Δlat</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">local_coords</span>(lat,lon)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> (lon <span class="op">-</span> lonₒ)<span class="op">*</span>Δx</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> (lat <span class="op">-</span> latₒ)<span class="op">*</span>Δy</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x, y</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Why not use Web Mercator?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>At first glance it looks like I’m doing a lot of additional work for no reason. I ultimately want to overlay my maps on top of satellite imagery, which will require me to convert everything into <a href="https://en.wikipedia.org/wiki/Web_Mercator_projection">Web Mercator</a>. Why not use that as the local coordinate system? Points in Web Mercator are northing and easting in meters on a flat plane.</p>
+<p>Unlike UTM, where that kind of thing works out well enough for a lot of situations, there is a lot more distortion with Web Mercator. Especially closer to the poles. I’m not particularly close to the north pole, but more than close enough that the map distortion leads to significant errors when using Web Mercator naively like that.</p>
+<p>To demonstrate this I’m going to calculate the distance between my favourite coffee shop, <a href="https://www.stopgapcoffee.com/">stopgap</a>, and a local park on the other side of the neighbourhood, Oliver park.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>stopgap <span class="op">=</span> <span class="fu">LLA</span>(<span class="fl">53.535618490862944</span>, <span class="op">-</span><span class="fl">113.5118491580413</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>oliver_park <span class="op">=</span> <span class="fu">LLA</span>(<span class="fl">53.54542679826651</span>, <span class="op">-</span><span class="fl">113.52603529325418</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> <span class="fu">euclidean_distance</span>(stopgap, oliver_park, wgs84)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>First I calculate the distance along the ellipsoid, which is 1441 m (the same as what Google maps tells me).</p>
+<p>Then I convert the coordinates to Web Mercator, which are northing and easting relative to the equator and the prime meridian.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>WM <span class="op">=</span> <span class="fu">WebMercatorfromLLA</span>(wgs84)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>stopgap_wm <span class="op">=</span> <span class="fu">WM</span>(stopgap)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>oliver_park_wm <span class="op">=</span> <span class="fu">WM</span>(oliver_park)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>wm_dist <span class="op">=</span> <span class="fu">√</span>( (stopgap_wm[<span class="fl">1</span>] <span class="op">-</span> oliver_park_wm[<span class="fl">1</span>])<span class="op">^</span><span class="fl">2</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>            <span class="op">+</span> (stopgap_wm[<span class="fl">2</span>] <span class="op">-</span> oliver_park_wm[<span class="fl">2</span>])<span class="op">^</span><span class="fl">2</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The naive Euclidean distance using Web Mercator is 2423 m, about 68% greater than the true distance. If I set my local grid naively using the northing and easting of Web Mercator, everything would be distorted.</p>
+</div>
+</div>
+</section>
+<section id="finding-the-neighbourhood-elm-trees" class="level3">
+<h3 class="anchored" data-anchor-id="finding-the-neighbourhood-elm-trees">Finding the Neighbourhood Elm Trees</h3>
+<p>Thankfully, I don’t need to wander the neighbourhood with a GPS unit and a tape measure to find all the local Elm trees and map them. The City of Edmonton <a href="https://data.edmonton.ca/Environmental-Services/Trees-Map/udbt-eiax">has already done that</a>. I filtered the data set to just my neighbourhood and just <em>Ulmus Americana</em> and downloaded it as a csv.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CSV</span>, <span class="bu">DataFrames</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>trees_df <span class="op">=</span> CSV.<span class="fu">read</span>(<span class="st">"data/pollen_dispersion/Ulmus_americana_wihkwentowin.csv"</span>, </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>                     DataFrame);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(trees_df, <span class="op">:</span>min, <span class="op">:</span>max)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>19×3 DataFrame
+ Row │ variable                min                                max                               
+     │ Symbol                  Any                                Any                               
+─────┼──────────────────────────────────────────────────────────────────────────────────────────────
+   1 │ ID                      155206                             619701
+   2 │ NEIGHBOURHOOD_NAME      WÎHKWÊNTÔWIN                       WÎHKWÊNTÔWIN
+   3 │ LOCATION_TYPE           Alley                              Park
+   4 │ SPECIES_BOTANICAL       Ulmus americana                    Ulmus americana Patmore
+   5 │ SPECIES_COMMON          Elm, American                      Elm, American
+   6 │ GENUS                   Ulmus                              Ulmus
+   7 │ SPECIES                 americana                          americana
+   8 │ CULTIVAR                Brandon                            Patmore
+   9 │ DIAMETER_BREAST_HEIGHT  5                                  110
+  10 │ CONDITION_PERCENT       0                                  65
+  11 │ PLANTED_DATE            1990/01/01                         2024/09/25
+  12 │ OWNER                   Parks                              Parks
+  13 │ Bears Edible Fruit      false                              false
+  14 │ Type of Edible Fruit                                                                         
+  15 │ COUNT                   1                                  1
+  16 │ LATITUDE                53.5346                            53.5496
+  17 │ LONGITUDE               -113.536                           -113.51
+  18 │ LOCATION                (53.534594143551985, -113.510361…  (53.549586375568154, -113.530880…
+  19 │ Point Location          POINT (-113.50950085882668 53.53…  POINT (-113.53589639202552 53.54…</code></pre>
+<p>What I would like is a vector of <code>Tree</code>s. I could have added a column to the dataframe with <code>Tree</code> objects when it was created, but I’m not using the dataframe for anything else so I didn’t really see the point.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>trees <span class="op">=</span> <span class="fu">Vector</span><span class="dt">{Tree}</span>()</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> <span class="fu">eachrow</span>(trees_df)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    lat, lon <span class="op">=</span> row.LATITUDE, row.LONGITUDE</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    DBH <span class="op">=</span> row.DIAMETER_BREAST_HEIGHT<span class="op">*</span><span class="fl">1</span>u<span class="st">"cm"</span> <span class="op">|&gt;</span> u<span class="st">"m"</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    pt <span class="op">=</span> <span class="fu">LLA</span>(lat,lon,altₒ)</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    x, y <span class="op">=</span> <span class="fu">local_coords</span>(lat, lon)<span class="op">.*</span><span class="fl">1</span>u<span class="st">"m"</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    tree <span class="op">=</span> <span class="fu">Tree</span>(pt,x,y,DBH)</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">push!</span>(trees, tree)</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>There are 996 Elm trees in Wîhkwêntôwin alone. That’s impressive, we have a pretty great urban forest.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>trees[<span class="fl">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Tree{LLA{Float64}, Quantity{Float64, 𝐋, Unitful.FreeUnits{(m,), 𝐋, nothing}}, Quantity{Float64, 𝐍 𝐓^-1, Unitful.FreeUnits{(grains, s^-1), 𝐍 𝐓^-1, nothing}}, Quantity{Float64, 𝐋 𝐓^-1, Unitful.FreeUnits{(m, s^-1), 𝐋 𝐓^-1, nothing}}}(
+    geopt = LLA(lat=53.53695945675063°, lon=-113.51201340003675°, alt=671.0)
+    xₒ = 623.0131311454173 m
+    yₒ = -449.74535157065054 m
+    zₒ = 0.0 m
+    DBH = 0.2 m
+    h = 9.04518 m
+    P = 10810.758180096327 grains s^-1
+    vₜ = 0.032156589905762846 m s^-1
+)</code></pre>
+<p>I am assuming that pollen is additive and doesn’t alter the properties of air at all. The concentration of pollen from multiple trees is just the concentration of pollen from each tree added together.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ermak</span>(trees<span class="op">::</span><span class="dt">Vector{Tree}</span>, x, y, z; u<span class="op">=</span>u) <span class="op">=</span> </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>( <span class="fu">ermak</span>.(trees, x, y, z; u<span class="op">=</span>u) );</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="mapping-wîhkwêntôwin" class="level3">
+<h3 class="anchored" data-anchor-id="mapping-wîhkwêntôwin">Mapping Wîhkwêntôwin</h3>
+<p>Now that I have a set of trees and a bounding box, I need to generate some actual maps. I am going to use <a href="https://makieorg.github.io/Tyler.jl/stable/">Tyler.jl</a> to download the map tiles and make them plot-able in Makie. For which I need to give it a bounding box for the neighbourhood and identify a map provider. I am using the imagery from ESRI.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Tyler</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>wihkwentowin <span class="op">=</span> <span class="fu">Rect2f</span>(lonₒ <span class="op">-</span> Δlon<span class="op">/</span><span class="fl">2</span>, latₒ <span class="op">-</span> Δlat<span class="op">/</span><span class="fl">2</span>, Δlon, Δlat);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>provider <span class="op">=</span> Tyler.TileProviders.<span class="fu">Esri</span>(<span class="op">:</span>WorldImagery);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>I have defined a helper function to take a tree and return the appropriate Web Mercator coordinates to map on top of the ESRI imagery.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">map_tree</span>(tree<span class="op">::</span><span class="dt">Tree</span>)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    x, y, _ <span class="op">=</span> <span class="fu">WM</span>(tree.geopt)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">Point2f</span>(x,y)</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Mapping all of the trees in the data set matches what I expected: they are mostly boulevard trees and the northwest corner of the neighbourhood is much more densely forested with Elm.</p>
+<div id="fig-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure-5.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Satellite view of Wîhkwêntôwin and surrounding area with neighbourhood Elm trees indicated with blue circles.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="mapping-the-pollen-from-all-elm-trees" class="level3">
+<h3 class="anchored" data-anchor-id="mapping-the-pollen-from-all-elm-trees">Mapping the Pollen from all Elm Trees</h3>
+<p>Now I have all the tools in place to generate concentration contours for Elm pollen and plot them on top of the ESRI imagery for my neighbourhood. First, I create a helper function to convert grid points in Web Mercator to local grid coordinates, then return the concentration at that point with contributions from all 996 Elm trees.</p>
+<p>If I was doing this for the whole city I might want to first filter out all the Elm trees that are too distant from or downwind of the point of interest – since they won’t contribute anything.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>LLA_WM <span class="op">=</span> <span class="fu">LLAfromWebMercator</span>(wgs84)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">map_ermak</span>(x, y)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    lla <span class="op">=</span> <span class="fu">LLA_WM</span>([x,y,altₒ])</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    local_x, local_y <span class="op">=</span> <span class="fu">local_coords</span>(lla.lat, lla.lon)<span class="op">.*</span><span class="fl">1</span>u<span class="st">"m"</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">ustrip</span>(<span class="fu">ermak</span>(trees, local_x, local_y, <span class="fl">0</span>u<span class="st">"m"</span>))</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>I then divide the neighbourhood into a grid of 10,000 points and calculate the concentration at each point.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># defining the bounds of the grid</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>xₗ, yₗ, _ <span class="op">=</span> <span class="fu">WM</span>(<span class="fu">LLA</span>(latₒ <span class="op">-</span> Δlat<span class="op">/</span><span class="fl">2</span>, lonₒ <span class="op">-</span> Δlon<span class="op">/</span><span class="fl">2</span>, altₒ))</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>xᵤ, yᵤ, _ <span class="op">=</span> <span class="fu">WM</span>(<span class="fu">LLA</span>(latₒ <span class="op">+</span> Δlat<span class="op">/</span><span class="fl">2</span>, lonₒ <span class="op">+</span> Δlon<span class="op">/</span><span class="fl">2</span>, altₒ))</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>xs <span class="op">=</span> <span class="fu">range</span>(xₗ, xᵤ; length<span class="op">=</span><span class="fl">100</span>)</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>ys <span class="op">=</span> <span class="fu">range</span>(yₗ, yᵤ; length<span class="op">=</span><span class="fl">100</span>)</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>zs <span class="op">=</span> <span class="fu">map_ermak</span>.(xs, ys<span class="op">'</span>)</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Finally I overlay a contour plot on top of the ESRI imagery, showing everywhere with a pollen concentration &gt;10 grains m^-3</p>
+<div id="fig-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure-6.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Satellite view of Wîhkwêntôwin and surrounding area with pollen concentrations &gt;10 grains m^-3 overlaid.
+</figcaption>
+</figure>
+</div>
+<p>A major limitation to this style of dispersion modelling, especially in a neighbourhood like mine dominated by large apartment buildings, is that building downwash effects are not being accounted for. The Elm trees are at a similar height or shorter than the buildings around them. This model essentially ignores the buildings other than their contribution to surface roughness – reflected in the dispersion parameters <span class="math inline">\(\sigma_y\)</span> and <span class="math inline">\(\sigma_z\)</span>. Short of doing a CFD model of the neighbourhood, I don’t think there is an easy way around that. Probably this would work better in neighbourhoods like Highlands or Ritchie which have mature Elm trees but where housing is mostly older homes, less than 2 stories, with yards spacing them out from each other.</p>
+<p>A limitation to this specific example is that I haven’t included all the Elm trees in adjacent neighbourhoods – Westmount in particular. This under counts the Elm pollen on the west side of Wîhkwêntôwin. I can imagine one producing maps like this, for the whole city, based on which trees are producing pollen in any given week showing where the peak pollen action is. A <em>where not to park your car</em> map, if you want to avoid washing your windshield every morning, or where to avoid if you are allergic to tree pollen.</p>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-briggs-1973" class="csl-entry" role="listitem">
+Briggs, Gary A. <span>“Diffusion Estimation for Small Emissions. Preliminary Report.”</span> Oak Ridge, TN: Air Resources Atmospheric Turbulence; Diffusion Laboratory, National Oceanic; Atmospheric Administration, 1973. <a href="https://doi.org/10.2172/5118833">https://doi.org/10.2172/5118833</a>.
+</div>
+<div id="ref-brush-1972" class="csl-entry" role="listitem">
+Brush, Grace S., and Lucien M. Brush Jr. <span>“Transport of Pollen in a Sendiment-Laden Channel: A Laboratory Study.”</span> <em>American Journal of Science</em> 272, no. 4 (1972): 359–81.
+</div>
+<div id="ref-ermak-1977" class="csl-entry" role="listitem">
+Ermak, Donald L. <span>“An Analytical Model for Air Pollutant Transport and Deposition from a Point Source.”</span> <em>Atmospheric Environment</em> 11 (1977): 231–37. <a href="https://doi.org/10.1016/0004-6981(77)90140-8">https://doi.org/10.1016/0004-6981(77)90140-8</a>.
+</div>
+<div id="ref-griffiths-1994" class="csl-entry" role="listitem">
+Griffiths, R. F. <span>“Errors in the Use of the Briggs Parameterization for Atmospheric Dispersion Coefficients.”</span> <em>Atmospheric Environment</em> 28, no. 17 (1994): 2861–65. <a href="https://doi.org/10.1016/1352-2310(94)90086-8">https://doi.org/10.1016/1352-2310(94)90086-8</a>.
+</div>
+<div id="ref-katz-2020" class="csl-entry" role="listitem">
+Katz, Daniel S. W., Jonathan R. Morris, and Stuart A. Batterman. <span>“Pollen Production for 13 Urban North American Tree Species: Allometric Equations for Tree Trunk Diameter and Crown Area.”</span> <em>Astrobiologia (Bologna)</em> 36, no. 3 (2020). <a href="https://doi.org/10.1007/s10453-020-09638-8">https://doi.org/10.1007/s10453-020-09638-8</a>.
+</div>
+<div id="ref-mcpherson-2016" class="csl-entry" role="listitem">
+McPherson, E. Gregory, Natalie S. van Doorn, and Paula J. Peper. <span>“Urban Tree Database and Allometric Equations.”</span> Albany, CA: U. S. Department of Agriculture, Forest Service, Pacific Southwest Research Station, 2016. <a href="https://doi.org/10.2737/PSW-GTR-253">https://doi.org/10.2737/PSW-GTR-253</a>.
+</div>
+</div>
+
+
+</section>
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/aefarrell\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="aefarrell/aefarrell.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Allan Farrell">
+<meta name="dcterms.date" content="2022-09-23">
+<meta name="description" content="Evaluating different models of adiabatic pipe flow.">
+
+<title>Adiabatic Compressible Flow in a Pipe – A Chemical Engineer’s Notebook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-59228ce9c52eba116baca5d538563979.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: #ffffff;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: #ffffff;
+background: url(../../images/pipes-unsplash-header.jpg);
+      }
+</style>
+<style>
+.quarto-title-block .quarto-title-banner {
+  min-height: 100%;
+  background-size: cover;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
+}
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Adiabatic Compressible Flow in a Pipe – A Chemical Engineer’s Notebook">
+<meta property="og:description" content="Evaluating different models of adiabatic pipe flow.">
+<meta property="og:image" content="https://aefarrell.github.io/posts/adiabatic-compressible-flow/index_files/figure-html/a0003116-672c-4d67-b435-041a95ddaf7d-1-65179bdc-753b-4290-83bc-9d63116a1a57.png">
+<meta property="og:site_name" content="A Chemical Engineer's Notebook">
+<meta property="og:image:height" content="201">
+<meta property="og:image:width" content="491">
+</head>
+
+<body class="floating nav-fixed slimcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">A Chemical Engineer’s Notebook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> <i class="bi bi-info-circle" role="img">
+</i> 
+<span class="menu-text">about</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> <i class="bi bi-wrench-adjustable-circle" role="img">
+</i> 
+<span class="menu-text">projects</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Adiabatic Compressible Flow in a Pipe</h1>
+                  <div>
+        <div class="description">
+          Evaluating different models of adiabatic pipe flow.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">julia</div>
+                <div class="quarto-category">compressible flow</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Allan Farrell </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">September 23, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#motivating-example" id="toc-motivating-example" class="nav-link active" data-scroll-target="#motivating-example">Motivating Example</a>
+  <ul class="collapse">
+  <li><a href="#key-assumptions" id="toc-key-assumptions" class="nav-link" data-scroll-target="#key-assumptions">Key Assumptions</a></li>
+  <li><a href="#choking-flow" id="toc-choking-flow" class="nav-link" data-scroll-target="#choking-flow">Choking Flow</a></li>
+  </ul></li>
+  <li><a href="#mechanical-energy-balance" id="toc-mechanical-energy-balance" class="nav-link" data-scroll-target="#mechanical-energy-balance">Mechanical Energy Balance</a></li>
+  <li><a href="#reversible-adiabatic-flow-isentropic-flow" id="toc-reversible-adiabatic-flow-isentropic-flow" class="nav-link" data-scroll-target="#reversible-adiabatic-flow-isentropic-flow">Reversible Adiabatic Flow (Isentropic Flow)</a></li>
+  <li><a href="#irreversible-adiabatic-flow-fanno-flow" id="toc-irreversible-adiabatic-flow-fanno-flow" class="nav-link" data-scroll-target="#irreversible-adiabatic-flow-fanno-flow">Irreversible Adiabatic Flow (Fanno Flow)</a>
+  <ul class="collapse">
+  <li><a href="#approximating-temperature-change" id="toc-approximating-temperature-change" class="nav-link" data-scroll-target="#approximating-temperature-change">Approximating Temperature Change</a></li>
+  <li><a href="#the-full-treatment" id="toc-the-full-treatment" class="nav-link" data-scroll-target="#the-full-treatment">The Full Treatment</a></li>
+  </ul></li>
+  <li><a href="#expansion-factors-y-factors" id="toc-expansion-factors-y-factors" class="nav-link" data-scroll-target="#expansion-factors-y-factors">Expansion Factors (Y Factors)</a></li>
+  <li><a href="#comparison" id="toc-comparison" class="nav-link" data-scroll-target="#comparison">Comparison</a></li>
+  <li><a href="#final-thoughts" id="toc-final-thoughts" class="nav-link" data-scroll-target="#final-thoughts">Final Thoughts</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<p>I was looking through some books and it struck me how strangely inconsistent many standard references are when it comes to adiabatic compressible pipe flow. There are standard methods for incompressible flow and isothermal compressible flow of an ideal gas, but when it comes to adiabatic pipe flow the guidance is very scattershot.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For brevity, from this point on whenever I refer to a flow I am referring to the <em>ideal gas</em> case in a constant area duct, unless otherwise specified</p>
+</div>
+</div>
+<p>As a brief review of some common references: Crane’s<span class="citation" data-cites="crane-2013"><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></span> gives a graphical method for adiabatic flow, which is the easiest to use with a pencil and paper, but doesn’t give a lot of details on how that model was developed. Albright’s<span class="citation" data-cites="albright-2009"><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></span> recommends assuming flow is locally isentropic and gives a model of isentropic flow – that is flow which is both adiabatic and reversible – but with frictional losses also included, which allows for direct calculation if one assumes the friction factor is constant (with respect to the Reynold’s number). Perry’s<span class="citation" data-cites="tilton-2007"><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></span> gives the adiabatic irreversible flow model (i.e.&nbsp;Fanno flow), though with only a sketch of how to perform the iterative solution. Hall<span class="citation" data-cites="hall-2018"><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></span> gives the Fanno flow model and, helpfully, a procedure for how to actually do the calculations and example VBA code. Ludwig’s<span class="citation" data-cites="coker-2007"><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></span> gives both the isentropic and Fanno flow models but in a very confused manner: the section labeled “Adiabatic Flow” gives a model of isentropic flow (albeit with a typo in the equation) and suggests that <em>all adiabatic flow</em> is isentropic (which is false) and much later in a section labeled “Other Simplified Compressible Flow Methods” gives the Fanno flow model, though it doesn’t explain what it is, misattributes the derivation, and gives no clues on how to use it. Probably the best reference to sort all of this out is Coulson and Richardson’s<span class="citation" data-cites="chhabra-2018"><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></span> as it provides easy to follow derivations of both the reversible and irreversible adiabatic flow models (the isentropic and Fanno flow models) and highlights their differences.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;<a href="#ref-crane-2013" role="doc-biblioref">Crane, <span>“TP410M”</span></a>.</p></div><div id="fn2"><p><sup>2</sup>&nbsp;<a href="#ref-albright-2009" role="doc-biblioref">Albright, <em>Albright’s Chemical Engineering Handbook</em></a>.</p></div><div id="fn3"><p><sup>3</sup>&nbsp;<a href="#ref-tilton-2007" role="doc-biblioref">Tilton, <span>“Fluid and Particle Dynamics”</span></a>.</p></div><div id="fn4"><p><sup>4</sup>&nbsp;<a href="#ref-hall-2018" role="doc-biblioref">Hall, <em>Rules of Thumb for Chemical Engineers</em></a>.</p></div><div id="fn5"><p><sup>5</sup>&nbsp;<a href="#ref-coker-2007" role="doc-biblioref">Coker, <em>Ludwig’s Applied Process Design for Chemical and Petrochemical Plants</em></a>.</p></div><div id="fn6"><p><sup>6</sup>&nbsp;<a href="#ref-chhabra-2018" role="doc-biblioref">Chhabra and Shankar, <em>Coulson and Richardson’s Chemical Engineering</em></a>.</p></div></div><p>Another part of this confusion is differences in how the problem is being approached – or what problem, exactly, one is trying to solve. Typically the isothermal and isentropic flow models are presented as ways to solve for the flowrate given the pressure drop between two points, whereas the Fanno flow model is often given in terms of the Mach number and one is solving for the pressure drop. If you have the Mach number, rather obviously, you already know the flow, and it is often left as an exercise for the reader to figure out how to use the Fanno flow model to <em>solve</em> for flow.</p>
+<p>Given all of that, I thought it may be worthwhile to unpack these various approaches to adiabatic flow, and see how they perform relative to one another.</p>
+<section id="motivating-example" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="motivating-example">Motivating Example</h2>
+<p>To give us something to work towards, suppose we wish calculate the flowrate of air in a horizontal section of piping – a 20m length of 2in schedule 40 steel pipe. In this case the pipe starts a 100kPag vessel which is at ambient temperature and exits into the air at ambient pressure.</p>
+<div id="fig-system" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-system-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/a0003116-672c-4d67-b435-041a95ddaf7d-1-65179bdc-753b-4290-83bc-9d63116a1a57.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-system-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: A sketch of the example system, a long straight section of pipe through which air is flowing.
+</figcaption>
+</figure>
+</div>
+<div id="d8908d0c-0c31-45ca-b6b5-fe366e466e6f" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pipe dimensions</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> <span class="fl">20</span>     <span class="co"># m</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> <span class="fl">0.0525</span> <span class="co"># m</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ϵ <span class="op">=</span> <span class="fl">0.0457</span><span class="op">*</span><span class="fl">1e-3</span> <span class="co"># m</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="fl">0.25</span><span class="op">*</span><span class="cn">π</span><span class="op">*</span>D<span class="op">^</span><span class="fl">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For “ambient” conditions I am assuming <em>standard</em> conditions: 1 atmosphere and 15°C</p>
+<div id="972d7515-b7ee-44a3-9dc6-9ad447aca75c" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>P₂ <span class="op">=</span> <span class="fl">101325</span> <span class="co">#Pa</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>P₁ <span class="op">=</span> P₂ <span class="op">+</span> <span class="fl">100e3</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>T₁ <span class="op">=</span> <span class="fl">288.15</span> <span class="co">#K</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="key-assumptions" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="key-assumptions">Key Assumptions</h3>
+<ul>
+<li>Air is an ideal gas, Z=1</li>
+<li>The ratio of heat capacities, γ is constant</li>
+<li>Heat loss is negligible, Δq=0</li>
+<li>Flow is steady state, <span class="math inline">\(\dot{m}_{in} = \dot{m}_{out}\)</span></li>
+<li>Flow is turbulent, α=1</li>
+<li>Flow is horizontal, Δz=0</li>
+<li>Friction factor is constant along the length</li>
+</ul>
+<div id="a8e74b7e-44ff-4ae7-95db-c062b2e622aa" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Universal gas constant </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># to more digits than are at all necessary</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> <span class="fl">8.31446261815324</span> <span class="co"># Pa⋅m³/mol/K</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Some useful physical properties of air</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>Mw <span class="op">=</span> <span class="fl">0.02896</span> <span class="co"># kg/mol</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>γ <span class="op">=</span> <span class="fl">1.4</span>      <span class="co"># Cp/Cv, ideal gas</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># density of air, ideal gas law</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ρ</span>(P,T) <span class="op">=</span> (P<span class="op">*</span>Mw)<span class="op">/</span>(R<span class="op">*</span>T); <span class="co"># kg/m³</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># viscosity of air, from Perry's</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">μ</span>(T) <span class="op">=</span> (<span class="fl">1.425e-6</span><span class="op">*</span>T<span class="op">^</span><span class="fl">0.5039</span>)<span class="op">/</span>(<span class="fl">1</span><span class="op">+</span><span class="fl">108.3</span><span class="op">/</span>T); <span class="co"># Pa⋅s</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The mass velocity, <em>G</em> = <em>ρu</em>, in a pipe with constant cross-sectional area at steady state is constant<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>, and the Reynold’s number can be written in terms of <em>G</em> as:</p>
+<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;This is a consequence of the steady state assumption, <span class="math display">\[\dot{m}_{in} = G_{in} A = G_{out} A = \dot{m}_{out}\]</span></p></div></div><p><span class="math display">\[ \mathrm{Re} = { {G D} \over \mu } \]</span></p>
+<p>Where only the viscosity is a function of temperature, and for most gases only weakly so.</p>
+<div id="c4c2138e-98c6-4df8-9ff0-fbf2366e6d65" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reynold's number</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Re</span>(G,T) <span class="op">=</span> G<span class="op">*</span>D<span class="op">/</span><span class="fu">μ</span>(T);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The Darcy friction factor, <em>f</em>, is a function of the Reynolds number and, for ease of calculation, I am assuming the Churchill correlation applies<span class="citation" data-cites="tilton-2007">,<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></span> and that it can be taken as a constant at the average temperature (the arithmetic average of <em>T<sub>1</sub></em> and <em>T<sub>2</sub></em>)</p>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;<a href="#ref-tilton-2007" role="doc-biblioref">Tilton, <span>“Fluid and Particle Dynamics,”</span> 6–11</a>.</p></div></div><div id="01bc9609-e7db-49f8-ba78-4b6c1c6f88cd" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">churchill</span>(Re; κ<span class="op">=</span>ϵ<span class="op">/</span>D)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> (<span class="fl">2.457</span> <span class="op">*</span> <span class="fu">log</span>(<span class="fl">1</span><span class="op">/</span>((<span class="fl">7</span><span class="op">/</span>Re)<span class="op">^</span><span class="fl">0.9</span> <span class="op">+</span> <span class="fl">0.27</span><span class="op">*</span>κ)))<span class="op">^</span><span class="fl">16</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    B <span class="op">=</span> (<span class="fl">37530</span><span class="op">/</span>Re)<span class="op">^</span><span class="fl">16</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">8</span><span class="fu">*</span>((<span class="fl">8</span><span class="op">/</span>Re)<span class="op">^</span><span class="fl">12</span> <span class="op">+</span> <span class="fl">1</span><span class="op">/</span>(A<span class="op">+</span>B)<span class="op">^</span>(<span class="fl">3</span><span class="op">/</span><span class="fl">2</span>))<span class="op">^</span>(<span class="fl">1</span><span class="op">/</span><span class="fl">12</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>K_entrance <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>K_exit <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">Kf</span>(Re) <span class="op">=</span> K_entrance <span class="op">+</span> <span class="fu">churchill</span>(Re)<span class="op">*</span>L<span class="op">/</span>D <span class="op">+</span> K_exit;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For a <em>large Reynolds number</em> approximation I am using the Nikuradse rough pipe law.<span class="citation" data-cites="crane-2013"><a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></span></p>
+<div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;<a href="#ref-crane-2013" role="doc-biblioref">Crane, <span>“TP410M,”</span> 1–10</a>.</p></div></div><div id="33283b26-d2f9-4894-b0a2-b17ed6e59c24" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fₙ <span class="op">=</span> (<span class="fl">2</span><span class="fu">*log10</span>(<span class="fl">3.7</span><span class="op">*</span>D<span class="op">/</span>ϵ))<span class="op">^-</span><span class="fl">2</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Kf</span>() <span class="op">=</span> K_entrance <span class="op">+</span> fₙ<span class="op">*</span>L<span class="op">/</span>D <span class="op">+</span> K_exit;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="choking-flow" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="choking-flow">Choking Flow</h3>
+<p>A pitfall of compressible flow calculations is that flow at the exit of the pipe cannot exceed <em>Ma</em>=1, once the exit velocity achieves sonic velocity then the exit pressure will rise and the overall flowrate will remain at a constant, no matter the upstream pressure.</p>
+<p>The easiest way to check for this is to use the limiting factors in Crane’s.<span class="citation" data-cites="crane-2013"><a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></span> Using the estimated <em>K<sub>f</sub></em> &gt; 8 and <em>γ</em>=1.4, we can check:</p>
+<div class="no-row-height column-margin column-container"><div id="fn10"><p><sup>10</sup>&nbsp;<a href="#ref-crane-2013" role="doc-biblioref">Crane, A–23</a>.</p></div></div><p><span class="math display">\[ {\Delta P \over P_1} \lt 0.762 \]</span></p>
+<div id="4432918c-ee7f-46bd-a680-24e9800e8f23" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(P₁ <span class="op">-</span> P₂)<span class="op">/</span>P₁</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>0.496709300881659</code></pre>
+</div>
+</div>
+<div id="750ca3a4-2460-4ac7-b443-ee3dca230859" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(P₁ <span class="op">-</span> P₂)<span class="op">/</span>P₁ <span class="op">&lt;</span> <span class="fl">0.762</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>true</code></pre>
+</div>
+</div>
+<p>There is a fit to the critical pressure ratios, as a function of <em>K<sub>f</sub></em></p>
+<p><span class="math display">\[\log \left( {\Delta P} \over P_1 \right) = A \left( \log K_f \right)^3 + B \left( \log K_f \right)^2 + C \left( \log K_f \right) + D\]</span></p>
+<p>With the constants for <em>γ</em>=1.4:</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">A</td>
+<td style="text-align: left;">0.0011</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">B</td>
+<td style="text-align: left;">-0.0302</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">C</td>
+<td style="text-align: left;">0.238</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">D</td>
+<td style="text-align: left;">-0.6455</td>
+</tr>
+</tbody>
+</table>
+<div id="d1969e16-576b-4c2f-af00-30711a8779c4" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">critical_pressure</span>(Kf)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@assert</span> Kf <span class="op">&gt;</span> <span class="fl">0</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="fu">log</span>(Kf)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="fl">0.0011</span><span class="op">*</span>x<span class="op">^</span><span class="fl">3</span> <span class="op">-</span> <span class="fl">0.0302</span><span class="op">*</span>x<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.238</span><span class="op">*</span>x <span class="op">-</span> <span class="fl">0.6455</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">exp</span>(y)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="fu">critical_pressure</span>(<span class="fu">Kf</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>0.7707810480736812</code></pre>
+</div>
+</div>
+<div id="5c96b499-1e58-4d48-880c-03e6557aea69" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(P₁ <span class="op">-</span> P₂)<span class="op">/</span>P₁ <span class="op">&lt;</span> <span class="fu">critical_pressure</span>(<span class="fu">Kf</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>true</code></pre>
+</div>
+</div>
+<p>For this problem we are well within the sub-sonic region.</p>
+</section>
+</section>
+<section id="mechanical-energy-balance" class="level2">
+<h2 class="anchored" data-anchor-id="mechanical-energy-balance">Mechanical Energy Balance</h2>
+<p>Consider the differential form of the mechanical energy balance:</p>
+<p><span class="math display">\[ {u \over \alpha} du + g dz + v dP + \delta W_s + \delta F = 0 \]</span></p>
+<p>From the assumptions listed above, and noting that in this system there is no shaft work <em>W<sub>s</sub></em>, this can be simplified to:</p>
+<p><span class="math display">\[ u du + v dP + {u^2 \over 2} {f \over D} dl = 0 \]</span></p>
+<p>where <em>f</em> is the Darcy friction factor.</p>
+<p>For compressible flow the velocity, <em>u</em>, varies along the length of the pipe while the mass velocity does not, so it is convenient to make the substitution <em>u</em>=<em>G/ρ</em>=<em>Gv</em></p>
+<p><span class="math display">\[ G^2 v dv + v dP + G^2 {v^2 \over 2} {f \over D} dl = 0 \]</span></p>
+<p>Dividing through by <em>v<sup>2</sup></em> and integrating gives:</p>
+<p><span class="math display">\[ G^2 \log \left( {v_2 \over v_1} \right) + \int_{P_1}^{P_2} {dP \over v} + {K_f \over 2} G^2 = 0 \]</span></p>
+<p>where <em>K<sub>f</sub></em> is the pipe friction <em>fL/D</em></p>
+<p>The integral <span class="math inline">\(\int {dP \over v}\)</span> is where the reversible and irreversible models differ, but they both amount to the same thing: integrate over an adiabatic path, and solve the mechanical energy balance for <em>G</em>.</p>
+</section>
+<section id="reversible-adiabatic-flow-isentropic-flow" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="reversible-adiabatic-flow-isentropic-flow">Reversible Adiabatic Flow (Isentropic Flow)</h2>
+<p>Typically the isentropic flow model comes as a consequence of examining non-isothermal flow more generally, where one assumes <em>Pv<sup>k</sup></em> is constant with <em>k</em> being a function of heat transfer (for the isothermal case <em>k</em>=1). The adiabatic case is then taken to be when <em>k</em>=<em>γ</em>. I think this is the greatest source of vaguery and confusion in the various sources I’ve looked at. Coulson and Richardson’s<span class="citation" data-cites="chhabra-2018"><a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></span> emphasizes that this is only an approximation as this equates to assuming an isentropic path, but many other sources either don’t make the distinction or only hint at it.</p>
+<div class="no-row-height column-margin column-container"><div id="fn11"><p><sup>11</sup>&nbsp;<a href="#ref-chhabra-2018" role="doc-biblioref">Chhabra and Shankar, <em>Coulson and Richardson’s Chemical Engineering</em></a>.</p></div></div><p><span class="math display">\[ Pv^\gamma = P_1 v_1^\gamma \]</span></p>
+<p><span class="math display">\[ \int_{P_1}^{P_2} {dP \over v} = \int_{P_1}^{P_2} {1 \over v_1} \left( P \over P_1 \right)^{1 \over \gamma} dP \\
+= {\gamma \over {\gamma + 1} } {P_1 \over v_1} \left( \left( P_2 \over P_1 \right)^{ {\gamma+1}\over\gamma} - 1 \right)\]</span></p>
+<p>Substituting this into the mechanical energy balance gives</p>
+<p><span class="math display">\[ G^2 \log \left( {v_2 \over v_1} \right) + {\gamma \over {\gamma + 1} } {P_1 \over v_1} \left( \left( P_2 \over P_1 \right)^{ {\gamma+1}\over\gamma} - 1 \right) + {K_f \over 2} G^2 = 0 \]</span></p>
+<p>Making the substitution <span class="math display">\[ {v_2 \over v_1} = \left( P_1 \over P_2 \right)^{1\over\gamma} \]</span></p>
+<p><span class="math display">\[ \left( {K_f \over 2} - {1 \over \gamma} \log \left( {P_2 \over P_1} \right) \right) G^2 + {\gamma \over {\gamma + 1} } P_1 \rho_1 \left( \left( P_2 \over P_1 \right)^{ {\gamma+1}\over\gamma} - 1 \right) = 0 \]</span></p>
+<p>This form is a convenient objective function for numerical solution, however it can be re-arranged to solve for <em>G</em>, giving:</p>
+<p><span class="math display">\[ G = \sqrt{ { {2 \gamma \over {\gamma + 1} } P_1 \rho_1 \left( 1 - \left( P_2 \over P_1 \right)^{ {\gamma+1}\over\gamma} \right) } \over { K_f - {2 \over \gamma} \log \left( {P_2 \over P_1} \right) } } \]</span></p>
+<p>Which is the form typically given in texts. If one assumes <em>K<sub>f</sub></em> is a constant then the mass velocity can be calculated directly. In practice, however, <em>K<sub>f</sub></em> is a function of the Reynolds number and so this must be solved numerically.</p>
+<div id="7c3b9fe1-9c2f-45b0-be15-0f377d8aebf9" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">isentropic_flow</span>(P₁, K<span class="op">::</span><span class="dt">Number</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> P₂<span class="op">/</span>P₁</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    ρ₁ <span class="op">=</span> <span class="fu">ρ</span>(P₁,T₁)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">√</span>( ((<span class="fl">2</span>γ<span class="op">/</span>(γ<span class="op">+</span><span class="fl">1</span>))<span class="fu">*P₁*ρ₁*</span>(<span class="fl">1</span><span class="op">-</span>q<span class="op">^</span>((γ<span class="op">+</span><span class="fl">1</span>)<span class="op">/</span>γ)))<span class="op">/</span>(K <span class="op">-</span> (<span class="fl">2</span><span class="op">/</span>γ)<span class="fu">*log</span>(q)) )</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> G</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="628c1a2b-6d2c-4741-b4a0-97eba06f8e21" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">isentropic_flow</span>(P₁, K<span class="op">::</span><span class="dt">Function</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ) </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize Parameters</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> P₂<span class="op">/</span>P₁</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    ρ₁ <span class="op">=</span> <span class="fu">ρ</span>(P₁,T₁)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    T₂ <span class="op">=</span> <span class="fu">T₁*</span>(q<span class="op">^</span>((γ<span class="op">-</span><span class="fl">1</span>)<span class="op">/</span>γ))</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    Tₐᵥ <span class="op">=</span> (T₁<span class="op">+</span>T₂)<span class="op">/</span><span class="fl">2</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initial guess</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    G_est <span class="op">=</span> <span class="fu">isentropic_flow</span>(P₁, <span class="fu">K</span>(); T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Numerically solve for G</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">obj</span>(G) <span class="op">=</span> (<span class="fu">K</span>(<span class="fu">Re</span>(G,Tₐᵥ)) <span class="op">-</span> (<span class="fl">2</span><span class="op">/</span>γ)<span class="fu">*log</span>(q))<span class="fu">*</span>(G<span class="op">^</span><span class="fl">2</span>) <span class="op">-</span> (<span class="fl">2</span>γ<span class="op">/</span>(γ<span class="op">+</span><span class="fl">1</span>))<span class="fu">*P₁*ρ₁*</span>(<span class="fl">1</span><span class="op">-</span>q<span class="op">^</span>((γ<span class="op">+</span><span class="fl">1</span>)<span class="op">/</span>γ))</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">find_zero</span>(obj, G_est)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> G</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="eac3b035-70f8-40d7-ac7b-c84914c824c9" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ṁ_i <span class="op">=</span> <span class="fu">isentropic_flow</span>(P₁, Kf)<span class="op">*</span>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>0.43138829795543004</code></pre>
+</div>
+</div>
+<div id="cell-fig-isentropic-flow" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="14">
+<div id="fig-isentropic-flow" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-isentropic-flow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-isentropic-flow-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-isentropic-flow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: The mass flowrate through the example piping system as a function of pressure drop, using an isentropic flow model.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="irreversible-adiabatic-flow-fanno-flow" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="irreversible-adiabatic-flow-fanno-flow">Irreversible Adiabatic Flow (Fanno Flow)</h2>
+<p>The integration for Fanno flow is decidedly more tedious. As a sketch, start with the invariant (which comes from taking an energy balance for an ideal gas):</p>
+<p><span class="math display">\[ {1 \over 2} \left( Gv \right)^2 + {\gamma \over {\gamma -1} } Pv = \textrm{a constant}\]</span></p>
+<p>Solve for <em>P</em>, take the derivative to determine <em>dP</em>, substitute and integrate. The result is:</p>
+<p><span class="math display">\[ \int_{P_1}^{P_2} {dP \over v} = { {\gamma -1} \over {\gamma} } G^2 \left( \left(v_1 \over v_2\right) -1 -2 \log \left(v_1 \over v_2\right) \right) - \frac{1}{2} {P_1 \over v_1} \left( 1 - \left(v_1 \over v_2\right)^2 \right)\]</span></p>
+<p>Which, when substituted into the mechanical energy balance and simplified, becomes:</p>
+<p><span class="math display">\[ \left( K - { {\gamma -1} \over {2 \gamma} } \left( 1 - \left( { \rho_2 \over \rho_1 } \right)^2 \right) - { {\gamma +1} \over \gamma} \log \left( { \rho_2 \over \rho_1 } \right) \right) G^2 - \left( 1 - \left( { \rho_2 \over \rho_1 } \right)^2 \right) P_1 \rho_1 = 0 \]</span></p>
+<p>and can be further re-arranged to solve for <em>G</em></p>
+<p><span class="math display">\[ G = \sqrt{ { P_1 \rho_1 \left( 1 - \left( { \rho_2 \over \rho_1 } \right)^2 \right) } \over { K - { {\gamma -1} \over {2 \gamma} } \left( 1 - \left( { \rho_2 \over \rho_1 } \right)^2 \right) - { {\gamma +1} \over \gamma} \log \left( { \rho_2 \over \rho_1 } \right) } } \]</span></p>
+<p>The obvious complication here is that <em>ρ<sub>2</sub></em> is unknown, so solving this requires simultaneously solving for either <em>ρ<sub>2</sub></em> or <em>T<sub>2</sub></em>.</p>
+<p>Most often the Fanno flow model is given in terms of the Mach number, however the equation above is equivalent. This can be shown most easily by starting with the definition of the Fanno parameter, <em>Fa</em>, and the relation <em>K = Fa<sub>1</sub> - Fa<sub>2</sub></em>,</p>
+<p><span class="math display">\[ Fa = \left(\frac{1 - Ma^2}{\gamma Ma^2}\right) + \left(\frac{\gamma + 1}{2\gamma}\right)\log\left[\frac{Ma^2}{\left(\frac{2}{\gamma + 1}\right)\left(1 + \frac{\gamma - 1}{2}Ma^2\right)}\right] \]</span></p>
+<p><span class="math display">\[ K = \left(\frac{1 - Ma_1^2}{\gamma Ma_1^2}\right) - \left(\frac{1 - Ma_2^2}{\gamma Ma_2^2}\right) + \left(\frac{\gamma + 1}{2\gamma}\right)\log\left[\frac{Ma_1^2}{Ma_2^2}\frac{\left(1 + \frac{\gamma - 1}{2}Ma_2^2\right)}{\left(1 + \frac{\gamma - 1}{2}Ma_1^2\right)}\right] \]</span></p>
+<p>Then, making the substitution:</p>
+<p><span class="math display">\[\left(v_1 \over v_2\right)^2 = { {Ma_1^2 \left( 1 + { {\gamma-1}\over 2} Ma_2^2 \right)} \over {Ma_2^2 \left( 1 + { {\gamma-1}\over 2} Ma_1^2 \right)} }\]</span></p>
+<p>we get:</p>
+<p><span class="math display">\[ K = \left( \frac{1}{\gamma Ma_1^2} + \frac{\gamma-1}{2\gamma} \right) \left( 1 - \left(v_1 \over v_2\right)^2 \right) + \frac{\gamma + 1}{\gamma} \log\left(v_1 \over v_2\right) \]</span></p>
+<p>Then, using the definition of the Mach number, in terms of <em>G</em>, <span class="math inline">\(Ma=\frac{G}{\sqrt{\gamma P \rho} }\)</span></p>
+<p><span class="math display">\[ K = \left( \frac{P_1 \rho_1}{G^2} + \frac{\gamma-1}{2\gamma} \right) \left( 1 - \left(v_1 \over v_2\right)^2 \right) + \frac{\gamma + 1}{\gamma} \log\left(v_1 \over v_2\right) \]</span></p>
+<p>Solving for <em>G</em>, and making the substitution <em>ρ = 1/v</em></p>
+<p><span class="math display">\[ G = \sqrt{ { P_1 \rho_1 \left( 1 - \left( { \rho_2 \over \rho_1 } \right)^2 \right) } \over { K - { {\gamma -1} \over {2 \gamma} } \left( 1 - \left( { \rho_2 \over \rho_1 } \right)^2 \right) - { {\gamma +1} \over \gamma} \log \left( { \rho_2 \over \rho_1 } \right) } } \]</span></p>
+<p>Which puts us back where we started.</p>
+<p>When it comes to actually using the Fanno flow model, if the goal is to calculate the flowrate for a given pressure drop, working in terms of the specific volume or density is far easier than using the model given in terms of the Mach number.</p>
+<section id="approximating-temperature-change" class="level3">
+<h3 class="anchored" data-anchor-id="approximating-temperature-change">Approximating Temperature Change</h3>
+<p>An obvious simplifying assumption is to estimate the exit temperature using the relationship for isentropic flow.</p>
+<p><span class="math display">\[ {T_2 \over T_1} = \left( P_2 \over P_1 \right)^{ {\gamma-1} \over \gamma} \]</span></p>
+<p>If we were assuming <em>K<sub>f</sub></em> is constant, then using this assumption to estimate the density at the exit allows for a direct calculation of the mass velocity, no numerical methods required. In the more general case, the flow still needs to be calculated iteratively as the friction factor is a function of the flow (Reynolds number).</p>
+<div id="ce87241c-2a7a-4964-9545-d58577c2ca55" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">approx_fanno_flow</span>(P₁, K<span class="op">::</span><span class="dt">Number</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    ρ₁ <span class="op">=</span> <span class="fu">ρ</span>(P₁, T₁)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    ρ₂ <span class="op">=</span> <span class="fu">ρ₁*</span>(P₂<span class="op">/</span>P₁)<span class="op">^</span>(<span class="fl">1</span><span class="op">/</span>γ)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    q  <span class="op">=</span> ρ₂<span class="op">/</span>ρ₁</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">√</span>( (<span class="fu">P₁*ρ₁*</span>(<span class="fl">1</span><span class="op">-</span>q<span class="op">^</span><span class="fl">2</span>))<span class="op">/</span>(K <span class="op">-</span> ((γ<span class="op">-</span><span class="fl">1</span>)<span class="op">/</span>(<span class="fl">2</span>γ))<span class="fu">*</span>(<span class="fl">1</span><span class="op">-</span>q<span class="op">^</span><span class="fl">2</span>) <span class="op">-</span> ((γ<span class="op">+</span><span class="fl">1</span>)<span class="op">/</span>γ)<span class="fu">*log</span>(q)) )</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> G</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="951cfaf0-17f4-4491-93bb-a3ebedab3d3b" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">approx_fanno_flow</span>(P₁, K<span class="op">::</span><span class="dt">Function</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initializing some parameters</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    T₂ <span class="op">=</span> <span class="fu">T₁*</span>(P₂<span class="op">/</span>P₁)<span class="op">^</span>((γ<span class="op">-</span><span class="fl">1</span>)<span class="op">/</span>γ)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    ρ₁ <span class="op">=</span> <span class="fu">ρ</span>(P₁, T₁)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    ρ₂ <span class="op">=</span> <span class="fu">ρ</span>(P₂, T₂)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    q  <span class="op">=</span> ρ₂<span class="op">/</span>ρ₁</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    Tₐᵥ  <span class="op">=</span> (T₁<span class="op">+</span>T₂)<span class="op">/</span><span class="fl">2</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initial guess</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    G_est <span class="op">=</span> <span class="fu">approx_fanno_flow</span>(P₁, <span class="fu">K</span>(); T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Numerically solve for G</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">obj</span>(G) <span class="op">=</span> (<span class="fu">K</span>(<span class="fu">Re</span>(G,Tₐᵥ)) <span class="op">-</span> ((γ<span class="op">-</span><span class="fl">1</span>)<span class="op">/</span>(<span class="fl">2</span>γ))<span class="fu">*</span>(<span class="fl">1</span><span class="op">-</span>q<span class="op">^</span><span class="fl">2</span>) <span class="op">-</span> ((γ<span class="op">+</span><span class="fl">1</span>)<span class="op">/</span>γ)<span class="fu">*log</span>(q))<span class="fu">*</span>(G<span class="op">^</span><span class="fl">2</span>) <span class="op">-</span> (<span class="fl">1</span><span class="op">-</span>q<span class="op">^</span><span class="fl">2</span>)<span class="op">*</span>P₁<span class="op">*</span>ρ₁</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">find_zero</span>(obj, G_est)</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> G</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="a9da024b-b5ba-4c77-b7a0-b61f0fdcbbdf" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ṁ_fa <span class="op">=</span> <span class="fu">approx_fanno_flow</span>(P₁, Kf)<span class="op">*</span>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>0.38355173684967075</code></pre>
+</div>
+</div>
+</section>
+<section id="the-full-treatment" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="the-full-treatment">The Full Treatment</h3>
+<p>Actually calculating the exit conditions requires a little more work. I am going to simultaneously calculate the density at exit since it is somewhat simpler to work with than the temperature, though either could be done.</p>
+<p>To start we note that:</p>
+<p><span class="math display">\[ {1 \over 2} \left( Gv \right)^2 + {\gamma \over {\gamma -1} } Pv = C = \textrm{a constant}\]</span></p>
+<p>Which is a quadratic in <em>v</em>, and solving for <em>v</em>:</p>
+<p><span class="math display">\[ v = {1 \over G^2} \left( \sqrt{ \left( {\gamma \over {\gamma -1} } P \right)^2 + 2 G^2 C} - {\gamma \over {\gamma-1} } P \right) \]</span></p>
+<p>Where <em>C</em> is calculated at the entrance conditions and <em>ρ</em> = <em>1/v</em>.</p>
+<p>From this the temperature at the exit can be backed out using the ideal gas law, and used to update the Reynolds number.</p>
+<p>This makes the whole calculation somewhat more complicated, and I think that added complication makes the simplification that <em>K<sub>f</sub></em> is constant pointless – that assumption does not make <em>the math</em> easier in any case.</p>
+<div id="05eb4d7b-0e01-4e77-9a04-125e487b3525" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">fanno_flow</span>(P₁, K<span class="op">::</span><span class="dt">Function</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize some parameters</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    ρ₁ <span class="op">=</span> <span class="fu">ρ</span>(P₁,T₁)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initial guesses</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> (P₂<span class="op">/</span>P₁)<span class="op">^</span>(<span class="fl">1</span><span class="op">/</span>γ) <span class="co"># isentropic</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    G_est <span class="op">=</span> <span class="fu">√</span>( (<span class="fu">P₁*ρ₁*</span>(<span class="fl">1</span><span class="op">-</span>q<span class="op">^</span><span class="fl">2</span>))<span class="op">/</span>(<span class="fu">K</span>() <span class="op">-</span> ((γ<span class="op">-</span><span class="fl">1</span>)<span class="op">/</span>(<span class="fl">2</span>γ))<span class="fu">*</span>(<span class="fl">1</span><span class="op">-</span>q<span class="op">^</span><span class="fl">2</span>) <span class="op">-</span> ((γ<span class="op">+</span><span class="fl">1</span>)<span class="op">/</span>γ)<span class="fu">*log</span>(q)) )</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">obj</span>(G)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate the downstream density</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>        C  <span class="op">=</span> <span class="fl">0.5</span><span class="fu">*</span>(G<span class="op">/</span>ρ₁)<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> (γ<span class="op">/</span>(γ<span class="op">-</span><span class="fl">1</span>))<span class="fu">*</span>(P₁<span class="op">/</span>ρ₁)</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>        G²v <span class="op">=</span> <span class="fu">√</span>(((γ<span class="op">/</span>(γ<span class="op">-</span><span class="fl">1</span>))<span class="op">*</span>P₂)<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">2</span><span class="fu">*</span>(G<span class="op">^</span><span class="fl">2</span>)<span class="op">*</span>C) <span class="op">-</span> (γ<span class="op">/</span>(γ<span class="op">-</span><span class="fl">1</span>))<span class="op">*</span>P₂</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        ρ₂ <span class="op">=</span> (G<span class="op">^</span><span class="fl">2</span>)<span class="op">/</span>G²v</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>        <span class="pp">@assert</span> ρ₂ <span class="op">&gt;</span> <span class="fl">0</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Update Temperature dependent parameters</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>        T₂ <span class="op">=</span> (P₂<span class="op">*</span>Mw)<span class="op">/</span>(R<span class="op">*</span>ρ₂)</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>        Tₐᵥ <span class="op">=</span> (T₁<span class="op">+</span>T₂)<span class="op">/</span><span class="fl">2</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate the objective value</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>        q  <span class="op">=</span> ρ₂<span class="op">/</span>ρ₁</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (<span class="fu">K</span>(<span class="fu">Re</span>(G,Tₐᵥ)) <span class="op">-</span> ((γ<span class="op">-</span><span class="fl">1</span>)<span class="op">/</span>(<span class="fl">2</span>γ))<span class="fu">*</span>(<span class="fl">1</span><span class="op">-</span>q<span class="op">^</span><span class="fl">2</span>) <span class="op">-</span> ((γ<span class="op">+</span><span class="fl">1</span>)<span class="op">/</span>γ)<span class="fu">*log</span>(q))<span class="op">*</span>G<span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="fu">P₁*ρ₁*</span>(<span class="fl">1</span><span class="op">-</span>q<span class="op">^</span><span class="fl">2</span>)</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">find_zero</span>(obj, G_est)</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> G</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="486307a3-889d-49af-86a3-9cfa8ad758f6" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">fanno_flow</span>(P₁, K<span class="op">::</span><span class="dt">Number</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fn</span>() <span class="op">=</span> K</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fn</span>(Re) <span class="op">=</span> K</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">fanno_flow</span>(P₁, fn; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="887ddb9d-153f-4ee5-8eea-4157c4c98fa5" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ṁ_f <span class="op">=</span> <span class="fu">fanno_flow</span>(P₁, Kf)<span class="op">*</span>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>0.40934309494917254</code></pre>
+</div>
+</div>
+<div id="cell-fig-fanno" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="21">
+<div id="fig-fanno" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fanno-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-fanno-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fanno-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: The mass flowrate through the example piping system as a function of pressure drop, using an adiabatic Fanno flow model.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The approximation produces reasonable results in this case, especially at higher pressure drops, but one should always be cautious when mixing results from different models.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn12"><p><sup>12</sup>&nbsp;This is something worth keeping mind more generally, as I have seen the assumption that Fanno flow is approximately isentropic (implicitly) taken for calculating different flow parameters, and it is often a bad assumption. For example, some references use the isentropic choking condition for a nozzle as an estimate for the choking condition in Fanno flow. Unless the pipe is incredibly short this is a terrible approximation – in the current example the pressure drop exceeds the choking flow condition for a nozzle and yet the pipe flow is far from choked.</p></div></div></section>
+</section>
+<section id="expansion-factors-y-factors" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="expansion-factors-y-factors">Expansion Factors (Y Factors)</h2>
+<p><em>By far the simplest</em> method is to use a modified Darcy equation with expansion factors (Y factors). This takes the well known Darcy equation for incompressible pipe flow and, in a classic engineering move, tacks on a <em>Y</em> factor to account for all the complexity in adiabatic flow.</p>
+<p><span class="math display">\[ G = Y \sqrt{ { 2 \rho_1 \Delta P } \over K } \]</span></p>
+<p>Where the expansion factor, <em>Y</em>, is read off of a chart. This is great if you are working things out by hand, but can present some challenges when calculating things on a computer. Ludwig’s<span class="citation" data-cites="coker-2007"><a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a></span> provides a complicated series of equations to iteratively calculate the <em>Y</em> curves yourself, but I think if you are expending that level of effort then you really are not saving anything over using the Fanno model above. A much simpler approach is to either interpolate the critical expansion factor, <em>Y<sub>cr</sub></em>, and critical pressure ratio, <em>q<sub>cr</sub></em>, from the values given in Crane’s or use a correlation for them (that’s what I will use). Though this adds the wrinkle of only being able to use <em>Y</em> factors for gases with the same <em>γ</em> as what is either tabulated or available in a correlation.</p>
+<div class="no-row-height column-margin column-container"><div id="fn13"><p><sup>13</sup>&nbsp;<a href="#ref-coker-2007" role="doc-biblioref">Coker, <em>Ludwig’s Applied Process Design for Chemical and Petrochemical Plants</em></a>.</p></div></div><p>The actual <em>Y</em> value then comes from a simple linear relationship (where <span class="math inline">\(q={ {\Delta P} \over P_1}\)</span> )</p>
+<p><span class="math display">\[ Y = \left( Y_{cr} -1 \right) \left( q \over q_{cr} \right) +1 \]</span></p>
+<p>This has the added convenience of telling you when you have crossed into choked flow, it happens when <em>q</em>&gt;<em>q<sub>cr</sub></em>.</p>
+<p>One downside is that this method does not directly produce the exit conditions, so the Reynolds number is typically taken at the entrance conditions only. Since the Reynolds number is only a function of Temperature through the viscosity, this works out fine over ranges where the viscosity is approximately constant.<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn14"><p><sup>14</sup>&nbsp;The temperature can be worked out by using the method given in the section for Fanno flow, calculating the invariant at entrance conditions (once <em>G</em> is known) and then solving for the exit density.</p></div></div><div id="bef3d79f-3af0-4565-96d0-a4f15237514e" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlations for γ=1.4</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Ycr</span>(K)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="fu">log</span>(K)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="fl">0.0006</span><span class="op">*</span>x<span class="op">^</span><span class="fl">3</span> <span class="op">-</span> <span class="fl">0.0185</span><span class="op">*</span>x<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.1141</span><span class="op">*</span>x <span class="op">-</span> <span class="fl">0.5304</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">exp</span>(y)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">qcr</span>(K)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="fu">log</span>(K)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="fl">0.0011</span><span class="op">*</span>x<span class="op">^</span><span class="fl">3</span> <span class="op">-</span> <span class="fl">0.0302</span><span class="op">*</span>x<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.238</span><span class="op">*</span>x <span class="op">-</span> <span class="fl">0.6455</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">exp</span>(y)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-fig-correl" class="cell page-columns page-full" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="23">
+<div class="cell-output cell-output-display page-columns page-full" data-execution_count="23">
+<div id="fig-correl" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-correl-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-correl-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-correl-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: The correlation curves for critical expansion factor and critical pressure ratio, along with tabulated values from Crane’s<span class="citation" data-cites="crane-2013">.<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></span>
+</figcaption>
+<div class="no-row-height column-margin column-container"><div id="fn15"><p><sup>15</sup>&nbsp;<a href="#ref-crane-2013" role="doc-biblioref">Crane, <span>“TP410M,”</span> A–23</a>.</p></div></div></figure>
+</div>
+</div>
+</div>
+<p>The correlation curves I am using fit the tabulated values from Crane’s reasonably well, but clearly the fit is not perfect.</p>
+<div id="372201c5-130c-4b7a-848b-17775e96d4a9" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Y</span>(K,q)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    Yc, qc <span class="op">=</span> <span class="fu">Ycr</span>(K), <span class="fu">qcr</span>(K)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> q <span class="op">&lt;</span> qc</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (Yc<span class="op">-</span><span class="fl">1</span>)<span class="fu">*</span>(q<span class="op">/</span>qc)<span class="op">+</span><span class="fl">1</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> Yc</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-fig-exp-factor" class="cell page-columns page-full" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="25">
+<div class="cell-output cell-output-display page-columns page-full" data-execution_count="25">
+<div id="fig-exp-factor" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-exp-factor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-exp-factor-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-exp-factor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: The expansion factor vs pressure ratio, this calculated example falls between the reference curves from Crane’s as expected<span class="citation" data-cites="crane-2013">.<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a></span>
+</figcaption>
+<div class="no-row-height column-margin column-container"><div id="fn16"><p><sup>16</sup>&nbsp;<a href="#ref-crane-2013" role="doc-biblioref">Crane, A–23</a>.</p></div></div></figure>
+</div>
+</div>
+</div>
+<p>The calculated curve is between the bracketing curves in Crane’s and looks plausible.</p>
+<p>If you are assuming that <em>K<sub>f</sub></em> is constant then the mass velocity can be calculated directly, however if you wish to be more exact you can also iterate.</p>
+<div id="fa4ede00-d44b-4c14-aace-3b5f6e72c95a" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">modified_darcy</span>(P₁, K<span class="op">::</span><span class="dt">Number</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    ρ₁ <span class="op">=</span> <span class="fu">ρ</span>(P₁,T₁)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> (P₁<span class="op">-</span>P₂)<span class="op">/</span>P₁</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">Y</span>(K,q)<span class="fu">*√</span>(<span class="fl">2</span><span class="fu">*ρ₁*</span>(P₁<span class="op">-</span>P₂)<span class="op">/</span>K)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> G</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="689516ae-3892-4ad0-b2b9-0bece90fd8b4" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">modified_darcy</span>(P₁, K<span class="op">::</span><span class="dt">Function</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Intialize Parameters</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    ρ₁ <span class="op">=</span> <span class="fu">ρ</span>(P₁,T₁)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> (P₁<span class="op">-</span>P₂)<span class="op">/</span>P₁</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initial Guess</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    G_est <span class="op">=</span> <span class="fu">modified_darcy</span>(P₁, <span class="fu">K</span>(); T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Numerically solve for G</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">obj</span>(G) <span class="op">=</span> G <span class="op">-</span> <span class="fu">modified_darcy</span>(P₁, <span class="fu">K</span>(<span class="fu">Re</span>(G,T₁)); T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ) </span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">find_zero</span>(obj, G_est)</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> G</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="89a52e34-9513-4577-9c8a-9c70cbd6a62a" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>ṁ_y <span class="op">=</span> <span class="fu">modified_darcy</span>(P₁, Kf)<span class="op">*</span>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="28">
+<pre><code>0.4049511071122898</code></pre>
+</div>
+</div>
+<div id="cell-fig-mod-darcy" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="29">
+<div class="cell-output cell-output-display" data-execution_count="29">
+<div id="fig-mod-darcy" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mod-darcy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-mod-darcy-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mod-darcy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: The mass flowrate through the example piping system as a function of pressure drop, using the modified Darcy equation.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="comparison" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="comparison">Comparison</h2>
+<p>Below is a plot showing all of the methods examined so far, including assuming the isothermal case (this a common recommendation for a simplifying assumption). The expansion factor method approximates the Fanno flow method, from which it was derived, quite well, to the point where they are essentially indistinguishable. The isothermal model is practically just as good for this particular example, while the isentropic model works well only for low pressure drops, the version of the Fanno flow that approximates the temperature as isentropic is the opposite, being the worst model at low pressure drops and converging towards the Fanno model at higher pressure drops.</p>
+<div id="cell-fig-mass-flow" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="30">
+<div class="cell-output cell-output-display" data-execution_count="30">
+<div id="fig-mass-flow" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mass-flow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-mass-flow-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mass-flow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: The mass flowrate through the example piping system as a function of pressure drop, showing all of the discussed models. Note the significant overlap of the Fanno flow, modified Darcy equation, and isothermal flow curves.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>But this is just one example, perhaps we can look at a wider range of <em>K<sub>f</sub></em> and pressure drops. Conveniently, Crane’s has a table with <em>K<sub>f</sub></em> ranging from 1 to 100 and calculated pressure drops and expansion factors: the limiting factors. Using the models examined above, the effective expansion factors can be calculated quite easily for each K in Crane’s table (taking the pressure ratios as givens).</p>
+<div id="cell-fig-exp-and-models" class="cell page-columns page-full" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="31">
+<div class="cell-output cell-output-display page-columns page-full" data-execution_count="31">
+<div id="fig-exp-and-models" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-exp-and-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-exp-and-models-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-exp-and-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Calculated expansion factors for flow at the critical <em>K</em> values tabulated in Crane’s, this represents flow at the critical pressure ratio<span class="citation" data-cites="crane-2013"><a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a></span>
+</figcaption>
+<div class="no-row-height column-margin column-container"><div id="fn17"><p><sup>17</sup>&nbsp;<a href="#ref-crane-2013" role="doc-biblioref">Crane, A–23</a>.</p></div></div></figure>
+</div>
+</div>
+</div>
+<p>Note that this represents the greatest pressure drop for a given <em>K<sub>f</sub></em>, which should correspond to the “worst case” for most models (except the approximated Fanno model). The Fanno model and the correlation I was using to generate Y factors line up quite nicely, though there is a fair amount of scatter with the tabulated Y factors which is interesting. The isentropic model is close, but not in great agreement, over the entire range. What I find more interesting is how rapidly the isothermal model comes into agreement. We would expect, then, at <em>K<sub>f</sub></em>=100 that the isothermal model would basically fall on top of the Fanno model over the entire range of pressure.</p>
+<div id="cell-fig-isotherm-fanno" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="32">
+<div class="cell-output cell-output-display" data-execution_count="32">
+<div id="fig-isotherm-fanno" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-isotherm-fanno-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-isotherm-fanno-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-isotherm-fanno-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: The mass flowrate for isothermal and Fanno flow models vs pressure drop for high K piping systems. Note that both lines overlap almost entirely for the entire range.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>They are basically indistinguishable. However, this is not at all implying that the temperature in the Fanno flow model is remaining constant over these large pressure drops. As one would expect, the adiabatic flow moves further from isothermal as the pressure drop increases. The mass flows just happen to be the same.</p>
+<div id="cell-fig-temp-drops" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="33">
+<div class="cell-output cell-output-display" data-execution_count="33">
+<div id="fig-temp-drops" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-temp-drops-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-temp-drops-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-temp-drops-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: The exit temperature for isothermal, isentropic, and Fanno flow models vs pressure drop for high K piping systems. Note that while the isothermal and Fanno flow models may give identical mass flowrates, the exit conditions are quite different.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="final-thoughts" class="level2">
+<h2 class="anchored" data-anchor-id="final-thoughts">Final Thoughts</h2>
+<p>I think the big take-away is that the isentropic flow model is not a very good approximation of Fanno flow and references that suggest that it is are in error. The other big take-away may be that, at least when calculating mass flow rates, the isothermal model is often better than one would expect: it does well at low pressure drops and also for long lines where <em>K<sub>f</sub></em> is large. In practice, when the flow conditions are within the range of available <em>Y</em> factors, the modified Darcy equation is the easiest to use and gives excellent agreement with the full Fanno model, however when the situation is outside of that range and <em>Y</em> factors have to be calculated it is not a time-saver.</p>
+<p>The big elephant in the room is that, in practice, no actual gas flow is perfectly ideal or perfectly adiabatic, nor is the friction factor truly a constant. These assumptions play a big role in the overall model error, and being fussy about some of the details of different adiabatic ideal gas models may amount to nothing in practice.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-albright-2009" class="csl-entry" role="listitem">
+Albright, Lyle F. <em>Albright’s Chemical Engineering Handbook</em>. Boca Raton: CRC Press, 2009.
+</div>
+<div id="ref-chhabra-2018" class="csl-entry" role="listitem">
+Chhabra, R. P., and V. Shankar. <em>Coulson and Richardson’s Chemical Engineering: Fluid Flow: Fundamentals and Applications</em>. 7th ed. Vol. 1A. Amsterdam: Elsevier, 2018.
+</div>
+<div id="ref-coker-2007" class="csl-entry" role="listitem">
+Coker, A. Kayode. <em>Ludwig’s Applied Process Design for Chemical and Petrochemical Plants</em>. 4th ed. Amsterdam: Elsevier, 2007.
+</div>
+<div id="ref-crane-2013" class="csl-entry" role="listitem">
+Crane. <span>“TP410M: Flow of Fluids.”</span> Stamford, CT: Crane, 2013.
+</div>
+<div id="ref-hall-2018" class="csl-entry" role="listitem">
+Hall, Stephen M. <em>Rules of Thumb for Chemical Engineers</em>. 6th ed. Amsterdam: Elsevier, 2018.
+</div>
+<div id="ref-tilton-2007" class="csl-entry" role="listitem">
+Tilton, James N. <span>“Fluid and Particle Dynamics.”</span> In <em>Perry’s Chemical Engineers’ Handbook</em>, edited by Don W. Green, 8th ed. New York: McGraw Hill, 2008.
+</div>
+</div>
+
+
+</section>
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/aefarrell\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="aefarrell/aefarrell.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

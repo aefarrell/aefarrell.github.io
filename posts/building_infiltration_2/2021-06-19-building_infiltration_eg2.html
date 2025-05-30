@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>building_infiltration_eg2 – A Chemical Engineer's Notebook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-59228ce9c52eba116baca5d538563979.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: #ffffff;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: #ffffff;
+background: url(../../images/pipes-unsplash-header.jpg);
+      }
+</style>
+<style>
+.quarto-title-block .quarto-title-banner {
+  min-height: 100%;
+  background-size: cover;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
+}
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="A Chemical Engineer’s Notebook">
+<meta property="og:description" content="A collection of notebooks about chemical engineering and analysis">
+<meta property="og:image" content="https://aefarrell.github.io/images/building_infiltration_eg2_files/tmp.gif">
+<meta property="og:site_name" content="A Chemical Engineer's Notebook">
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">A Chemical Engineer’s Notebook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> <i class="bi bi-info-circle" role="img">
+</i> 
+<span class="menu-text">about</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> <i class="bi bi-wrench-adjustable-circle" role="img">
+</i> 
+<span class="menu-text">projects</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#building-infiltration-example-chlorine-release" id="toc-building-infiltration-example-chlorine-release" class="nav-link active" data-scroll-target="#building-infiltration-example-chlorine-release">Building Infiltration Example – Chlorine Release</a>
+  <ul class="collapse">
+  <li><a href="#the-scenario" id="toc-the-scenario" class="nav-link" data-scroll-target="#the-scenario">The Scenario</a>
+  <ul class="collapse">
+  <li><a href="#release-parameters" id="toc-release-parameters" class="nav-link" data-scroll-target="#release-parameters">Release Parameters</a></li>
+  <li><a href="#building-parameters" id="toc-building-parameters" class="nav-link" data-scroll-target="#building-parameters">Building Parameters</a></li>
+  <li><a href="#weather-parameters" id="toc-weather-parameters" class="nav-link" data-scroll-target="#weather-parameters">Weather Parameters</a></li>
+  </ul></li>
+  <li><a href="#air-dispersion" id="toc-air-dispersion" class="nav-link" data-scroll-target="#air-dispersion">Air Dispersion</a>
+  <ul class="collapse">
+  <li><a href="#gaussian-puff-model" id="toc-gaussian-puff-model" class="nav-link" data-scroll-target="#gaussian-puff-model">Gaussian Puff Model</a></li>
+  <li><a href="#dispersion-parameters" id="toc-dispersion-parameters" class="nav-link" data-scroll-target="#dispersion-parameters">Dispersion Parameters</a></li>
+  <li><a href="#outdoor-concentration" id="toc-outdoor-concentration" class="nav-link" data-scroll-target="#outdoor-concentration">Outdoor Concentration</a></li>
+  </ul></li>
+  <li><a href="#building-infiltration" id="toc-building-infiltration" class="nav-link" data-scroll-target="#building-infiltration">Building Infiltration</a>
+  <ul class="collapse">
+  <li><a href="#single-zone-model" id="toc-single-zone-model" class="nav-link" data-scroll-target="#single-zone-model">Single Zone Model</a></li>
+  <li><a href="#simplified-ashrae-model" id="toc-simplified-ashrae-model" class="nav-link" data-scroll-target="#simplified-ashrae-model">Simplified ASHRAE Model</a></li>
+  </ul></li>
+  <li><a href="#indoor-concentration" id="toc-indoor-concentration" class="nav-link" data-scroll-target="#indoor-concentration">Indoor Concentration</a></li>
+  <li><a href="#sensitivity" id="toc-sensitivity" class="nav-link" data-scroll-target="#sensitivity">Sensitivity</a>
+  <ul class="collapse">
+  <li><a href="#atmospheric-stability" id="toc-atmospheric-stability" class="nav-link" data-scroll-target="#atmospheric-stability">Atmospheric stability</a></li>
+  <li><a href="#windspeed" id="toc-windspeed" class="nav-link" data-scroll-target="#windspeed">Windspeed</a></li>
+  <li><a href="#equivalent-leak-area" id="toc-equivalent-leak-area" class="nav-link" data-scroll-target="#equivalent-leak-area">Equivalent Leak Area</a></li>
+  <li><a href="#temperature" id="toc-temperature" class="nav-link" data-scroll-target="#temperature">Temperature</a></li>
+  <li><a href="#distance" id="toc-distance" class="nav-link" data-scroll-target="#distance">Distance</a></li>
+  </ul></li>
+  <li><a href="#final-remarks" id="toc-final-remarks" class="nav-link" data-scroll-target="#final-remarks">Final Remarks</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="building-infiltration-example-chlorine-release" class="level1">
+<h1>Building Infiltration Example – Chlorine Release</h1>
+<p>In <a href="https://aefarrell.github.io/2021/05/22/building_infiltration_example/">a previous notebook</a>, I explored building infiltration due to forest fire smoke and noted that ambient conditions would impact the scenario, in this scenario I continue exploring building infiltration and examine the sensitivity of infiltration to changes in ambient conditions. In this case the scenario is a release of chlorine from a storage cylinder creating a cloud that moves downwind to a building. We would like to know what impact this has on the interior conditions of the building while also taking the opportunity to evaluate the impact of changes in ambient weather conditions.</p>
+<section id="the-scenario" class="level2">
+<h2 class="anchored" data-anchor-id="the-scenario">The Scenario</h2>
+<p>The scenario is the catastrophic failure of a liquid chlorine cylinder, perhaps one being used as part of a water treatment facility. The release is outdoors and a small building is downwind of the release, which can be occupied and so the infiltration of chlorine is important.</p>
+<section id="release-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="release-parameters">Release Parameters</h3>
+<p>For simplicity suppose the entire contents of the cylinder are released essentially immediately and form a neutrally buoyant cloud. The mass of the release is <a href="https://industry.airliquide.us/chlorine">the mass of chlorine in the cylinder</a> which we can assume to be 68kg. <a href="https://cameochemicals.noaa.gov/chemical/2862">CAMEO Chemicals</a> lists the three emergency response planning guideline (ERPG) levels for chlorine as 1ppm, 3ppm, and 20ppm respectively.</p>
+<p>Suppose the release is 1m off the ground and is otherwise the center of the coordinate system.</p>
+</section>
+<section id="building-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="building-parameters">Building Parameters</h3>
+<p>The building is a small one story structure 100m downwind of the release point. For the scenario it will be taken as a given that the building volume is 255 m³ and the equivalent leak area is 690 cm². For simplicity any obstructions around the building are ignored.</p>
+</section>
+<section id="weather-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="weather-parameters">Weather Parameters</h3>
+<p>For neutrally buoyant gaussian dispersion a class <em>F</em> Pasquill stability is <a href="https://aefarrell.github.io/2020/12/12/worst_case_weather/">the worst case scenario</a>, this leads to the least dispersion and thus greatest concentrations downwind. The windspeed is initially assumed to be 1.5 m/s.</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><em>m</em></td>
+<td>68 kg</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><em>erpg-1</em></td>
+<td>1 ppm</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><em>erpg-2</em></td>
+<td>3 ppm</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><em>erpg-3</em></td>
+<td>20 ppm</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><em>h</em></td>
+<td>1 m</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><em>d</em></td>
+<td>100 m</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><span class="math inline">\(A_l\)</span></td>
+<td>6.90×10⁻² m²</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><em>V</em></td>
+<td>255 m³</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><em>stability</em></td>
+<td>F</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><em>u</em></td>
+<td>1.5 m/s</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>m     <span class="op">=</span> <span class="fl">68.0</span>   <span class="co"># mass of chlorine released, kg</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>MW    <span class="op">=</span> <span class="fl">70.9</span>   <span class="co"># molar mass chlorine, kg/kmol</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>MVC   <span class="op">=</span> <span class="fl">24.465</span> <span class="co"># molar volume at 25C and 1atm, m3/kmol</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ppm_to_kg</span>(ppm) <span class="op">=</span> (ppm<span class="op">*</span><span class="fl">1e-6</span>)<span class="fu">*</span>(MW<span class="op">/</span>MVC)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>erpg1 <span class="op">=</span> <span class="fu">ppm_to_kg</span>(<span class="fl">1</span>) <span class="co"># erpgs for chlorine, kg/m3</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>erpg2 <span class="op">=</span> <span class="fu">ppm_to_kg</span>(<span class="fl">3</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>erpg3 <span class="op">=</span> <span class="fu">ppm_to_kg</span>(<span class="fl">20</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>h   <span class="op">=</span> <span class="fl">1.0</span>      <span class="co"># height of release point, m</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>d   <span class="op">=</span> <span class="fl">100.0</span>    <span class="co"># downwind distance to building, m</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>Aₗ  <span class="op">=</span> <span class="fl">6.90e-2</span>  <span class="co"># equivalent leak area of building, m2</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>V   <span class="op">=</span> <span class="fl">255.0</span>    <span class="co"># volume of building, m3</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>u   <span class="op">=</span> <span class="fl">1.5</span>      <span class="co"># windspeed m/s</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="air-dispersion" class="level2">
+<h2 class="anchored" data-anchor-id="air-dispersion">Air Dispersion</h2>
+<section id="gaussian-puff-model" class="level3">
+<h3 class="anchored" data-anchor-id="gaussian-puff-model">Gaussian Puff Model</h3>
+<p>The simplest model for a neutrally buoyant cloud is a <a href="https://aefarrell.github.io/2020/12/05/gaussian_dispersion_example/">gaussian disperison model</a>, in this case because the cylinder is assumed to fail catastrophically the release can be treated as instantaneous and so we use a gaussian puff model.</p>
+<p>It is often worth-while to estimate the initial dimensions of the cloud and then calculate a <em>virtual</em> emission point from which the release is assumed to take place. This is especially useful if the area immediately around the release point is of interest as the gaussian model assumes all of the mass is initially concentrated in a single point. However for a simple screening just using the default dispersion model is likely fine, and more conservative. The model gives the concentration as a gaussian distribution in the x, y, and z directions, while also adding in a term to account for ground reflection (mass cannot disperse below groundlevel)<a href="#fn-1" class="sidenote-number"></a><span id="fn-1" class="sidenote"><a href="#ccps-1996">AIChE/CCPS</a> <em>Guidelines for Use of Vapour Cloud Dispersion Models</em>, 75.</span></p>
+<p><span class="math display">\[ c_{puff}(x,y,z,t) = { m \over { (2 \pi)^{3/2} \sigma_x \sigma_y \sigma_z } }
+\exp \left( -\frac{1}{2} \left( {x - ut} \over \sigma_x \right)^2 \right)
+\exp \left( -\frac{1}{2} \left( {y} \over \sigma_y \right)^2 \right) \\
+\times \left[ \exp \left( -\frac{1}{2} \left( {z - h} \over \sigma_z \right)^2 \right)
++ \exp \left( -\frac{1}{2} \left( {z + h} \over \sigma_z \right)^2 \right)\right]\]</span></p>
+<p>The parameters σx, σy, and σz are generally found using empirically derived correlations that are functions of the downwind distance to the center of the puff <em>x<sub>c</sub></em> and atmospheric stability.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">c_puff</span>(x,y,z,t; <span class="co"># point in space</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                m, u, h, <span class="co"># parameters of the problem</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                σx<span class="op">::</span><span class="dt">Function</span>, σy<span class="op">::</span><span class="dt">Function</span>, σz<span class="op">::</span><span class="dt">Function</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    xc <span class="op">=</span> u<span class="op">*</span>t <span class="co"># center of the cloud</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    sx <span class="op">=</span> <span class="fu">σx</span>(xc)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    sy <span class="op">=</span> <span class="fu">σy</span>(xc)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    sz <span class="op">=</span> <span class="fu">σz</span>(xc)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    C1 <span class="op">=</span> m <span class="op">/</span> ( (<span class="fl">2</span><span class="op">*</span><span class="cn">π</span>)<span class="op">^</span>(<span class="fl">1.5</span>) <span class="op">*</span> sx <span class="op">*</span> sy <span class="op">*</span> sz )</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    C2 <span class="op">=</span> <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>((x<span class="op">-</span>xc)<span class="op">/</span>sx)<span class="op">^</span><span class="fl">2</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    C3 <span class="op">=</span> <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>(y<span class="op">/</span>sy)<span class="op">^</span><span class="fl">2</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    C4 <span class="op">=</span> ( <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>((z<span class="op">-</span>h)<span class="op">/</span>sz)<span class="op">^</span><span class="fl">2</span>) <span class="op">+</span> <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>((z<span class="op">+</span>h)<span class="op">/</span>sz)<span class="op">^</span><span class="fl">2</span>) )</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> C1<span class="op">*</span>C2<span class="op">*</span>C3<span class="op">*</span>C4</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">isnan</span>(c) ? <span class="fl">0.0</span> <span class="op">:</span> c</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="dispersion-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="dispersion-parameters">Dispersion Parameters</h3>
+<p>The dispersion parameters for puff models are not, in general, as well developed as for plume models, the following values were interpolated from a sparser set of correlations and it is worth keeping in mind. It is also worth noting that the dispersion parameters are where the impact of different windspeeds will be made most apparent as <a href="https://aefarrell.github.io/2020/12/12/worst_case_weather/">stability is a function of windspeed</a>.</p>
+<section id="dispersion-parameters-for-a-gaussian-puff-model" class="level4">
+<h4 class="anchored" data-anchor-id="dispersion-parameters-for-a-gaussian-puff-model">Dispersion parameters for a Gaussian puff model<a href="#fn-2" class="sidenote-number"></a></h4>
+<p><span id="fn-2" class="sidenote"><a href="#ccps-1996">AIChE/CCPS</a> <em>Guidelines for Use of Vapour Cloud Dispersion Models</em>, 78.</span></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 33%">
+<col style="width: 27%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Stability</th>
+<th style="text-align: center;"><span class="math inline">\(\sigma_x = \sigma_y\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\sigma_z\)</span></th>
+<th style="text-align: center;">Max Windspeed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">$ 0.18 x^{0.92} $</td>
+<td style="text-align: center;">$ 0.60 x^{0.75} $</td>
+<td style="text-align: center;">3 m/s</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">$ 0.14 x^{0.92} $</td>
+<td style="text-align: center;">$ 0.53 x^{0.73} $</td>
+<td style="text-align: center;">5 m/s</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">C</td>
+<td style="text-align: center;">$ 0.10 x^{0.92} $</td>
+<td style="text-align: center;">$ 0.34 x^{0.71} $</td>
+<td style="text-align: center;">6 m/s</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">D</td>
+<td style="text-align: center;">$ 0.06 x^{0.92} $</td>
+<td style="text-align: center;">$ 0.15 x^{0.70} $</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">E</td>
+<td style="text-align: center;">$ 0.04 x^{0.92} $</td>
+<td style="text-align: center;">$ 0.10 x^{0.65} $</td>
+<td style="text-align: center;">5 m/s</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">$ 0.02 x^{0.89} $</td>
+<td style="text-align: center;">$ 0.05 x^{0.61} $</td>
+<td style="text-align: center;">3 m/s</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Class F </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">σx</span>(x) <span class="op">=</span> <span class="fl">0.02</span><span class="op">*</span>x<span class="op">^</span><span class="fl">0.89</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">σy</span>(x) <span class="op">=</span> <span class="fl">0.02</span><span class="op">*</span>x<span class="op">^</span><span class="fl">0.89</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">σz</span>(x) <span class="op">=</span> <span class="fl">0.05</span><span class="op">*</span>x<span class="op">^</span><span class="fl">0.61</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="outdoor-concentration" class="level3">
+<h3 class="anchored" data-anchor-id="outdoor-concentration">Outdoor Concentration</h3>
+<p>The outdoor concentration can be calculated at any point using the above equations and below is an animation showing the cloud moving from the release point down to the location of the center of the building. The horizontal slice is at 1m elevation, and the vertical slice is at 0m crosswind distance, the center planes of the cloud.</p>
+<p>As is clear, for a very stable cloud the dispersion is small relative to the distance traveled (the cross wind distance is exaggerated for visibility) and the bulk of the mass of chlorine is contained in a 10m diameter ball by the time it reaches the building.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/building_infiltration_eg2_files/tmp.gif" class="img-fluid figure-img"></p>
+<figcaption>gif</figcaption>
+</figure>
+</div>
+<p>The concentration as a function of time also shows how brief the exposure is at this point. A rapid pulse of chlorine passes over the area and is gone within a few seconds. However the concentration at that time is millions of times larger than the ERPG-1 limit (note the units, the scale is in kg/m³ whereas the ERPG limits are on the order of mg/m³)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/building_infiltration_eg2_files/output_12_0.svg" class="img-fluid figure-img"></p>
+<figcaption>svg</figcaption>
+</figure>
+</div>
+<p>The concentration along the centerline of the cloud is also worth looking at, as this provides some context for the extent of the downwind impacts of the release.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/building_infiltration_eg2_files/output_14_0.svg" class="img-fluid figure-img"></p>
+<figcaption>svg</figcaption>
+</figure>
+</div>
+<pre><code>Downwind distance to ERPG-3 (outdoors) 13.5km
+Downwind distance to ERPG-2 (outdoors) 29.9km
+Downwind distance to ERPG-1 (outdoors) 47.3km</code></pre>
+<p>Clearly this release presents a serious hazard, one would have to travel downwind over 10km to be below the ERPG-3 line and nearly 50km to be below the ERPG-1 line. Though, keep in mind, this is for instantaneous exposure and not overall dose.</p>
+</section>
+</section>
+<section id="building-infiltration" class="level2">
+<h2 class="anchored" data-anchor-id="building-infiltration">Building Infiltration</h2>
+<section id="single-zone-model" class="level3">
+<h3 class="anchored" data-anchor-id="single-zone-model">Single Zone Model</h3>
+<p>The <a href="https://aefarrell.github.io/2021/05/22/building_infiltration_example/">single zone model</a> assumes the air within the building is generally well mixed and well described by a single concentration. This is approximately true over long timescales, however in the situation of the brief pulse of chlorine passing over the building this assumption may breakdown and is a critical weakness of the discussion that follows.</p>
+<p>Very likely in the ~10s it takes for the cloud to pass very little of it will have had time to diffuse into the interior space of the building and the interior mixing (or lack thereof) will be a significant slow step in the overall mass transfer.</p>
+<p>The single zone model, however, will work as a first pass at least, and in this model the interior concentration is related to the outside concentration by the following ODE<a href="#fn-3" class="sidenote-number"></a><span id="fn-3" class="sidenote"><a href="#lees-1996">Lees</a> <em>Loss Prevention</em>, section 15.51</span></p>
+<p><span class="math display">\[\frac{d}{dt} c_i(t) = f \left( c_i, \lambda, t \right) = \lambda \cdot \left( c_o(t) - c_i(t) \right) \]</span></p>
+<p>Where <em>cᵢ</em> is the inside concentration, <em>cₒ</em> the outside concentration, and <em>λ</em> the natural ventilation rate of the building.</p>
+<p>The natural ventilation rate itself is a function of windspeed, the temperature difference between inside and outside, and how leaky the building is.</p>
+<p>The model is defined in a more generic way for now as this will be more useful later.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(cᵢ, λ, t; cₒ<span class="op">=</span>zero) <span class="op">=</span> <span class="fu">λ*</span>(<span class="fu">cₒ</span>(t) <span class="op">-</span> cᵢ)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(g) <span class="op">=</span> (cᵢ, λ, t) <span class="op">-&gt;</span> <span class="fu">f</span>(cᵢ, λ, t; cₒ<span class="op">=</span>g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="simplified-ashrae-model" class="level3">
+<h3 class="anchored" data-anchor-id="simplified-ashrae-model">Simplified ASHRAE Model</h3>
+<p>The last parameter we need to estimate before solving the problem is the ventilation rate, <em>λ</em>, which can be estimated using the simplified ASHRAE model<a href="#fn-4" class="sidenote-number"></a><span id="fn-4" class="sidenote"><a href="#ashrae-2017">ASHRAE</a> <em>Handbook</em>, chapter 16</span></p>
+<p><span class="math display">\[\lambda = \frac{Q}{V} \\
+Q = A_L \sqrt{ C_s \vert \Delta T \vert + C_w u^2 } \\
+\lambda = \frac{A_L}{V} \sqrt{ C_s \vert \Delta T \vert + C_w u^2 } \]</span></p>
+<p>Where <span class="math inline">\(A_L\)</span> and <span class="math inline">\(V\)</span> were given earlier, <span class="math inline">\(C_s\)</span> and <span class="math inline">\(C_w\)</span> are tabulated constants, <span class="math inline">\(\Delta T\)</span> is the difference between indoor and outdoor temperatures, in <em>K</em>, and <em>u</em> the windspeed, in m/s, and the ventilation rate is in s⁻¹.</p>
+<p>In this case the indoor and outdoor temperature are assumed to be the same for simplicity<a href="#fn-5" class="sidenote-number"></a><span id="fn-5" class="sidenote">Note that the constants have been adjusted such that the leak area is in m², in the ASHRAE handbook the leak area is in cm²</span></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Shelter Class</th>
+<th style="text-align: center;">1 Story</th>
+<th style="text-align: center;">2 Story</th>
+<th style="text-align: center;">3 Story</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(C_s\)</span></td>
+<td style="text-align: center;">all</td>
+<td style="text-align: center;">14.5×10⁻³</td>
+<td style="text-align: center;">29.0×10⁻³</td>
+<td style="text-align: center;">43.5×10⁻³</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(C_w\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">31.9×10⁻³</td>
+<td style="text-align: center;">42.0×10⁻³</td>
+<td style="text-align: center;">49.4×10⁻³</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">24.6×10⁻³</td>
+<td style="text-align: center;">32.5×10⁻³</td>
+<td style="text-align: center;">38.2×10⁻³</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">17.4×10⁻³</td>
+<td style="text-align: center;">23.1×10⁻³</td>
+<td style="text-align: center;">27.1×10⁻³</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"></td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">10.4×10⁻³</td>
+<td style="text-align: center;">13.7×10⁻³</td>
+<td style="text-align: center;">16.1×10⁻³</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"></td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">3.20×10⁻³</td>
+<td style="text-align: center;">4.20×10⁻³</td>
+<td style="text-align: center;">4.90×10⁻³</td>
+</tr>
+</tbody>
+</table>
+<p>With the shelter class defined as 1. No obstructions or local shielding 2. Isolated rural home 3. Another building across the street 4. Urban buildings on larger lots, with the nearest building &gt;1 building height away 5. Immediately adjacent buildings (closer than 1 building height)</p>
+<p>For this scenario we are assuming the (one-story) building is isolated and there are no obstructions or local shielding, so the class is <em>1</em>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 Story building, shelter class 1</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">λ</span>(ΔT, u; Aₗ, V, Cs, Cw) <span class="op">=</span> (Aₗ<span class="op">/</span>V)<span class="fu">*√</span>(<span class="fu">Cs*abs</span>(ΔT)<span class="op">+</span>Cw<span class="op">*</span>u<span class="op">^</span><span class="fl">2</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>λ₀ <span class="op">=</span> <span class="fu">λ</span>(<span class="fl">0.0</span>, u, Aₗ<span class="op">=</span>Aₗ, V<span class="op">=</span>V, Cs<span class="op">=</span><span class="fl">14.5e-3</span>, Cw<span class="op">=</span><span class="fl">31.9e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>7.249290622734888e-5</code></pre>
+</section>
+</section>
+<section id="indoor-concentration" class="level2">
+<h2 class="anchored" data-anchor-id="indoor-concentration">Indoor Concentration</h2>
+<p>The indoor concentration is calculated simply by solving the ODE with the initial condition that the indoor concentration is zero. Since the pulse of chlorine is so brief it is important to be careful with the integrator, typical variable step integrators can step right over brief pulses and miss them entirely. To counteract that the first phase of the response, up until twice the time it takes for the wind to travel the distance, is solved using a maximum timestep of 1s, the remainder is left free to the solver to adjust as necessary to meet the tolerances.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># puff model, note the units have changed to mg/m³</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cₒ</span>(t) <span class="op">=</span> <span class="fu">c_puff</span>(d, <span class="fl">0</span>, h, t; m<span class="op">=</span>m, u<span class="op">=</span>u, h<span class="op">=</span>h, σx<span class="op">=</span>σx, σy<span class="op">=</span>σy, σz<span class="op">=</span>σz)<span class="op">*</span><span class="fl">1e6</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>c0 <span class="op">=</span> <span class="fl">0.0</span>       <span class="co"># initial condition</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>sys <span class="op">=</span> <span class="fu">f</span>(cₒ)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>tsp1 <span class="op">=</span> (<span class="fl">0.0</span>, <span class="fl">2</span><span class="op">*</span>d<span class="op">/</span>u)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>prb1 <span class="op">=</span> <span class="fu">ODEProblem</span>(sys, c0, tsp1, λ₀)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>sln1 <span class="op">=</span> <span class="fu">solve</span>(prb1, <span class="fu">Tsit5</span>(), dtmax<span class="op">=</span><span class="fl">1</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>c0_2 <span class="op">=</span> sln1[<span class="kw">end</span>]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>tsp2 <span class="op">=</span> (tsp1[<span class="kw">end</span>], <span class="fl">2.5</span><span class="fu">*</span>(<span class="fl">1</span><span class="op">/</span>λ₀))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>prb2 <span class="op">=</span> <span class="fu">ODEProblem</span>(sys, c0_2, tsp2, λ₀)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>sln2 <span class="op">=</span> <span class="fu">solve</span>(prb2, <span class="fu">Tsit5</span>());</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is a very conservative model. It assumes all of the mass transfer occurs at a point, which happens to be where the maximum outdoor concentration will be, and that interior mixing is essentially instantaneous. It also has a significant weakness in that it assumes the building does not impede the movement of the cloud. If the building is very small relative to the cloud this might be reasonable, but in this case the cloud is quite concentrated and the deflection around the building is important.</p>
+<p>The first assumption can be moderated by taking an average outdoor concentration over the building footprint. In this case I assume the building is a 10m×10m square just for demonstration. This tries to capture the reality that not all of the building is being exposed to an equally high concentration and that an effective outdoor concentration might be better estimated as a spatial average. These points are hanging in space at the centerline of the cloud and as such are exposed to the highest concentrations. Instead of a slice like this, a more fully featured box could be used, but at that point it would probably be more useful to look into the ways the building itself is deflecting and shaping the cloud. Recall that the cloud is essentially passing through the building in this model.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>box_x <span class="op">=</span> (d<span class="op">-</span><span class="fl">5</span>)<span class="op">:</span><span class="fl">1</span><span class="op">:</span>(d<span class="op">+</span><span class="fl">5</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>box_y <span class="op">=</span> <span class="op">-</span><span class="fl">5</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">box_average</span>(t)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    cs <span class="op">=</span> [ <span class="fu">c_puff</span>(x, y, h, t; m<span class="op">=</span>m, u<span class="op">=</span>u, h<span class="op">=</span>h, σx<span class="op">=</span>σx, σy<span class="op">=</span>σy, σz<span class="op">=</span>σz)<span class="op">*</span><span class="fl">1e6</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>           for x <span class="kw">in</span> box_x, y <span class="kw">in</span> box_y ]</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">mean</span>(cs)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sys_avg <span class="op">=</span> <span class="fu">f</span>(box_average)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>tsp_box <span class="op">=</span> (<span class="fl">0.0</span>, <span class="fl">2</span><span class="op">*</span>d<span class="op">/</span>u)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>prb_box <span class="op">=</span> <span class="fu">ODEProblem</span>(sys_avg, c0, tsp_box, λ₀)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>sln_box <span class="op">=</span> <span class="fu">solve</span>(prb_box, <span class="fu">Tsit5</span>(), dtmax<span class="op">=</span><span class="fl">1</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>c0_box2 <span class="op">=</span> sln_box[<span class="kw">end</span>]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>tsp_box2 <span class="op">=</span> (tsp_box[<span class="kw">end</span>], <span class="fl">2.5</span><span class="fu">*</span>(<span class="fl">1</span><span class="op">/</span>λ₀))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>prb_box2 <span class="op">=</span> <span class="fu">ODEProblem</span>(sys_avg, c0_box2, tsp_box2, λ₀)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>sln_box2 <span class="op">=</span> <span class="fu">solve</span>(prb_box2, <span class="fu">Tsit5</span>());</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/building_infiltration_eg2_files/output_28_0.svg" class="img-fluid figure-img"></p>
+<figcaption>svg</figcaption>
+</figure>
+</div>
+<p>In either the single point or averaged outdoor concentration models the indoor concentration rapidly rises above the ERPG-3 limit, which is very bad, and then slowly decays over time<a href="#fn-6" class="sidenote-number"></a><span id="fn-6" class="sidenote">Note that the indoor concentrations are in mg/m³ whereas the outdoor concentration peaks in the kg/m³, so the building is doing something, it is reducing the indoor concentration by several orders of magnitude, it just isn’t enough</span>. In this case almost immediately after the cloud has passed the indoor space is more concentrated in Chlorine than the outside air. At the very least this suggests that the building is not a good shelter in place location, or at least a much more detailed analysis of building infiltration would be needed to show that it <em>was</em> a good shelter in place location.</p>
+</section>
+<section id="sensitivity" class="level2">
+<h2 class="anchored" data-anchor-id="sensitivity">Sensitivity</h2>
+<p>For the scenario modeling I approached the problem in a very general way such that the methods for solving the indoor concentration didn’t depend explicitly upon the model of the outdoor concentration. Which is why it was solved numerically. This is a very useful way of approaching things, especially from a code re-use point of view.</p>
+<p>However, in this particular case, if we take the outdoor concentration to be simply the gaussian puff model at a single point then this ODE can be solved analytically and that is useful for exploring the system’s sensitivity to windspeed, atmospheric stability, etc.</p>
+<p>Starting with the original puff model for the outside concentration</p>
+<p><span class="math display">\[ c_{o}(x,y,z,t) = { m \over { (2 \pi)^{3/2} \sigma_x \sigma_y \sigma_z } }
+\exp \left( -\frac{1}{2} \left( {x - ut} \over \sigma_x \right)^2 \right)
+\exp \left( -\frac{1}{2} \left( {y} \over \sigma_y \right)^2 \right) \\
+\times \left[ \exp \left( -\frac{1}{2} \left( {z - h} \over \sigma_z \right)^2 \right)
++ \exp \left( -\frac{1}{2} \left( {z + h} \over \sigma_z \right)^2 \right)\right]\]</span></p>
+<p>We can split this into the product of three gaussians:</p>
+<p><span class="math display">\[ c_{o}(x,y,z,t) = m \left[{ \exp \left( -\frac{1}{2} \left( {x - ut} \over \sigma_x \right)^2 \right) \over { \sqrt{2 \pi} \sigma_x } } \right]
+\left[{ \exp \left( -\frac{1}{2} \left( {y} \over \sigma_y \right)^2 \right) \over { \sqrt{2 \pi} \sigma_y } } \right]  \\
+\times { 1 \over { \sqrt{2 \pi} \sigma_z } } \left[ \exp \left( -\frac{1}{2} \left( {z - h} \over \sigma_z \right)^2 \right)
++ \exp \left( -\frac{1}{2} \left( {z + h} \over \sigma_z \right)^2 \right)\right]\]</span></p>
+<p><span class="math display">\[ c_{o}(x,y,z,t) = m C_x(x, t) C_y(x, y) C_z(x, z)\]</span></p>
+<p>and noting that only <span class="math inline">\(C_x\)</span> depends on time we can collect the other stuff into a big constant called <span class="math inline">\(C_1\)</span>, giving us<a href="#fn-7" class="sidenote-number"></a><span id="fn-7" class="sidenote">I am assuming the dispersion parameters are all constant, this is not strictly true as they all depend upon the downwind location of the center of the puff, which is a function of time</span></p>
+<p><span class="math display">\[ c_{o}(t) = C_1 { 1 \over { \sqrt{2 \pi} \sigma_x } }\exp \left( -\frac{1}{2} \left( {x - ut} \over \sigma_x \right)^2 \right) \]</span></p>
+<p>this is a gaussian in time, let <span class="math inline">\(\mu = \frac{x}{u}\)</span> and <span class="math inline">\(\sigma_t = \frac{\sigma_x}{u}\)</span></p>
+<p><span class="math display">\[ c_{o}(t) = { C_1 \over u } { 1 \over { \sqrt{2 \pi} \sigma_t } }\exp \left( -\frac{1}{2} \left( {t - \mu} \over \sigma_t \right)^2 \right) \]</span></p>
+<p>suppose the Laplace transform of this is <span class="math inline">\(C_{o}(s)\)</span>, and <a href="https://aefarrell.github.io/2021/05/22/building_infiltration_example/#a-control-systems-approach">taking the Laplace transform</a> of the ODE we arrive at</p>
+<p><span class="math display">\[ C_{i}(s) = { \lambda \over {s + \lambda} } C_{o}(s) \]</span></p>
+<p>where <span class="math inline">\(C_{i}(s)\)</span> is the Laplace transform of <span class="math inline">\(c_{i}(t)\)</span>, inverting the Laplace transform leads us to conclude</p>
+<p><span class="math display">\[ c_{i}(t) = { C_1 \over u } \int_{0}^{\infty} \lambda \exp \left( -\lambda \left(t - \tau \right) \right)
+{ 1 \over { \sqrt{2 \pi} \sigma_t } }\exp \left( -\frac{1}{2} \left( {\tau - \mu} \over \sigma_t \right)^2 \right) d\tau\]</span></p>
+<p>that is, the solution is the convolution of the exponential and gaussian times some constants. Conveniently for us this is a well known integral and we can just look up the answer in a book</p>
+<p><span class="math display">\[ c_{i}(t) = { C_1 \over u } \frac{\lambda}{2} \exp \left( \frac{\lambda}{2} \left( 2\mu + \lambda \sigma_t^2 - 2t \right) \right) \mathrm{erfc} \left( { \mu + \lambda \sigma_t^2 -t } \over { \sqrt{2} \sigma_t } \right) \]</span></p>
+<p>where <span class="math inline">\(\mathrm{erfc(x)}\)</span> is the complementary error function <span class="math inline">\(1 - \mathrm{erf}(x)\)</span></p>
+<p>You could expand all this back out, but it is far more compact and readable in this form, especially when written out as code</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">cᵢ</span>(x,y,z,t;    <span class="co"># point in space</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>            m, u, h, λ, <span class="co"># parameters of the problem</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>            σx<span class="op">::</span><span class="dt">Function</span>, σy<span class="op">::</span><span class="dt">Function</span>, σz<span class="op">::</span><span class="dt">Function</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    sx <span class="op">=</span> <span class="fu">σx</span>(x)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    sy <span class="op">=</span> <span class="fu">σy</span>(x)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    sz <span class="op">=</span> <span class="fu">σz</span>(x)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># time independent part</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    C1 <span class="op">=</span> m <span class="op">/</span> (<span class="fl">2</span><span class="op">*</span><span class="cn">π</span><span class="op">*</span>sy<span class="op">*</span>sz)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    C1 <span class="op">*=</span> <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>(y<span class="op">/</span>sy)<span class="op">^</span><span class="fl">2</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    C1 <span class="op">*=</span> ( <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>((z<span class="op">-</span>h)<span class="op">/</span>sz)<span class="op">^</span><span class="fl">2</span>) <span class="op">+</span> <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>((z<span class="op">+</span>h)<span class="op">/</span>sz)<span class="op">^</span><span class="fl">2</span>) )</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the convolution</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    μ <span class="op">=</span> x<span class="op">/</span>u</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    σₜ <span class="op">=</span> sx<span class="op">/</span>u</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span>  (C1<span class="op">*</span>λ)<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span>u)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    c <span class="op">*=</span> <span class="fu">exp</span>(<span class="fl">0.5</span><span class="fu">*λ*</span>(<span class="fl">2</span><span class="op">*</span>μ<span class="op">+</span>λ<span class="op">*</span>σₜ<span class="op">^</span><span class="fl">2</span><span class="op">-</span><span class="fl">2</span><span class="op">*</span>t))</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    c <span class="op">*=</span> <span class="fu">erfc</span>((μ<span class="op">+</span>λ<span class="op">*</span>σₜ<span class="op">^</span><span class="fl">2</span><span class="op">-</span>t)<span class="op">/</span>(<span class="fu">√</span>(<span class="fl">2</span>)<span class="op">*</span>σₜ))</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">isnan</span>(c) ? <span class="fl">0.0</span> <span class="op">:</span> c</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>From here we can use automatic differentiation to find the max concentration, for the original case</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># at the point x=d, y=0, z=h, note the units in mg/m³</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t) <span class="op">=</span> <span class="fu">cᵢ</span>(d, <span class="fl">0</span>, h, t, m<span class="op">=</span>m, u<span class="op">=</span>u, h<span class="op">=</span>h, λ<span class="op">=</span>λ₀, σx<span class="op">=</span>σx, σy<span class="op">=</span>σy, σz<span class="op">=</span>σz)<span class="op">*</span><span class="fl">1e6</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">∂c∂t</span>(t) <span class="op">=</span> ForwardDiff.<span class="fu">derivative</span>(t <span class="op">-&gt;</span> <span class="fu">c</span>(t), <span class="fu">float</span>(t))</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>tₘₐₓ <span class="op">=</span> <span class="fu">find_zero</span>(∂c∂t, d<span class="op">/</span>u)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>cₘₐₓ <span class="op">=</span> <span class="fu">c</span>(tₘₐₓ)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>tₘₐₓ, cₘₐₓ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>(68.75985074200291, 526.7278076114225)</code></pre>
+<p>An alternative is to make the approximation <span class="math inline">\(\mathrm{erfc}(-x) \approx 2 H(x)\)</span>, where <span class="math inline">\(H(x)\)</span> is the Heaviside step function ( <span class="math inline">\(\mathrm{erfc}(-x)\)</span> runs from 0 to 2 and <span class="math inline">\(H(x)\)</span> runs from 0 to 1 hence the factor of 2)</p>
+<p><span class="math display">\[ c_{i}(t) = { C_1 \over u } \frac{\lambda}{2} \exp \left( \frac{\lambda}{2} \left( 2\mu + \lambda \sigma_t^2 - 2t \right) \right) \mathrm{erfc} \left( { \mu + \lambda \sigma_t^2 -t } \over { \sqrt{2} \sigma_t } \right) \\
+= { C_1 \over u } \frac{\lambda}{2} \exp \left( { \left( \lambda \sigma_t \right)^2 \over 2 } \right) \exp \left( -\lambda \left( t - \mu \right) \right) \mathrm{erfc} \left( { \mu + \lambda \sigma_t^2 -t } \over { \sqrt{2} \sigma_t } \right)\\
+\approx { \lambda C_1 \over u } \exp \left( { \left( \lambda \sigma_t \right)^2 \over 2 } \right) \exp \left( -\lambda \left( t - \mu \right) \right) H( t - \mu - \lambda \sigma_t^2 ) \\
+\approx { \lambda C_1 \over u } \exp \left( { \left( \lambda \sigma_t \right)^2 \over 2 } \right) \exp \left( -\lambda \left( t - \mu \right) \right) H( t - \mu )
+\]</span></p>
+<p>the maximum of this is clearly</p>
+<p><span class="math display">\[ c_{max} = { \lambda C_1 \over u } \exp \left( { \left( \lambda \sigma_t \right)^2 \over 2 } \right) \]</span></p>
+<p>and occurs when $t = $</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x<span class="op">=</span>d, y<span class="op">=</span><span class="fl">0</span>, z<span class="op">=</span>h, λ<span class="op">=</span>λ₀</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    sx <span class="op">=</span> <span class="fu">σx</span>(x)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    sy <span class="op">=</span> <span class="fu">σy</span>(x)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    sz <span class="op">=</span> <span class="fu">σz</span>(x)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    μ  <span class="op">=</span> x<span class="op">/</span>u</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    σₜ <span class="op">=</span> sx<span class="op">/</span>u</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    C1 <span class="op">=</span> m <span class="op">/</span> (<span class="fl">2</span><span class="op">*</span><span class="cn">π</span><span class="op">*</span>sy<span class="op">*</span>sz)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    C1 <span class="op">*=</span> <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>(y<span class="op">/</span>sy)<span class="op">^</span><span class="fl">2</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    C1 <span class="op">*=</span> ( <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>((z<span class="op">-</span>h)<span class="op">/</span>sz)<span class="op">^</span><span class="fl">2</span>) <span class="op">+</span> <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>((z<span class="op">+</span>h)<span class="op">/</span>sz)<span class="op">^</span><span class="fl">2</span>) )</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span>  (λ<span class="op">*</span>C1)<span class="op">/</span>u</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    c <span class="op">*=</span> <span class="fu">exp</span>(<span class="fl">0.5</span><span class="fu">*</span>(λ<span class="op">*</span>σₜ)<span class="op">^</span><span class="fl">2</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (μ, c<span class="op">*</span><span class="fl">1e6</span>)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>(66.66666666666667, 551.6845234598728)</code></pre>
+<p>We can compare the solution from the ODE solver with the two approximations – the convolution and the step-function approximation – to convince ourselves that we are capturing the dynamics well.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/building_infiltration_eg2_files/update_1.svg" class="img-fluid figure-img"></p>
+<figcaption>svg</figcaption>
+</figure>
+</div>
+<div class="notice">
+<p>{{ footnote-7 | markdownify }}</p>
+</div>
+<section id="atmospheric-stability" class="level3">
+<h3 class="anchored" data-anchor-id="atmospheric-stability">Atmospheric stability</h3>
+<p>The sensitivity to atmospheric stability, at the max windspeed given in the table of dispersion parameters above, is shown below. Clearly the indoor concentration depends strongly on the atmospheric stability, and that makes sense as more unstable conditions lead to far greater mixing and thus lower outdoor concentrations. This effect is far greater than any increase in ventilation rate due to the greater windspeeds.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/building_infiltration_eg2_files/output_37_0.svg" class="img-fluid figure-img"></p>
+<figcaption>svg</figcaption>
+</figure>
+</div>
+</section>
+<section id="windspeed" class="level3">
+<h3 class="anchored" data-anchor-id="windspeed">Windspeed</h3>
+<p>Returning to the original scenario parameters we explore the impact of changing the windspeed, while assuming the atmospheric stability remains constant, in the figure below. In this case windspeed impacts both the parameters of the gaussian puff model and the natural ventilation rate in the single zone building infiltration model.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/building_infiltration_eg2_files/output_39_0.svg" class="img-fluid figure-img"></p>
+<figcaption>svg</figcaption>
+</figure>
+</div>
+<p>This was, to me, a surprising result. I expected the max indoor concentration to depend strongly on the windspeed whereas it appears to have far more to do with how quickly the indoor build up of Chlorine dissipates. This is due to the difference in timescales between the puff passing over the building and the single zone building infiltration model.</p>
+<p>The time-scale of interest for the puff model is the width of the gaussian <span class="math inline">\(\sigma_t\)</span>, whereas the time-scale of interest for the building infiltration model is the time constant of the exponential decay <span class="math inline">\(\tau = \frac{1}{\lambda}\)</span>, for this situation with a class F atmospheric stability they are</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>σₜ <span class="op">=</span> <span class="fu">σx</span>(d)<span class="op">/</span>u</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>0.8034127814324771</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>τ <span class="op">=</span> <span class="fl">1</span><span class="op">/</span>λ₀</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>13794.453168477568</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>σₜ<span class="op">/</span>τ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>5.82417274262381e-5</code></pre>
+<p>The time it takes the cloud to pass is simply orders of magnitude faster than the response of the infiltration model. So, in effect, the puff is acting like a impulse – causing a step change – and changing the windspeed merely moves the time at which that step change takes place. The faster the windspeed the better the approximation $ (-x) H(x) $ gets and if we take another look at the approximation for max concentration, we see it is independent of windspeed.</p>
+<p>Note that for the simplified ASHRAE model with <span class="math inline">\(\Delta T = 0\)</span> the natural ventilation rate is directly proportional to windspeed, i.e.&nbsp;$ = k u $ where <em>k</em> is all the vaious constants of that model collected for convenience, plugging this into the approximation we find the windspeed cancels out entirely.</p>
+<p><span class="math display">\[ { \lambda C_1 \over u } \exp \left( { \left( \lambda \sigma_t \right)^2 \over 2 } \right) \\
+= { { k u C_1 } \over u } \exp \left( { \left( k u \frac{\sigma_x}{u} \right)^2 \over 2 } \right) \\
+= k C_1 \exp \left( { \left( k \sigma_x \right)^2 \over 2 } \right) \]</span></p>
+<p>Which is independent of windspeed.</p>
+<p>We can perhaps see how small the effect is more clearly by directly varying the ratio <span class="math inline">\({ \sigma_t \over \tau}\)</span> while keeping <span class="math inline">\(\mu\)</span> constant and looking at the response. The maximum indoor concentration does change, but only slightly.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/building_infiltration_eg2_files/output_45_0.svg" class="img-fluid figure-img"></p>
+<figcaption>svg</figcaption>
+</figure>
+</div>
+<p>Which is not to say the model is insensitive to the natural ventilation rate, merely that for a given building the impact of changing windspeed on the ventilation rate is canceled out by the change in the outdoor concentration profile.</p>
+</section>
+<section id="equivalent-leak-area" class="level3">
+<h3 class="anchored" data-anchor-id="equivalent-leak-area">Equivalent Leak Area</h3>
+<p>Below the equivalent leak area <span class="math inline">\(A_L\)</span> is varied while keeping all other parameters constant. Unsurprisingly building tightness matters, and the impact is approximately linear. This is intuitive, of course, because the outside concentration does not depend in any way on the leakage area and so there is no canceling of effects like was seen with windspeed, and of course having more leaks leads to more of the outside air getting inside.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/building_infiltration_eg2_files/output_48_0.svg" class="img-fluid figure-img"></p>
+<figcaption>svg</figcaption>
+</figure>
+</div>
+</section>
+<section id="temperature" class="level3">
+<h3 class="anchored" data-anchor-id="temperature">Temperature</h3>
+<p>A similar effect as was seen with equivalent leak area is present with changes in the temperature difference between indoors and outdoors. Though in this case the change goes with the square-root of the temperature difference.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/building_infiltration_eg2_files/output_50_0.svg" class="img-fluid figure-img"></p>
+<figcaption>svg</figcaption>
+</figure>
+</div>
+<p>On a summer day like today large temperature differences like this might seem extreme, but in the depths of winter when days around here routinely get to -30°C a standard heated building with a normal indoor temperature around 20°C would have a 50°C temperature difference with the outdoors.</p>
+</section>
+<section id="distance" class="level3">
+<h3 class="anchored" data-anchor-id="distance">Distance</h3>
+<p>The most obvious case of interest, however, is how far downwind would the <em>building</em> have to be such that it did not exceed the ERPG limits. With all other parameters equal to the scenario, the max indoor concentration as a function of building distance is shown in the figure below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/building_infiltration_eg2_files/output_53_0.svg" class="img-fluid figure-img"></p>
+<figcaption>svg</figcaption>
+</figure>
+</div>
+<pre><code>Downwind distance to ERPG-3 (indoors) 625.0m
+Downwind distance to ERPG-2 (indoors) 2383.0m
+Downwind distance to ERPG-1 (indoors) 5006.0m</code></pre>
+<p>As was seen above when examining the outdoor concentrations, this is a significant release and the downwind distance is large. This also shows the value of sheltering in place as an unprotected individual would have to travel downwind for many tens of kilometers to reach a safe distance, whereas indoors that is greatly reduced.</p>
+<p>Again, this is all considering the instantaneous concentration and not considering dose.</p>
+</section>
+</section>
+<section id="final-remarks" class="level2">
+<h2 class="anchored" data-anchor-id="final-remarks">Final Remarks</h2>
+<p>The results of the scenario speak to something the previous discussion noted, namely that after the cloud has passed the indoor concentration exceeds the outdoor concentration and so an important response, post release, is not just when to shelter in place but when to stop.</p>
+<p>The worst case indoor concentration far exceeded the ERPG-3 limit, however it was still significantly lower exposure than had one been standing outside. But once the chlorine had leaked into the building it would take hours to fully clear purely by natural ventilation. At that point it would be far more prudent to leave the building and to turn the ventilation system back on. Identifying when this is the case is an interesting problem, because there are no guarantees that the emergency outside the building is fully resolved merely because the toxic release has passed. So one must balance the risks of sheltering in a place that is no longer safe versus evacuating into a potentially dangerous environment. In such a scenario it may be prudent to have indoor and outdoor air monitoring in the shelter in place location and a store of emergency escape respirators, though a better solution would be to move the shelter in place to a safer location.</p>
+<p>These two examples cover two extremes of building infiltration, the forest fire smoke looked at enormous clouds that take hours to pass and this chlorine example covers very concentrated clouds which pass in under a minute. Most real scenarios at a chemical plant or other facility are likely to be between these extremes, but the same tools would apply.</p>
+<p>For a complete listing of code used to generate data and figures, please see the <a href="https://github.com/aefarrell/aefarrell.github.io/blob/main/_notebooks/2021-06-19-building_infiltration_eg2.ipynb">corresponding julia notebook</a> {: .notice–info}</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li><a name="ccps-1996">AIChE/CCPS</a>. <em>Guidelines for Use of Vapour Cloud Dispersion Models</em>. 2nd ed.&nbsp;New York: American Institute of Chemical Engineers, 1996.</li>
+<li><a name="ashrae-2017">ASHRAE</a>. <em>2017 ASHRAE Handbook - Fundamentals (SI Edition)</em>. Atlanta, GA: ASHRAE, 2017.</li>
+<li><a name="lees-1996">Lees</a>, Frank P. <em>Loss Prevention in the Process Industries</em>. 2nd ed.&nbsp;Oxford: Butterworth-Heinemann, 1996.</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/aefarrell\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="aefarrell/aefarrell.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

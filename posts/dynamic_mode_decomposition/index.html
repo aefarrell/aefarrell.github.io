@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Allan Farrell">
+<meta name="dcterms.date" content="2022-12-18">
+<meta name="description" content="Dynamic mode decomposition of fluid flow problems.">
+
+<title>Dynamic Mode Decomposition – A Chemical Engineer’s Notebook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-59228ce9c52eba116baca5d538563979.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: #ffffff;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: #ffffff;
+background: url(../../images/pipes-unsplash-header.jpg);
+      }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<style>
+.quarto-title-block .quarto-title-banner {
+  min-height: 100%;
+  background-size: cover;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
+}
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Dynamic Mode Decomposition – A Chemical Engineer’s Notebook">
+<meta property="og:description" content="Dynamic mode decomposition of fluid flow problems.">
+<meta property="og:image" content="https://aefarrell.github.io/posts/dynamic_mode_decomposition/thumbnail.svg">
+<meta property="og:site_name" content="A Chemical Engineer's Notebook">
+</head>
+
+<body class="floating nav-fixed slimcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">A Chemical Engineer’s Notebook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> <i class="bi bi-info-circle" role="img">
+</i> 
+<span class="menu-text">about</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> <i class="bi bi-wrench-adjustable-circle" role="img">
+</i> 
+<span class="menu-text">projects</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Dynamic Mode Decomposition</h1>
+                  <div>
+        <div class="description">
+          Dynamic mode decomposition of fluid flow problems.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">julia</div>
+                <div class="quarto-category">dynamical systems</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Allan Farrell </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">December 18, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#example-flow-past-a-cylinder" id="toc-example-flow-past-a-cylinder" class="nav-link active" data-scroll-target="#example-flow-past-a-cylinder">Example: Flow Past a Cylinder</a></li>
+  <li><a href="#exact-dmd" id="toc-exact-dmd" class="nav-link" data-scroll-target="#exact-dmd">Exact DMD</a>
+  <ul class="collapse">
+  <li><a href="#best-fit-matrix" id="toc-best-fit-matrix" class="nav-link" data-scroll-target="#best-fit-matrix">Best Fit Matrix</a></li>
+  <li><a href="#singular-value-decomposition" id="toc-singular-value-decomposition" class="nav-link" data-scroll-target="#singular-value-decomposition">Singular Value Decomposition</a></li>
+  <li><a href="#dynamic-modes" id="toc-dynamic-modes" class="nav-link" data-scroll-target="#dynamic-modes">Dynamic Modes</a></li>
+  </ul></li>
+  <li><a href="#refactoring" id="toc-refactoring" class="nav-link" data-scroll-target="#refactoring">Refactoring</a>
+  <ul class="collapse">
+  <li><a href="#discrete-system" id="toc-discrete-system" class="nav-link" data-scroll-target="#discrete-system">Discrete System</a></li>
+  <li><a href="#continuous-system" id="toc-continuous-system" class="nav-link" data-scroll-target="#continuous-system">Continuous System</a></li>
+  <li><a href="#large-systems" id="toc-large-systems" class="nav-link" data-scroll-target="#large-systems">Large Systems</a></li>
+  </ul></li>
+  <li><a href="#reduced-dmd" id="toc-reduced-dmd" class="nav-link" data-scroll-target="#reduced-dmd">Reduced DMD</a>
+  <ul class="collapse">
+  <li><a href="#truncated-svd-and-large-systems" id="toc-truncated-svd-and-large-systems" class="nav-link" data-scroll-target="#truncated-svd-and-large-systems">Truncated SVD and Large Systems</a></li>
+  </ul></li>
+  <li><a href="#compressed-dmd" id="toc-compressed-dmd" class="nav-link" data-scroll-target="#compressed-dmd">Compressed DMD</a></li>
+  <li><a href="#physics-informed-dmd" id="toc-physics-informed-dmd" class="nav-link" data-scroll-target="#physics-informed-dmd">Physics Informed DMD</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<p>Recently I’ve been playing around with Dynamic Mode Decomposition (DMD) and this notebook compiles my notes and julia code in one place for later reference.</p>
+<p>Very generally DMD is an approach to system identification problems that is well suited for high dimensional data and systems with coherent spatio-temporal structures. In particular DMD finds the “best fit” linear approximation to the dynamical system, i.e.&nbsp;it finds the matrix <strong>A</strong> such that</p>
+<p><span class="math display">\[ \mathbf{\dot{x} } = \mathbf{A x} \]</span></p>
+<p>Where <strong>x</strong> is the high dimensional state vector for the system. One key strength of DMD is that it allows one to calculate <strong>x</strong>(t) without explicitly calculating <strong>A</strong>. This may not seem like a particularly useful property on its face unless one notes that the matrix <strong>A</strong> is <em>n</em>×<em>n</em> and, for systems with a very large <em>n</em> (i.e.&nbsp;very high dimensionality) that can be <em>huge</em>. Context for <em>huge</em> is also important: a matrix that fits easily in memory on my laptop may be infeasibly <em>huge</em> for an embedded system. For control applications, such as MPC, DMD may be a good method for generating approximations that are both <em>good</em> and <em>space efficient</em>.</p>
+<section id="example-flow-past-a-cylinder" class="level2">
+<h2 class="anchored" data-anchor-id="example-flow-past-a-cylinder">Example: Flow Past a Cylinder</h2>
+<p>As a motivating example, I am going to use the flow past a cylinder dataset from <a href="http://databookuw.com">Data-Driven Science and Engineering</a>, specifically the <a href="http://databookuw.com/DATA.zip">matlab dataset</a>. This dataset is the simulated vorticity for fluid flow past a cylinder. The vector <strong>x</strong> in this case is the vorticity at every point in the discretized flow field at a particular time; a two dimensional array of 89,351 pixels reshaped into a column vector. The data is a sequence of equally spaced snapshots of the flow field, and ultimately we wish to generate a linear system that best approximates this.</p>
+<p>The <code>MAT</code> package allows us to import data from matlab data files directly into julia</p>
+<div id="16d44c09-72dc-4109-ba1d-0a0f3b901283" class="cell" data-tags="[]" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">MAT</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>file <span class="op">=</span> <span class="fu">matopen</span>(<span class="st">"data/CYLINDER_ALL.mat"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># import the data set</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> <span class="fu">read</span>(file, <span class="st">"VORTALL"</span>);</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># the orinal dimensions of each snapshot</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>nx <span class="op">=</span> <span class="fu">Int</span>(<span class="fu">read</span>(file, <span class="st">"nx"</span>))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ny <span class="op">=</span> <span class="fu">Int</span>(<span class="fu">read</span>(file, <span class="st">"ny"</span>))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># the final dimensions of the data matrix</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>n, m <span class="op">=</span> <span class="fu">size</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>(89351, 151)</code></pre>
+</div>
+</div>
+<p>The data set, <code>data</code>, has already been processed into the form we need: each column represents a “frame” of the animation. We can walk through the matrix, taking each column and re-shaping it back into a 2D array, and recover the original flow as a movie.</p>
+<div id="fig-original-data" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-original-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="output_2_0.gif" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-original-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Original data, vorticity of flow past a cylinder.
+</figcaption>
+</figure>
+</div>
+<p>The data set has the property that the number of data points at each time step, <em>n</em>, is much greater than the number of time steps, <em>m</em>. In fact <em>n</em> is large enough that the <em>n</em>×<em>n</em> matrix <strong>A</strong> might be unwieldy to store: If we assume it is a dense matrix of 64-bit floats, 8 bytes each, we would need ~64GB of memory just to store it.</p>
+<div id="481ea3f7-abf9-47a3-9a0c-0f9f1750de0f" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>size_A_naive <span class="op">=</span> n<span class="op">*</span>n<span class="op">*</span><span class="fl">8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>63868809608</code></pre>
+</div>
+</div>
+</section>
+<section id="exact-dmd" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="exact-dmd">Exact DMD</h2>
+<p>DMD provides us a method to both find a <em>best fit</em> approximation for <strong>A</strong> while also being more space (and computation) efficient. To get there we first need to define what a <em>best fit</em> means.</p>
+<section id="best-fit-matrix" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="best-fit-matrix">Best Fit Matrix</h3>
+<p>Consider the general linear system <strong>Y</strong> = <strong>AX</strong>, where <strong>Y</strong> is a <em>n</em> × <em>m</em> matrix of outputs, <strong>X</strong> is a <em>n</em> × <em>m</em> matrix of inputs and <strong>A</strong> is an <em>n</em> × <em>n</em> linear transformation matrix. We say that the <em>best fit</em> matrix <strong>A</strong> is the matrix that minimizes</p>
+<p><span class="math display">\[ \| \mathbf{ A X } - \mathbf{Y} \|_{F} \]</span></p>
+<p>where <span class="math inline">\(\| \cdots \|_{F}\)</span> is the <a href="https://mathworld.wolfram.com/FrobeniusNorm.html">Frobenius norm</a>.</p>
+<p>The solution to which is</p>
+<p><span class="math display">\[ \mathbf{A} = \mathbf{YX}^{\dagger} \]</span></p>
+<p>where <strong>X<sup>†</sup></strong> is the <a href="https://mathworld.wolfram.com/Moore-PenroseMatrixInverse.html">Moore-Penrose pseudoinverse</a> of <strong>X</strong>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;I think this can be shown fairly easily by starting with the definition of the Frobenius norm <span class="math inline">\(\| \mathbf{ A X } - \mathbf{Y} \|_{F}^{2} = \mathrm{Tr}\left( \left(\mathbf{ A X } - \mathbf{Y}\right)\left(\mathbf{ A X } - \mathbf{Y} \right)^{T} \right)\)</span> and finding the matrix <strong>A</strong> that minimizes that using standard <a href="https://en.wikipedia.org/wiki/Matrix_calculus">matrix calculus</a>, and some properties of the pseudoinverse.</p></div></div></section>
+<section id="singular-value-decomposition" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="singular-value-decomposition">Singular Value Decomposition</h3>
+<p>The conventional way of calculating the Moore-Penrose pseudoinverse is to use the <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">Singular Value Decomposition</a>: for a matrix <strong>X</strong> with SVD <span class="math inline">\(\mathbf{X}=\mathbf{U}\mathbf{\Sigma}\mathbf{V}^{*}\)</span>, the pseudoinverse is <span class="math inline">\(\mathbf{X}^{\dagger} = \mathbf{V} \mathbf{\Sigma}^{-1} \mathbf{U}^{*}\)</span>. Returning to the best fit matrix <strong>A</strong> we find</p>
+<p><span class="math display">\[ \mathbf{A} = \mathbf{Y} \mathbf{V} \mathbf{\Sigma}^{-1} \mathbf{U}^{*} \]</span></p>
+<p>We can calculate a projection of <strong>A</strong> onto the space of the upper singular vectors <strong>U</strong></p>
+<p><span class="math display">\[ \tilde{ \mathbf{A} } = \mathbf{U}^{*} \mathbf{A} \mathbf{U} = \mathbf{U}^{*} \mathbf{Y} \mathbf{V} \mathbf{\Sigma}^{-1} \mathbf{U}^{*} \mathbf{U} = \mathbf{U}^{*} \mathbf{Y} \mathbf{V} \mathbf{\Sigma}^{-1} \]</span></p>
+<p>Which then allows us to <em>reconstruct</em> the matrix <strong>A</strong> on demand while only needing to store the matrices <strong>Ã</strong> and <strong>U</strong>, by the following <span class="math display">\[ \mathbf{A} = \mathbf{U} \tilde{ \mathbf{A} } \mathbf{U}^{*} \]</span></p>
+<p>This is useful when <em>n</em> &gt; &gt; <em>m</em> as <strong>U</strong> is <em>n</em>×<em>m</em> and <strong>Ã</strong> is <em>m</em>×<em>m</em>. For this example this has reduced the memory requirement to ~108MB, a &gt;99.8% reduction</p>
+<div id="29000917-f9c4-49ba-8e4a-31c151d056f6" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>size_A_exact <span class="op">=</span> (n<span class="op">*</span>m <span class="op">+</span> m<span class="op">*</span>m)<span class="op">*</span><span class="fl">8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>108118416</code></pre>
+</div>
+</div>
+<div id="7f0c6849-6854-45c2-8242-6ecf31878ce9" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>size_A_exact<span class="op">/</span>size_A_naive</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>0.0016928202774340957</code></pre>
+</div>
+</div>
+<p>Returning to the original problem, we have a sequence of discrete snapshots arranged in a matrix such that each column, <em>k</em>, is the vector <strong>x</strong><sub>k</sub>. Our aim, then, is to find the <em>best fit</em> matrix <strong>A</strong> for the linear system</p>
+<p><span class="math display">\[ \mathbf{x}_{k+1} = \mathbf{A} \mathbf{x}_k \]</span></p>
+<p>for all <strong>x</strong><sub>k</sub> in our data set. Or in other words, to find the <em>best fit</em> matrix <strong>A</strong> for the system</p>
+<p><span class="math display">\[ \mathbf{X}_{2} = \mathbf{A} \mathbf{X}_{1} \]</span></p>
+<p>where <strong>X</strong><sub>1</sub> is the matrix of all of the vectors <strong>x</strong><sub>k</sub> and <strong>X</strong><sub>2</sub> is the matrix of the corresponding <strong>x</strong><sub>k+1</sub>’s.</p>
+<p>Though, using DMD, we will instead calculate <strong>Ã</strong> and <strong>U</strong>, leaving us with</p>
+<p><span class="math display">\[ \mathbf{x}_{k+1} = \mathbf{U} \mathbf{ \tilde{A} } \mathbf{U}^{*} \mathbf{x}_k \]</span></p>
+<p>To start, we divide the data set into <strong>X</strong><sub>1</sub> and <strong>X</strong><sub>2</sub></p>
+<div id="87d700b6-23a7-47ee-b702-bba8291b96d7" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">LinearAlgebra</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="0a4efc52-163b-4db6-ad06-00bbbf43fec6" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dividing into past and future states</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>X₁ <span class="op">=</span> data[<span class="op">:</span>, <span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>];</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>X₂ <span class="op">=</span> data[<span class="op">:</span>, <span class="fl">2</span><span class="op">:</span><span class="kw">end</span>];</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then compute the SVD of <strong>X</strong><sub>1</sub>.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;The <code>svd</code> function in julia returns the singular values in a <code>Vector</code>, but for later on it will be more convenient have this as a <code>Diagonal</code> matrix.</p></div></div><div id="4634c56e-7e15-41fb-9978-7c7c99778a3d" class="cell" data-tags="[]" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SVD</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>U, Σ, V <span class="op">=</span> <span class="fu">svd</span>(X₁)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>Σ <span class="op">=</span> <span class="fu">Diagonal</span>(Σ);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then calculate the projection <strong>Ã</strong> (I am pre-computing <strong>YVΣ</strong><sup>-1</sup> as that will come in handy later)</p>
+<div id="65193857-1943-4848-8807-19c57987cbe0" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># projection</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>YVΣ⁻¹ <span class="op">=</span> X₂<span class="op">*</span>V<span class="op">*</span>Σ<span class="op">^-</span><span class="fl">1</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>Ã <span class="op">=</span> U<span class="op">'*</span>YVΣ⁻¹</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">size</span>(Ã)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>(150, 150)</code></pre>
+</div>
+</div>
+<p>We can then calculate the predicted <strong>x</strong><sub>k+1</sub>’s, without ever having to actually compute (or store) <strong>A</strong></p>
+<div id="e7c0f87c-1f17-490c-88ad-2236eab6ab73" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>X̂₂_exact <span class="op">=</span> (<span class="fu">U*</span>(<span class="fu">Ã*</span>(U<span class="op">'*</span>X₁)));</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As before, we can step through the matrix, extract each frame of the 2D flow field, and animate them, giving us a general sense of how well this worked</p>
+<div id="fig-dmd1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dmd1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="output_11_0.gif" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dmd1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Original flow field (top) and reconstructed flow field (bottom).
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="dynamic-modes" class="level3">
+<h3 class="anchored" data-anchor-id="dynamic-modes">Dynamic Modes</h3>
+<p>Of course this only solves the problem in the discrete case (for control applications that may be all you need). Consider again the system <span class="math inline">\(\mathbf{\dot{x} } = \mathbf{A x}\)</span>, the solution to this differential equation is</p>
+<p><span class="math display">\[ \mathbf{x}\left( t \right) = e^{\mathbf{A}t} \mathbf{x}_{0} \]</span></p>
+<p>where <strong>x</strong><sub>0</sub> is the initial conditions. If the matrix <strong>A</strong> has <a href="https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix">eigendecomposition</a> <strong>ΦΛΦ</strong><sup>-1</sup> then this can be written as</p>
+<p><span class="math display">\[ \mathbf{x}\left( t \right) = \mathbf{\Phi} e^{\mathbf{\Lambda}t} \mathbf{\Phi}^{-1} \mathbf{x}_{0} \]</span></p>
+<p>So it would be very convenient if we could get those eigenvalues and eigenvectors, preferably without having to actually compute <strong>A</strong>.</p>
+<p>Recall, by definition, the projection matrix <strong>Ã</strong> is <a href="https://en.wikipedia.org/wiki/Matrix_similarity">unitarily similar</a> to <strong>A</strong>, which means the eigenvalues are identical. The eigenvectors of <strong>A</strong> can also be recovered from properties of <strong>Ã</strong>: Suppose <strong>Ã</strong> has the eigendecomposition <strong>WΛW</strong><sup>-1</sup></p>
+<p><span class="math display">\[ \mathbf{ \tilde{A} } \mathbf{W} = \mathbf{W} \mathbf{\Lambda} \]</span></p>
+<p><span class="math display">\[ \mathbf{U}^{*} \mathbf{A} \mathbf{U} \mathbf{W} = \mathbf{W} \mathbf{\Lambda} \]</span></p>
+<p><span class="math display">\[ \mathbf{U} \mathbf{U}^{*} \mathbf{A} \mathbf{U} \mathbf{W} = \mathbf{U} \mathbf{W} \mathbf{\Lambda} \]</span></p>
+<p><span class="math display">\[ \mathbf{A} \mathbf{\Phi} = \mathbf{\Phi} \mathbf{\Lambda} \]</span></p>
+<p>where</p>
+<p><span class="math display">\[ \mathbf{\Phi} = \mathbf{U} \mathbf{W} \]</span></p>
+<p>This is what is given in the original DMD, however more recent work recommends using</p>
+<p><span class="math display">\[ \mathbf{\Phi} = \mathbf{Y} \mathbf{V} \mathbf{\Sigma}^{-1} \mathbf{W} \]</span></p>
+<div id="0b96c824-2802-478c-9094-4bdbf6f54e5d" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate eigenvectors and eigenvalues</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># of projection Ã</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>Λ, W <span class="op">=</span> <span class="fu">eigen</span>(Ã)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># reconstruct eigenvectors of A</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>Φ <span class="op">=</span> YVΣ⁻¹<span class="op">*</span>W;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Whether or not the ultimate goal is to generate the continuous system, the eigenvectors and eigenvalues are useful to examine as they represent the <em>dynamic modes</em> of the system.</p>
+<div id="cell-fig-dmd-modes" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="13">
+<div id="fig-dmd-modes" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dmd-modes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-dmd-modes-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dmd-modes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: The first and tenth dymanic mode of the system.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>I’ve played somewhat fast and loose with variables: the <strong>A</strong> for the discrete system is <em>not the same</em> <strong>A</strong> as the continuous system. Specifically the eigenvalues of the continuous system, ω are related to the eigenvalues of the discrete system, λ by the following</p>
+<p><span class="math display">\[ \omega_{i} = {\log{ \lambda_{i} } \over \Delta t} \]</span></p>
+<p>where <em>Δt</em> is the time step. The eigenvectors are the same, though. So we can generate a function <strong>x</strong>(t) pretty easily:</p>
+<div id="59acdd8f-5324-4a07-bd1d-8cda224a40a8" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the eigenvalues for </span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the continuous system</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>Δt <span class="op">=</span> <span class="fl">1</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>Ω  <span class="op">=</span> <span class="fu">Diagonal</span>(<span class="fu">log</span>.(Λ)<span class="op">./</span>Δt)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># precomputing this</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>Φ⁻¹x₀ <span class="op">=</span> Φ<span class="op">\</span>X₁[<span class="op">:</span>,<span class="fl">1</span>]</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co"># continuous system</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="fu">x̂</span>(t) <span class="op">=</span> <span class="fu">real</span>( <span class="fu">Φ*exp</span>(Ω <span class="op">.*</span> t)<span class="op">*</span>Φ⁻¹x₀ )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="fig-dmd-cont" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dmd-cont-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="output_15_0.gif" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dmd-cont-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Original flow field (top) and reconstructed flow field (bottom), using the continuous time vector function.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="refactoring" class="level2">
+<h2 class="anchored" data-anchor-id="refactoring">Refactoring</h2>
+<p>Through taking the SVD, the eigenvalue decomposition, and projections, DMD involves generating a whole bunch of matrices, which can be really unwieldy to manage without some structure. The low hanging fruit for refactoring is to introduce a <code>struct</code> to store those matrices.</p>
+<div id="ea2392c7-8114-4506-acd6-e21c00ef1a8c" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> DMD</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    r<span class="op">::</span><span class="dt">Integer  </span><span class="co"># Dimension</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    U<span class="op">::</span><span class="dt">Matrix   </span><span class="co"># Upper Singular Vectors</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    Ã<span class="op">::</span><span class="dt">Matrix   </span><span class="co"># Projection of A</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    Λ<span class="op">::</span><span class="dt">Diagonal </span><span class="co"># Eigenvalues of A</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    Φ<span class="op">::</span><span class="dt">Matrix   </span><span class="co"># Eigenvectors of A</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then we can introduce a method that takes an input matrix <strong>X</strong> and output matrix <strong>Y</strong> and returns the corresponding <code>DMD</code> object. We can take advantage of multiple dispatch to to add further methods, such as for the case where we have a single data matrix <strong>X</strong> and wish to calculate the DMD on the “future” and “past” matrices.</p>
+<div id="27d0528d-253f-4e91-aca4-20d476e87a66" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">DMD</span>(Y<span class="op">::</span><span class="dt">Matrix</span>, X<span class="op">::</span><span class="dt">Matrix</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># dimension</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> <span class="fu">rank</span>(X)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Full SVD</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    U, Σ, V <span class="op">=</span> <span class="fu">svd</span>(X)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    Σ <span class="op">=</span> <span class="fu">Diagonal</span>(Σ)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># projection</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    YVΣ⁻¹ <span class="op">=</span> Y<span class="op">*</span>V<span class="op">*</span>Σ<span class="op">^-</span><span class="fl">1</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    Ã <span class="op">=</span> U<span class="op">'*</span>YVΣ⁻¹</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate eigenvectors and eigenvalues</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># of projection Ã</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    Λ, W <span class="op">=</span> <span class="fu">eigen</span>(Ã)</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    Λ <span class="op">=</span> <span class="fu">Diagonal</span>(Λ)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># reconstruct eigenvectors of A</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    Φ <span class="op">=</span> YVΣ⁻¹<span class="op">*</span>W</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">DMD</span>(r,U,Ã,Λ,Φ)</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">DMD</span>(X<span class="op">::</span><span class="dt">Matrix</span>)</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    X₁ <span class="op">=</span> X[<span class="op">:</span>, <span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>]</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    X₂ <span class="op">=</span> X[<span class="op">:</span>, <span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">DMD</span>(X₂, X₁)</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can check that this is doing what it is supposed to be doing by comparing with what we have already done</p>
+<div id="f9b5fe93-2dd2-4df1-ad7a-d8789b88ed5f" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fu">DMD</span>(data)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This produces the same result as before</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>d.Φ <span class="op">==</span> Φ <span class="op">&amp;&amp;</span> d.Λ <span class="op">==</span> <span class="fu">Diagonal</span>(Λ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>true</code></pre>
+</div>
+</div>
+<p>If you were to build this into a larger project, it would be worthwhile to define some actual unit tests to validate that the DMD is working properly.</p>
+<section id="discrete-system" class="level3">
+<h3 class="anchored" data-anchor-id="discrete-system">Discrete System</h3>
+<p>Since we have a DMD type to work with, we can also refactor how discrete systems are generated. In this case I have defined a <code>struct</code> for the discrete system, and then added a method such that any discrete system acts as a callable <strong>x</strong><sub>k+1</sub>=<em>f</em>(<strong>x</strong><sub>k</sub>)</p>
+<div id="0afe880c-dc12-446e-a6d3-6c87e3906a84" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> DiscreteSys</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    Ã<span class="op">::</span><span class="dt">Matrix</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    U<span class="op">::</span><span class="dt">Matrix</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">DiscreteSys</span>(d<span class="op">::</span><span class="dt">DMD</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">DiscreteSys</span>(d.Ã,d.U)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> (ds<span class="op">::</span><span class="dt">DiscreteSys</span>)(xₖ)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (ds.<span class="fu">U*</span>(ds.<span class="fu">Ã*</span>(ds.U<span class="op">'*</span>xₖ)))</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="a5a8ac5c-3450-4fb7-8edd-ad7d15e70295" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> <span class="fu">DiscreteSys</span>(d)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This produces the same result as before</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>X̂₂_exact <span class="op">==</span> <span class="fu">ds</span>(X₁)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>true</code></pre>
+</div>
+</div>
+</section>
+<section id="continuous-system" class="level3">
+<h3 class="anchored" data-anchor-id="continuous-system">Continuous System</h3>
+<p>Similarly we can refactor the generation of continuous systems, first by defining a <code>struct</code> for the continuous system, then by adding a method <strong>x</strong><sub>t</sub>=<em>f</em>(<em>t</em>). This requires a little more information: we need to keep track of the initial state of the system <strong>x</strong><sub>0</sub> as well as the step size Δ<em>t</em></p>
+<div id="a9b1c237-9d15-4a70-91d0-de21af5d65c0" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> ContinuousSys</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    Φ⁻¹x₀<span class="op">::</span><span class="dt">Vector</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    Ω<span class="op">::</span><span class="dt">Diagonal</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    Φ<span class="op">::</span><span class="dt">Matrix</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ContinuousSys</span>(d<span class="op">::</span><span class="dt">DMD</span>, x₀, Δt<span class="op">=</span><span class="fl">1</span>)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    Φ⁻¹x₀ <span class="op">=</span> d.Φ<span class="op">\</span>x₀</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    Ω <span class="op">=</span> <span class="fu">Diagonal</span>(<span class="fu">log</span>.(d.Λ.diag)<span class="op">./</span>Δt)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">ContinuousSys</span>(Φ⁻¹x₀, Ω, d.Φ)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> (cs<span class="op">::</span><span class="dt">ContinuousSys</span>)(t)</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">real</span>( cs.<span class="fu">Φ*exp</span>(cs.Ω <span class="op">.*</span> t)<span class="op">*</span>cs.Φ⁻¹x₀ )</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="4fa130d4-bf6a-45b3-9f55-7742231ed9fc" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>cs <span class="op">=</span> <span class="fu">ContinuousSys</span>(d, X₁[<span class="op">:</span>,<span class="fl">1</span>]);</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This produces the same result as before</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">x̂</span>(<span class="fl">150</span>) <span class="op">==</span> <span class="fu">cs</span>(<span class="fl">150</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>true</code></pre>
+</div>
+</div>
+</section>
+<section id="large-systems" class="level3">
+<h3 class="anchored" data-anchor-id="large-systems">Large Systems</h3>
+<p>I have been using the default tools in julia, which work well for small matrices. If you are planning on doing DMD on enormous matrices then it is worth investigating packages such as <a href="https://iterativesolvers.julialinearalgebra.org/stable/">IterativeSolvers.jl</a>, <a href="https://github.com/JuliaLinearAlgebra/Arpack.jl">Arpack.jl</a>, <a href="https://jutho.github.io/KrylovKit.jl/stable/">KrylovKit.jl</a> and others to find better ways than vanilla <code>svd</code> and <code>eigen</code>. It also may be worth thinking about refactoring the problem to be matrix-free, though that is way beyond the scope of these notes.</p>
+</section>
+</section>
+<section id="reduced-dmd" class="level2">
+<h2 class="anchored" data-anchor-id="reduced-dmd">Reduced DMD</h2>
+<p>Whenever a problem involves computing the SVD of a matrix, dimensionality reduction lurks about in the shadows, winking suggestively. By the <a href="https://en.wikipedia.org/wiki/Low-rank_approximation#Proof_of_Eckart–Young–Mirsky_theorem_(for_Frobenius_norm)">Eckart-Young theorem</a> we know that the best rank <em>r</em> approximation to a matrix <strong>X</strong>=<strong>UΣV</strong><sup>T</sup> is the truncated SVD <strong>X</strong><sub>r</sub>=<strong>U</strong><sub>r</sub><strong>Σ</strong><sub>r</sub><strong>V</strong><sub>r</sub><sup>T</sup>, i.e.&nbsp;the SVD truncated to the <em>r</em> largest singular values (and corresponding singular vectors). So an obvious step for dimensionality reduction in DMD is substitute a truncated SVD for the full SVD.</p>
+<div id="00e51bb4-38d8-46da-a0b9-ff34a179ae6e" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">DMD</span>(Y<span class="op">::</span><span class="dt">Matrix</span>, X<span class="op">::</span><span class="dt">Matrix</span>, r<span class="op">::</span><span class="dt">Integer</span>)   </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># full SVD</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    U, Σ, V <span class="op">=</span> <span class="fu">svd</span>(X)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># truncating to rank r</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@assert</span> r <span class="op">≤</span> <span class="fu">rank</span>(X)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    U <span class="op">=</span> U[<span class="op">:</span>, <span class="fl">1</span><span class="op">:</span>r]</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    Σ <span class="op">=</span> <span class="fu">Diagonal</span>(Σ[<span class="fl">1</span><span class="op">:</span>r])</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    V <span class="op">=</span> V[<span class="op">:</span>, <span class="fl">1</span><span class="op">:</span>r]</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># projection</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    YVΣ⁻¹ <span class="op">=</span> Y<span class="op">*</span>V<span class="op">*</span>Σ<span class="op">^-</span><span class="fl">1</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    Ã <span class="op">=</span> U<span class="op">'*</span>YVΣ⁻¹</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate eigenvectors and eigenvalues</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># of projection Ã</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    Λ, W <span class="op">=</span> <span class="fu">eigen</span>(Ã)</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    Λ <span class="op">=</span> <span class="fu">Diagonal</span>(Λ)</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># reconstruct eigenvectors of A</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    Φ <span class="op">=</span> YVΣ⁻¹<span class="op">*</span>W</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">DMD</span>(r,U,Ã,Λ,Φ)</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">DMD</span>(X<span class="op">::</span><span class="dt">Matrix</span>, r<span class="op">::</span><span class="dt">Integer</span>)</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>    X₁ <span class="op">=</span> X[<span class="op">:</span>, <span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>]</span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>    X₂ <span class="op">=</span> X[<span class="op">:</span>, <span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">DMD</span>(X₂, X₁, r)</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>One consequence of truncation, however, is that the resulting matrix <strong>U</strong><sub>r</sub> is only semi-unitary, in particular</p>
+<p><span class="math display">\[ \mathbf{U}_{r}^{*} \mathbf{U}_{r} = \mathbf{I}_{r \times r} \]</span></p>
+<p>but</p>
+<p><span class="math display">\[ \mathbf{U}_{r} \mathbf{U}_{r}^{*} \ne \mathbf{I}_{n \times n} \]</span></p>
+<p>This leads to a complication as the matrix <strong>U</strong> is required to be unitary, in particular when recovering <strong>A</strong> from the projection matrix <strong>Ã</strong>, and also when recovering the eigenvalues and eigenvectors of <strong>A</strong> from <strong>Ã</strong>.</p>
+<p>But, supposing that this at least approximately works, we are still left with the problem of picking an appropriate value for <em>r</em>. One could look at the singular values and pick one based on structure. For this problem it looks like an elbow happens at <em>r=45</em>.</p>
+<div id="cell-plot-elbow" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="24">
+<div class="cell-output cell-output-display" data-execution_count="24">
+<div id="plot-elbow" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="index_files/figure-html/plot-elbow-output-1.svg" class="img-fluid figure-img"></p>
+<figcaption>The singular values of the system showing a significant elbow at <em>r=45</em></figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We can then generate a set of predictions for the reduced DMD, with <em>r=45</em>, and compare with the exact DMD</p>
+<div id="f15e4b69-c664-46a3-9f63-e0716e9b027e" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>ds_45 <span class="op">=</span> <span class="fu">DiscreteSys</span>(<span class="fu">DMD</span>(data, <span class="fl">45</span>))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>X̂₂_45 <span class="op">=</span> <span class="fu">ds_45</span>(X₁)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">norm</span>(X₂ <span class="op">-</span> X̂₂_45) <span class="co"># Frobenius norm</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>0.005459307491383062</code></pre>
+</div>
+</div>
+<div id="aba65d43-42ed-436d-afb8-6f442e880f13" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">norm</span>(X₂ <span class="op">-</span> X̂₂_exact)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>0.0005597047465277092</code></pre>
+</div>
+</div>
+<p>An alternative is to specify how much of the variance in the original data set needs to be captured. The singular values are a measure of the variance in the data, and so keeping the top <em>p</em> percent of the total variance equates to keeping the top <em>p</em> percent of the sum of all of the singular values.</p>
+<p>That is to say we calculate the <em>r</em> such that</p>
+<p><span class="math display">\[ { {\sum_{i}^{r} \sigma_i} \over {\sum_{i}^{m} \sigma_i} } \le p  \]</span></p>
+<p>where σ<sub>i</sub> is the <em>i</em>th singular value (in order of largest to smallest).</p>
+<div id="340269fa-bfd2-4af1-b1ac-26d9fd3028d1" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">DMD</span>(Y<span class="op">::</span><span class="dt">Matrix</span>, X<span class="op">::</span><span class="dt">Matrix</span>, p<span class="op">::</span><span class="dt">AbstractFloat</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@assert</span> p<span class="op">&gt;</span><span class="fl">0</span> <span class="op">&amp;&amp;</span> p<span class="op">≤</span><span class="fl">1</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># full SVD</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    U, Σ, V <span class="op">=</span> <span class="fu">svd</span>(X)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># determine required rank</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> <span class="fu">minimum</span>( <span class="fu">findall</span>( <span class="fu">&gt;</span>(p), <span class="fu">cumsum</span>(Σ)<span class="op">./</span><span class="fu">sum</span>(Σ)) )</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># truncate</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@assert</span> r <span class="op">≤</span> <span class="fu">rank</span>(X)</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    U <span class="op">=</span> U[<span class="op">:</span>, <span class="fl">1</span><span class="op">:</span>r]</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    Σ <span class="op">=</span> <span class="fu">Diagonal</span>(Σ[<span class="fl">1</span><span class="op">:</span>r])</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    V <span class="op">=</span> V[<span class="op">:</span>, <span class="fl">1</span><span class="op">:</span>r]</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># projection</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>    YVΣ⁻¹ <span class="op">=</span> Y<span class="op">*</span>V<span class="op">*</span>Σ<span class="op">^-</span><span class="fl">1</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>    Ã <span class="op">=</span> U<span class="op">'*</span>YVΣ⁻¹</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate eigenvectors and eigenvalues</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># of projection Ã</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>    Λ, W <span class="op">=</span> <span class="fu">eigen</span>(Ã)</span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>    Λ <span class="op">=</span> <span class="fu">Diagonal</span>(Λ)</span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># reconstruct eigenvectors of A</span></span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>    Φ <span class="op">=</span> YVΣ⁻¹<span class="op">*</span>W</span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">DMD</span>(r,U,Ã,Λ,Φ)</span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">DMD</span>(X<span class="op">::</span><span class="dt">Matrix</span>, p<span class="op">::</span><span class="dt">AbstractFloat</span>)</span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a>    X₁ <span class="op">=</span> X[<span class="op">:</span>, <span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>]</span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a>    X₂ <span class="op">=</span> X[<span class="op">:</span>, <span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">DMD</span>(X₂, X₁, p)</span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Capturing 99% of the variance, in this case, requires only keeping the first 14 singular values.</p>
+<div id="cell-fig-frob-norm" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="28">
+<div class="cell-output cell-output-display" data-execution_count="28">
+<div id="fig-frob-norm" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-frob-norm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-frob-norm-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-frob-norm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: The Frobenius norm of the difference between the original and reconstructed flow field as a function of reduced DMD rank, the point where 99% of the variance has been captured is indicated.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="fig-dmd-reduced" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dmd-reduced-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="output_29_0.gif" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dmd-reduced-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Original flow field (top) and reconstructed flow field (bottom), using reduced DMD capturing 99% of the variance.
+</figcaption>
+</figure>
+</div>
+<p>There are also methods for finding the optimal rank for truncated SVD for a data set that involves gaussian noise which I am not going to go into here.</p>
+<p>So, supposing that <em>p</em>=0.99 works for us, how much further have we reduced the size of our matrices?</p>
+<div id="1d232166-f7a9-48fd-bab8-3d1a8ec2d38a" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for p=0.99, r=14</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> <span class="fl">14</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>size_A_reduced <span class="op">=</span> (n<span class="op">*</span>r <span class="op">+</span> r<span class="op">*</span>r)<span class="op">*</span><span class="fl">8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>10008880</code></pre>
+</div>
+</div>
+<p>To recover the (approximate) <strong>A</strong> matrix we only need to store 10MB, a ~91% reduction over the exact DMD</p>
+<div id="2f19602d-d99c-466b-91b0-b0d9be8e6865" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>size_A_reduced<span class="op">/</span>size_A_exact</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>0.09257331331972159</code></pre>
+</div>
+</div>
+<p>and a &gt;99.98% reduction of the naive case (recall the naive approach of storing the entire <strong>A</strong> matrix would take ~64GB)</p>
+<div id="98f7f213-bffb-47b1-bb8d-7970d413d852" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>size_A_reduced<span class="op">/</span>size_A_naive</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>0.00015670998193688458</code></pre>
+</div>
+</div>
+<section id="truncated-svd-and-large-systems" class="level3">
+<h3 class="anchored" data-anchor-id="truncated-svd-and-large-systems">Truncated SVD and Large Systems</h3>
+<p>In the above code I simply calculated the full SVD and then truncated it after the fact. If <em>m</em> (the rank of <strong>X</strong>) is particularly large, then this can be hilariously inefficient. In those cases it may be worth writing a method that uses <a href="https://tsvd.julialinearalgebra.org/stable/">TSVD.jl</a> to efficiently calculate <em>only</em> the first <em>r</em> singular values – as opposed to calculating all <em>m</em> singular values and then chucking out most of them.</p>
+</section>
+</section>
+<section id="compressed-dmd" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="compressed-dmd">Compressed DMD</h2>
+<p>Compressed DMD attempts to tackle the <em>slowest step</em> in the DMD algorithm: calculating the SVD. An SVD on full data is <span class="math inline">\(\mathcal{O}\left( n m^2 \right)\)</span> if we instead <em>compress</em> the data from <em>n</em> dimensions to <em>k</em> dimensions then the cost of the SVD is reduced to either <span class="math inline">\(\mathcal{O}\left( k m^2 \right)\)</span> (when <em>k</em>&gt;<em>m</em>) or <span class="math inline">\(\mathcal{O}\left( m k^2 \right)\)</span> (when <em>k</em> &lt; <em>m</em>), which for large <em>n</em> can be a dramatic speed-up.</p>
+<p>Suppose we have some <em>k</em>×<em>n</em> unitary matrix <strong>C</strong> which compresses our input matrix <strong>X</strong> into the <em>compressed</em> input matrix <strong>X</strong><sub>c</sub> and our output matrix <strong>Y</strong> into the <em>compressed</em> output matrix <strong>Y</strong><sub>c</sub></p>
+<p><span class="math display">\[ \mathbf{X}_c = \mathbf{C} \mathbf{X} \\ \mathbf{Y}_c = \mathbf{C} \mathbf{Y} \]</span></p>
+<p>We suppose again that <strong>X</strong> has the SVD <strong>X</strong>=**UΣV<sup>*</sup>**, then</p>
+<p><span class="math display">\[ \mathbf{X}_c = \mathbf{C} \mathbf{X} = \mathbf{C} \mathbf{U} \mathbf{\Sigma} \mathbf{V}^{*} \]</span></p>
+<p>and, since <strong>C</strong> is unitary, the SVD of <strong>X</strong><sub>c</sub> is</p>
+<p><span class="math display">\[ \mathbf{X}_c = \mathbf{U}_c \mathbf{\Sigma} \mathbf{V}^{*} \]</span></p>
+<p>where <strong>U</strong><sub>c</sub>=<strong>CU</strong> is the upper singular values of the compressed input matrix.</p>
+<p>The projection matrix <strong>Ã</strong><sub>c</sub> of the compressed input matrix is</p>
+<p><span class="math display">\[ \mathbf{ \tilde{A} }_c = \mathbf{U}^{*}_c \mathbf{Y}_c \mathbf{V} \mathbf{\Sigma}^{-1} \]</span></p>
+<p><span class="math display">\[ = \left( \mathbf{CU} \right)^{*} \mathbf{C} \mathbf{Y} \mathbf{V} \mathbf{\Sigma}^{-1} \]</span></p>
+<p><span class="math display">\[ = \mathbf{U}^{*} \mathbf{C}^{*} \mathbf{C} \mathbf{Y} \mathbf{V} \mathbf{\Sigma}^{-1} \]</span></p>
+<p><span class="math display">\[ = \mathbf{U}^{*} \mathbf{C}^{*} \mathbf{C} \mathbf{Y} \mathbf{V} \mathbf{\Sigma}^{-1} \]</span></p>
+<p><span class="math display">\[ = \mathbf{U}^{*} \mathbf{Y} \mathbf{V} \mathbf{\Sigma}^{-1} = \mathbf{ \tilde{A} } \]</span></p>
+<p>and so we should recover the same eigenvalues and eigenvectors as from the <em>uncompressed</em> data.</p>
+<div id="91e576a7-f02b-422c-8812-94d0cf63d4ba" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">SparseArrays</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">cDMD</span>(Y<span class="op">::</span><span class="dt">Matrix</span>, X<span class="op">::</span><span class="dt">Matrix</span>, C<span class="op">::</span><span class="dt">AbstractSparseMatrix</span>)   </span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># determining dimensionality</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> <span class="fu">rank</span>(X)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>       </span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># compress the X and Y</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    Xc <span class="op">=</span> C<span class="op">*</span>X</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    Yc <span class="op">=</span> C<span class="op">*</span>Y</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># singular value decomposition</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    Uc, Σc, Vc <span class="op">=</span> <span class="fu">svd</span>(Xc)</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>    Σc <span class="op">=</span> <span class="fu">Diagonal</span>(Σc)</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>       </span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># projection</span></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>    Ã <span class="op">=</span> Uc<span class="op">'</span><span class="fu">*Yc*Vc*inv</span>(Σc)</span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>    U <span class="op">=</span> C<span class="op">'*</span>Uc</span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate eigenvectors and eigenvalues</span></span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># of projection Ã</span></span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>    Λ, W <span class="op">=</span> <span class="fu">eigen</span>(Ã)</span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>    Λ <span class="op">=</span> <span class="fu">Diagonal</span>(Λ)</span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># reconstruct eigenvectors of A</span></span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>    Φ <span class="op">=</span> <span class="fu">Y*Vc*inv</span>(Σc)<span class="op">*</span>W</span>
+<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">DMD</span>(r,U,Ã,Λ,Φ)</span>
+<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-30"><a href="#cb39-30" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">cDMD</span>(X<span class="op">::</span><span class="dt">Matrix</span>, C<span class="op">::</span><span class="dt">AbstractSparseMatrix</span>)</span>
+<span id="cb39-31"><a href="#cb39-31" aria-hidden="true" tabindex="-1"></a>    X₁ <span class="op">=</span> X[<span class="op">:</span>, <span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>]</span>
+<span id="cb39-32"><a href="#cb39-32" aria-hidden="true" tabindex="-1"></a>    X₂ <span class="op">=</span> X[<span class="op">:</span>, <span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
+<span id="cb39-33"><a href="#cb39-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">cDMD</span>(X₂, X₁, C)</span>
+<span id="cb39-34"><a href="#cb39-34" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The giant caveat is: how do we generate a <em>unitary</em> compression matrix? In fact we can relax this condition if we simply want to recover the eigenvalues and eigenvectors of <strong>A</strong>. It is enough that the data is sparse in some basis and that the compression matrix is incoherent with respect to that basis.</p>
+<p>We can think of <strong>C</strong> as a set of <em>k</em> (1×<em>n</em>)-row vectors that project an <em>n</em> dimensional vector <strong>x</strong> onto a <em>k</em> dimensional space. There are several ways of finding the basis for this projection – e.g.&nbsp;a uniform random projection or a gaussian projection – but by far the simplest is to pick a random subset of <em>k</em> single pixels and only take the measurements from those pixels.</p>
+<div id="42f196aa-1c8d-477c-b22d-57e551ebd1e8" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">cDMD</span>(Y<span class="op">::</span><span class="dt">Matrix</span>, X<span class="op">::</span><span class="dt">Matrix</span>, k<span class="op">::</span><span class="dt">Integer</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    n, m <span class="op">=</span> <span class="fu">size</span>(X)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@assert</span> k<span class="op">≤</span>n</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># build (sparse) compression matrix</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> <span class="fu">spzeros</span>(k, n)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>k</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>        C[i,<span class="fu">rand</span>(<span class="fl">1</span><span class="op">:</span>n)] <span class="op">=</span> <span class="fl">1</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">cDMD</span>(Y, X, C)</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">cDMD</span>(X<span class="op">::</span><span class="dt">Matrix</span>, k<span class="op">::</span><span class="dt">Integer</span>)</span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>    X₁ <span class="op">=</span> X[<span class="op">:</span>, <span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>]</span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>    X₂ <span class="op">=</span> X[<span class="op">:</span>, <span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">cDMD</span>(X₂, X₁, k)</span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Suppose we sample at 300 randomly chosen points in the flow field to form the compression matrix</p>
+<div id="d08e43bb-7cd4-40a8-8ae4-33703e6639e0" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="fl">300</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> <span class="fu">spzeros</span>(k, n)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>k</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    C[i,<span class="fu">rand</span>(<span class="fl">1</span><span class="op">:</span>n)] <span class="op">=</span> <span class="fl">1</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>That is to say we are only sampling the vorticity at the green dots. This reduces the dimensionality of the data <em>going in</em> to the DMD algorithm from 89351 to 300.</p>
+<div id="plt-compress-pts">
+<p><img src="output_36_0.gif" class="img-fluid"></p>
+<p>Original flow field with randomly generated sample points for compressed DMD.</p>
+</div>
+<p>We can generate a few different compressed DMDs to get a sense of how this impacts the overall performance (in terms of the Frobenius norm) and, much like we saw with reduced DMD, there are diminishing returns.</p>
+<div id="cell-fig-compress-levels" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="37">
+<div class="cell-output cell-output-display" data-execution_count="37">
+<div id="fig-compress-levels" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-compress-levels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-compress-levels-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-compress-levels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Compressed DMD performance, as measured by the Frobenius norm of the difference between the original flow field and the reconstructed field, over a range of sample sizes.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Using the compression matrix from above, we can generate a compressed DMD<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;While we can reconstruct the eigenvalues and eigenvectors quite successfully, I don’t believe we adequately reconstruct <strong>U</strong>, and so this really only works for the <em>continuous</em> system. The reconstruction of <strong>U</strong> strongly depends on <strong>C</strong> being unitary and I don’t think that condition can be relaxed.</p></div></div><div id="fig-dmd-comp" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dmd-comp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="output_38_0.gif" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dmd-comp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Original flow field (top) and reconstructed flow field (bottom), using compressed DMD and sampling at 300 points.
+</figcaption>
+</figure>
+</div>
+<p>The compressed DMD does not actually reduce the storage size of any of the matrices, it is more a technique to speed up the calculation of the SVD. Compressed DMD and reduced DMD can be combined: first by compressing the <em>n</em>×<em>m</em> matrix <strong>X</strong> to a <em>k</em>×<em>m</em> matrix <strong>X</strong><sub>c</sub> and then finding the best rank <em>r</em> approximation to the compressed matrix by truncating the SVD to the <em>r</em> largest singular values. The reduction step reduces the memory requirements and, if truncated SVD is used as well, this could significantly improve performance for enormous systems.</p>
+<p>There is a related approach called <em>compressed sensing</em> DMD, in which the full state vector is not available in the first place. A much smaller dimension set of measurements is sampled and the full state DMD generated using the same general idea as compressed DMD. It isn’t that much of a leap from what is above, just with a convex optimization step added to reconstruct the actual state matrix for a given set of measurements.</p>
+</section>
+<section id="physics-informed-dmd" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="physics-informed-dmd">Physics Informed DMD</h2>
+<p>The idea behind physics informed DMD is that the physics of the system imposes <em>structure</em> upon the solution, which we can build into the DMD algorithm. This way we generate results that are consistent with physical reality. Which is to say that we are not merely finding the best fit matrix <strong>A</strong>, we are finding the best fit matrix <strong>A</strong> <em>subject to</em> some constraints on its structure. The paper I am using as a reference gives a nice table of different types of flow problems and the sort of structure one might want to impose upon the solution,<span class="citation" data-cites="baddoo-2021"><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></span></p>
+<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;<a href="#ref-baddoo-2021" role="doc-biblioref">Baddoo et al., <span>“Physics-Informed Dynamic Mode Decomposition (piDMD)”</span></a> fig 3.</p></div></div><div id="fig-piDMD-methods" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-piDMD-methods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/bb2bc89f-0c6b-42b5-a8ee-2299f0f24c71-1-2614ae01-2755-4f97-b6aa-8f45c00d2087.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-piDMD-methods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: A comparison of models trained with exact DMD and with piDMD, also showing the matrix structure of the corresponding piDMD method.<span class="citation" data-cites="baddoo-2021"><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></span>
+</figcaption>
+<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;<a href="#ref-baddoo-2021" role="doc-biblioref">Baddoo et al., fig. 3</a>.</p></div></div></figure>
+</div>
+<p>Conveniently the flow past a cylinder example is on that table (that definitely wasn’t a motivating factor for choosing it as the example in the first place, nope, not at all) and what we want to impose on the solution is conservation of energy. Conservation of energy in this case equates to requiring that <strong>A</strong> be unitary, which is the standard <a href="https://en.wikipedia.org/wiki/Orthogonal_Procrustes_problem">procrustes problem</a></p>
+<p>We modify the best fit such that we are looking for the <strong>A</strong> matrix that minimizes</p>
+<p><span class="math display">\[ \| \mathbf{ A X } - \mathbf{Y} \|_{F} \]</span></p>
+<p><span class="math display">\[ \textrm{ subject to } \mathbf{A}^{*} \mathbf{A} = \mathbf{I} \]</span></p>
+<p>For which the standard solution is to define a matrix <strong>M</strong></p>
+<p><span class="math display">\[ \mathbf{M} = \mathbf{Y} \mathbf{X}^{*} \]</span></p>
+<p>supposing <strong>M</strong> has SVD</p>
+<p><span class="math display">\[ \mathbf{M} = \mathbf{U}_{M} \mathbf{\Sigma}_{M} \mathbf{V}_{M}^{*} \]</span></p>
+<p>then the solution is</p>
+<p><span class="math display">\[ \mathbf{A} = \mathbf{U}_{M} \mathbf{V}_{M}^{*} \]</span></p>
+<p>Of course we can’t directly compute <strong>M</strong> in many cases for the same reason that we can’t directly compute <strong>A</strong> : it would be a <em>n</em>×<em>n</em> matrix and for large <em>n</em> that would be enormous. So instead we project <strong>X</strong> and <strong>Y</strong> onto the upper singular values of <strong>X</strong> and solve the procrustes problem in that smaller space:</p>
+<p><span class="math display">\[ \mathbf{X} = \mathbf{U} \mathbf{\Sigma} \mathbf{V}^{*} \]</span></p>
+<p><span class="math display">\[ \mathbf{ \tilde{X} } = \mathbf{U}^{*} \mathbf{X} \]</span></p>
+<p><span class="math display">\[ \mathbf{ \tilde{Y} } = \mathbf{U}^{*} \mathbf{Y} \]</span></p>
+<p><span class="math display">\[ \mathbf{ \tilde{M} } = \mathbf{ \tilde{Y} } \mathbf{ \tilde{X} }^{*} = \mathbf{U}^{*} \mathbf{Y} \mathbf{X}^{*} \mathbf{U} = \mathbf{U}^{*} \mathbf{M} \mathbf{U}\]</span></p>
+<p>since SVD is invariant to left and right unitary transformations, the SVD of the projected <span class="math inline">\(\mathbf{ \tilde{M} }\)</span> is</p>
+<p><span class="math display">\[ \mathbf{ \tilde{M} } = \mathbf{U}_{ \tilde{M} } \mathbf{\Sigma}_{M} \mathbf{V}_{ \tilde{M} }^{*} \]</span></p>
+<p>where</p>
+<p><span class="math display">\[ \mathbf{U}_{ \tilde{M} } = \mathbf{U}^{*} \mathbf{U}_{ M } \textrm{ and } \mathbf{V}_{ \tilde{M} } = \mathbf{U}^{*} \mathbf{V}_{M} \]</span></p>
+<p>and the A matrix which solves the projected procrustes problem is</p>
+<p><span class="math display">\[ \mathbf{ \tilde{A} } = \mathbf{U}_{ \tilde{M} } \mathbf{V}_{ \tilde{M} }^{*} = \mathbf{U}^{*} \mathbf{U}_{ M } \mathbf{V}_{M}^{*} \mathbf{U} = \mathbf{U}^{*} \mathbf{A} \mathbf{U} \]</span></p>
+<p>which is <em>exactly</em> the projected <strong>A</strong> matrix we need to proceed with reconstructing the eigenvalues and eigenvectors as per the standard DMD algorithm.</p>
+<div id="5185a4d8-3e54-4495-b5ce-6c2387412357" class="cell" data-tags="[]" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is piDMD *only* for the case where A must be unitary</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co"># see arXiv:2112.04307 for details on the alternative cases</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">piDMD</span>(Y<span class="op">::</span><span class="dt">Matrix</span>, X<span class="op">::</span><span class="dt">Matrix</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># dimension</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> <span class="fu">rank</span>(X)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Full SVD</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    U, _, _ <span class="op">=</span> <span class="fu">svd</span>(X)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># projection</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>    Ỹ <span class="op">=</span> U<span class="op">'*</span>Y</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>    X̃ <span class="op">=</span> U<span class="op">'*</span>X</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>    M̃ <span class="op">=</span> Ỹ<span class="op">*</span>X̃<span class="ch">'</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># solve procrustes problem</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>    Uₘ, _, Vₘ <span class="op">=</span> <span class="fu">svd</span>(M̃)</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>    Ã <span class="op">=</span> Uₘ<span class="op">*</span>Vₘ<span class="ch">'</span></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate eigenvectors and eigenvalues</span></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># of projection Ã</span></span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>    Λ, W <span class="op">=</span> <span class="fu">eigen</span>(Ã)</span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>    Λ <span class="op">=</span> <span class="fu">Diagonal</span>(Λ)</span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># reconstruct eigenvectors of A</span></span>
+<span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a>    Φ <span class="op">=</span> U<span class="op">*</span>W</span>
+<span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-27"><a href="#cb42-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">DMD</span>(r,U,Ã,Λ,Φ)</span>
+<span id="cb42-28"><a href="#cb42-28" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb42-29"><a href="#cb42-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-30"><a href="#cb42-30" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">piDMD</span>(X<span class="op">::</span><span class="dt">Matrix</span>)</span>
+<span id="cb42-31"><a href="#cb42-31" aria-hidden="true" tabindex="-1"></a>    X₁ <span class="op">=</span> X[<span class="op">:</span>, <span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>]</span>
+<span id="cb42-32"><a href="#cb42-32" aria-hidden="true" tabindex="-1"></a>    X₂ <span class="op">=</span> X[<span class="op">:</span>, <span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
+<span id="cb42-33"><a href="#cb42-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">piDMD</span>(X₂, X₁)</span>
+<span id="cb42-34"><a href="#cb42-34" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="fig-pidmd" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pidmd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="output_40_0.gif" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pidmd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: Original flow field (top) and reconstructed flow field (bottom), using physics informed DMD.
+</figcaption>
+</figure>
+</div>
+<p>We can compare the Frobenius norm of the actual data versus the predicted, and it’s clear the physics informed DMD does not generate as good of a fit as exact DMD. Though it could equally be the case that the exact DMD is over-fitting.</p>
+<div id="bde3a32b-c079-4f79-96e2-09c31bdd665a" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">norm</span>(X₂ <span class="op">-</span> X̂₂_pi, <span class="fl">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="41">
+<pre><code>18.35684111920036</code></pre>
+</div>
+</div>
+<div id="6f4cbe85-60ea-4edc-ac8d-b1345598fa21" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">norm</span>(X₂ <span class="op">-</span> X̂₂_exact, <span class="fl">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="42">
+<pre><code>0.0005597047465277092</code></pre>
+</div>
+</div>
+<p>The main reason why you would pursue physics informed DMD, though, is not necessarily to generate a better fit as much as to generate better (or more physically realistic) dynamic modes.</p>
+<p>Similarly to compressed DMD, physics informed DMD can also be combined with reduced DMD. In this case there are two SVD steps but only the upper singular values of <strong>X</strong>, the <strong>U</strong> matrix, needs to be truncated. The second SVD proceeds without truncation.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-baddoo-2021" class="csl-entry" role="listitem">
+Baddoo, Peter J., Benjamin Herrmann, Beverley J. McKeon, J. Nathan Kutz, and Steven L. Brunton. <span>“Physics-Informed Dynamic Mode Decomposition (piDMD),”</span> December 8, 2021. <a href="https://doi.org/10.48550/arXiv.2112.04307">https://doi.org/10.48550/arXiv.2112.04307</a>.
+</div>
+<div id="ref-bai-2020" class="csl-entry" role="listitem">
+Bai, Zhe, Eurika Kaiser, Joshua L. Proctor, J. Nathan Kutz, and Steven L. Brunton. <span>“Dynamic Mode Decomposition for Compressive System Identification.”</span> <em>AIAA Journal</em> 58 (2020): 561–74. <a href="https://doi.org/10.2514/1.J057870">https://doi.org/10.2514/1.J057870</a>.
+</div>
+<div id="ref-brunton-2019" class="csl-entry" role="listitem">
+Brunton, Steven L., and J. Nathan Kutz. <em>Data Driven Science and Engineering</em>. Cambridge: Cambridge University Press, 2019. <a href="http://databookuw.com">http://databookuw.com</a>.
+</div>
+<div id="ref-brunton-2013" class="csl-entry" role="listitem">
+Brunton, Steven L., Joshua L. Proctor, and J. Nathan Kutz. <span>“Compressive Sampling and Dynamic Mode Decomposition,”</span> December 18, 2013. <a href="https://doi.org/10.48550/arXiv.1312.5186">https://doi.org/10.48550/arXiv.1312.5186</a>.
+</div>
+<div id="ref-brunton-2015" class="csl-entry" role="listitem">
+Brunton, Steven L., Joshua L. Proctor, Jonathan H. Tu, and J. Nathan Kutz. <span>“Compressed Sensing and Dynamic Mode Decomposition.”</span> <em>Journal of Computational Dynamics</em> 2 (2015): 165–91. <a href="https://doi.org/10.3934/jcd.2015002">https://doi.org/10.3934/jcd.2015002</a>.
+</div>
+<div id="ref-schmid-2010" class="csl-entry" role="listitem">
+Schmid, Peter J. <span>“Dynamic Mode Decomposition of Numerical and Experimental Data.”</span> <em>Journal of Fluid Mechanics</em> 656 (2010): 5–28. <a href="https://doi.org/10.1017/S0022112010001217">https://doi.org/10.1017/S0022112010001217</a>.
+</div>
+<div id="ref-tu-2014" class="csl-entry" role="listitem">
+Tu, Jonathan H., Clarence W. Rowley, Dirk Martin Luchtenburg, Steven L. Brunton, and J. Nathan Kutz. <span>“On Dynamic Mode Decomposition: Theory and Applications.”</span> <em>Journal of Computational Dynamics</em> 1 (2014): 391–421. <a href="https://doi.org/10.3934/jcd.2014.1.391">https://doi.org/10.3934/jcd.2014.1.391</a>.
+</div>
+</div>
+
+
+</section>
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/aefarrell\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="aefarrell/aefarrell.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Allan Farrell">
+<meta name="dcterms.date" content="2022-11-10">
+<meta name="description" content="Blending hydrogen into natural gas.">
+
+<title>Hydrogen Blending – A Chemical Engineer’s Notebook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-59228ce9c52eba116baca5d538563979.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: #ffffff;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: #ffffff;
+background: url(./flame-unsplash-header.jpg);
+      }
+</style>
+<style>
+.quarto-title-block .quarto-title-banner {
+  min-height: 100%;
+  background-size: cover;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
+}
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Hydrogen Blending – A Chemical Engineer’s Notebook">
+<meta property="og:description" content="Blending hydrogen into natural gas.">
+<meta property="og:image" content="https://aefarrell.github.io/posts/hydrogen_blending/index_files/figure-html/fig-hhv-output-1.svg">
+<meta property="og:site_name" content="A Chemical Engineer's Notebook">
+</head>
+
+<body class="floating nav-fixed slimcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">A Chemical Engineer’s Notebook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> <i class="bi bi-info-circle" role="img">
+</i> 
+<span class="menu-text">about</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> <i class="bi bi-wrench-adjustable-circle" role="img">
+</i> 
+<span class="menu-text">projects</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Hydrogen Blending</h1>
+                  <div>
+        <div class="description">
+          Blending hydrogen into natural gas.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">julia</div>
+                <div class="quarto-category">hydrogen</div>
+                <div class="quarto-category">compressible flow</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Allan Farrell </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 10, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#energy-density" id="toc-energy-density" class="nav-link active" data-scroll-target="#energy-density">Energy density</a></li>
+  <li><a href="#energy-per-unit-of-pressure-drop" id="toc-energy-per-unit-of-pressure-drop" class="nav-link" data-scroll-target="#energy-per-unit-of-pressure-drop">Energy per unit of pressure drop</a></li>
+  <li><a href="#greenhouse-gas-emissions" id="toc-greenhouse-gas-emissions" class="nav-link" data-scroll-target="#greenhouse-gas-emissions">Greenhouse gas emissions</a></li>
+  <li><a href="#material-concerns" id="toc-material-concerns" class="nav-link" data-scroll-target="#material-concerns">Material concerns</a></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a></li>
+  <li><a href="#an-example-system" id="toc-an-example-system" class="nav-link" data-scroll-target="#an-example-system">An example system</a>
+  <ul class="collapse">
+  <li><a href="#mixture-viscosity" id="toc-mixture-viscosity" class="nav-link" data-scroll-target="#mixture-viscosity">Mixture viscosity</a></li>
+  <li><a href="#pipe-dimensions-and-friction" id="toc-pipe-dimensions-and-friction" class="nav-link" data-scroll-target="#pipe-dimensions-and-friction">Pipe dimensions and friction</a></li>
+  <li><a href="#volumetric-flowrate" id="toc-volumetric-flowrate" class="nav-link" data-scroll-target="#volumetric-flowrate">Volumetric flowrate</a></li>
+  <li><a href="#heat-rate" id="toc-heat-rate" class="nav-link" data-scroll-target="#heat-rate">Heat rate</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<p>November this year came in with a bang <a href="https://www.google.com/maps/place/Edmonton,+AB/@53.5266805,-113.4927372,10z/data=!3m1!4b1!4m5!3m4!1s0x53a0224580deff23:0x411fa00c4af6155d!8m2!3d53.5460983!4d-113.4937266">where I live</a>: the temperature outside is currently -20°C, there is a pile of snow, and suddenly staying in and staying warm is a very important activity. At the same time, with <a href="https://www.un.org/en/climatechange/cop27">COP27</a> taking place in Egypt, climate change is top of mind for everyone (Edmonton is <a href="https://www.cbc.ca/news/canada/edmonton/shocked-and-disappointed-edmonton-climate-advisory-committee-decries-proposed-budget-1.6646702">evaluating its net zero strategy</a>) and I thought it would be worthwhile to look at one of the largest sources of household energy use in Canada: space heating. Space heating <a href="https://oee.nrcan.gc.ca/publications/statistics/trends/2017/residential.cfm">accounts for 61.6% of household energy use</a>, and in the province of Alberta that predominantly comes from burning natural gas. If we are going to meet our net zero goals as a municipality, we will need to address the carbon emissions that come from simply living here.</p>
+<p>A commonly bandied about tool for reducing household carbon emissions is hydrogen blending, such as <a href="https://gas.atco.com/en-ca/community/projects/fort-saskatchewan-hydrogen-blending-project.html">this project in the Edmonton area</a>. The idea is to gradually increase the hydrogen content of the natural gas and, since hydrogen burns without producing any carbon dioxide, the carbon emissions will decline. This has the obvious advantage of using the existing gas distribution infrastructure and existing appliances (e.g.&nbsp;people’s furnaces), thus avoiding costly retrofits.</p>
+<p>But is this actually a useful thing to do? A common criticism of hydrogen is its low energy density: for a given flowrate you would expect to get ~1/3 the energy from pure hydrogen than from natural gas (assuming you are combusting it). <em>But</em> hydrogen is also incredibly light and, since flowrate is <span class="math inline">\(\propto \frac{1}{\sqrt{\rho} }\)</span>, for the same pressure drop across a pipe you would expect a greater flowrate. So which is it? Does the energy content decrease, increase, or stay the same? Instead of just waving my hands and guessing, I thought it might be worthwhile to work through some simple calculations to get a sense of the scale of things.</p>
+<p>That said, it is rarely the case in engineering that decisions are clear cut. Blending hydrogen will have advantages and disadvantages, and whether the one out-weighs the other depends greatly on the particular location, its needs, infrastructure, and a host of other factors.</p>
+<section id="energy-density" class="level2">
+<h2 class="anchored" data-anchor-id="energy-density">Energy density</h2>
+<p>The obvious place to start, and where I have found people often end, is with the heating value. For convenience I am going to use <a href="https://en.wikipedia.org/wiki/Heat_of_combustion#Higher_heating_value">higher heating values</a>, given here per standard cubic meter. Where <em>standard</em> in this case means at 15°C and 1atm.</p>
+<div id="9b190ba5-c5d9-4179-8159-0aa87342b45a" class="cell" data-tags="[]" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Unitful</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard State</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>R  <span class="op">=</span> <span class="fl">8.31446261815324</span>u<span class="st">"m^3*Pa/K/mol"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Tᵣ <span class="op">=</span> <span class="fl">288.15</span>u<span class="st">"K"</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Pᵣ <span class="op">=</span> <span class="fl">101325</span>u<span class="st">"Pa"</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Hydrogen, from the GPSA handbook, 13th ed.</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>HHV_H2 <span class="op">=</span> <span class="fl">12.109</span>u<span class="st">"MJ/m^3"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Natural Gas, typical</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>HHV_NG <span class="op">=</span> <span class="fl">35.396</span>u<span class="st">"MJ/m^3"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can use a simple mixing rule to determine what the heating value would be with <em>x</em>% hydrogen by volume.</p>
+<div id="71c60242-c112-4bc6-b35d-51fca0b03885" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">HHV</span>(x) <span class="op">=</span> x<span class="op">*</span>HHV_H2 <span class="op">+</span> (<span class="fl">1</span><span class="op">-</span>x)<span class="op">*</span>HHV_NG</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-fig-hhv" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div id="fig-hhv" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hhv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-hhv-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hhv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Higher heating value of blended natural gas/hydrogen fuel gas as a function of hydrogen content, assuming an ideal gas and simple mixing rule.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Which clearly shows that increasing the hydrogen content decreases the overall heating value of the fuel. At 100% hydrogen the fuel gas has lost ~66% of it’s heat content.</p>
+<p>Suppose you are a customer whose natural gas was transitioned entirely to hydrogen, now you are receiving about a third of the energy per unit volume than you were before. Well the obvious thing to do would be to increase the volume that you use (by a factor of three) to make up the difference. This does raise the obvious question of <em>can you actually do that?</em> Superficially, it looks like you are asking to triple the demand on the current infrastructure.</p>
+</section>
+<section id="energy-per-unit-of-pressure-drop" class="level2">
+<h2 class="anchored" data-anchor-id="energy-per-unit-of-pressure-drop">Energy per unit of pressure drop</h2>
+<p>The glaring omission with the previous analysis is that we know that flowrate, generally, is <span class="math inline">\(\propto \frac{1}{\sqrt{\rho} }\)</span>, and natural gas is something like 9× denser than hydrogen. So, you would expect, for the same pressure drop in the same pipes, that you would get around 3× the flow of hydrogen.</p>
+<p>Suppose we are only looking at the “last mile” of the distribution network, perhaps the pipe connecting your house to the main, reducing the problem to that of simple pipe flow. Assuming the flow is nearly isothermal, and an ideal gas, the mass velocity, <em>G</em>, of the fuel gas arriving at your house is given by:</p>
+<p><span class="math display">\[ G = \sqrt{ \rho_1 P_1 } \sqrt{ \left(1 - \left( P_2 \over P_1 \right)^2 \right) \over { K - 2\log \left( P_2 \over P_1 \right)} } \]</span></p>
+<p>Where 1 is the point just after the tee and 2 is the point just before your meter (e.g.&nbsp;a straight length of pipe). The volumetric flow rate, <em>Q</em>, at the upstream point 1, is then given by</p>
+<p><span class="math display">\[ Q_1 = {\pi \over 4} D^2 {G \over \rho_1} \]</span></p>
+<p>which, when corrected to the reference (standard) state is</p>
+<p><span class="math display">\[ Q_s = Q_1 \cdot {v_{r} \over v_1} \]</span></p>
+<p>Where <em>v</em> is the ideal gas molar volume (<em>RT</em>/<em>P</em>), a constant independent of the gas.</p>
+<p>The heat rate, <em>q</em>, is simply the higher heating value times the volumetric flowrate (at standard state)</p>
+<p><span class="math display">\[ q = HHV \cdot Q_s = HHV \cdot {\pi \over 4} D^2 \sqrt{P_1 \over \rho_1} \sqrt{ \left(1 - \left( P_2 \over P_1 \right)^2 \right) \over { K - 2\log \left( P_2 \over P_1 \right)} } \cdot {v_{r} \over v_1} \]</span></p>
+<p>This looks like a lot however most of that is a constant, i.e.&nbsp;it is a function of the <em>system</em> and not the gas moving through it.</p>
+<p><span class="math display">\[ q = { HHV \over \sqrt{\rho_1} } \times \textrm{a constant} \]</span></p>
+<p>So, assuming a constant pressure drop, along an identical pipe, with fully developed turbulent flow (i.e.&nbsp;<em>K</em> is constant) the ratio of heat delivered by hydrogen to that of natural gas is given by:</p>
+<p><span class="math display">\[ { q_{H_2} \over q_{NG} } = { HHV_{H_2} \over HHV_{NG} } \sqrt{ \rho_{NG} \over \rho_{H_2} } = { HHV_{H_2} \over HHV_{NG} } \sqrt{ MW_{NG} \over MW_{H_2} }\]</span></p>
+<div id="7812ae13-cacb-4c8d-9021-7241020616db" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hydrogen</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>MW_H2 <span class="op">=</span> <span class="fl">2.016e-3</span>u<span class="st">"kg/mol"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Natural Gas</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>MW_NG <span class="op">=</span> <span class="fl">19.5e-3</span>u<span class="st">"kg/mol"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>heat_ratio <span class="op">=</span> (HHV_H2<span class="op">/</span>HHV_NG)<span class="fu">*√</span>(MW_NG<span class="op">/</span>MW_H2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>1.0639620426132184</code></pre>
+</div>
+</div>
+<p>So in total opposition to what we expected from merely looking at energy density we now expect, for the same system operating at the same pressures, to receive <em>slightly more</em> energy when transitioned over to pure hydrogen.</p>
+<p>But what about the in-between, when hydrogen is blended into natural gas? Is it just a straight line connecting these two?</p>
+<p>We can explore this more closely by first looking at how density, and thus volumetric flowrate, changes with the hydrogen content. I am assuming an ideal gas case and so the mixing rule is quite simple</p>
+<p><span class="math display">\[ \rho = x_{H_2} \rho_{H_2} + x_{NG} \rho_{NG} \]</span></p>
+<p>where, for an ideal gas</p>
+<p><span class="math display">\[ \rho = MW {P \over {R T} } \]</span></p>
+<p>giving</p>
+<p><span class="math display">\[ \rho = {P \over {R T} } \left( x_{H_2} MW_{H_2} + x_{NG} MW_{NG} \right)\]</span></p>
+<div id="b4fb26b1-9823-48ff-9388-5f753a2b7b39" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ideal gas density</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ρ</span>(x, T, P) <span class="op">=</span> (P<span class="op">/</span>(R<span class="op">*</span>T))<span class="fu">*</span>( x<span class="op">*</span>MW_H2 <span class="op">+</span> (<span class="fl">1</span><span class="op">-</span>x)<span class="op">*</span>MW_NG );</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-fig-density" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div id="fig-density" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-density-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-density-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-density-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Density and relative flowrate for blended natural gas/hydrogen fuel gas, assuming an ideal gas.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>So we have two competing effects: as the mole fraction increases the heating value of the gas decreases but at the same time the flowrate increases. We can explore this further by plotting the ratio of the heat rate with blended fuel gas to the heat rate with straight natural gas.</p>
+<div id="35c10598-43b4-48a2-b7d6-359173a78fdc" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># heat rate for blended fuel gas relative to natural gas</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">q_ratio</span>(x) <span class="op">=</span> (<span class="fu">HHV</span>(x)<span class="op">/</span>HHV_NG)<span class="fu">*√</span>(<span class="fu">ρ</span>(<span class="fl">0</span>,Tᵣ,Pᵣ)<span class="op">/</span><span class="fu">ρ</span>(x,Tᵣ,Pᵣ));</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-fig-energy" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div id="fig-energy" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-energy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-energy-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-energy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: The amount of energy delivered, in higher heating value, for a blended natural gas/hydrogen fuel gas system at constant operating conditions, relative to natural gas
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Initially the loss of heating value “wins out” and increasing the hydrogen content merely decreases the energy supplied at a given pressure. But once the stream is predominantly hydrogen, the lower density takes over and the heat rate increases.</p>
+<p>The minimum ratio can be found by setting the derivative to zero</p>
+<div id="97fe8c41-62cd-49c3-8dfa-5560f2070036" class="cell" data-tags="[]" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ForwardDiff</span>: derivative</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">∂q_ratio</span>(x) <span class="op">=</span> <span class="fu">derivative</span>(q_ratio,x)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>xₘᵢₙ <span class="op">=</span> <span class="fu">find_zero</span>(∂q_ratio,(<span class="fl">0</span>,<span class="fl">1</span>))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>xₘᵢₙ, <span class="fu">q_ratio</span>(xₘᵢₙ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>(0.7106211503798253, 0.8839840357969662)</code></pre>
+</div>
+</div>
+<p>Initially, blending hydrogen decreases the overall energy delivered, bottoming out at ~12% less, when hydrogen makes up 71% of the fuel gas. While this is not the 66% decline predicted by a naive look at energy density, neither is it nothing.</p>
+<p>Another important point is where the ratio becomes one: the concentration where the blended hydrogen fuel gas reattains the energy content of the original natural gas stream</p>
+<div id="6d3f358d-d65c-4335-84b9-3bfd15db1123" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>xₑᵥₑₙ <span class="op">=</span> <span class="fu">find_zero</span>( (x)<span class="op">-&gt;</span> <span class="fu">q_ratio</span>(x)<span class="op">-</span><span class="fl">1</span>, (xₘᵢₙ,<span class="fl">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>0.9684672945947692</code></pre>
+</div>
+</div>
+<p>The system doesn’t recover the original energy supply until the hydrogen content is &gt;96.8%, at which point a whole host of other concerns may become more relevant – burning pure and nearly pure hydrogen comes with its own issues.</p>
+</section>
+<section id="greenhouse-gas-emissions" class="level2">
+<h2 class="anchored" data-anchor-id="greenhouse-gas-emissions">Greenhouse gas emissions</h2>
+<p>The whole point of doing this is to decrease the carbon emissions associated with space heating (plus the other uses of household natural gas, but mostly space heating). So it is worth circling back to answer the question: does this actually do that? and by how much?</p>
+<p>The dominant greenhouse gas associated with combustion is carbon dioxide, and the carbon dioxide emissions from combustion are fairly easy to calculate from stoichiometry, for a generic hydrocarbon the combustion equation is</p>
+<p><span class="math display">\[ C_n H_m + \left( n + {m \over 4} \right) O_2 \rightarrow n CO_2 + {m \over 2} H_2 O \]</span></p>
+<p>If we presume the natural gas is mostly methane and <em>n</em>≈1, then there is one mole of carbon dioxide produced per mole of natural gas delivered (assuming perfectly complete combustion). When combusting hydrogen there is no carbon dioxide produced, and so the moles of carbon dioxide produced from the combustion of a blended hydrogen fuel gas is</p>
+<p><span class="math display">\[ \dot{n}_{CO_2} = \left( 1 - x_{H_2} \right) \dot{n}_{FG} \]</span></p>
+<p>Where <span class="math inline">\(\dot{n}\)</span> is the molar flowrate. We don’t actually know the molar flowrate of fuel gas, but we can calculate it from the ideal gas law and the volumetric flowrate at standard state <em>Q</em><sub>s</sub></p>
+<p><span class="math display">\[ \dot{n}_{FG} = {P_r \over {R T_r} } Q_s \]</span></p>
+<p><span class="math display">\[ \dot{n}_{CO_2} = \left( 1 - x_{H_2} \right) {P_r \over {R T_r} } Q_s \]</span></p>
+<p>What we want is the <em>mass</em> flowrate of carbon dioxide, so simply multiply both sides by the molar weight</p>
+<p><span class="math display">\[ \dot{m}_{CO_2} = \left( 1 - x_{H_2} \right) MW_{CO_2} {P_r \over {R T_r} } Q_s \\ = \left( 1 - x_{H_2} \right) \rho_{CO_2,r} Q_s \]</span></p>
+<p>If we assume that the users of fuel gas are using a fixed amount of energy, regardless of the actual flowrate, then what we want is the carbon <em>intensity</em> of the fuel: how much carbon dioxide is emitted <em>per Megajoule</em> of heat generated?</p>
+<p><span class="math display">\[ E = \frac{\dot{m}_{CO_2} }{q} = { {\left( 1 - x_{H_2} \right) \rho_{CO_2,r} Q_s} \over {HHV(x) Q_s} } = { { \left( 1 - x_{H_2} \right) \rho_{CO_2,r} } \over {HHV(x)} }\]</span></p>
+<div id="e6464333-5bf9-4d74-94c7-a75d3e46a6f8" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Carbon Dioxide</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>MW_CO2 <span class="op">=</span> <span class="fl">44.009e-3</span>u<span class="st">"kg/mol"</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>ρ_CO2 <span class="op">=</span> MW_CO2<span class="op">*</span>Pᵣ<span class="op">/</span>(R<span class="op">*</span>Tᵣ)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(x) <span class="op">=</span> (<span class="fl">1</span><span class="op">-</span>x)<span class="op">*</span>ρ_CO2<span class="op">/</span><span class="fu">HHV</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-fig-co2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div id="fig-co2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-co2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-co2-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-co2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: The carbon dioxide emissions intensity for a blended natural gas/hydrogen fuel gas, over a range of hydrogen content.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>So there are emissions reductions but <em>at a cost</em>, beyond whatever method is used to generate the hydrogen in the first place. The system must be operated at greater pressures to supply the same amount of energy, which itself takes some energy, at least until the hydrogen exceeds 96.8%. At that high level the system seems like an easy win: it takes <em>less</em> pressure to supply the same amount of energy and the emissions intensity is a ~8.7% that of natural gas (a ~91% reduction)</p>
+<div id="b489cad5-0b9a-4637-9b50-560000835931" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(xₑᵥₑₙ)<span class="op">/</span><span class="fu">E</span>(<span class="fl">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>0.08690379085511468</code></pre>
+</div>
+</div>
+<p>There are a few caveats with this: for one carbon dioxide is not the only significant greenhouse gas that comes from combustion, nitrous oxide is also produced and has a global warming potential ~300× that of carbon dioxide. Unlike carbon dioxide, <a href="https://en.wikipedia.org/wiki/Nitrous_oxide#Atmospheric_occurrence">nitrous oxide</a> is producded when hydrogen is combusted with air because, like many other nitrogen oxides, it is generated from the high temperature reaction of the nitrogen and oxygen from the air. So burning pure hydrogen is only net zero for very particular definitions of zero, it is <em>not</em> net zero greenhouse gas emissions though it is net zero carbon emissions.</p>
+</section>
+<section id="material-concerns" class="level2">
+<h2 class="anchored" data-anchor-id="material-concerns">Material concerns</h2>
+<p>So far the analysis has completely ignored the <em>material</em> issues that hydrogen brings. At high temperatures (such as, say, inside a furnace that is burning hydrogen) <a href="https://en.wikipedia.org/wiki/High_temperature_hydrogen_attack">high temperature hydrogen attack</a> is a real concern and using hydrogen as a fuel gas would eventually destroy most burners that were designed for use with natural gas. Similarly <a href="https://en.wikipedia.org/wiki/Hydrogen_embrittlement">hydrogen embrittlement</a> would be a concern for the entire system, wherever steel is used. Neither of these are insurmountable but they would require extensive retrofitting with different materials and special alloys. This dampens a lot of the advantages of hydrogen blending, namely being able to use the existing infrastructure.</p>
+<p>To skip over the details (I’m not a materials engineer), I think it is fair to say that the mechanical integrity of the system is strongly dependent on the hydrogen content and it likely will be a limiting factor in any hydrogen blending project.</p>
+</section>
+<section id="conclusions" class="level2">
+<h2 class="anchored" data-anchor-id="conclusions">Conclusions</h2>
+<p>At the level of “back of the envelope” calculations like I have done above, it is fairly clear that blending hydrogen into the utility natural gas system is not a panacea, but then neither is it completely infeasible. I think there are several other factors that need to be considered when evaluating the possible role of hydrogen blending in the future energy mix:</p>
+<ul>
+<li><em>Availability of hydrogen</em> - in areas like Edmonton, there are already industrial suppliers of hydrogen (and large industrial consumers), with a roadmap to both expand that capacity and bring it to net zero emissions. Tying into that existing network significantly lowers the barrier for a blending project and can realize <em>real emissions reductions</em> now.</li>
+<li><em>Feasibility of alternatives</em> - it seems to be accepted wisdom that, at least for now, air source heat pumps are not very effective below -20°C. It is entirely possible that, while retrofitting to add heat pumps to homes would be hugely effective for most of the year, households in Edmonton would still require some additional source of space heating for those extremely cold days. Not only are -20°C days fairly normal in the winter, it is not at all uncommon to exceed -30°C and periodically it gets to -40°C. Hydrogen blending could be part of that energy future, as people with heat pumps keep their furnaces around.</li>
+<li><em>Existing housing stock/pace of retrofits</em> - it may be the case that, after performing a full life cycle analysis, heat pumps + resistive heating is the better technology. But that may fail to acknowledge the greater metropolitan area of 1.4M people that is Edmonton who, almost universally, live in buildings that do not have heat pumps and resistive heating, and instead rely on natural gas fired heaters (e.g.&nbsp;furnaces, boilers). With the majority of household energy use being space heating, hydrogen blending may have a role in realizing significant emissions reductions while the existing housing stock is transitioned over.</li>
+</ul>
+<p>Personally I think hydrogen’s role in the future is over-hyped. A lot of people working in the fossil fuel space have pinned their industry’s future on hydrogen, which comes with a certain amount of motivated reasoning. Also hydrogen is appealing as it looks like the easy solution: swap the burning of one fuel for the burning of another, and we don’t have to make sweeping and systemic change, except that hydrogen brings its own host of issues (low energy density, material incompatibility). I think the answer will turn out not to be one silver bullet, like hydrogen, but an entire ecosystem of different technologies, often hyper specific to different locations, and what will connect them all will be the electrification of everything. That said, we have a vast, globe spanning, infrastructure and centuries of know-how in burning things and that gives hydrogen a big leg-up as a transitional solution.</p>
+</section>
+<section id="an-example-system" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="an-example-system">An example system</h2>
+<p>I thought I would end with a basic pipe flow example, if you wanted to look at specific numbers this is how you might start that. This is also an example of the life changing magic of solving problems with code: once you have solved them once you never have to solve them again. Since I have frequently worked out pipe flow problems with julia, I can throw together a <em>more detailed than is at all necessary</em> model through the magic of copying and pasting.</p>
+<section id="mixture-viscosity" class="level3">
+<h3 class="anchored" data-anchor-id="mixture-viscosity">Mixture viscosity</h3>
+<p>We’ve already worked out the mixture density and heating value, and the next most important material property is viscosity. I don’t have a curve for natural gas, so I am just going to use methane as a proxy. I am already treating natural gas like a homogeneous substance, so this is simply an extension of that.</p>
+<div id="731267ae-ed34-41c4-8f44-b98ab48f5ad1" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">UnitfulCorrelations</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Hydrogen - from Perry's, 8th ed.</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">μ_H2</span>(T) <span class="op">=</span> (<span class="fl">1.797e-7</span><span class="op">*</span>T<span class="op">^</span><span class="fl">0.685</span>)<span class="op">/</span>(<span class="fl">1</span><span class="op">-</span><span class="fl">0.59</span><span class="op">/</span>T<span class="op">+</span><span class="fl">140</span><span class="op">/</span>(T<span class="op">^</span><span class="fl">2</span>));</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@ucorrel</span> μ_H2 u<span class="st">"K"</span> u<span class="st">"Pa*s"</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Methane (Natural Gas) - from Perry's, 8th ed. </span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">μ_NG</span>(T) <span class="op">=</span> (<span class="fl">5.2546e-7</span><span class="op">*</span>T<span class="op">^</span><span class="fl">0.59006</span>)<span class="op">/</span>(<span class="fl">1</span><span class="op">+</span><span class="fl">105.67</span><span class="op">/</span>T);</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="pp">@ucorrel</span> μ_NG u<span class="st">"K"</span> u<span class="st">"Pa*s"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Where I have used <a href="https://github.com/aefarrell/UnitfulCorrelations.jl">a macro that I wrote previously</a> to turn correlations into correlations <em>with units</em>.</p>
+<p>At standard conditions the viscosity of hydrogen and that of natural gas (methane) are not too different, so we can get away with using a simple method for estimating the viscosity of the overall mixture.</p>
+<div id="1fdfc7a6-8d78-4d91-b391-2fe888adedeb" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">μ_H2</span>(Tᵣ)<span class="op">/</span><span class="fu">μ_NG</span>(Tᵣ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>0.8004989026814741</code></pre>
+</div>
+</div>
+<p>I happen to already have Wilke’s method for a binary mixture worked out, I just need to swap in what the two components are. A more fulsome analysis would have a complete composition of natural gas (broken down into methane, ethane, propane, etc.) in which case the generalized Wilke’s method could be used as well.</p>
+<div id="109ea297-2245-4cb2-8796-1c4b7d927378" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mixture viscosity using Wilke method</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># from *The Properties of Gases and Liquids* 5th ed.</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">μ</span>(x,T)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    μ₁ <span class="op">=</span> <span class="fu">μ_H2</span>(T)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    M₁ <span class="op">=</span> MW_H2</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    y₁ <span class="op">=</span> x</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    μ₂ <span class="op">=</span> <span class="fu">μ_NG</span>(T)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    M₂ <span class="op">=</span> MW_NG</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    y₂ <span class="op">=</span> <span class="fl">1</span><span class="op">-</span>x</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    ϕ₁₂ <span class="op">=</span> ((<span class="fl">1</span><span class="fu">+√</span>((μ₁<span class="op">/</span>μ₂)<span class="fu">*√</span>(M₂<span class="op">/</span>M₁)))<span class="op">^</span><span class="fl">2</span>)<span class="op">/</span><span class="fu">√</span>(<span class="fl">8</span><span class="fu">*</span>(<span class="fl">1</span><span class="fu">+</span>(M₁<span class="op">/</span>M₂)))</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    ϕ₂₁ <span class="op">=</span> <span class="fu">ϕ₁₂*</span>(μ₂<span class="op">/</span>μ₁)<span class="fu">*</span>(M₁<span class="op">/</span>M₂)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    μ <span class="op">=</span> (y₁<span class="op">*</span>μ₁<span class="op">/</span>(y₁<span class="op">+</span>y₂<span class="op">*</span>ϕ₁₂)) <span class="op">+</span> (y₂<span class="op">*</span>μ₂<span class="op">/</span>(y₂<span class="op">+</span>y₁<span class="op">*</span>ϕ₂₁))</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> μ</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-fig-viscosity" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="17">
+<div id="fig-viscosity" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-viscosity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-viscosity-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-viscosity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: The viscosity of blended natural gas/hydrogen for a range of hydrogen content. For a wide range the viscosity is nearly constant.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="pipe-dimensions-and-friction" class="level3">
+<h3 class="anchored" data-anchor-id="pipe-dimensions-and-friction">Pipe dimensions and friction</h3>
+<p>For the sake of having something to calculate I am just assuming a 20m length of 2in steel pipe. But you could put in really anything here.</p>
+<div id="7817b625-e538-4af7-8e06-4fba63a185e8" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pipe dimensions</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> <span class="fl">20</span>u<span class="st">"m"</span>      <span class="co"># length</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> <span class="fl">52.5</span>u<span class="st">"mm"</span>   <span class="co"># diameter</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>ϵ <span class="op">=</span> <span class="fl">0.0457</span>u<span class="st">"mm"</span> <span class="co"># roughness</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="fl">0.25</span><span class="op">*</span><span class="cn">π</span><span class="op">*</span>D<span class="op">^</span><span class="fl">2</span>  <span class="co"># cross-sectional area</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> L<span class="op">/</span>D         <span class="co"># relative length</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>κ <span class="op">=</span> ϵ<span class="op">/</span>D         <span class="co"># relative roughness</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The Reynold’s number is simply a function of the mass velocity, <em>G</em>, the pipe diameter, <em>D</em>, and the mixture viscosity <em>μ</em></p>
+<div id="9a381946-0842-485d-a42a-e6168bab8b7d" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reynold's number</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Re</span>(x,T,G) <span class="op">=</span> G<span class="op">*</span>D<span class="op">/</span><span class="fu">μ</span>(x,T);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I am using my favourite correlation for the Darcy friction factor, <em>f</em>,</p>
+<div id="027d13a5-e80b-445f-b5d8-634880d3a198" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Churchill correlation, from Perry's</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">churchill</span>(Re)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> (<span class="fl">2.457</span> <span class="op">*</span> <span class="fu">log</span>(<span class="fl">1</span><span class="op">/</span>((<span class="fl">7</span><span class="op">/</span>Re)<span class="op">^</span><span class="fl">0.9</span> <span class="op">+</span> <span class="fl">0.27</span><span class="op">*</span>κ)))<span class="op">^</span><span class="fl">16</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    B <span class="op">=</span> (<span class="fl">37530</span><span class="op">/</span>Re)<span class="op">^</span><span class="fl">16</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">8</span><span class="fu">*</span>((<span class="fl">8</span><span class="op">/</span>Re)<span class="op">^</span><span class="fl">12</span> <span class="op">+</span> <span class="fl">1</span><span class="op">/</span>(A<span class="op">+</span>B)<span class="op">^</span>(<span class="fl">3</span><span class="op">/</span><span class="fl">2</span>))<span class="op">^</span>(<span class="fl">1</span><span class="op">/</span><span class="fl">12</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Since this is just a straight length of pipe, the K factor is simply <em>fL</em>/<em>D</em>, defaulting back to the Nikuradse rough pipe law for fully developed turbulent flow (i.e.&nbsp;very high Reynold’s numbers)</p>
+<div id="f977e08c-084b-40dd-8dfd-f5f7855fe423" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Kf</span>() <span class="op">=</span> l<span class="op">/</span>(<span class="fl">2</span><span class="fu">*log10</span>(<span class="fl">3.7</span><span class="op">/</span>κ))<span class="op">^</span><span class="fl">2</span> <span class="co"># Nikuradse</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Kf</span>(Re) <span class="op">=</span> <span class="fu">l*churchill</span>(Re)    <span class="co"># Churchill</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="volumetric-flowrate" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="volumetric-flowrate">Volumetric flowrate</h3>
+<p>The volumetric flowrate for an isothermal ideal gas is simply the mass velocity, <em>G</em>, multiplied by the cross sectional area and divided by the density <em>GA</em>/<em>ρ</em>. It is very easy to modify some code I had previously written to solve for the volumetric flowrate.</p>
+<div id="8ddd4778-4b72-431e-bbc0-60c39179cbc2" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Isothermal ideal gas pipeflow</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Q₁</span>(x, T₁, P₁, P₂, K<span class="op">::</span><span class="dt">Number</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    ρ₁ <span class="op">=</span> <span class="fu">ρ</span>(x, T₁, P₁)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    v̄₁ <span class="op">=</span> <span class="fl">1</span><span class="op">/</span>ρ₁</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    q  <span class="op">=</span> P₂<span class="op">/</span>P₁</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    Q₁ <span class="op">=</span> <span class="fu">A*√</span>((<span class="fu">v̄₁*P₁*</span>(<span class="fl">1</span><span class="op">-</span>q<span class="op">^</span><span class="fl">2</span>))<span class="op">/</span>(<span class="fu">K-2*log</span>(q)))</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">upreferred</span>(Q₁)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Q₁</span>(x, T₁, P₁, P₂, K<span class="op">::</span><span class="dt">Function</span>)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize Parameters</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    ρ₁ <span class="op">=</span> <span class="fu">ρ</span>(x, T₁, P₁)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> P₂<span class="op">/</span>P₁</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initial Guesses</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    Q₀ <span class="op">=</span> <span class="fu">Q₁</span>(x, T₁, P₁, P₂, <span class="fu">K</span>())</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    G₀ <span class="op">=</span> Q₀<span class="op">*</span>ρ₁<span class="op">/</span>A</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Numerically solve for G</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">obj</span>(G) <span class="op">=</span> (<span class="fu">K</span>(<span class="fu">Re</span>(x,T₁,G))<span class="op">-</span> <span class="fl">2</span><span class="fu">*log</span>(q))<span class="fu">*</span>(G<span class="op">^</span><span class="fl">2</span>) <span class="op">-</span> <span class="fu">ρ₁*P₁*</span>(<span class="fl">1</span><span class="op">-</span>q<span class="op">^</span><span class="fl">2</span>)</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">find_zero</span>(obj, G₀)</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">upreferred</span>(G<span class="op">*</span>A<span class="op">/</span>ρ₁)</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This uses julia’s multiple dispatch to handle two cases: for large Reynold’s numbers where <em>K</em> is a constant, and for cases where K is a function of the Reynold’s number (and thus the volumetric flowrate).</p>
+<p>The volumetric flowrate at standard state is then the flowrate from above, corrected to the reference pressure and temperature<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;I have been using <code>upreferred</code> to force Unitful to cancel out and simplify units.</p></div></div><div id="90cf27cc-bb94-4ba5-b626-1837c6df6ce4" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Qₛ</span>(x, T₁, P₁, P₂) <span class="op">=</span> <span class="fu">upreferred</span>((P₁<span class="op">/</span>Pᵣ)<span class="fu">*</span>(Tᵣ<span class="op">/</span>T₁)<span class="fu">*Q₁</span>(x, T₁, P₁, P₂, Kf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>Qₛ (generic function with 1 method)</code></pre>
+</div>
+</div>
+</section>
+<section id="heat-rate" class="level3">
+<h3 class="anchored" data-anchor-id="heat-rate">Heat rate</h3>
+<p>The heat rate is then the heating value, already worked out, times the volumetric flowrate at standard state</p>
+<div id="c772f9cb-6ef6-4ca4-8c37-a8c46b66f5ee" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">q</span>(x, T₁, P₁, P₂) <span class="op">=</span> <span class="fu">HHV</span>(x)<span class="fu">*Qₛ</span>(x, T₁, P₁, P₂)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<pre><code>q (generic function with 1 method)</code></pre>
+</div>
+</div>
+<div id="cell-fig-energy-pv" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="25">
+<div class="cell-output cell-output-display" data-execution_count="25">
+<div id="fig-energy-pv" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-energy-pv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-energy-pv-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-energy-pv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: The energy supplied by the example fuel gas delivery system for a range of pressure drops. Pure natural gas and pure hydrogen deliver nearly the same energy for the same pressure drop.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We see the same ordering that we expect, given the previous analysis, namely that the 0% and 100% cases are pretty close to each other, followed by the in-between hydrogen contents.</p>
+<p>Another way of looking at this is to pick a required heat rate and look at the pressure drop as a function of hydrogen content.</p>
+<div id="cell-fig-pressure-drop" class="cell" data-tags="[]" data-execution_count="26">
+<div class="cell-output cell-output-display" data-execution_count="26">
+<div id="fig-pressure-drop" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pressure-drop-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-pressure-drop-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pressure-drop-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: The pressure drop required to deliver a fixed heat rate for blended natural gas/hydrogen fuel gas in the example system.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>All of this has been done assuming the ideal gas case. The next logical step is to start incorporating non-ideal gas models, say a cubic equation of state, and so on.</p>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-gpsa-2012" class="csl-entry" role="listitem">
+GPSA. <em>Engineering Data Book</em>. 13th ed. Tulsa, OK: Gas Processors Suppliers Association, 2012.
+</div>
+<div id="ref-perrys-2008" class="csl-entry" role="listitem">
+Green, Don W., ed. <em>Perry’s Chemical Engineers’ Handbook</em>. 8th ed. New York: McGraw Hill, 2008.
+</div>
+<div id="ref-poling-2001" class="csl-entry" role="listitem">
+Poling, Bruce E., John M. Prausnitz, and John P. O’Connell. <em>The Properties of Gases and Liquids</em>. 5th ed. New York: McGraw Hill, 2001.
+</div>
+<div id="ref-poling-2007" class="csl-entry" role="listitem">
+Poling, Bruce E., George H. Thomson, Daniel G. Friend, Richard L. Rowley, and W. Vincent Wilding. <span>“Physical and Chemical Data.”</span> In <em>Perry’s Chemical Engineers’ Handbook</em>, edited by Don W. Green, 8th ed. New York: McGraw Hill, 2008.
+</div>
+</div>
+
+
+</section>
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/aefarrell\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="aefarrell/aefarrell.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
