@@ -1,5 +1,7 @@
 project:
   type: website
+  resources:
+    - "feed.xml"
 
 website:
   title: "A Chemical Engineer's Notebook"
