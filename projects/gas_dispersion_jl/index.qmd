@@ -1,0 +1,23 @@
+---
+title: "GasDispersion.jl"
+description: "A julia package for dispersion modeling of chemical releases"
+image: gasdispersion.jpg
+categories: [julia]
+lightbox: true
+---
+
+[![LICENSE](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/aefarrell/GasDispersion.jl/blob/main/LICENSE) [![Documentation](https://img.shields.io/badge/docs-dev-blue)](https://aefarrell.github.io/GasDispersion.jl/dev/) [![Build Status](https://github.com/aefarrell/GasDispersion.jl/workflows/CI/badge.svg)](https://github.com/aefarrell/GasDispersion.jl/actions) [![Coverage](https://codecov.io/gh/aefarrell/GasDispersion.jl/branch/main/graph/badge.svg?token=PB3LOR80K2)](https://codecov.io/gh/aefarrell/GasDispersion.jl)
+
+[GasDispersion.jl](https://github.com/aefarrell/GasDispersion.jl) aims to bring together several models for dispersion modelling of chemical releases with a consistent interface. Currently it implements several Gaussian dispersion models, the Britter-McQuaid dense gas dispersion model, a subset of the SLAB dense gas dispersion model, and others.
+
+::: {layout-ncol=2}
+
+![](gasdispersion_gaussian.svg){group="gasdispersion"}
+
+![](gasdispersion_simplejet.svg){group="gasdispersion"}
+
+![](gasdispersion_puff.gif){group="gasdispersion"}
+
+![](gasdispersion_brittermcquaid.jpg){group="gasdispersion"}
+
+:::

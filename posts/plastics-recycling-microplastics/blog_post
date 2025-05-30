@@ -1,0 +1,24 @@
+---
+title: "Chemical Release Screening Example - Butane leak"
+description: "Estimating the airborne quantity."
+author: "Allan Farrell"
+date: "11/20/2020"
+categories: [julia, chemical releases, hazard screening]
+title-block-banner: url(/images/pexels-daniil-prikhno-header.jpg)
+reference-location: margin
+bibliography: references.bib
+nocite: |
+  @*
+---
+
+
+::: {#fig-1}
+
+![](this is a figure.png)
+
+:::
+
+
+## References
+::: {#refs}
+:::

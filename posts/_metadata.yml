@@ -1,0 +1,35 @@
+# options specified here will apply to all posts in this folder
+
+# freeze computational output
+# (see https://quarto.org/docs/projects/code-execution.html#freeze)
+freeze: true
+
+# csl file
+csl: chicago-annotated-bibliography.csl
+
+# table of contents
+format:
+  html:
+    toc: true
+    toc-title: Contents
+    toc-location: left
+    toc-expand: 3
+
+# comments by utterances
+comments:
+  utterances:
+    repo: aefarrell/aefarrell.github.io
+
+# include CSS style for title blocks
+title-block-banner: url(/images/pipes-unsplash-header.jpg)
+title-block-banner-color: "#ffffff"
+include-in-header:
+  - text: |
+      <style>
+      .quarto-title-block .quarto-title-banner {
+        min-height: 100%;
+        background-size: cover;
+        box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
+      }
+      </style>
+

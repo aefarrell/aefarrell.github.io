@@ -1,0 +1,850 @@
+---
+title: "Vessel Blowdown - Real Gases"
+description: "Modelling vessel blowdowns using equations of state."
+author: "Allan Farrell"
+date: "03/19/2025"
+categories: [julia, compressible flow, blowdown, equations of state]
+title-block-banner: url(/images/pexels-daniil-prikhno-header.jpg)
+reference-location: margin
+---
+
+Continuing on from where [I left off previously](/posts/vessel_blowdown_ideal_gases/), examining vessel blowdown, it is time to implement real gases. I left the ideal gas case promising that implementing a real gas was easy, well now is the time to prove it. Instead of implementing real gas equations of state myself, I am going to use [Clapeyron.jl](https://clapeyronthermo.github.io/Clapeyron.jl/stable/) but, as a first step, it is worthwhile to consider how the problem can be divided up into sub-problems and what data structures would be the most useful. I would like to write code that is general enough that any equation of state can be used with minimal changes. With that in mind, I am going to consider the problem as being composed of three distinct subsets: the vessel, the fluid model, and the ambient conditions.
+
+## Data Structures
+
+The properties of the vessel form a natural data structure containing the valve properties, the vessel volume, and the initial conditions. It can also be divided into two distinct sub-problems: the gas expansion within the vessel and the gas expansion across the valve. The gas expansion within the vessel will be governed by the ODE or DAE for the particular expansion type – isothermal, adiabatic, &amp;c. – whereas the expansion across the valve will always be isentropic. These sub-problems can then be solved in a way that is agnostic to the equation of state.
+
+An important decision must be made regarding which subset of the state variables, $P, v, T$, will be used to define the system. The remaining variable will be defined by the equation of state. Equations of state are typically given in relation to the Helmholtz free energy, $A$, a function of molar volume and temperature, which makes those a natural choice. The pressure vessel can then be instantiated with the total volume, total mass of material contained, and the vessel temperature. The pressure then varies with the equation of state. Alternatively, the pressure and temperature of the vessel could be chosen as the state variables. But then the total mass in the vessel depends on the particular equation of state, which strikes me as weird.
+
+```julia
+begin
+
+struct PressureVessel{F <: Number}
+    c::F # valve discharge coefficient
+    A::F # valve flow area
+    V::F # vessel volume
+    T::F # vessel temperature
+    m::F # total mass of material
+end
+
+PressureVessel(c, A, V, T, m) = 
+    PressureVessel(promote(c, A, V, T, m)...)
+
+end
+```
+
+Abstracting the fluid properties – the P-v-T relationship, entropy, enthalpy, and the like – allows the vessel blowdown model to be re-used easily. Using Julia's multiple dispatch no code even needs to change, just add new methods for a new fluid model and everything works. This leads naturally to a way of checking that the vessel model is working by comparing an ideal gas model to the known analytic solution. Verifying that it works with an ideal gas then gives confidence that the model is working with a real gas, for which the analytic solution is unknown.
+
+Collecting the ambient conditions into a data structure does not lead to any spectacular improvements or insights, it is just neat and tidy.
+
+```julia
+begin
+
+struct Environment{F <: Number}
+    P::F
+    T::F
+end
+
+Environment(P, T) = Environment(promote(P,T)...)
+
+end
+```
+
+Finally, a data structure for blowdown solutions is useful for dispatch.
+
+```julia
+struct Blowdown{S}
+    pv::PressureVessel
+    env::Environment
+    sol::S
+end
+```
+
+```julia
+Base.length(::Blowdown) = 1
+```
+
+```julia
+Base.iterate(b::Blowdown, state=1) = state > length(b) ? nothing : (b,state+1)
+```
+
+## Equations of State
+### Ideal gases
+
+The first fluid model worth creating is the ideal gas model that corresponds to the known, analytic, solution. Specifically an ideal gas with constant heat capacities such that $c_p - c_v = R$. Starting with the following data structure.
+
+```julia
+begin
+
+const R = 8.31446261815324 # m³⋅Pa/K/mol
+
+struct IdealGas{F <: Number}
+    cᵥ::F # J/kg/K
+    cₚ::F # J/kg/K
+    k::F
+    R::F  # J/kg/K
+    MW::F # kg/mol
+end
+
+function IdealGas(cᵥ,MW; R=R)
+    cᵥ, MW = promote(cᵥ,MW)
+    cₚ = cᵥ + R
+    k = cₚ/cᵥ
+    return IdealGas(cᵥ,cₚ,k,R,MW)
+end
+
+function IdealGas(model::Clapeyron.EoSModel; 
+                  P=101325, T=288.15, z=[1.])
+    MW = Clapeyron.molecular_weight(model, z) # kg/mol
+    cᵥ = Clapeyron.isochoric_heat_capacity(model, P, T, z) # J/mol/K
+    return IdealGas(cᵥ, MW)
+end
+    
+end
+```
+
+A good practice, when solving ODEs, is to use [NaNMath.jl](https://github.com/JuliaMath/NaNMath.jl) for roots, logarithms, and the like. These versions return `NaN` when results are outside of the function domain – for example $\sqrt{-1}$ – instead of throwing a `DomainError`. Returning `NaNs` makes it easier for the ODE solver to detect when it has left the domain of a valid solution.
+
+```julia
+begin 
+
+using NaNMath
+
+√ = NaNMath.sqrt
+log = NaNMath.log
+
+end
+```
+
+
+The equation of state is implemented as a series of high-level functions, dispatching on the fluid model and returning the relevant fluid properties. Extending the blowdown model to use a different equation of state involves merely overloading these to dispatch on a different fluid type.
+
+```julia
+pressure(model::IdealGas, v, T) = model.R*T/v
+```
+
+```julia
+volume(model::IdealGas, P, T) = model.R*T/P
+```
+
+```julia
+molecular_weight(model::IdealGas) = model.MW
+```
+
+```julia
+molar_enthalpy(model::IdealGas, v, T) = model.cₚ*T
+```
+
+```julia
+molar_entropy(model::IdealGas, v, T) =
+ model.cᵥ*log(T) + model.R*log(v)
+```
+
+```julia
+molar_internal_energy(model::IdealGas, v, T) = model.cᵥ*T
+```
+
+```julia
+speed_of_sound(model::IdealGas, v, T) =
+ √(model.k*model.R*T/model.MW)
+```
+
+### Real Gases with `Clapeyron.jl`
+
+The high-level functions defined above are mapped to the corresponding [Clapeyron.jl](https://clapeyronthermo.github.io/Clapeyron.jl/stable/) functions. And that's it. Everything is ready to use for whichever equation of state your heart desires.
+
+
+```julia
+import Clapeyron
+```
+
+```julia
+pressure(model::Clapeyron.EoSModel, v, T) =
+ Clapeyron.pressure(model, v, T)
+```
+
+```julia
+volume(model::Clapeyron.EoSModel, P, T; v0=nothing) = 
+ Clapeyron.volume(model, P, T; phase=:vapor, vol0=v0)
+```
+
+```julia
+molecular_weight(model::Clapeyron.EoSModel) =
+ Clapeyron.molecular_weight(model)
+```
+
+```julia
+molar_enthalpy(model::Clapeyron.EoSModel, v, T) =
+ Clapeyron.VT_enthalpy(model, v, T)
+```
+
+```julia
+molar_entropy(model::Clapeyron.EoSModel, v, T) =
+ Clapeyron.VT_entropy(model, v, T)
+```
+
+```julia
+molar_internal_energy(model::Clapeyron.EoSModel, v, T) =
+ Clapeyron.VT_internal_energy(model, v, T)
+```
+
+```julia
+speed_of_sound(model::Clapeyron.EoSModel, v, T) =
+ Clapeyron.VT_speed_of_sound(model, v, T)
+```
+
+## Isentropic Nozzle Flow
+
+The vessel blowdown relies on a good model of isentropic nozzle flow. This involves finding the pressure and temperature in the throat of the nozzle which maximizes the mass flux, *G*, while satisfying the constraints that the path from a stagnation point in the vessel through the nozzle is isentropic and that the enthalpy is conserved. The flow is further constrained to be either sonic or subsonic, i.e. the Mach number is less than or equal to one.
+
+$$ 
+s_1 = s_t
+$$
+
+$$
+h_1 = h(v_t, T_t) + \frac{1}{2} M u_t^2
+$$
+
+For almost all of the blowdown the flow will be sonic and the pressure in the throat of the nozzle will be greater than atmospheric, this is called choked flow. The entropy and enthalpy balances can be solved for the throat conditions, $v_t, T_t$, assuming the velocity is the local speed of sound. I do this here using [NonlinearSolve.jl](https://docs.sciml.ai/NonlinearSolve/stable/), where the objective function, `choked_nozzle_balance!`, is in-place.
+
+```julia
+using NonlinearSolve
+```
+
+```julia
+function choked_nozzle_balance!(obj, y, prms)
+    # y = [v; T]
+    obj .= [ prms.entropy - molar_entropy(prms.model, y[1], y[2])
+             prms.enthalpy - molar_enthalpy(prms.model, y[1], y[2]) - 0.5*molecular_weight(prms.model)*speed_of_sound(prms.model, y[1], y[2])^2 ]
+    return nothing
+end
+```
+
+```julia
+choked_nozzle_prob = NonlinearProblem(choked_nozzle_balance!, [0.0; 0.0], 
+                                      (model=nothing, env=nothing,
+                                       entropy=0.0, enthalpy=0.0))
+```
+
+In the case where the flow is subsonic, the pressure in the throat of the nozzle is atmospheric and the entropy and enthalpy balances are solved for gas velocity and temperature, $u_t, T_t$.
+
+```julia
+function non_choked_nozzle_balance!(obj, y, prms)
+    # y = [u; T]
+    v = volume(prms.model, prms.env.P, y[2])
+    obj .= [ prms.entropy - molar_entropy(prms.model, v, y[2])
+             prms.enthalpy - molar_enthalpy(prms.model, v, y[2]) - 0.5*molecular_weight(prms.model)*y[1]^2 ]
+    return nothing
+end
+```
+
+```julia
+non_choked_nozzle_prob = NonlinearProblem(non_choked_nozzle_balance!,
+                                             [0.0; 0.0],
+                                             (model=nothing, env=nothing,
+                                              entropy=0.0, enthalpy=0.0))
+```
+
+The most obvious and direct way of solving the entropy and energy balances is to solve the optimization problem. However, I could not get that to work reliably. Using the same constraints on entropy and enthalpy as well as constraining the Mach number to be less than or equal to one, I *could* get it to work but only with very good guesses of the initial conditions. Using `Optimization.jl`, it would either get stuck in a local maximum or, depending on the solver, sometimes return results that simply did not satisfy the constraints (but came with return code “Success”). Given that this is going to be wrapped in an ODE and executed, potentially, hundreds of times, that is not good.
+
+My completely stupid but it works approach is to solve the choked flow nonlinear system first and, if the nozzle pressure is below atmospheric, solve the non-choked flow system instead. This works perfectly though, presumably, is not nearly as efficient as solving the optimization problem directly would be if I could get it to work properly.
+
+
+```julia
+function mass_flow(model, pv, env, v, T)
+    # calculate the molar entropy and molar enthalpy
+    # at vessel conditions
+    s₁ = molar_entropy(model, v, T)
+    h₁ = molar_enthalpy(model, v, T)
+
+    # solve the choked flow energy balance for
+    # an isentropic nozzle
+    params = (model=model, env=env, entropy=s₁, enthalpy=h₁)
+    y₀ = [v; T]
+    prob = remake(choked_nozzle_prob, u0=y₀, p=params)
+    sol = solve(prob, NewtonRaphson())
+    vₜ, Tₜ = sol.u
+    Pₜ = pressure(model, vₜ, Tₜ)
+    if Pₜ > env.P
+        # flow is choked, we're done
+        uₜ = speed_of_sound(model, vₜ, Tₜ)
+    else
+        # flow is not choked, solve the non-choked problem
+        v₀ = volume(model, env.P, T)
+        y₀ = [ speed_of_sound(model, v₀, T); T ]
+        prob = remake(non_choked_nozzle_prob, u0=y₀, p=params)
+        sol = solve(prob, NewtonRaphson())
+        uₜ, Tₜ = sol.u
+        vₜ = volume(model, env.P, Tₜ)
+    end
+
+    ρₜ = molecular_weight(model)/vₜ
+    return pv.c*pv.A*ρₜ*uₜ
+end
+```
+
+
+## Adiabatic Blowdown
+
+### The Pressure Equation
+
+The general adiabatic blowdown solution proceeds in the same way as [the ideal gas case (solved previously)](/posts/vessel_blowdown_ideal_gases/#the-complete-ode). Here the isentropic path is not directly available, so the problem is rewritten as a Differential Algebraic Equation (DAE), where the vessel state is constrained to be isentropic.
+
+The first step is to define a basic type, `PressureODE`; which will allow functions like `blowdown_pressure` to dispatch on solution type.
+
+```julia
+struct PressureODE{S}
+    ode_sol::S
+end
+```
+
+The governing equations are the ODE as defined before, plus the constraints that the P-v-T behaviour follows the equation of state and the entropy is constant.
+
+$$
+\frac{dP}{dt} = -\frac{c_D A}{V} a^2 G
+$$
+
+$$
+0 = v - volume(P, T)
+$$
+
+$$
+0 = s_0 - entropy(v, T)
+$$
+
+The equation of state does not need to be pulled into the DAE like this. It could be incorporated into the right hand side of the ODE. However, it is often convenient to have all of the state variables directly accessible in the solution.
+
+```julia
+using OrdinaryDiffEq, DiffEqCallbacks
+```
+
+```julia
+function adiabatic_vessel!(dy, y, prms, t)
+    P, v, T = y
+    
+    a² = speed_of_sound(prms.model, v, T)^2
+    w = mass_flow(prms.model, prms.pv, prms.env, v, T)
+
+    dy .= [-w*a²/prms.pv.V
+            v - volume(prms.model, P, T)
+            prms.init - molar_entropy(prms.model, v, T) ]
+    return nothing
+end
+```
+
+```julia
+abd_rhs = ODEFunction(adiabatic_vessel!, mass_matrix = [1 0 0
+                                                        0 0 0
+                                                        0 0 0])
+```
+
+
+A callback function is used to terminate the integration once the vessel is within a given tolerance of atmospheric pressure. Without this the blowdown would continue forever, or until the limits of machine precision (whichever came first). Technically, this blowdown model predicts the pressure in the vessel will get arbitrarily close to atmospheric pressure but never actually achieve it.
+
+
+```julia
+depressured_callback(y, t, I; reltol=0.001) =
+    y[1] - (1+reltol)*I.p.env.P
+```
+
+
+The entire model is packaged into a function which takes a fluid, pressure vessel, and environment and returns a `Blowdown` solution. By splitting the problem up like this, different fluid models, vessels or ambient conditions can be swapped around while reusing what has already been defined.
+
+```julia
+function adiabatic_blowdown(model, pv::PressureVessel, 
+                            env::Environment;
+                            solver=Rodas5(), 
+                            tspan=(0.0, 600.0))
+
+    # vessel initial conditions
+    V, T₀, m = pv.V, pv.T, pv.m
+    n₀ = m/molecular_weight(model)
+    v₀ = V/n₀
+    P₀ = pressure(model, v₀, T₀)
+    
+    # defining the parameters
+    s₀ = molar_entropy(model, v₀, T₀)
+    params = (model=model, pv=pv, env=env, init=s₀)
+
+    # callbacks
+    dpcb = ContinuousCallback(depressured_callback, terminate!)
+
+    # set up the ODEProblem and solve
+    y₀ = [P₀; v₀; T₀]
+    prob = ODEProblem(abd_rhs, y₀, tspan, params)
+    sol = solve(prob, solver; callback=dpcb)
+
+    return Blowdown(pv,env,PressureODE(sol))
+end
+```
+
+From the ODE solution the blowdown time, pressure curve, and temperature can be recovered.
+
+```julia
+blowdown_time(bd::Blowdown{<:PressureODE}) =
+    bd.sol.ode_sol.t[end]
+```
+
+```julia
+function blowdown_pressure(bd::Blowdown{<:PressureODE}, t)
+    bdt = blowdown_time(bd)
+    t = min(t, bdt)
+    return bd.sol.ode_sol(t; idxs=1)
+end
+```
+
+```julia
+function blowdown_temperature(bd::Blowdown{<:PressureODE}, t)
+    bdt = blowdown_time(bd)
+    t = min(t, bdt)
+    return bd.sol.ode_sol(t; idxs=3)
+end
+```
+
+#### The Ideal Gas Choked Flow Model
+
+The entire model, including all of the sub-models, is complicated and could easily have typos and hard to notice errors in it. An easy way to check this is to compare the results against the known analytic solution for the case where the gas is an ideal gas and the flow through the nozzle is always choked.
+
+```julia
+struct IdealGasChoked{F <: Number}
+    P₀::F
+    k::F
+    τ::F
+end
+```
+
+```julia
+function adiabatic_choked_blowdown(model::IdealGas, pv::PressureVessel,
+                                   env::Environment)
+    # vessel parameters
+    c, A = pv.c, pv.A
+    
+    # vessel initial conditions
+    V, T₀, m = pv.V, pv.T, pv.m
+    n₀ = m/molecular_weight(model)
+    v₀ = V/n₀
+    P₀ = pressure(model, v₀, T₀)
+
+    k, R, MW = model.k, model.R, model.MW
+    τ = 1/( (c*A/V)*√(k*R*T₀/MW)*(2/(k+1))^((k+1)/(2*(k-1))) )
+    return Blowdown(pv,env,IdealGasChoked(P₀,k,τ))
+end
+```
+
+```julia
+function blowdown_time(bd::Blowdown{<:IdealGasChoked})
+    P₀, Pₐ, k, τ = bd.sol.P₀, bd.env.P, bd.sol.k, bd.sol.τ
+    return (2τ/(1-k))*(1 - (Pₐ/P₀)^((1-k)/2k))
+end
+```
+
+```julia
+function blowdown_pressure(bd::Blowdown{<:IdealGasChoked}, t)
+    P₀, k, τ = bd.sol.P₀, bd.sol.k, bd.sol.τ
+    t = min(t, blowdown_time(bd))
+    return P₀*( 1 + 0.5*(k-1)*(t/τ))^((2*k)/(1-k))
+end
+```
+
+```julia
+function blowdown_temperature(bd::Blowdown{<:IdealGasChoked}, t)
+    T₀, P₀, k = bd.pv.T, bd.sol.P₀, bd.sol.k
+    t = min(t, blowdown_time(bd))
+    P = blowdown_pressure(bd, t)
+    return T₀*(P/P₀)^((k-1)/k)
+end
+```
+
+
+#### Checking our work
+
+The same situation as the previous post on ideal gas blowdown is used here, a gas cylinder at 3000psia blowing down through a valve into the air. In this case the gas is nitrogen, instead of air, as having a single species is simpler than a mixture (though not by much).
+
+```julia
+atm = Environment(101325,288.15)
+```
+
+```julia
+vessel = let
+    c = 0.85
+    D = 0.005 # m
+    A = 0.25*π*D^2 # m²
+    V = 0.01111 # m³
+    m = 2.743 # kg
+    T = 288.15 # K
+    PressureVessel(c, A, V, T, m)
+end
+```
+
+The real gas is modelled using a volume translated Peng-Robinson equation of state.
+
+```julia
+using Clapeyron:PR, ReidIdeal, RackettTranslation
+```
+
+```julia
+nitrogen = PR(["nitrogen"]; idealmodel=ReidIdeal, 
+              translation=RackettTranslation);
+```
+
+```julia
+ig_nitrogen = IdealGas(nitrogen);
+```
+
+```julia
+choked_model = adiabatic_choked_blowdown(ig_nitrogen, vessel, atm);
+```
+
+```julia
+ideal_gas = adiabatic_blowdown(ig_nitrogen, vessel, atm);
+```
+
+```julia
+real_gas = adiabatic_blowdown(nitrogen, vessel, atm);
+```
+
+::: {#fig-1}
+![](figure-1.svg)
+
+ The adiabatic blowdown curve for a tank of nitrogen, showing the fully choked ideal gas model model and the DAE solutions for both the ideal gas and real gas case.
+:::
+
+The blowdown using an ideal gas equation of state matches the known solution for the entire domain where flow is actually choked. This gives some assurance that the general model is working properly. The real gas model, VTPR, appears to work well and is not too far from the ideal case, as expected.
+
+When I first played around with this I assumed flow through the nozzle was always choked (as a test) and this led to numerical difficulties near the end of the integration. I had to manually stop the integration at around 20s. Each subsequent time step would end up venting a physically unrealistic amount of material and the thermodynamic models would start to suffer from domain errors. Pleasingly, once a better model for the valve was swapped in, these problems went away.
+
+
+::: {#fig-2}
+![](figure-2.svg)
+
+ The vessel temperature for the nitrogen blowdown, showing the fully choked ideal gas model model and the DAE solutions for both the ideal gas and real gas case.
+:::
+
+Another problem that can happen, depending upon the equation of state, is that the vessel may be outside the range where the equation of state can return a physically real gas. The temperature in the vessel, and especially within the nozzle, drops dramatically and in this case it drops below the boiling point of nitrogen by the time the vessel is fully depressured. This is a real result. It is not a consequence of some numerical error. It is a consequence of assuming a perfectly adiabatic vessel.
+
+
+### The Energy Equation
+
+Another way of approaching this problem is to perform a mass and energy balance. This is a more general approach and is what underlies more complex blowdown simulators (such as BLOWDOWN). Starting with a mass balance:
+
+$$
+\frac{dm}{dt} = -w
+$$
+
+The energy balance is that the change in the internal energy within the vessel is equal to the rate of heat in, through the walls of the vessel, minus the rate of heat lost due to flow out of the vessel.
+
+$$
+\frac{dU}{dt} = Q_i - Q_o
+$$
+
+$$
+\frac{dU}{dt} = Q_i - w \bar{h}
+$$
+
+Where $\bar{h}$ is the specific enthalpy, note this is at vessel conditions. The boundary for the energy balance is around the vessel, not including the valve.
+
+The total internal energy is the product of the mass remaining in the vessel and the specific internal energy, $U=m \bar{u}$. Applying the chain rule:
+
+$$
+\frac{dU}{dt} = m \frac{d \bar{u}}{dt} + \bar{u} \frac{dm}{dt} = m \frac{d \bar{u}}{dt} - \bar{u} w
+$$
+
+Combining these two expressions:
+
+$$
+\frac{d \bar{u}}{dt} = \frac{1}{m} \left( Q_i + \left(\bar{u} - \bar{h} \right) w \right)
+$$
+
+The specific internal energy, $\bar{u}$, is related to the molar internal energy, $u$, by the molar weight, $M \bar{u} = u$, similarly for the specific and molar enthalpy. Substituting and multiplying through by the molar weight gives:
+
+$$
+\frac{d u}{dt} = \frac{1}{m} \left( M Q_i + \left(u - h \right) w \right)
+$$
+
+The remaining mass, $m$, can be written in terms of the molar volume, $v$:
+
+$$
+\frac{d u}{dt} = \frac{v}{M V} \left( M Q_i + \left(u - h \right) w \right)
+$$
+
+The mass balance can also be written in terms of the molar volume:
+
+$$
+\frac{dv}{dt} = \frac{w v^2}{M V}
+$$
+
+The full system of equations, in terms of $u, v, T$ is then:
+
+$$
+\frac{d u}{dt} = \left( M Q_i + \left(u - h \right) w \right) \frac{v}{M V} 
+$$
+
+$$
+\frac{dv}{dt} = \frac{w v^2}{M V}
+$$
+
+$$
+0 = u - internal\_energy(v, T)
+$$
+
+The adiabatic case is the special case where $Q_i = 0$.
+
+
+#### The Adiabatic Ideal Gas Case
+
+It is not immediately clear that this is the same model as the adiabatic pressure equation. The adiabatic pressure equation assumes the expansion within the vessel is isentropic, but that condition is not explicitly applied in the energy equation. One hint this is the same model is that the ideal gas solution can be derived from the energy balance.
+
+Consider an ideal gas with constant heat capacities such that $u = c_v T$ and $h = c_p T$. For the adiabatic case the energy balance becomes:
+
+$$
+c_v \frac{d T}{dt} = \frac{1}{m} \left( c_v T - c_p T \right) w
+$$
+
+Isentropic choked flow of an ideal gas occurs with:
+
+$$
+w = c_d A \rho_t \sqrt{ \frac{k R T_t}{M} }
+$$
+
+With nozzle density and temperature related to the vessel conditions by:
+
+$$
+\rho_t = \rho \left( 2 \over {k+1} \right)^{\frac{1}{k-1}}
+$$
+
+$$
+T_t = T \left( 2 \over {k+1} \right)
+$$
+
+Substituting all of this into the energy equation and dividing by $c_v$ gives:
+
+$$
+\frac{dT}{dt} = \frac{c_d A}{V} \left( 1 - k \right) \left(2 \over {k+1} \right)^{\frac{k+1}{2(k-1)}} \sqrt{ \frac{k R T}{M} } T
+$$
+
+Where $k = \frac{c_p}{c_v}$. The time constant $\tau$ is defined such that:
+
+$$
+\frac{1}{\tau} = \frac{c_d A}{V} \left(2 \over {k+1} \right)^{\frac{k+1}{2(k-1)}} \sqrt{ \frac{k R T_0}{M} }
+$$
+
+Which simplifies the ODE to:
+
+$$
+\frac{dT}{dt} = \frac{1-k}{\tau} T \sqrt{\frac{T}{T_0}}
+$$
+
+This is a separable equation and can be integrated to give:
+
+$$
+\frac{T}{T_0} = \left( 1 + \frac{k-1}{2} \frac{t}{\tau} \right)^{-2}
+$$
+
+For an adiabatic expansion of an ideal gas:
+
+$$
+\frac{P}{P_0} = \left( \frac{T}{T_0} \right)^{\frac{k}{k-1}}
+$$
+
+Which recovers the original solution:
+
+$$
+\frac{P}{P_0} = \left( 1 + \frac{k+1}{2} \frac{t}{\tau} \right)^{\frac{2k}{1-k}}
+$$
+
+
+#### Implementing the DAE
+
+The governing equations for the vessel blowdown can be implemented as a DAE though, as the state variables, $u, v, T$, no longer include pressure, determining when the vessel has fully depressured is slightly more complicated. The callback function must first calculate the pressure in the system. Previously, the callback function was a `ContinuousCallback`, which adjusts the final time step to exactly depressurize the vessel. Here the callback is a `DiscreteCallback` which terminates once a time step has crossed the threshold.
+
+
+```julia
+function energy_eqn!(dy, y, prms, t)
+    u, v, T = y
+
+    h = molar_enthalpy(prms.model, v, T)
+    w = mass_flow(prms.model, prms.pv, prms.env, v, T)
+    M = molecular_weight(prms.model)
+    V = prms.pv.V
+
+    dy .= [ (M*prms.Qᵢ(T) + (u-h)*w)*v/(M*V)
+            (w*v^2)/(M*V)
+            u - molar_internal_energy(prms.model, v, T) ]
+    return nothing
+end
+```
+
+```julia
+ueqn_rhs = ODEFunction(energy_eqn!, mass_matrix = [ 1 0 0
+                                                    0 1 0
+                                                    0 0 0 ])
+```
+
+```julia
+depressured_callback_2(y, t, I; reltol=0.001) =
+    pressure(I.p.model, y[2], y[3]) < (1+reltol)*I.p.env.P
+```
+
+To generate the blowdown curve the pressure must be calculated, as it is no longer an output of the ODE. This could be done on demand, retrieving the molar volume and temperature for a given time and calculating the pressure. Another approach is to calculate the pressure at each time step and interpolate. This is implemented here as a `SavingCallback`, which calculates and saves the pressure after each time step. A cubic interpolation of the pressure is created from the results and used to generate the blowdown curve. The solution type contains two pieces: the ode solution and the pressure-time interpolation.
+
+```julia
+using DataInterpolations
+```
+
+```julia
+struct EnergyODE{S,I}
+    ode_sol::S
+    p_interp::I
+end
+```
+
+```julia
+function energy_eqn_blowdown(model, pv::PressureVessel, 
+                             env::Environment;
+                             Qi=(T)->0.0, 
+                             solver=Rodas5(), 
+                             tspan=(0.0, 600.0))
+
+    # vessel initial conditions
+    V, T₀, m = pv.V, pv.T, pv.m
+    Mw = molecular_weight(model)
+    v₀ = Mw*V/m
+    u₀ = molar_internal_energy(model, v₀, T₀)
+    
+    # defining the parameters
+    params = (model=model, pv=pv, env=env, Qᵢ=Qi)
+
+    # callbacks
+    svs = SavedValues(Float64, Float64)
+    svcb = SavingCallback((y, t, I) -> pressure(I.p.model,y[2],y[3]), svs)
+    dpcb = DiscreteCallback(depressured_callback_2, terminate!)
+    cbs = CallbackSet(svcb,dpcb)
+
+    # set up the ODEProblem and solve
+    y₀ = [u₀; v₀; T₀]
+    prob = ODEProblem(ueqn_rhs, y₀, tspan, params)
+    sol = solve(prob, solver; callback=cbs)
+
+    # set up pressure interpolation
+    pi = AkimaInterpolation(svs.saveval, svs.t)
+
+    return Blowdown(pv,env,EnergyODE(sol,pi))
+end
+```
+
+
+The methods for blowdown time, pressure, and temperature are easily implemented.
+
+```julia
+blowdown_time(bd::Blowdown{<:EnergyODE}) =
+    bd.sol.ode_sol.t[end]
+```
+
+```julia
+function blowdown_pressure(bd::Blowdown{<:EnergyODE}, t)
+    bdt = blowdown_time(bd)
+    t = min(t, bdt)
+    return bd.sol.p_interp(t)
+end
+```
+
+```julia
+function blowdown_temperature(bd::Blowdown{<:EnergyODE}, t)
+    bdt = blowdown_time(bd)
+    t = min(t, bdt)
+    return bd.sol.ode_sol(t; idxs=3)
+end
+```
+
+
+The results from the energy model can be compared to the pressure model, they are functionally identical.
+
+```julia
+ideal_gas_energybd = energy_eqn_blowdown(ig_nitrogen, vessel, atm);
+```
+
+```julia
+real_gas_energybd = energy_eqn_blowdown(nitrogen, vessel, atm);
+```
+
+::: {#fig-3}
+![](figure-3.svg)
+
+ The blowdown curve for the nitrogen blowdown, showing the DAE solutions for both the pressure model and the energy balance model (ideal gas and real gas cases). The curves for the pressure model and energy balance model overlap.
+:::
+
+
+::: {#fig-4}
+![](figure-4.svg)
+
+ The vessel temperature for the nitrogen blowdown, showing the DAE solutions for both the pressure model and the energy balance model (ideal gas and real gas cases). The curves for the pressure model and energy balance model overlap.
+:::
+
+
+### Performance
+
+
+I did not put a lot of effort into making exceptionally performant code. Firstly, the model for isentropic flow through the valve could be improved. Presumably this could also be incorporated into the governing equations of the ODEs, at a cost to model simplicity and reusability, which might unlock some performance opportunities.
+
+Given those limitations, the performance of the two models can be compared using `BenchmarkTools.jl`.
+
+```julia
+@benchmark adiabatic_blowdown(nitrogen, vessel, atm)
+```
+
+```
+BenchmarkTools.Trial: 42 samples with 1 evaluation.
+ Range (min … max):  111.588 ms … 149.424 ms  ┊ GC (min … max): 0.00% … 20.45%
+ Time  (median):     120.515 ms               ┊ GC (median):    6.11%
+ Time  (mean ± σ):   120.226 ms ±   5.882 ms  ┊ GC (mean ± σ):  4.39% ±  4.00%
+
+    ▂          ██ ▅█ █                                           
+  ▅██▁▅█▅▁▁▁▅▅███▅████▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▅ ▁
+  112 ms           Histogram: frequency by time          149 ms <
+
+ Memory estimate: 59.87 MiB, allocs estimate: 948090.
+```
+
+The adiabatic blowdown using the energy model is about 35% faster than the pressure model. Partly this is due to the choice of terminating callbacks. Whether or not integration is terminated with a `DiscreteCallback` or a `ContinuousCallback` does not meaningfully change the performance for the pressure model. However, this choice dramatically changes the performance of the energy model. Changing to a `ContinuousCallback` erases the difference between the two models.
+
+```julia
+@benchmark energy_eqn_blowdown(nitrogen, vessel, atm)
+```
+
+```
+BenchmarkTools.Trial: 56 samples with 1 evaluation.
+ Range (min … max):  82.811 ms … 122.534 ms  ┊ GC (min … max): 0.00% … 28.08%
+ Time  (median):     89.420 ms               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   89.381 ms ±   6.032 ms  ┊ GC (mean ± σ):  4.05% ±  5.62%
+
+        ▂ ▂  ▂     ▂                        █▂                  
+  █▅▅▅▁▅█▅█▅▅█▅▁▅▅██▅▁▁▁▁▁▁▁▁▁▅▁▁▁▁▅▁▁▁▁▅▅█▅██▁██▅█▁▁▅▅▁▅▁█▁▁▅ ▁
+  82.8 ms         Histogram: frequency by time         95.7 ms <
+
+ Memory estimate: 44.30 MiB, allocs estimate: 727470.
+```
+
+
+The pressure model performance at the end of the blowdown is strongly dependent on whether molar volume is used as a state variable. When used as a state variable there is a major performance hit compared to moving the volume into the RHS, nearly double the compute time. Removing it as a state variable comes with a cost to the accuracy near the termination of the blowdown. It is not obvious to me why this is the case (maybe using volume as a system variable forces the solver to take smaller time steps?), but it hints that there are opportunities to improve the pressure model by tweaking how molar volume is incorporated.
+
+::: {#fig-bad-blowdown}
+![](bad_blowdown.svg)
+
+ The blowdown curve for the pressure model when molar volume is moved to the RHS of the ODE. The pressure model curves have a weird bump at the end.
+:::
+
+
+A big caveat to the kind of loose performance comparison I did here is that I did not define a metric for performance. If you wanted to more rigorously benchmark these two approaches defining what constitutes "good enough" in terms of the blowdown curve is necessary. You can always make a model faster by making it less precise.
+
+
+## Conclusions
+
+Extending the ideal gas blowdown to real gases using `Clapeyron.jl` is straightforward. Though the adiabatic case immediately calls into question the point in doing so. Even for a system as simple as a cylinder of nitrogen, the adiabatic assumption is too extreme to be plausible: it predicts the blowdown of a room temperature cylinder will result in a spray of liquid nitrogen. Really, though, the model breaks down once it results in the gas inside the vessel dropping below the boiling point while remaining a gas.
+
+Rapid blowdowns often lead to cryogenic conditions where the assumption that the fluid in the vessel remains a gas becomes increasingly unlikely. The energy model given here can already accommodate variable heat transfer, for example $Q = k \left( T - T_a \right)$, and it could be extended to include phase change by performing an isothermal flash calculation at each time step (and adjusting the enthalpy and internal energy calculations to account for the multiple phases). For a more realistic SCUBA tank model, this level of complexity isn't needed, once a realistic heat transfer model is added the liquefaction problem would go away.
+
+Slower blowdowns, relative to the volume of the vessel, make more sense to model as always a gas. In these cases however, modelling the vessel as having no internal flow may be a serious limitation. Modelling the blowdown of pipeline segments, for example, without accounting for the frictional losses from internal flows leads to a significant error. I didn't include an example of isothermal blowdowns here, but it is even easier to implement than the adiabatic case (for the pressure equation).
+
+I think there is a limited space between the pure ideal gas blowdown model and a full real fluid model with heat transfer &amp;c. Most real situations either don’t require meticulously accounting for fluid non-ideality, and the ideal gas model works well enough, or are complex enough that a realistic model that includes phase change and heat transfer is required. However, building up from the ideal gas case step by step offers multiple points where the intermediate steps can be checked against known solutions. This is a useful exercise when building complex models, which can otherwise be difficult to test and troubleshoot.
+
+

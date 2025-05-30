@@ -1,0 +1,85 @@
+---
+title: "Plastics Recycling and Microplastics"
+description: "Is plastic recycling a huge source of microplastics?"
+author: "Allan Farrell"
+date: "07/14/2024"
+categories: [plastic]
+title-block-banner: url(./soren-funk-unsplash.jpg)
+image: thumbnail.jpg
+reference-location: margin
+bibliography: references.bib
+nocite: |
+  @*
+---
+
+As perhaps just a hazard of my profession, any time an article comes out on the merits (or lack of) of recycling and plastic waste in general, people send it my way. Several times in the last month I was sent [this article in *Quillette*](https://quillette.com/2024/06/17/recycling-plastic-is-a-dangerous-waste-of-time-microplastics-health/)[@celia-2024]. (and associated [YouTube](https://www.youtube.com/watch?v=cJpkRSSM_OQ) video) about how plastics recycling may be a *massive* source of the microplastics being discharged into the environment, adding to the long list of reasons why recycling has not lived up to the promises made by industry, and undermining our path towards a more circular economy. At first glance though, some of the numbers presented and the math struck me as rather sus, so I would like to take a moment to dive into it a bit more. tl;dr much the math in that essay doesn't really work or comes with big caveats, but the broader point about the value of recycling and how we may not be fully appreciating the environmental impacts may hold up.
+
+::: {.callout-note}
+I won't be commenting on the broader life-cycle of plastic as I'm hardly an impartial participant: My current employer is one of the world's largest plastic manufacturers and my day job is working on a major expansion of one of its plastics manufacturing facilities. My employer has a whole suite of messaging about the importance of recycling and goals for advancing a circular economy which I don't feel particularly compelled to try and advance, nor contradict, on my little side project blog about doing math in my spare time. 
+:::
+
+## How Large of a Source of Microplastics is the Recycling Industry?
+
+Celia estimates that up to 2/3<sup>rds</sup> of the microplastics discharged directly into the environment[^2] come from the recycling industry. This is a huge number. One that should immediately raise eye-brows. So lets break that down, it comes from two numbers:
+
+1. that the recycling industry discharges up to 2Mt/y of microplastics into the environment
+2. that the total amount of primary microplastics discharged into the environment from all sources is 3Mt/y
+
+[^2]: These are so called "primary" microplastics, as opposed to "secondary" microplastics which are generated from plastic waste already in the environment
+
+### The Direct Discharge of Microplastics
+
+Celia takes the value of about 2Mt/y of microplastics emissions from the recycling industry from an interview given by an author of a recent study[@brown-2023], and leaves it rather mysterious as to where exactly it comes from. However, this is a really easy number to calculate yourself: Approximately 9% of total plastic waste, globally, is recycled, that study estimated that up to 6 - 13% of recycled plastic could be lost to the environment as primary microplastics, which equates to about 2 - 4Mt/y.
+
+For example, the OECD estimated that, in 2019, global plastic waste generation was 353Mt of which 33Mt were recycled (~9%)[@oecd-2022 page 20] 6 - 13% of that is 1.98 - 4.29 Mt. So in some sense, taking the high end of that, makes the argument *more dramatic*.
+
+The main reference around which the entire essay revolves is that one study of a single plastics recycling plant in the UK. In that study, the authors looked at a relatively new plastics recycling facility that underwent an upgrade to its wastewater treatment process, adding additional filtration. The study looked at the microplastics emissions prior to and after the upgrade. Based on the concentrations measured in the wastewater they estimated that up to 13% of the mass of plastic brought into the facility may have been discharged in the wastewater as microplastics prior to the filtration upgrade and, after the upgrade, this dropped to 6%. These two numbers 6% and 13% form the basis for the estimate of how much primary microplastics are being discharged from the recycling industry as a whole.
+
+At this point we should pause consider the error bars on those numbers. The study gives a range for the total annual mass discharge in the wastewater, based on measured mass concentrations in the facility wastewater. The ratio of this mass out to the plastic taken in is the origin of the 6 - 13% range. However, I think it is deeply disingenuous to present these numbers without context as the study's estimates span *three orders of magnitude*.
+
+| estimate              | low end (t/y) | high end (t/y) |
+|:----------------------|:-------------:|:--------------:|
+| before filter upgrade | 96            | 2933           |
+| after filter upgrade  | 4             | 1366           |
+
+I think the take away from this is that far more data is needed to narrow these error bars. The low end estimates are still much larger than other studies for the whole life-cycle of plastic[^5] and the high end estimates are many orders of magnitude larger still. This study is only a single data point, but it is showing that the estimates used in other life cycle analysis may be far too small and that recycling is a much larger contributor to primary microplastics than has been accounted for.
+
+[^5]: @ryberg-2018 page 56, estimates 0.005% loss;
+    
+    @boucher-2017 page 37, estimates 0.00033 - 0.001% loss;
+    
+    The low end post-upgrade estimate from @brown-2023 is 0.018%
+
+### The Total Amount of Primary Microplastics losses
+
+I think the ~3Mt/y is a relatively robust estimate, for the type of study Celia references, because it has been replicated[^6]. However, this is the source of the most egregious and obvious mistake, and the one that prompted me to write this blog post in the first place. The studies referenced as the sources for the 3Mt/y number include recycling as a source in the estimate but *do not estimate the losses from recycling to be anywhere near as high*. Dividing these two numbers is simply a mathematically invalid operation.
+
+[^6]: @ryberg-2018 estimates 3.1Mt/y;
+    
+    @oecd-2022 estimates 2.7Mt/y;
+    
+    @boucher-2017 estimates 1.8 - 5Mt/y
+
+Before I go any further, where do numbers like 3Mt/y come from? They are not from direct measurements of microplastics in the environment. They come from a life-cycle analysis that looks at the entire life of plastics and estimates rates of losses at the various steps along the path from the creation of virgin plastic to its ultimate fate. Adding all of these losses up gives the total estimated primary microplastics loss. This is why it is incorrect to simply ratio 2Mt/y over 3Mt/y: that would only work if the 2Mt/y was *included in the total*, and it isn't.
+
+Supposing that we are going with 2Mt/y of primary microplastics from recycling, most studies (importantly the ones referenced by Celia) do not use a number anywhere near this high. In fact most assume it quite small and some take it to be negligible[@ryberg-2018 page 56]. The correct procedure would be to *subtract* the previous estimate for losses due to recycling from the total losses, and then add the new estimate of 2Mt/y, giving a corrected total. This would then be the denominator.
+
+Consider a UNEP study that estimates the total primary microplastics losses from the entire plastics value chain as 3.1Mt/y[@ryberg-2018 page 54]. Conveniently, this study assumed the losses due to recycling were negligible (i.e. zero). So based on this study's estimates for *all other sources of primary microplastics*, and our estimate of 2Mt/y from the recycling industry alone, we would estimate a *new total* of 5.1Mt/y, of which 2/5.1 = 39% came from the recycling industry. So.. not 2/3<sup>rds</sup>.
+
+But considering how wide the error bars are for the estimate of primary microplastics emissions, from that one plastics recycling facility, all we can really say is that recycling is somewhere between a small, but important, source of primary microplastics and the single largest source of primary microplastics. Which is important in the sense that it identifies that we may be missing a major source of primary microplastics, but it really does not live up to the hype in Celia's article.
+
+## The Climate Impacts of Landfilling
+
+Celia makes reference to the landfilling of municipal solid waste being a source of methane emissions as part of the argument for why recycling should be abandoned and plastic incinerated instead. Independent of the merits of recycling or incinerating, this is at best irrelevant. Plastic has a negligible methane generating potential when landfilled, a fact that is related to the primary concern with plastic waste in the environment: its environmental persistence. The methane emissions coming from the landfilling of municipal waste is from decomposing organic matter, not the plastic. In fact a recent meta-analysis[@gao-2024] shows that, if anything, the presence of non-biodegradable plastic *reduces* the methane emissions from anaerobic digestion as non-biodegradable plastics may leach toxins that prevent bacteria from decomposing organic matter. I wouldn't take that to mean we *should be* landfilling plastic waste, as some climate mitigation strategy, merely that the methane emissions from doing so are irrelevant to the argument around what to do with plastic waste.
+
+## Conclusions and Take Aways
+
+There is certainly a growing chorus of concern over the fate of plastics in the environment, and the environmental and health consequences of microplastics given their ubiquity. That alone should warrant a lot more study into the sources of microplastics. That the estimate that recycling accounts for 2/3rds of primary microplastics doesn't hold up, due to rudimentary math mistakes, doesn't invalidate the broader concern that recycling simply has not lived up to the promise and may in fact be worsening the microplastics problem. We don't know that is the case, given the data cited, but I think the onus is on the recycling industry to show that they are, in fact, part of the solution and not making the problem worse.
+
+I am not going to comment on the relative merits of incineration, recycling, or advanced recycling other than to say few of the technical problems in this field are truly insurmountable. The real question always comes down to *cost* and how much we are willing to pay to achieve the environmental performance we want.
+
+
+## References
+::: {#refs}
+:::
+
