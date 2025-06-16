@@ -4,7 +4,7 @@ listing:
   contents: projects
   sort: "title"
   type: grid
-  categories: true
+  categories: false
   sort-ui: false
   filter-ui: false
 page-layout: full

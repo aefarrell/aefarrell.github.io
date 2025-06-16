@@ -4,7 +4,8 @@ listing:
   contents: posts
   sort: "date desc"
   type: default
-  categories: true
+  fields: [title, subtitle, author, description, date, image, reading-time]
+  categories: numbered
   feed: true
   sort-ui: false
   filter-ui: false

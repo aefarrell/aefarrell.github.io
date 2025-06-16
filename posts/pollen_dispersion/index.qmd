@@ -229,7 +229,7 @@ $$
 $$
 
 $$
-\left. - { {\sqrt{2\pi} W_o \sigma_z} \over K_z} \exp\left( { - {W_o (z+h)} \over {K_z} } - { {W_o^2 \sigma_z^2} \over {2K_z^2} } \right) \mathrm{erfc} \left( { {W_o \sigma_z} \over {\sqrt{2}K_z} } + { {z + h} \over {\sqrt{2}\sigma_z} } \right) \right)
+\left. - { {\sqrt{2\pi} W_o \sigma_z} \over K_z} \exp\left( { {W_o (z+h)} \over {K_z} } + { {W_o^2 \sigma_z^2} \over {2K_z^2} } \right) \mathrm{erfc} \left( { {W_o \sigma_z} \over {\sqrt{2}K_z} } + { {z + h} \over {\sqrt{2}\sigma_z} } \right) \right)
 $$
 
 where $W_o = W_{dep} - \frac{1}{2}W_{set}$. In practice, relationships for $\sigma$s are much easier to find than *K*s and the following is used to recover $K_z$

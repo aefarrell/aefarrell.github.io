@@ -16,9 +16,14 @@ website:
       - icon: wrench-adjustable-circle
         href: "projects.qmd"
         text: "projects"
+      - icon: archive
+        href: "archive.qmd"
+        text: "posts"
     right:
       - icon: rss
-        href: index.xml
+        href: "index.xml"
+      - icon: github
+        href: "https://github.com/aefarrell/aefarrell.github.io/"
 format:
   html:
     theme:

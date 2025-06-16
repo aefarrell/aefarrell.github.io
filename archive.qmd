@@ -1,0 +1,18 @@
+---
+title: ""
+listing:
+  contents: posts
+  sort: 
+    - "date desc"
+    - "title asc"
+  type: grid
+  categories: true
+  feed: false
+  sort-ui: [date, title]
+  filter-ui: [date, title, desc]
+  page-size: 100
+page-layout: full
+title-block-banner: true
+---
+
+
