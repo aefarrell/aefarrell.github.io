@@ -217,10 +217,20 @@ window.Quarto = {
 </i> 
 <span class="menu-text">projects</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../archive.html"> <i class="bi bi-archive" role="img">
+</i> 
+<span class="menu-text">posts</span></a>
+  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
     <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/aefarrell/aefarrell.github.io/"> <i class="bi bi-github" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -456,7 +466,7 @@ c = \frac{m}{2\pi u \sigma_y \sigma_z} \exp\left( - \frac{y^2}{2 \sigma_y^2} \ri
 \times \left( \exp \left( - \left(z-h\right)^2 \over {2\sigma_z^2} \right) + \exp \left( - \left(z+h\right)^2 \over {2\sigma_z^2} \right) \right.
 \]</span></p>
 <p><span class="math display">\[
-\left. - { {\sqrt{2\pi} W_o \sigma_z} \over K_z} \exp\left( { - {W_o (z+h)} \over {K_z} } - { {W_o^2 \sigma_z^2} \over {2K_z^2} } \right) \mathrm{erfc} \left( { {W_o \sigma_z} \over {\sqrt{2}K_z} } + { {z + h} \over {\sqrt{2}\sigma_z} } \right) \right)
+\left. - { {\sqrt{2\pi} W_o \sigma_z} \over K_z} \exp\left( { {W_o (z+h)} \over {K_z} } + { {W_o^2 \sigma_z^2} \over {2K_z^2} } \right) \mathrm{erfc} \left( { {W_o \sigma_z} \over {\sqrt{2}K_z} } + { {z + h} \over {\sqrt{2}\sigma_z} } \right) \right)
 \]</span></p>
 <p>where <span class="math inline">\(W_o = W_{dep} - \frac{1}{2}W_{set}\)</span>. In practice, relationships for <span class="math inline">\(\sigma\)</span>s are much easier to find than <em>K</em>s and the following is used to recover <span class="math inline">\(K_z\)</span></p>
 <p><span class="math display">\[

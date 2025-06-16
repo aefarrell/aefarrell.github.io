@@ -219,10 +219,20 @@ window.Quarto = {
 </i> 
 <span class="menu-text">projects</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../archive.html"> <i class="bi bi-archive" role="img">
+</i> 
+<span class="menu-text">posts</span></a>
+  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
     <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/aefarrell/aefarrell.github.io/"> <i class="bi bi-github" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -383,20 +393,6 @@ window.Quarto = {
 </div>
 <p>For some context we can plot the puff as a single, instantaneous, release</p>
 <div id="cell-fig-single-puff" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="pp">@gif</span> <span class="cf">for</span> t <span class="kw">in</span> <span class="fu">range</span>(<span class="fl">0</span>,t₁, length<span class="op">=</span><span class="fl">50</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    α <span class="op">=</span> <span class="fl">4.3</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    xₜ <span class="op">=</span> u<span class="op">*</span>t</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    xs <span class="op">=</span> <span class="fu">range</span>(<span class="fu">xₜ-α*σx</span>(xₜ), <span class="fu">xₜ+α*σx</span>(xₜ), length<span class="op">=</span><span class="fl">100</span>)</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    ys <span class="op">=</span> <span class="fu">range</span>(<span class="fu">-α*σy</span>(xₜ), <span class="fu">α*σy</span>(xₜ), length<span class="op">=</span><span class="fl">100</span>)</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(xs, ys, (x,y)<span class="fu">-&gt;c_pf</span>(x,y,h,t; m<span class="op">=</span>m, Δt<span class="op">=</span>Δt), seriestype<span class="op">=:</span>contour,</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        c<span class="op">=:</span>viridis, fill<span class="op">=</span><span class="cn">false</span>, clim<span class="op">=</span>(<span class="fl">0</span>,<span class="fl">0.01</span>), </span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        xlim<span class="op">=</span>(<span class="fl">0</span>,x₁), ylim<span class="op">=</span>(<span class="op">-</span>x₁<span class="op">/</span><span class="fl">4</span>,x₁<span class="op">/</span><span class="fl">4</span>),</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        xlabel<span class="op">=</span><span class="st">"Downwind distance, m"</span>, ylabel<span class="op">=</span><span class="st">"Crosswind distance, m"</span>,</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"Single Puff"</span>)</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div id="fig-single-puff" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="7">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-single-puff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -415,16 +411,16 @@ Figure&nbsp;1: The dispersion of a single, instantaneous, puff.
 <p><span class="math display">\[ c(x,y,z,t) = \sum_{i=0}^{n}  m \frac{\Delta t}{n} \cdot g_x(x, t-\frac{i}{n}\Delta t) \cdot g_y(y) \cdot g_z(z) \]</span></p>
 <p>where we have simply taken the sum of <em>n</em> single puffs, each representing a fraction of the overall release, and emitting them one after the other.</p>
 <div id="c3ac6eba-c64a-4168-82ce-c942fc6d0ad6" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">sum_of_puffs</span>(x,y,z,t; m, Δt, n)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> <span class="fl">0</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    δt <span class="op">=</span> Δt<span class="op">/</span>n</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>n</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        t′ <span class="op">=</span> t<span class="op">-</span>i<span class="op">*</span>δt</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        c′  <span class="op">=</span> t′<span class="op">&gt;</span><span class="fl">0</span> ? <span class="fu">c_pf</span>(x,y,z,t′; m<span class="op">=</span>m, Δt<span class="op">=</span>δt) <span class="op">:</span> <span class="fl">0</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        c <span class="op">+=</span> <span class="fu">isnan</span>(c′) ? <span class="fl">0</span> <span class="op">:</span> c′ </span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> c</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">sum_of_puffs</span>(x,y,z,t; m, Δt, n)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> <span class="fl">0</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    δt <span class="op">=</span> Δt<span class="op">/</span>n</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>n</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        t′ <span class="op">=</span> t<span class="op">-</span>i<span class="op">*</span>δt</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        c′  <span class="op">=</span> t′<span class="op">&gt;</span><span class="fl">0</span> ? <span class="fu">c_pf</span>(x,y,z,t′; m<span class="op">=</span>m, Δt<span class="op">=</span>δt) <span class="op">:</span> <span class="fl">0</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        c <span class="op">+=</span> <span class="fu">isnan</span>(c′) ? <span class="fl">0</span> <span class="op">:</span> c′ </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> c</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can plot this for <em>n=5</em> and we see that, while initially the individual puffs are distinct, they quickly merge into a larger more spread-out cloud.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;To an extent this is a function of using a class D atmosphere. For a much more stable atmosphere, e.g.&nbsp;class F, the puffs remain quite distinct until a size-able number of them have been released.</p></div></div><div id="cell-fig-multiple-puffs" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="9">
@@ -477,19 +473,16 @@ Figure&nbsp;3: The effect of increasing the number of puffs
 <p><span class="math display">\[a = { {x - u (t-\Delta t)} \over \sqrt{2} \sigma_x }\]</span></p>
 <p><span class="math display">\[b = { {x - u t} \over \sqrt{2} \sigma_x } \]</span></p>
 <div id="29778ffb-d310-488c-926e-064650118ea0" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">SpecialFunctions</span>: erf</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">∫gx</span>(x,t,Δt)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    Δt <span class="op">=</span> <span class="fu">min</span>(t,Δt)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    a  <span class="op">=</span> (<span class="fu">x-u*</span>(t<span class="op">-</span>Δt))<span class="op">/</span>(<span class="fu">√2*σx</span>(<span class="fu">u*</span>(t<span class="op">-</span>Δt)))</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    b  <span class="op">=</span> (x<span class="op">-</span>u<span class="op">*</span>t)<span class="op">/</span>(<span class="fu">√2*σx</span>(u<span class="op">*</span>t))</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">erf</span>(b,a)<span class="op">/</span>(<span class="fl">2</span>u)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="fu">intpuff</span>(x,y,z,t; m, Δt) <span class="op">=</span> <span class="fu">m*gy</span>(y,x<span class="op">/</span>u)<span class="fu">*gz</span>(z,x<span class="op">/</span>u)<span class="fu">*∫gx</span>(x,t,Δt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
-<pre><code>intpuff (generic function with 1 method)</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">SpecialFunctions</span>: erf</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">∫gx</span>(x,t,Δt)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    Δt <span class="op">=</span> <span class="fu">min</span>(t,Δt)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    a  <span class="op">=</span> (<span class="fu">x-u*</span>(t<span class="op">-</span>Δt))<span class="op">/</span>(<span class="fu">√2*σx</span>(<span class="fu">u*</span>(t<span class="op">-</span>Δt)))</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    b  <span class="op">=</span> (x<span class="op">-</span>u<span class="op">*</span>t)<span class="op">/</span>(<span class="fu">√2*σx</span>(u<span class="op">*</span>t))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">erf</span>(b,a)<span class="op">/</span>(<span class="fl">2</span>u)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">intpuff</span>(x,y,z,t; m, Δt) <span class="op">=</span> <span class="fu">m*gy</span>(y,x<span class="op">/</span>u)<span class="fu">*gz</span>(z,x<span class="op">/</span>u)<span class="fu">*∫gx</span>(x,t,Δt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-fig-int-puffs" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="12">
 <div id="fig-int-puffs" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="12">
@@ -519,7 +512,7 @@ Figure&nbsp;5: The limiting behaviour of the integrated puff model, it smoothly 
 </div>
 </div>
 </section>
-<section id="complications" class="level2">
+<section id="complications" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="complications">Complications</h2>
 <p>I’ve been casually treating the dispersion parameters, <span class="math inline">\(\sigma_x, \sigma_y, \sigma_z\)</span>, as being constants that are independent of the model and any transformations on the model. Within the context of taking sums and doing integrals it is reasonable: within a reasonable radius of the center of a given puff they are nearly constant. However, in practice, they depend upon time through their dependence on the location of the puff center and are also functions of the model itself.</p>
 <p>The dispersion parameters for a plume model are not the same as for a puff, and so the nice smooth curve connecting the two doesn’t really work. Not if you are strictly taking dispersion parameters as provided in standard references. It is not at all clear how to transition from the one set to the other either, in a smooth manner, to ensure that there is a smooth transition from puff to plume.</p>
@@ -535,9 +528,10 @@ Update
 </div>
 <div class="callout-body-container callout-body">
 <p>There is <a href="../../posts/intpuff2_successive_approximations/">a follow-up post</a> that discusses the quality of these approximations in more detail.</p>
+<p>When I first wrote this post I could not find my final result in the literature – it wasn’t in the standard references I use, and I think I just didn’t know the right search terms. Though it seemed equally obvious to me that it <em>must</em> be in the literature somewhere. Since posting this, I found it: <span class="citation" data-cites="palazzi-1982">Palazzi et al.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></span> This is also the model used by <a href="https://response.restoration.noaa.gov/oil-and-chemical-spills/chemical-spills/aloha">ALOHA</a> and the older ARCHIE models.</p>
 </div>
 </div>
-</section>
+<div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;<a href="#ref-palazzi-1982" role="doc-biblioref"><span>“Diffusion from a Steady Source of Short Duration.”</span></a></p></div></div></section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
@@ -546,6 +540,9 @@ AIChE/CCPS. <em>Guidelines for Consequence Analysis of Chemical Releases</em>. N
 </div>
 <div id="ref-lees-1996" class="csl-entry" role="listitem">
 Lees, Frank P. <em>Loss Prevention in the Process Industries</em>. 2nd ed. Oxford: Butterworth-Heinemann, 1996.
+</div>
+<div id="ref-palazzi-1982" class="csl-entry" role="listitem">
+Palazzi, E, M De Faveri, Giuseppe Fumarola, and G Ferraiolo. <span>“Diffusion from a Steady Source of Short Duration.”</span> <em>Atmospheric Environment</em> 16, no. 12 (1982): 2785–90. <a href="https://www.researchgate.net/publication/328744668_DIFFUSION_FROM_A_STEADY_SOURCE_OF_SHORT_DURATION">https://www.researchgate.net/publication/328744668_DIFFUSION_FROM_A_STEADY_SOURCE_OF_SHORT_DURATION</a>.
 </div>
 </div>
 

@@ -79,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-title','listing-subtitle','listing-author','listing-description','listing-date','listing-image','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       page: 6,
     pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
       searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
@@ -132,7 +132,10 @@ window.Quarto = {
 
 <link rel="stylesheet" href="styles.css">
 <link rel="alternate" type="application/rss+xml" title="A Chemical Engineer's Notebook" href="index.xml" data-external="1"><meta property="og:title" content="– A Chemical Engineer’s Notebook">
+<meta property="og:image" content="https://aefarrell.github.io/posts/ooms_plume_model/plume_sketch.png">
 <meta property="og:site_name" content="A Chemical Engineer's Notebook">
+<meta property="og:image:height" content="1557">
+<meta property="og:image:width" content="1399">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -162,10 +165,20 @@ window.Quarto = {
 </i> 
 <span class="menu-text">projects</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./archive.html"> <i class="bi bi-archive" role="img">
+</i> 
+<span class="menu-text">posts</span></a>
+  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
     <a class="nav-link" href="./index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/aefarrell/aefarrell.github.io/"> <i class="bi bi-github" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -182,7 +195,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(31)</span></div><div class="category" data-category="YWlyJTIwcXVhbGl0eQ==">air quality <span class="quarto-category-count">(4)</span></div><div class="category" data-category="YXRtb3R1YmU=">atmotube <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Ymxvd2Rvd24=">blowdown <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Ym93bGluZw==">bowling <span class="quarto-category-count">(1)</span></div><div class="category" data-category="YnVpbGRpbmclMjBpbmZpbHRyYXRpb24=">building infiltration <span class="quarto-category-count">(3)</span></div><div class="category" data-category="Y2hlbWljYWwlMjByZWxlYXNlcw==">chemical releases <span class="quarto-category-count">(3)</span></div><div class="category" data-category="Y29mZmVl">coffee <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Y29tcHJlc3NpYmxlJTIwZmxvdw==">compressible flow <span class="quarto-category-count">(7)</span></div><div class="category" data-category="ZGlzcGVyc2lvbiUyMG1vZGVsbGluZw==">dispersion modelling <span class="quarto-category-count">(13)</span></div><div class="category" data-category="ZHluYW1pY2FsJTIwc3lzdGVtcw==">dynamical systems <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZWxlY3Rpb25z">elections <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZXF1YXRpb25zJTIwb2YlMjBzdGF0ZQ==">equations of state <span class="quarto-category-count">(2)</span></div><div class="category" data-category="ZXhwbG9zaW9ucw==">explosions <span class="quarto-category-count">(1)</span></div><div class="category" data-category="aGF6YXJkJTIwc2NyZWVuaW5n">hazard screening <span class="quarto-category-count">(5)</span></div><div class="category" data-category="aHlkcm9nZW4=">hydrogen <span class="quarto-category-count">(3)</span></div><div class="category" data-category="anVsaWE=">julia <span class="quarto-category-count">(27)</span></div><div class="category" data-category="bWFzcyUyMHRyYW5zZmVy">mass transfer <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cGxhc3RpYw==">plastic <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cG9sbGVu">pollen <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cHJlc3N1cmUlMjByZWxpZWY=">pressure relief <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cHl0aG9u">python <span class="quarto-category-count">(3)</span></div><div class="category" data-category="dHVyYnVsZW50JTIwamV0cw==">turbulent jets <span class="quarto-category-count">(3)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(32)</span></div><div class="category" data-category="YWlyJTIwcXVhbGl0eQ==">air quality <span class="quarto-category-count">(4)</span></div><div class="category" data-category="YXRtb3R1YmU=">atmotube <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Ymxvd2Rvd24=">blowdown <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Ym93bGluZw==">bowling <span class="quarto-category-count">(1)</span></div><div class="category" data-category="YnVpbGRpbmclMjBpbmZpbHRyYXRpb24=">building infiltration <span class="quarto-category-count">(3)</span></div><div class="category" data-category="Y2hlbWljYWwlMjByZWxlYXNlcw==">chemical releases <span class="quarto-category-count">(3)</span></div><div class="category" data-category="Y29mZmVl">coffee <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Y29tcHJlc3NpYmxlJTIwZmxvdw==">compressible flow <span class="quarto-category-count">(7)</span></div><div class="category" data-category="ZGlzcGVyc2lvbiUyMG1vZGVsbGluZw==">dispersion modelling <span class="quarto-category-count">(14)</span></div><div class="category" data-category="ZHluYW1pY2FsJTIwc3lzdGVtcw==">dynamical systems <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZWxlY3Rpb25z">elections <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZXF1YXRpb25zJTIwb2YlMjBzdGF0ZQ==">equations of state <span class="quarto-category-count">(2)</span></div><div class="category" data-category="ZXhwbG9zaW9ucw==">explosions <span class="quarto-category-count">(1)</span></div><div class="category" data-category="aGF6YXJkJTIwc2NyZWVuaW5n">hazard screening <span class="quarto-category-count">(5)</span></div><div class="category" data-category="aHlkcm9nZW4=">hydrogen <span class="quarto-category-count">(3)</span></div><div class="category" data-category="aW50ZWdyYWwlMjBwbHVtZSUyMG1vZGVscw==">integral plume models <span class="quarto-category-count">(1)</span></div><div class="category" data-category="anVsaWE=">julia <span class="quarto-category-count">(28)</span></div><div class="category" data-category="bWFzcyUyMHRyYW5zZmVy">mass transfer <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cGxhc3RpYw==">plastic <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cG9sbGVu">pollen <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cHJlc3N1cmUlMjByZWxpZWY=">pressure relief <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cHl0aG9u">python <span class="quarto-category-count">(3)</span></div><div class="category" data-category="dHVyYnVsZW50JTIwamV0cw==">turbulent jets <span class="quarto-category-count">(3)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
@@ -195,7 +208,36 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="cHl0aG9uJTJDYWlyJTIwcXVhbGl0eSUyQ2F0bW90dWJl" data-listing-date-sort="1747634400000" data-listing-file-modified-sort="1748626081693" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2863">
+<div class="quarto-post image-right" data-index="0" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5nJTJDaW50ZWdyYWwlMjBwbHVtZSUyMG1vZGVscw==" data-listing-date-sort="1749967200000" data-listing-file-modified-sort="1750048113749" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="37" data-listing-word-count-sort="7270">
+<div class="thumbnail"><a href="./posts/ooms_plume_model/index.html" class="no-external">
+
+<img loading="lazy" src="./posts/ooms_plume_model/plume_sketch.png" class="thumbnail-image">
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/ooms_plume_model/index.html" class="no-external">The Ooms Plume Model</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/ooms_plume_model/index.html" class="no-external"></a>
+</div>
+<div class="delink listing-description"><a href="./posts/ooms_plume_model/index.html" class="no-external">
+<p>An integral plume model for buoyant plumes.</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/ooms_plume_model/index.html" class="no-external">
+<div class="listing-date">
+Jun 15, 2025
+</div>
+<div class="listing-author">
+Allan Farrell
+</div>
+<div class="listing-reading-time">37 min</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="cHl0aG9uJTJDYWlyJTIwcXVhbGl0eSUyQ2F0bW90dWJl" data-listing-date-sort="1747634400000" data-listing-file-modified-sort="1748626081693" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2863">
 <div class="thumbnail"><a href="./posts/atmotube_data_logging/index.html" class="no-external">
 
 <p class="card-img-top"><img src="posts/atmotube_data_logging/index_files/figure-html/fig-1-output-1.png"  class="thumbnail-image card-img"/></p>
@@ -205,14 +247,8 @@ window.Quarto = {
 <h3 class="no-anchor listing-title">
 <a href="./posts/atmotube_data_logging/index.html" class="no-external">Logging data from an Atmotube PRO over Bluetooth</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">python</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YWlyJTIwcXVhbGl0eQ=='); return false;">air quality</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YXRtb3R1YmU='); return false;">atmotube</div>
-
+<div class="listing-subtitle">
+<a href="./posts/atmotube_data_logging/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/atmotube_data_logging/index.html" class="no-external">
 <p>Having fun with data logging.</p>
@@ -226,10 +262,11 @@ May 19, 2025
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">15 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5nJTJDcG9sbGVu" data-listing-date-sort="1746856800000" data-listing-file-modified-sort="1748624456001" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5024">
+<div class="quarto-post image-right" data-index="2" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5nJTJDcG9sbGVu" data-listing-date-sort="1746856800000" data-listing-file-modified-sort="1749082595094" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5023">
 <div class="thumbnail"><a href="./posts/pollen_dispersion/index.html" class="no-external">
 
 <p class="card-img-top"><img src="posts/pollen_dispersion/figure-1.png"  class="thumbnail-image card-img"/></p>
@@ -239,14 +276,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/pollen_dispersion/index.html" class="no-external">Mapping Pollen Dispersion</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGlzcGVyc2lvbiUyMG1vZGVsbGluZw=='); return false;">dispersion modelling</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cG9sbGVu'); return false;">pollen</div>
-
+<div class="listing-subtitle">
+<a href="./posts/pollen_dispersion/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/pollen_dispersion/index.html" class="no-external">
 <p>Calculating how far the wind blows.</p>
@@ -260,10 +291,11 @@ May 10, 2025
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">26 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="anVsaWElMkNjb21wcmVzc2libGUlMjBmbG93JTJDYmxvd2Rvd24lMkNlcXVhdGlvbnMlMjBvZiUyMHN0YXRl" data-listing-date-sort="1742364000000" data-listing-file-modified-sort="1748624456001" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="29" data-listing-word-count-sort="5757">
+<div class="quarto-post image-right" data-index="3" data-categories="anVsaWElMkNjb21wcmVzc2libGUlMjBmbG93JTJDYmxvd2Rvd24lMkNlcXVhdGlvbnMlMjBvZiUyMHN0YXRl" data-listing-date-sort="1742364000000" data-listing-file-modified-sort="1748624456001" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="29" data-listing-word-count-sort="5757">
 <div class="thumbnail"><a href="./posts/vessel_blowdown_real_gases/index.html" class="no-external">
 
 <p class="card-img-top"><img src="posts/vessel_blowdown_real_gases/figure-1.svg"  class="thumbnail-image card-img"/></p>
@@ -273,16 +305,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/vessel_blowdown_real_gases/index.html" class="no-external">Vessel Blowdown - Real Gases</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Y29tcHJlc3NpYmxlJTIwZmxvdw=='); return false;">compressible flow</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Ymxvd2Rvd24='); return false;">blowdown</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZXF1YXRpb25zJTIwb2YlMjBzdGF0ZQ=='); return false;">equations of state</div>
-
+<div class="listing-subtitle">
+<a href="./posts/vessel_blowdown_real_gases/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/vessel_blowdown_real_gases/index.html" class="no-external">
 <p>Modelling vessel blowdowns using equations of state.</p>
@@ -296,10 +320,11 @@ Mar 19, 2025
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">29 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="anVsaWElMkNjb21wcmVzc2libGUlMjBmbG93JTJDYmxvd2Rvd24=" data-listing-date-sort="1737702000000" data-listing-file-modified-sort="1748624456000" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="25" data-listing-word-count-sort="4869">
+<div class="quarto-post image-right" data-index="4" data-categories="anVsaWElMkNjb21wcmVzc2libGUlMjBmbG93JTJDYmxvd2Rvd24=" data-listing-date-sort="1737702000000" data-listing-file-modified-sort="1748624456000" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="25" data-listing-word-count-sort="4869">
 <div class="thumbnail"><a href="./posts/vessel_blowdown_ideal_gases/index.html" class="no-external">
 
 <p class="card-img-top"><img src="posts/vessel_blowdown_ideal_gases/pressure_relief.png"  class="thumbnail-image card-img"/></p>
@@ -309,14 +334,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/vessel_blowdown_ideal_gases/index.html" class="no-external">Vessel Blowdown - Ideal Gases</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Y29tcHJlc3NpYmxlJTIwZmxvdw=='); return false;">compressible flow</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Ymxvd2Rvd24='); return false;">blowdown</div>
-
+<div class="listing-subtitle">
+<a href="./posts/vessel_blowdown_ideal_gases/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/vessel_blowdown_ideal_gases/index.html" class="no-external">
 <p>Evaluating approaches to ideal gas blowdowns.</p>
@@ -330,10 +349,11 @@ Jan 24, 2025
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">25 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="anVsaWElMkNwcmVzc3VyZSUyMHJlbGllZiUyQ2NvbXByZXNzaWJsZSUyMGZsb3clMkNlcXVhdGlvbnMlMjBvZiUyMHN0YXRl" data-listing-date-sort="1730095200000" data-listing-file-modified-sort="1748624455999" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="20" data-listing-word-count-sort="3817">
+<div class="quarto-post image-right" data-index="5" data-categories="anVsaWElMkNwcmVzc3VyZSUyMHJlbGllZiUyQ2NvbXByZXNzaWJsZSUyMGZsb3clMkNlcXVhdGlvbnMlMjBvZiUyMHN0YXRl" data-listing-date-sort="1730095200000" data-listing-file-modified-sort="1748624455999" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="20" data-listing-word-count-sort="3817">
 <div class="thumbnail"><a href="./posts/relief_valve_sizing/index.html" class="no-external">
 
 <p class="card-img-top"><img src="posts/relief_valve_sizing/pressure_relief.png"  class="thumbnail-image card-img"/></p>
@@ -343,16 +363,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/relief_valve_sizing/index.html" class="no-external">Relief Valve Sizing with Real Gases</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cHJlc3N1cmUlMjByZWxpZWY='); return false;">pressure relief</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Y29tcHJlc3NpYmxlJTIwZmxvdw=='); return false;">compressible flow</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZXF1YXRpb25zJTIwb2YlMjBzdGF0ZQ=='); return false;">equations of state</div>
-
+<div class="listing-subtitle">
+<a href="./posts/relief_valve_sizing/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/relief_valve_sizing/index.html" class="no-external">
 <p>Compressible orifice flow calculations using equations of state.</p>
@@ -366,27 +378,22 @@ Oct 28, 2024
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">20 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="cHl0aG9uJTJDaHlkcm9nZW4lMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5n" data-listing-date-sort="1726984800000" data-listing-file-modified-sort="1748624455984" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2689">
+<div class="quarto-post image-right" data-index="6" data-categories="cHl0aG9uJTJDaHlkcm9nZW4lMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5n" data-listing-date-sort="1726984800000" data-listing-file-modified-sort="1748624455984" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2689">
 <div class="thumbnail"><a href="./posts/hydrogen_release_modeling/index.html" class="no-external">
 
-<p class="card-img-top"><img src="posts/hydrogen_release_modeling/index_files/figure-html/ebac05ea-0df1-4764-b815-386f44a1c0eb-1-c367c681-01ca-4ac5-8c70-69cffef33ac3.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img data-src="posts/hydrogen_release_modeling/index_files/figure-html/ebac05ea-0df1-4764-b815-386f44a1c0eb-1-c367c681-01ca-4ac5-8c70-69cffef33ac3.png"  class="thumbnail-image card-img"/></p>
 
 </a></div>
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./posts/hydrogen_release_modeling/index.html" class="no-external">Modelling Hydrogen Releases Using HyRAM+</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">python</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('aHlkcm9nZW4='); return false;">hydrogen</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGlzcGVyc2lvbiUyMG1vZGVsbGluZw=='); return false;">dispersion modelling</div>
-
+<div class="listing-subtitle">
+<a href="./posts/hydrogen_release_modeling/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/hydrogen_release_modeling/index.html" class="no-external">
 <p>Hydrogen plume modelling and indoor accumulation.</p>
@@ -400,10 +407,11 @@ Sep 22, 2024
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">14 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="cGxhc3RpYw==" data-listing-date-sort="1720936800000" data-listing-file-modified-sort="1748624456088" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1694">
+<div class="quarto-post image-right" data-index="7" data-categories="cGxhc3RpYw==" data-listing-date-sort="1720936800000" data-listing-file-modified-sort="1748624456088" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1694">
 <div class="thumbnail"><a href="./posts/plastics-recycling-microplastics/index.html" class="no-external">
 
 <img loading="lazy" data-src="./posts/plastics-recycling-microplastics/thumbnail.jpg" class="thumbnail-image">
@@ -413,10 +421,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/plastics-recycling-microplastics/index.html" class="no-external">Plastics Recycling and Microplastics</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('cGxhc3RpYw=='); return false;">plastic</div>
-
+<div class="listing-subtitle">
+<a href="./posts/plastics-recycling-microplastics/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/plastics-recycling-microplastics/index.html" class="no-external">
 <p>Is plastic recycling a huge source of microplastics?</p>
@@ -430,10 +436,11 @@ Jul 14, 2024
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">9 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="anVsaWElMkNjb2ZmZWUlMkNtYXNzJTIwdHJhbnNmZXI=" data-listing-date-sort="1711173600000" data-listing-file-modified-sort="1748624456010" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="44" data-listing-word-count-sort="8703">
+<div class="quarto-post image-right" data-index="8" data-categories="anVsaWElMkNjb2ZmZWUlMkNtYXNzJTIwdHJhbnNmZXI=" data-listing-date-sort="1711173600000" data-listing-file-modified-sort="1748624456010" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="44" data-listing-word-count-sort="8703">
 <div class="thumbnail"><a href="./posts/engineering_a_cup_of_coffee_part-2/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/engineering_a_cup_of_coffee_part-2/index_files/figure-html/baae4980-968b-4df0-95cd-88465c0458a3-1-3c1c4afd-11ac-46a2-a599-1b1d484a4ed3.svg"  class="thumbnail-image card-img"/></p>
@@ -443,14 +450,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/engineering_a_cup_of_coffee_part-2/index.html" class="no-external">Engineering a Cup of Coffee Part Two: Espresso</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Y29mZmVl'); return false;">coffee</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('bWFzcyUyMHRyYW5zZmVy'); return false;">mass transfer</div>
-
+<div class="listing-subtitle">
+<a href="./posts/engineering_a_cup_of_coffee_part-2/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/engineering_a_cup_of_coffee_part-2/index.html" class="no-external">
 <p>Modelling espresso bed extraction.</p>
@@ -464,10 +465,11 @@ Mar 23, 2024
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">44 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="anVsaWElMkNoeWRyb2dlbiUyQ2NvbXByZXNzaWJsZSUyMGZsb3c=" data-listing-date-sort="1704265200000" data-listing-file-modified-sort="1748624456087" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19" data-listing-word-count-sort="3609">
+<div class="quarto-post image-right" data-index="9" data-categories="anVsaWElMkNoeWRyb2dlbiUyQ2NvbXByZXNzaWJsZSUyMGZsb3c=" data-listing-date-sort="1704265200000" data-listing-file-modified-sort="1748624456087" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19" data-listing-word-count-sort="3609">
 <div class="thumbnail"><a href="./posts/fugitive-hydrogen/index.html" class="no-external">
 
 <img loading="lazy" data-src="./posts/fugitive-hydrogen/output_29_0.svg" class="thumbnail-image">
@@ -477,14 +479,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/fugitive-hydrogen/index.html" class="no-external">Estimating the impact of fugitive emissions</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('aHlkcm9nZW4='); return false;">hydrogen</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Y29tcHJlc3NpYmxlJTIwZmxvdw=='); return false;">compressible flow</div>
-
+<div class="listing-subtitle">
+<a href="./posts/fugitive-hydrogen/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/fugitive-hydrogen/index.html" class="no-external">
 <p>Evaluating the zero emissions fuel.</p>
@@ -498,10 +494,11 @@ Jan 3, 2024
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">19 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="cHl0aG9uJTJDYm93bGluZw==" data-listing-date-sort="1700982000000" data-listing-file-modified-sort="1748624456087" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2533">
+<div class="quarto-post image-right" data-index="10" data-categories="cHl0aG9uJTJDYm93bGluZw==" data-listing-date-sort="1700982000000" data-listing-file-modified-sort="1748624456087" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2533">
 <div class="thumbnail"><a href="./posts/impossible_bowling/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/impossible_bowling/index_files/figure-html/5fe67f81-f378-4258-a005-1914e099b559-1-31ff655b-8ba9-40cd-a9af-7ff1538b1345.png"  class="thumbnail-image card-img"/></p>
@@ -511,12 +508,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/impossible_bowling/index.html" class="no-external">Impossible bowling</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">python</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Ym93bGluZw=='); return false;">bowling</div>
-
+<div class="listing-subtitle">
+<a href="./posts/impossible_bowling/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/impossible_bowling/index.html" class="no-external">
 <p>Looking for impossible bowling games.</p>
@@ -530,10 +523,11 @@ Nov 26, 2023
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">13 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5n" data-listing-date-sort="1698645600000" data-listing-file-modified-sort="1748624456005" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1492">
+<div class="quarto-post image-right" data-index="11" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5n" data-listing-date-sort="1698645600000" data-listing-file-modified-sort="1748624456005" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1492">
 <div class="thumbnail"><a href="./posts/dispersion_parameter_sensitivity/index.html" class="no-external">
 
 <img loading="lazy" data-src="./posts/dispersion_parameter_sensitivity/output_35_0.svg" class="thumbnail-image">
@@ -543,12 +537,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/dispersion_parameter_sensitivity/index.html" class="no-external">Messing around with model parameters</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGlzcGVyc2lvbiUyMG1vZGVsbGluZw=='); return false;">dispersion modelling</div>
-
+<div class="listing-subtitle">
+<a href="./posts/dispersion_parameter_sensitivity/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/dispersion_parameter_sensitivity/index.html" class="no-external">
 <p>The importance of choosing the right references.</p>
@@ -562,10 +552,11 @@ Oct 30, 2023
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">8 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="11" data-categories="anVsaWElMkNjb2ZmZWUlMkNtYXNzJTIwdHJhbnNmZXI=" data-listing-date-sort="1694757600000" data-listing-file-modified-sort="1748624456009" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="24" data-listing-word-count-sort="4656">
+<div class="quarto-post image-right" data-index="12" data-categories="anVsaWElMkNjb2ZmZWUlMkNtYXNzJTIwdHJhbnNmZXI=" data-listing-date-sort="1694757600000" data-listing-file-modified-sort="1748624456009" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="24" data-listing-word-count-sort="4656">
 <div class="thumbnail"><a href="./posts/engineering_a_cup_of_coffee/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/engineering_a_cup_of_coffee/index_files/figure-html/a91c6ec4-34c9-42a2-bac9-75a14350b5ff-2-9327befe-96ed-447f-af7d-8123218ce151.png"  class="thumbnail-image card-img"/></p>
@@ -575,14 +566,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/engineering_a_cup_of_coffee/index.html" class="no-external">Engineering a Cup of Coffee</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Y29mZmVl'); return false;">coffee</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('bWFzcyUyMHRyYW5zZmVy'); return false;">mass transfer</div>
-
+<div class="listing-subtitle">
+<a href="./posts/engineering_a_cup_of_coffee/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/engineering_a_cup_of_coffee/index.html" class="no-external">
 <p>Better coffee through chemical engineering.</p>
@@ -596,10 +581,11 @@ Sep 15, 2023
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">24 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="12" data-categories="anVsaWElMkNhaXIlMjBxdWFsaXR5JTJDYXRtb3R1YmUlMkNidWlsZGluZyUyMGluZmlsdHJhdGlvbg==" data-listing-date-sort="1684735200000" data-listing-file-modified-sort="1748624455999" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1647">
+<div class="quarto-post image-right" data-index="13" data-categories="anVsaWElMkNhaXIlMjBxdWFsaXR5JTJDYXRtb3R1YmUlMkNidWlsZGluZyUyMGluZmlsdHJhdGlvbg==" data-listing-date-sort="1684735200000" data-listing-file-modified-sort="1748624455999" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1647">
 <div class="thumbnail"><a href="./posts/indoor_air_quality/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/indoor_air_quality/index_files/figure-html/fig-time-series-output-1.svg"  class="thumbnail-image card-img"/></p>
@@ -609,16 +595,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/indoor_air_quality/index.html" class="no-external">Monitoring smoke infiltration</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YWlyJTIwcXVhbGl0eQ=='); return false;">air quality</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YXRtb3R1YmU='); return false;">atmotube</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YnVpbGRpbmclMjBpbmZpbHRyYXRpb24='); return false;">building infiltration</div>
-
+<div class="listing-subtitle">
+<a href="./posts/indoor_air_quality/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/indoor_air_quality/index.html" class="no-external">
 <p>Better indoor air quality through data.</p>
@@ -632,10 +610,11 @@ May 22, 2023
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">9 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="13" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5n" data-listing-date-sort="1678604400000" data-listing-file-modified-sort="1748624456085" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3061">
+<div class="quarto-post image-right" data-index="14" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5n" data-listing-date-sort="1678604400000" data-listing-file-modified-sort="1748624456085" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3061">
 <div class="thumbnail"><a href="./posts/Britter-McQuaid/index.html" class="no-external">
 
 <img loading="lazy" data-src="./posts/Britter-McQuaid/att1.png" class="thumbnail-image">
@@ -645,12 +624,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/Britter-McQuaid/index.html" class="no-external">Taking a second look at the Britter-McQuaid model</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGlzcGVyc2lvbiUyMG1vZGVsbGluZw=='); return false;">dispersion modelling</div>
-
+<div class="listing-subtitle">
+<a href="./posts/Britter-McQuaid/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/Britter-McQuaid/index.html" class="no-external">
 <p>Re-evaluating plume extents and determining the explosive mass</p>
@@ -664,10 +639,11 @@ Mar 12, 2023
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">16 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="14" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5n" data-listing-date-sort="1673766000000" data-listing-file-modified-sort="1748624455998" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1864">
+<div class="quarto-post image-right" data-index="15" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5n" data-listing-date-sort="1673766000000" data-listing-file-modified-sort="1748624455998" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1864">
 <div class="thumbnail"><a href="./posts/intpuff2_successive_approximations/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/intpuff2_successive_approximations/index_files/figure-html/fig-disp-consts-output-1.svg"  class="thumbnail-image card-img"/></p>
@@ -677,12 +653,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/intpuff2_successive_approximations/index.html" class="no-external">Integrating a Gaussian puff - mistakes were made</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGlzcGVyc2lvbiUyMG1vZGVsbGluZw=='); return false;">dispersion modelling</div>
-
+<div class="listing-subtitle">
+<a href="./posts/intpuff2_successive_approximations/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/intpuff2_successive_approximations/index.html" class="no-external">
 <p>Successive approximations to … an integrated gaussian puff model.</p>
@@ -696,10 +668,11 @@ Jan 15, 2023
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">10 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="15" data-categories="anVsaWElMkNkeW5hbWljYWwlMjBzeXN0ZW1z" data-listing-date-sort="1671346800000" data-listing-file-modified-sort="1748624456039" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3305">
+<div class="quarto-post image-right" data-index="16" data-categories="anVsaWElMkNkeW5hbWljYWwlMjBzeXN0ZW1z" data-listing-date-sort="1671346800000" data-listing-file-modified-sort="1748624456039" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3305">
 <div class="thumbnail"><a href="./posts/dynamic_mode_decomposition/index.html" class="no-external">
 
 <img loading="lazy" data-src="./posts/dynamic_mode_decomposition/thumbnail.svg" class="thumbnail-image">
@@ -709,12 +682,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/dynamic_mode_decomposition/index.html" class="no-external">Dynamic Mode Decomposition</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZHluYW1pY2FsJTIwc3lzdGVtcw=='); return false;">dynamical systems</div>
-
+<div class="listing-subtitle">
+<a href="./posts/dynamic_mode_decomposition/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/dynamic_mode_decomposition/index.html" class="no-external">
 <p>Dynamic mode decomposition of fluid flow problems.</p>
@@ -728,10 +697,11 @@ Dec 18, 2022
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">17 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="16" data-categories="anVsaWElMkNoeWRyb2dlbiUyQ2NvbXByZXNzaWJsZSUyMGZsb3c=" data-listing-date-sort="1668063600000" data-listing-file-modified-sort="1748624456085" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2922">
+<div class="quarto-post image-right" data-index="17" data-categories="anVsaWElMkNoeWRyb2dlbiUyQ2NvbXByZXNzaWJsZSUyMGZsb3c=" data-listing-date-sort="1668063600000" data-listing-file-modified-sort="1748624456085" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2922">
 <div class="thumbnail"><a href="./posts/hydrogen_blending/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/hydrogen_blending/index_files/figure-html/fig-hhv-output-1.svg"  class="thumbnail-image card-img"/></p>
@@ -741,14 +711,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/hydrogen_blending/index.html" class="no-external">Hydrogen Blending</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('aHlkcm9nZW4='); return false;">hydrogen</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Y29tcHJlc3NpYmxlJTIwZmxvdw=='); return false;">compressible flow</div>
-
+<div class="listing-subtitle">
+<a href="./posts/hydrogen_blending/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/hydrogen_blending/index.html" class="no-external">
 <p>Blending hydrogen into natural gas.</p>
@@ -762,10 +726,11 @@ Nov 10, 2022
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">15 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="17" data-categories="anVsaWElMkNjb21wcmVzc2libGUlMjBmbG93" data-listing-date-sort="1663912800000" data-listing-file-modified-sort="1748624456086" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3203">
+<div class="quarto-post image-right" data-index="18" data-categories="anVsaWElMkNjb21wcmVzc2libGUlMjBmbG93" data-listing-date-sort="1663912800000" data-listing-file-modified-sort="1748624456086" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3203">
 <div class="thumbnail"><a href="./posts/adiabatic-compressible-flow/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/adiabatic-compressible-flow/index_files/figure-html/a0003116-672c-4d67-b435-041a95ddaf7d-1-65179bdc-753b-4290-83bc-9d63116a1a57.png"  class="thumbnail-image card-img"/></p>
@@ -775,12 +740,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/adiabatic-compressible-flow/index.html" class="no-external">Adiabatic Compressible Flow in a Pipe</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Y29tcHJlc3NpYmxlJTIwZmxvdw=='); return false;">compressible flow</div>
-
+<div class="listing-subtitle">
+<a href="./posts/adiabatic-compressible-flow/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/adiabatic-compressible-flow/index.html" class="no-external">
 <p>Evaluating different models of adiabatic pipe flow.</p>
@@ -794,10 +755,11 @@ Sep 23, 2022
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">17 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="18" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5n" data-listing-date-sort="1654840800000" data-listing-file-modified-sort="1748624456084" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1571">
+<div class="quarto-post image-right" data-index="19" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5n" data-listing-date-sort="1654840800000" data-listing-file-modified-sort="1748996466742" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1641">
 <div class="thumbnail"><a href="./posts/integrated_puff/index.html" class="no-external">
 
 <img loading="lazy" data-src="./posts/integrated_puff/int_puff.png" class="thumbnail-image">
@@ -807,12 +769,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/integrated_puff/index.html" class="no-external">Between a puff and a plume</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGlzcGVyc2lvbiUyMG1vZGVsbGluZw=='); return false;">dispersion modelling</div>
-
+<div class="listing-subtitle">
+<a href="./posts/integrated_puff/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/integrated_puff/index.html" class="no-external">
 <p>An integrated Gaussian puff model</p>
@@ -826,10 +784,11 @@ Jun 10, 2022
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">9 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="19" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5nJTJDdHVyYnVsZW50JTIwamV0cw==" data-listing-date-sort="1651989600000" data-listing-file-modified-sort="1748624456086" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19" data-listing-word-count-sort="3744">
+<div class="quarto-post image-right" data-index="20" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5nJTJDdHVyYnVsZW50JTIwamV0cw==" data-listing-date-sort="1651989600000" data-listing-file-modified-sort="1748624456086" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19" data-listing-word-count-sort="3744">
 <div class="thumbnail"><a href="./posts/turbulent_jet_notes_part_2/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/turbulent_jet_notes_part_2/index_files/figure-html/fig-integration-output-1.svg"  class="thumbnail-image card-img"/></p>
@@ -839,14 +798,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/turbulent_jet_notes_part_2/index.html" class="no-external">More on Turbulent Jets</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGlzcGVyc2lvbiUyMG1vZGVsbGluZw=='); return false;">dispersion modelling</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('dHVyYnVsZW50JTIwamV0cw=='); return false;">turbulent jets</div>
-
+<div class="listing-subtitle">
+<a href="./posts/turbulent_jet_notes_part_2/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/turbulent_jet_notes_part_2/index.html" class="no-external">
 <p>Calculating concentrations, temperatures, and flow rates.</p>
@@ -860,10 +813,11 @@ May 8, 2022
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">19 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="20" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5nJTJDdHVyYnVsZW50JTIwamV0cw==" data-listing-date-sort="1649397600000" data-listing-file-modified-sort="1748624456084" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="24" data-listing-word-count-sort="4668">
+<div class="quarto-post image-right" data-index="21" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5nJTJDdHVyYnVsZW50JTIwamV0cw==" data-listing-date-sort="1649397600000" data-listing-file-modified-sort="1748624456084" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="24" data-listing-word-count-sort="4668">
 <div class="thumbnail"><a href="./posts/turbulent_jet_notes/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/turbulent_jet_notes/index_files/figure-html/d167de8a-1b9e-4c1e-ae38-2302b5c77bd1-1-0dfb9ef0-987e-4c09-88c3-1c19b4216aaa.png"  class="thumbnail-image card-img"/></p>
@@ -873,14 +827,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/turbulent_jet_notes/index.html" class="no-external">Turbulent Jets</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGlzcGVyc2lvbiUyMG1vZGVsbGluZw=='); return false;">dispersion modelling</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('dHVyYnVsZW50JTIwamV0cw=='); return false;">turbulent jets</div>
-
+<div class="listing-subtitle">
+<a href="./posts/turbulent_jet_notes/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/turbulent_jet_notes/index.html" class="no-external">
 <p>Notes on turbulent jets and velocity profiles.</p>
@@ -894,10 +842,11 @@ Apr 8, 2022
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">24 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="21" data-categories="anVsaWElMkNlbGVjdGlvbnM=" data-listing-date-sort="1632290400000" data-listing-file-modified-sort="1748624456016" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="712">
+<div class="quarto-post image-right" data-index="22" data-categories="anVsaWElMkNlbGVjdGlvbnM=" data-listing-date-sort="1632290400000" data-listing-file-modified-sort="1748624456016" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="712">
 <div class="thumbnail"><a href="./posts/federal_election/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/federal_election/index_files/figure-html/fig-results-output-1.svg"  class="thumbnail-image card-img"/></p>
@@ -907,12 +856,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/federal_election/index.html" class="no-external">The 2021 Canadian Federal Election</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZWxlY3Rpb25z'); return false;">elections</div>
-
+<div class="listing-subtitle">
+<a href="./posts/federal_election/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/federal_election/index.html" class="no-external">
 <p>An analysis of how exceptionally little changed.</p>
@@ -926,10 +871,11 @@ Sep 22, 2021
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">4 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="22" data-categories="anVsaWElMkNhaXIlMjBxdWFsaXR5" data-listing-date-sort="1626588000000" data-listing-file-modified-sort="1748624456015" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1169">
+<div class="quarto-post image-right" data-index="23" data-categories="anVsaWElMkNhaXIlMjBxdWFsaXR5" data-listing-date-sort="1626588000000" data-listing-file-modified-sort="1748624456015" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1169">
 <div class="thumbnail"><a href="./posts/smoke_days/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/smoke_days/index_files/figure-html/fig-duration-output-1.svg"  class="thumbnail-image card-img"/></p>
@@ -939,12 +885,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/smoke_days/index.html" class="no-external">Smoke Days</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YWlyJTIwcXVhbGl0eQ=='); return false;">air quality</div>
-
+<div class="listing-subtitle">
+<a href="./posts/smoke_days/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/smoke_days/index.html" class="no-external">
 <p>Frequency of forest fire smoke events.</p>
@@ -958,10 +900,11 @@ Jul 18, 2021
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">6 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="23" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5nJTJDYnVpbGRpbmclMjBpbmZpbHRyYXRpb24lMkNoYXphcmQlMjBzY3JlZW5pbmc=" data-listing-date-sort="1624082400000" data-listing-file-modified-sort="1748624456013" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4164">
+<div class="quarto-post image-right" data-index="24" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5nJTJDYnVpbGRpbmclMjBpbmZpbHRyYXRpb24lMkNoYXphcmQlMjBzY3JlZW5pbmc=" data-listing-date-sort="1624082400000" data-listing-file-modified-sort="1748624456013" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4164">
 <div class="thumbnail"><a href="./posts/building_infiltration_2/index.html" class="no-external">
 
 <img loading="lazy" data-src="./posts/building_infiltration_2/output_53_0.svg" class="thumbnail-image">
@@ -971,16 +914,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/building_infiltration_2/index.html" class="no-external">Building Infiltration Example – Chlorine Release</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGlzcGVyc2lvbiUyMG1vZGVsbGluZw=='); return false;">dispersion modelling</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YnVpbGRpbmclMjBpbmZpbHRyYXRpb24='); return false;">building infiltration</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('aGF6YXJkJTIwc2NyZWVuaW5n'); return false;">hazard screening</div>
-
+<div class="listing-subtitle">
+<a href="./posts/building_infiltration_2/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/building_infiltration_2/index.html" class="no-external">
 <p>Single zone building infiltration model with an instantaneous release</p>
@@ -994,10 +929,11 @@ Jun 19, 2021
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">21 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="24" data-categories="anVsaWElMkNhaXIlMjBxdWFsaXR5JTJDYnVpbGRpbmclMjBpbmZpbHRyYXRpb24=" data-listing-date-sort="1621663200000" data-listing-file-modified-sort="1748624456093" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3134">
+<div class="quarto-post image-right" data-index="25" data-categories="anVsaWElMkNhaXIlMjBxdWFsaXR5JTJDYnVpbGRpbmclMjBpbmZpbHRyYXRpb24=" data-listing-date-sort="1621663200000" data-listing-file-modified-sort="1748624456093" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3134">
 <div class="thumbnail"><a href="./posts/building_infiltration_example/index.html" class="no-external">
 
 <img loading="lazy" data-src="./posts/building_infiltration_example/att2.png" class="thumbnail-image">
@@ -1007,14 +943,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/building_infiltration_example/index.html" class="no-external">Building Infiltration Example</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YWlyJTIwcXVhbGl0eQ=='); return false;">air quality</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YnVpbGRpbmclMjBpbmZpbHRyYXRpb24='); return false;">building infiltration</div>
-
+<div class="listing-subtitle">
+<a href="./posts/building_infiltration_example/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/building_infiltration_example/index.html" class="no-external">
 <p>Single zone building infiltration of forest fire smoke.</p>
@@ -1028,10 +958,11 @@ May 22, 2021
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">16 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="25" data-categories="anVsaWElMkNjaGVtaWNhbCUyMHJlbGVhc2VzJTJDaGF6YXJkJTIwc2NyZWVuaW5nJTJDZGlzcGVyc2lvbiUyMG1vZGVsbGluZyUyQ3R1cmJ1bGVudCUyMGpldHM=" data-listing-date-sort="1618034400000" data-listing-file-modified-sort="1748624456087" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1374">
+<div class="quarto-post image-right" data-index="26" data-categories="anVsaWElMkNjaGVtaWNhbCUyMHJlbGVhc2VzJTJDaGF6YXJkJTIwc2NyZWVuaW5nJTJDZGlzcGVyc2lvbiUyMG1vZGVsbGluZyUyQ3R1cmJ1bGVudCUyMGpldHM=" data-listing-date-sort="1618034400000" data-listing-file-modified-sort="1748624456087" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1374">
 <div class="thumbnail"><a href="./posts/turbulent_jet_example/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/turbulent_jet_example/index_files/figure-html/cell-14-1-0dfb9ef0-987e-4c09-88c3-1c19b4216aaa.png"  class="thumbnail-image card-img"/></p>
@@ -1041,18 +972,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/turbulent_jet_example/index.html" class="no-external">Turbulent Jet Example - Acetylene Leak</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Y2hlbWljYWwlMjByZWxlYXNlcw=='); return false;">chemical releases</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('aGF6YXJkJTIwc2NyZWVuaW5n'); return false;">hazard screening</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGlzcGVyc2lvbiUyMG1vZGVsbGluZw=='); return false;">dispersion modelling</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('dHVyYnVsZW50JTIwamV0cw=='); return false;">turbulent jets</div>
-
+<div class="listing-subtitle">
+<a href="./posts/turbulent_jet_example/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/turbulent_jet_example/index.html" class="no-external">
 <p>Estimating the explosive mass.</p>
@@ -1066,10 +987,11 @@ Apr 10, 2021
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">7 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="26" data-categories="anVsaWElMkNjaGVtaWNhbCUyMHJlbGVhc2VzJTJDaGF6YXJkJTIwc2NyZWVuaW5nJTJDZGlzcGVyc2lvbiUyMG1vZGVsbGluZyUyQ2V4cGxvc2lvbnM=" data-listing-date-sort="1610175600000" data-listing-file-modified-sort="1748624456092" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22" data-listing-word-count-sort="4217">
+<div class="quarto-post image-right" data-index="27" data-categories="anVsaWElMkNjaGVtaWNhbCUyMHJlbGVhc2VzJTJDaGF6YXJkJTIwc2NyZWVuaW5nJTJDZGlzcGVyc2lvbiUyMG1vZGVsbGluZyUyQ2V4cGxvc2lvbnM=" data-listing-date-sort="1610175600000" data-listing-file-modified-sort="1748624456092" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22" data-listing-word-count-sort="4217">
 <div class="thumbnail"><a href="./posts/vapour_cloud_explosion_example/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/vapour_cloud_explosion_example/index_files/figure-html/fig-curves-output-1.svg"  class="thumbnail-image card-img"/></p>
@@ -1079,18 +1001,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/vapour_cloud_explosion_example/index.html" class="no-external">VCE Example - Butane Vapour Cloud</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Y2hlbWljYWwlMjByZWxlYXNlcw=='); return false;">chemical releases</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('aGF6YXJkJTIwc2NyZWVuaW5n'); return false;">hazard screening</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGlzcGVyc2lvbiUyMG1vZGVsbGluZw=='); return false;">dispersion modelling</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZXhwbG9zaW9ucw=='); return false;">explosions</div>
-
+<div class="listing-subtitle">
+<a href="./posts/vapour_cloud_explosion_example/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/vapour_cloud_explosion_example/index.html" class="no-external">
 <p>Using the Baker-Strehlow-Tang model for a vapour cloud explosion.</p>
@@ -1104,10 +1016,11 @@ Jan 9, 2021
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">22 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="27" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5n" data-listing-date-sort="1607756400000" data-listing-file-modified-sort="1748624456091" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2258">
+<div class="quarto-post image-right" data-index="28" data-categories="anVsaWElMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5n" data-listing-date-sort="1607756400000" data-listing-file-modified-sort="1748624456091" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2258">
 <div class="thumbnail"><a href="./posts/worst_case_weather/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/worst_case_weather/index_files/figure-html/cell-7-output-1.svg"  class="thumbnail-image card-img"/></p>
@@ -1117,12 +1030,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/worst_case_weather/index.html" class="no-external">Worst Case Meterological Conditions</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGlzcGVyc2lvbiUyMG1vZGVsbGluZw=='); return false;">dispersion modelling</div>
-
+<div class="listing-subtitle">
+<a href="./posts/worst_case_weather/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/worst_case_weather/index.html" class="no-external">
 <p>The worst case weather conditions for air dispersion modeling.</p>
@@ -1136,10 +1045,11 @@ Dec 12, 2020
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">12 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="28" data-categories="anVsaWElMkNoYXphcmQlMjBzY3JlZW5pbmclMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5n" data-listing-date-sort="1607151600000" data-listing-file-modified-sort="1748624456090" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="18" data-listing-word-count-sort="3413">
+<div class="quarto-post image-right" data-index="29" data-categories="anVsaWElMkNoYXphcmQlMjBzY3JlZW5pbmclMkNkaXNwZXJzaW9uJTIwbW9kZWxsaW5n" data-listing-date-sort="1607151600000" data-listing-file-modified-sort="1748624456090" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="18" data-listing-word-count-sort="3413">
 <div class="thumbnail"><a href="./posts/gaussian_dispersion_example/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/gaussian_dispersion_example/index_files/figure-html/cell-1-1-44a13cc8-6433-4e69-9301-56432c424b32.png"  class="thumbnail-image card-img"/></p>
@@ -1149,14 +1059,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/gaussian_dispersion_example/index.html" class="no-external">Air Dispersion Example - Gaussian Dispersion Model of Stack Emissions</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('aGF6YXJkJTIwc2NyZWVuaW5n'); return false;">hazard screening</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGlzcGVyc2lvbiUyMG1vZGVsbGluZw=='); return false;">dispersion modelling</div>
-
+<div class="listing-subtitle">
+<a href="./posts/gaussian_dispersion_example/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/gaussian_dispersion_example/index.html" class="no-external">
 <p>Estimating the airborne quantity.</p>
@@ -1170,10 +1074,11 @@ Dec 5, 2020
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">18 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="29" data-categories="anVsaWElMkNjb21wcmVzc2libGUlMjBmbG93JTJDcHJlc3N1cmUlMjByZWxpZWY=" data-listing-date-sort="1606546800000" data-listing-file-modified-sort="1748624455992" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3192">
+<div class="quarto-post image-right" data-index="30" data-categories="anVsaWElMkNjb21wcmVzc2libGUlMjBmbG93JTJDcHJlc3N1cmUlMjByZWxpZWY=" data-listing-date-sort="1606546800000" data-listing-file-modified-sort="1748624455992" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3192">
 <div class="thumbnail"><a href="./posts/sizing_a_gooseneck_example/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/sizing_a_gooseneck_example/index_files/figure-html/cell-1-1-91c76a16-77ed-42de-bff2-ff11771256db.png"  class="thumbnail-image card-img"/></p>
@@ -1183,14 +1088,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/sizing_a_gooseneck_example/index.html" class="no-external">Compressible Flow Example - Sizing a Goose Neck Vent</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Y29tcHJlc3NpYmxlJTIwZmxvdw=='); return false;">compressible flow</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cHJlc3N1cmUlMjByZWxpZWY='); return false;">pressure relief</div>
-
+<div class="listing-subtitle">
+<a href="./posts/sizing_a_gooseneck_example/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/sizing_a_gooseneck_example/index.html" class="no-external">
 <p>Calculating the minimum diameter in incompressible, isothermal, and adiabatic flow situations.</p>
@@ -1204,10 +1103,11 @@ Nov 28, 2020
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">16 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="30" data-categories="anVsaWElMkNjaGVtaWNhbCUyMHJlbGVhc2VzJTJDaGF6YXJkJTIwc2NyZWVuaW5n" data-listing-date-sort="1605855600000" data-listing-file-modified-sort="1748624455986" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="20" data-listing-word-count-sort="3998">
+<div class="quarto-post image-right" data-index="31" data-categories="anVsaWElMkNjaGVtaWNhbCUyMHJlbGVhc2VzJTJDaGF6YXJkJTIwc2NyZWVuaW5n" data-listing-date-sort="1605855600000" data-listing-file-modified-sort="1748624455986" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="20" data-listing-word-count-sort="3998">
 <div class="thumbnail"><a href="./posts/butane_leak_example/index.html" class="no-external">
 
 <p class="card-img-top"><img data-src="posts/butane_leak_example/index_files/figure-html/cell-2-1-48383a9b-bfb2-4557-ab7d-ae594a1482cc.png"  class="thumbnail-image card-img"/></p>
@@ -1217,14 +1117,8 @@ Allan Farrell
 <h3 class="no-anchor listing-title">
 <a href="./posts/butane_leak_example/index.html" class="no-external">Chemical Release Screening Example - Butane leak</a>
 </h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('anVsaWE='); return false;">julia</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Y2hlbWljYWwlMjByZWxlYXNlcw=='); return false;">chemical releases</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('aGF6YXJkJTIwc2NyZWVuaW5n'); return false;">hazard screening</div>
-
+<div class="listing-subtitle">
+<a href="./posts/butane_leak_example/index.html" class="no-external"></a>
 </div>
 <div class="delink listing-description"><a href="./posts/butane_leak_example/index.html" class="no-external">
 <p>Estimating the airborne quantity.</p>
@@ -1238,6 +1132,7 @@ Nov 20, 2020
 <div class="listing-author">
 Allan Farrell
 </div>
+<div class="listing-reading-time">20 min</div>
 </a>
 </div>
 </div>
