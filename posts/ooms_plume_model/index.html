@@ -1118,7 +1118,7 @@ Figure&nbsp;6: The plume height as a function of downwind distance, solutions us
 <p>If I ever figure out what I need to do to make this work, or more definitively why it doesn’t, I’ll come back and update this. Consider this an invitation to tell me all the ways I’m doing this wrong in the comments.</p>
 </section>
 </section>
-<section id="the-problem-of-concentration" class="level2">
+<section id="the-problem-of-concentration" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="the-problem-of-concentration">The Problem of Concentration</h2>
 <p>The plume solution is fundamentally in terms of the plume axis. It is not immediately obvious how to calculate the concentrations at particular points in space relative to the problem coordinate system. The way I see it, there are three related problems that involve calculating concentrations from the Ooms model.</p>
 <ol type="1">
@@ -1127,7 +1127,7 @@ Figure&nbsp;6: The plume height as a function of downwind distance, solutions us
 <li>Calculating the concentration at an arbitrary point <span class="math inline">\(x,y,z\)</span></li>
 </ol>
 <p>These all stem from the problem that for some arbitrary point not on the plume axis, it is not immediately clear which part of the plume axis is governing the concentration there. This is because the concentration profiles are not perpendicular to the x-axis, they are perpendicular to the s-axis and that curves through space.</p>
-<section id="isopleths-in-the-x-z-plane" class="level3">
+<section id="isopleths-in-the-x-z-plane" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="isopleths-in-the-x-z-plane">Isopleths in the x-z Plane</h3>
 <p>The easiest problem to solve is the isopleths in the plane <span class="math inline">\(y=0\)</span>. Suppose we want to calculate the isopleth for some concentration <span class="math inline">\(c = c_l\)</span>. Recalling the concentration profile:</p>
 <p><span class="math display">\[ \bar{c}_l = \bar{c}_o \exp \left( - \left( \frac{r}{\lambda b} \right)^2 \right) \]</span></p>
@@ -1136,9 +1136,29 @@ Figure&nbsp;6: The plume height as a function of downwind distance, solutions us
 <p>Converting from cylindrical coordinates to Cartesian coordinates, <span class="math inline">\(x^{\prime}, y^{\prime}, z^{\prime}\)</span>, aligned such that <span class="math inline">\(x^{\prime}\)</span> is aligned with the plume axis, the radius is</p>
 <p><span class="math display">\[ r^2 = \left(y^{\prime}\right)^2 + \left(z^{\prime}\right)^2 \]</span></p>
 <p>Since we are confined to the plane <span class="math inline">\(y^{\prime} = 0\)</span>, we find <span class="math inline">\(z^{\prime} = \pm r\)</span>. Then we rotate the axis to align with the problem coordinate system and translate the origin to the problem origin.</p>
-<p><span class="math display">\[ x = x_o - z^{\prime} \sin \theta_o \]</span> <span class="math display">\[ z = z_o + z^{\prime} \cos \theta_o \]</span></p>
-<p>Where <span class="math inline">\(x_o\)</span> and <span class="math inline">\(z_o\)</span> is the location of the particular point on the plume axis we were looking at. The <em>origin</em> relative to the point on the plume axis, hence the subscript <em>o</em>. The positive <span class="math inline">\(z^{\prime}\)</span> gives the upper isopleth and the negative <span class="math inline">\(z^{\prime}\)</span> gives the lower isopleth.</p>
-<div id="b267a328-9e5d-43f1-909b-24b832f2257f" class="cell" data-execution_count="40">
+<p><span class="math display">\[ x = x_o \mp r \sin \theta \]</span> <span class="math display">\[ z = z_o \pm r \cos \theta \]</span></p>
+<p>Where <span class="math inline">\(x_o\)</span> and <span class="math inline">\(z_o\)</span> is the location of the particular point on the plume axis we were looking at. The <em>origin</em> relative to the point on the plume axis, hence the subscript <em>o</em>. The positive <em>r</em> gives the upper isopleth and the negative <em>r</em> gives the lower isopleth.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Casal<span class="citation" data-cites="casal-2018"><a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></span> provides an alternative form of these isopleths:</p>
+<p><span class="math display">\[ z = z_o \pm \sqrt{ { {\lambda^2 b^2} \over { 1 + \tan^2 \theta }} \log \left(\frac{c_o}{c_l} \right) } \]</span></p>
+<p>and</p>
+<p><span class="math display">\[ {{z - z_o} \over {x - x_o}} = -\cot \theta \]</span></p>
+<p>These are actually equivalent, using the identity <span class="math inline">\(\sec^2 = 1 + \tan^2 \theta\)</span> and the definition <span class="math inline">\(\sec \theta = \frac{1}{\cos \theta}\)</span>, the first equation can be written as:</p>
+<p><span class="math display">\[ z = z_o \pm \sqrt{ { {\lambda^2 b^2} \over { \sec^2 \theta }} \log \left(\frac{c_o}{c_l} \right) } = z_o \pm \sqrt{ \lambda^2 b^2 \cos^2 \theta \log \left(\frac{c_o}{c_l} \right) } = z_o \pm \lambda b \sqrt{ \log \left(\frac{c_o}{c_l} \right) } \cos \theta = z_o \pm r \cos \theta\]</span></p>
+<p>The second equation can be re-written to solve for <em>x</em>:</p>
+<p><span class="math display">\[ {{z - z_o} \over {x - x_o}} = -\cot \theta \]</span> <span class="math display">\[ {z - z_o}  = -\left(x - x_o\right)\cot \theta \]</span> <span class="math display">\[ \pm r \cos \theta = -\left(x - x_o\right)\cot \theta \]</span> <span class="math display">\[ \pm r \cos \theta = - \left(x - x_o\right) \frac{\cos \theta}{\sin \theta}\]</span> <span class="math display">\[ x = x_o \mp r \sin \theta \]</span></p>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;<a href="#ref-casal-2018" role="doc-biblioref">Casal, <span>“Atmospheric Dispersion of Toxic or Flammable Clouds,”</span> 306</a>.</p></div></div><div id="b267a328-9e5d-43f1-909b-24b832f2257f" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">upper_isopleth</span>(solution, s, c)</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    cₒ, bₒ, uₒ, θₒ, ρₒ, xₒ, zₒ <span class="op">=</span> <span class="fu">solution</span>(s)</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1430,8 +1450,8 @@ Figure&nbsp;10: The plume height as a function of downwind distance, vent gas el
 </section>
 <section id="validating-the-model" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="validating-the-model">Validating the Model</h2>
-<p>It is all fine and good to say “well, those look like plausible curves,” I would like to have some validation that this is actually working as intended. For some confirmation I pulled data points from figure 3 in Ooms<span class="citation" data-cites="ooms-1972"><a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></span> using a graph digitizer. I chose that figure since covers most of the range of the z-axis. The other two figures are squashed down, making it difficult to get good resolution on the data points.</p>
-<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;<a href="#ref-ooms-1972" role="doc-biblioref">Ooms, <span>“A New Method for the Calculation of the Plume Path of Gases Emitted by a Stack,”</span> 907</a>.</p></div></div><p>Unfortunately while Ooms provides <em>most</em> of the dimensionless groups needed to generate the plots, it is missing two important ones:</p>
+<p>It is all fine and good to say “well, those look like plausible curves,” I would like to have some validation that this is actually working as intended. For some confirmation I pulled data points from figure 3 in Ooms<span class="citation" data-cites="ooms-1972"><a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></span> using a graph digitizer. I chose that figure since covers most of the range of the z-axis. The other two figures are squashed down, making it difficult to get good resolution on the data points.</p>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;<a href="#ref-ooms-1972" role="doc-biblioref">Ooms, <span>“A New Method for the Calculation of the Plume Path of Gases Emitted by a Stack,”</span> 907</a>.</p></div></div><p>Unfortunately while Ooms provides <em>most</em> of the dimensionless groups needed to generate the plots, it is missing two important ones:</p>
 <ol type="1">
 <li>The initial plume dimension <span class="math inline">\(\bar{b}_{0}\)</span></li>
 <li>The length of the zone of flow establishment <em>δ</em></li>
@@ -1493,6 +1513,9 @@ Figure&nbsp;11: A recreation of figure 3 from Ooms.
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-casal-2018" class="csl-entry" role="listitem">
+Casal, Joaquim. <span>“Atmospheric Dispersion of Toxic or Flammable Clouds.”</span> Amsterdam: Elsevier, 2018. <a href="https://app.knovel.com/hotlink/khtml/id:kt0125Q791/evaluation-effects-consequences/atmospheric-dispersion">https://app.knovel.com/hotlink/khtml/id:kt0125Q791/evaluation-effects-consequences/atmospheric-dispersion</a>.
+</div>
 <div id="ref-havens-1988" class="csl-entry" role="listitem">
 Havens, Jerry, and Thomas Spicer. <span>“A Dispersion Model for Elevated Dense Gas Jet Chemical Releases.”</span> <span>Office of Air Quality Planning and Standards, US EPA</span>, 1988. <a href="https://nepis.epa.gov/Exe/ZyPURL.cgi?DocKey=2000NACQ.txt">https://nepis.epa.gov/Exe/ZyPURL.cgi?DocKey=2000NACQ.txt</a>.
 </div>
