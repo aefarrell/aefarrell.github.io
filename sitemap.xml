@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://aefarrell.github.io/about.html</loc>
-    <lastmod>2025-05-30T17:00:56.096Z</lastmod>
+    <lastmod>2025-06-27T14:15:28.513Z</lastmod>
   </url>
   <url>
     <loc>https://aefarrell.github.io/index.html</loc>
-    <lastmod>2025-06-01T22:53:57.595Z</lastmod>
+    <lastmod>2025-06-27T14:15:20.064Z</lastmod>
   </url>
   <url>
     <loc>https://aefarrell.github.io/posts/adiabatic-compressible-flow/index.html</loc>
@@ -74,11 +74,11 @@
   </url>
   <url>
     <loc>https://aefarrell.github.io/projects/unitfulcorrelations_jl/index.html</loc>
-    <lastmod>2025-05-30T17:00:56.141Z</lastmod>
+    <lastmod>2025-06-27T14:16:10.238Z</lastmod>
   </url>
   <url>
     <loc>https://aefarrell.github.io/projects/gas_dispersion_jl/index.html</loc>
-    <lastmod>2025-05-30T17:00:56.141Z</lastmod>
+    <lastmod>2025-06-27T14:16:00.691Z</lastmod>
   </url>
   <url>
     <loc>https://aefarrell.github.io/archive.html</loc>
@@ -118,7 +118,7 @@
   </url>
   <url>
     <loc>https://aefarrell.github.io/posts/ooms_plume_model/index.html</loc>
-    <lastmod>2025-06-17T00:03:05.221Z</lastmod>
+    <lastmod>2025-06-27T14:04:14.384Z</lastmod>
   </url>
   <url>
     <loc>https://aefarrell.github.io/posts/pollen_dispersion/index.html</loc>
@@ -150,6 +150,6 @@
   </url>
   <url>
     <loc>https://aefarrell.github.io/projects.html</loc>
-    <lastmod>2025-06-01T00:41:05.148Z</lastmod>
+    <lastmod>2025-06-27T14:15:33.411Z</lastmod>
   </url>
 </urlset>

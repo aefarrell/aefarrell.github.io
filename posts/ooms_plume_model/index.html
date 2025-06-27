@@ -94,10 +94,14 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-59228ce9c52eba116baca5d538563979.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-58cfad456c997869d10d7b4a2ae8222c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -192,7 +196,169 @@ window.Quarto = {
 <meta property="og:image:width" content="1399">
 </head>
 
-<body class="floating nav-fixed slimcontent quarto-light">
+<body class="floating nav-fixed slimcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
@@ -239,6 +405,7 @@ window.Quarto = {
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -324,7 +491,7 @@ window.Quarto = {
   <li><a href="#future-opportunities" id="toc-future-opportunities" class="nav-link" data-scroll-target="#future-opportunities">Future Opportunities</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
-</nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/aefarrell/aefarrell.github.io/blob/main/posts/ooms_plume_model/index.ipynb" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/aefarrell/aefarrell.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
@@ -332,6 +499,7 @@ window.Quarto = {
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
 
 
 
@@ -1153,7 +1321,7 @@ Note
 <p>and</p>
 <p><span class="math display">\[ {{z - z_o} \over {x - x_o}} = -\cot \theta \]</span></p>
 <p>These are actually equivalent, using the identity <span class="math inline">\(\sec^2 = 1 + \tan^2 \theta\)</span> and the definition <span class="math inline">\(\sec \theta = \frac{1}{\cos \theta}\)</span>, the first equation can be written as:</p>
-<p><span class="math display">\[ z = z_o \pm \sqrt{ { {\lambda^2 b^2} \over { \sec^2 \theta }} \log \left(\frac{c_o}{c_l} \right) } = z_o \pm \sqrt{ \lambda^2 b^2 \cos^2 \theta \log \left(\frac{c_o}{c_l} \right) } = z_o \pm \lambda b \sqrt{ \log \left(\frac{c_o}{c_l} \right) } \cos \theta = z_o \pm r \cos \theta\]</span></p>
+<p><span class="math display">\[ z = z_o \pm \sqrt{ { {\lambda^2 b^2} \over { \sec^2 \theta }} \log \left(\frac{c_o}{c_l} \right) } = z_o \pm \sqrt{ \lambda^2 b^2 \cos^2 \theta \log \left(\frac{c_o}{c_l} \right) } \]</span> <span class="math display">\[ = z_o \pm \lambda b \sqrt{ \log \left(\frac{c_o}{c_l} \right) } \cos \theta = z_o \pm r \cos \theta\]</span></p>
 <p>The second equation can be re-written to solve for <em>x</em>:</p>
 <p><span class="math display">\[ {{z - z_o} \over {x - x_o}} = -\cot \theta \]</span> <span class="math display">\[ {z - z_o}  = -\left(x - x_o\right)\cot \theta \]</span> <span class="math display">\[ \pm r \cos \theta = -\left(x - x_o\right)\cot \theta \]</span> <span class="math display">\[ \pm r \cos \theta = - \left(x - x_o\right) \frac{\cos \theta}{\sin \theta}\]</span> <span class="math display">\[ x = x_o \mp r \sin \theta \]</span></p>
 </div>
@@ -1458,7 +1626,20 @@ Figure&nbsp;10: The plume height as a function of downwind distance, vent gas el
 </ol>
 <p>The actual dimensions and starting location of the plume will depend on how the zone of flow establishment is calculated, and those details are missing from the paper. I assumed the initial plume dimension <span class="math inline">\(\bar{b}_{0} = \frac{1}{2\sqrt{2}}\)</span>, which corresponds to the plume starting with an identical width to the jet. Further I just picked a flow establishment of ~6.5 diameters, which is reasonable for a free jet. This recreates the curve really well.</p>
 <p>Putting aside basically guessing the length of the zone of flow establishment, which feels pretty sketchy, that the curve has the correct shape and reproduces figure 3 in the paper is decent validation. Adjusting the initial height simply translates the curve up and down, it doesn’t impact the result otherwise.</p>
-<div id="998e3506-bc15-4785-8eb6-3e580d584d6d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;outputs_hidden&quot;:true}}" data-execution_count="65">
+<div class="callout callout-style-default callout-warning callout-titled" title="Update">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Update
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I tracked down the original reference<span class="citation" data-cites="fan-1967"><a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></span> for the figure 3 data, and the zone of flow establishment is 6.2 diameters. Which, at the resolution of this plot, is indistinguishable from my guess of ~6.5. I think that safely puts this in the “validated” camp.</p>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;<a href="#ref-fan-1967" role="doc-biblioref">Fan, <span>“Turbulent Buoyant Jets into Stratified or Flowing Ambient Fluids”</span></a>.</p></div></div><div id="998e3506-bc15-4785-8eb6-3e580d584d6d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;outputs_hidden&quot;:true}}" data-execution_count="65">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co">#              x/D     z/D</span></span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>lfn_data <span class="op">=</span> [ <span class="fl">16.628</span>  <span class="fl">19.953</span>;</span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>             <span class="fl">43.054</span>  <span class="fl">29.86</span>;</span>
@@ -1516,6 +1697,9 @@ Figure&nbsp;11: A recreation of figure 3 from Ooms.
 <div id="ref-casal-2018" class="csl-entry" role="listitem">
 Casal, Joaquim. <span>“Atmospheric Dispersion of Toxic or Flammable Clouds.”</span> Amsterdam: Elsevier, 2018. <a href="https://app.knovel.com/hotlink/khtml/id:kt0125Q791/evaluation-effects-consequences/atmospheric-dispersion">https://app.knovel.com/hotlink/khtml/id:kt0125Q791/evaluation-effects-consequences/atmospheric-dispersion</a>.
 </div>
+<div id="ref-fan-1967" class="csl-entry" role="listitem">
+Fan, Loh-Nien. <span>“Turbulent Buoyant Jets into Stratified or Flowing Ambient Fluids.”</span> PhD thesis, California Institute of Technology, 1967. <a href="https://doi.org/10.7907/C69V-BE23">https://doi.org/10.7907/C69V-BE23</a>.
+</div>
 <div id="ref-havens-1988" class="csl-entry" role="listitem">
 Havens, Jerry, and Thomas Spicer. <span>“A Dispersion Model for Elevated Dense Gas Jet Chemical Releases.”</span> <span>Office of Air Quality Planning and Standards, US EPA</span>, 1988. <a href="https://nepis.epa.gov/Exe/ZyPURL.cgi?DocKey=2000NACQ.txt">https://nepis.epa.gov/Exe/ZyPURL.cgi?DocKey=2000NACQ.txt</a>.
 </div>
@@ -1534,6 +1718,19 @@ Ooms, Gijsbert. <span>“A New Method for the Calculation of the Plume Path of G
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {
@@ -1934,6 +2131,19 @@ Ooms, Gijsbert. <span>“A New Method for the Calculation of the Plume Path of G
 <script src="https://utteranc.es/client.js" repo="aefarrell/aefarrell.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2025 Allan Farrell <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> <br> Made with <a href="https://quarto.org">Quarto</a></p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/aefarrell/aefarrell.github.io/blob/main/posts/ooms_plume_model/index.ipynb" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/aefarrell/aefarrell.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
 
 
 
