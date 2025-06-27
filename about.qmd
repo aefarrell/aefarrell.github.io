@@ -15,6 +15,7 @@ about:
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/allanf
+repo-actions: false
 ---
 
 ## Showing My Work

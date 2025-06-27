@@ -24,11 +24,17 @@ website:
         href: "index.xml"
       - icon: github
         href: "https://github.com/aefarrell/aefarrell.github.io/"
+  repo-url: https://github.com/aefarrell/aefarrell.github.io
+  repo-actions: [source, issue]
+  page-footer:
+    center: "© 2025 Allan Farrell [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) <br /> Made with [Quarto](https://quarto.org)"
+
 format:
   html:
+    respect-user-color-scheme: false
     theme:
-      - pulse
-      - brand
+      light: united
+      dark: superhero
     css: styles.css
 
 

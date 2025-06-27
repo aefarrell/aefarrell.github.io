@@ -4,6 +4,7 @@ description: "A julia module for using correlations with Unitful"
 image: unitfulcorrelations.png
 categories: [julia]
 lightbox: true
+repo-actions: false
 ---
 
 [![LICENSE](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/aefarrell/UnitfulCorrelations.jl/blob/main/LICENSE)&nbsp;
