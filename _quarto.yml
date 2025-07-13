@@ -2,6 +2,7 @@ project:
   type: website
   resources:
     - "feed.xml"
+    - "googleaac10e261f67700b.html"
 
 website:
   title: "A Chemical Engineer's Notebook"
