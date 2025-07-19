@@ -8,6 +8,7 @@ website:
   title: "A Chemical Engineer's Notebook"
   site-url: https://aefarrell.github.io
   description: "A collection of notebooks about chemical engineering and analysis"
+  favicon: images/favicon.png
   open-graph: true
   navbar:
     left:
