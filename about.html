@@ -328,15 +328,19 @@ ul.task-list li input[type="checkbox"] {
   </div>
   <div class="about-contents"><main class="content" id="quarto-document-content">
 
-<section id="showing-my-work" class="level2">
-<h2 data-anchor-id="showing-my-work">Showing My Work</h2>
-<p>Whenever I run into a problem I do what everyone does: I google it. Frequently some random blog comes up detailing everything I need to know about solving the problem. So, I figured, if I was already doing the work for my own interest, might as well publish it? Be the blog I want to see in the world, or something like that.</p>
-<p>That’s where these notebooks come from, they are mostly worked examples of things I’ve either had to do through my work – I’m a chemical engineer by day – or something I stumbled across and just thought was interesting. Hopefully you find them useful and, if you find any mistakes, let me know!</p>
+<section id="what-this-is" class="level2">
+<h2 data-anchor-id="what-this-is">What this is</h2>
+<p>This blog is a collection of (mostly) jupyter notebooks, in either python or <a href="https://julialang.org/">julia</a>, solving various engineering and math problems. These are my weekend projects and are often inspired by things happening in the world, interesting problems I may have encountered at work, or just passing interests of mine. There isn’t really a theme other than mostly chemical engineering, since that’s my profession, and mostly process safety and consequence modelling, as that’s something I’m personally interested in.</p>
+<p>I think the best way to learn something new is to try it out yourself, play around with solving problems, see what works and what doesn’t. That’s what these notebooks are. I am also a big believer in putting one’s random projects and terrible code online for other people to look at. The source code for each post is available for you to download and modify to your hearts content. I also try to provide references for everything I’m doing, and those are a good resource for more context. This is a great opportunity for you to tell me all the ways my code is terrible and what I should be doing instead, or tell me all the interesting things you did with it, and the new directions you went in. The internet is a better place when we share.</p>
 </section>
-<section id="caveat-emptor" class="level2">
-<h2 data-anchor-id="caveat-emptor">Caveat Emptor</h2>
-<p>While I may be an engineer, I am not <em>your</em> engineer. You should not blindly follow whatever you read on anyone’s blog, and instead see this as a starting point for your own work and research. I try to provide references, so you can check my work and my assumptions, and these can be very fruitful starting points to read more of the context around what I’m doing. It’s entirely possible that there is a better model out there, in the same reference that I use, for your particular problem! Also I often simplify the example I’m doing to zoom in on details I’m interested in while glossing over pieces that are important to a more fulsome engineering analysis.</p>
-<p>And let’s not forget that I can simply be wrong!</p>
+<section id="what-this-is-not" class="level2">
+<h2 data-anchor-id="what-this-is-not">What this is not</h2>
+<p>These blog posts do not contain my professional advice or opinion, nor do they represent the opinions of my employer. These are weekend projects, with no guarantees of correctness. You have to think for yourself.</p>
+</section>
+<section id="some-technical-caveats" class="level2">
+<h2 data-anchor-id="some-technical-caveats">Some technical caveats</h2>
+<p>The blog itself is rendered directly from the jupyter notebooks by <a href="https://quarto.org/">quarto</a>. However, a lot of the boiler plate and set-up is hidden in the final blog post for readability. If you want more details (especially how the plots are generated), please see the source noteboook.</p>
+<p>I’m no great coder but, at one point, all of the code here did work. It ran and it generated the results and figures in the given notebook. However, libraries change all the time and often in breaking ways, especially when packages are new (pre version 1.0). Which is a round-about way of saying that any julia code you find online, that is more than a couple of years old, may not run with the latest versions of everything. If you find yourself trying to run old code of mine that no longer works, please open an issue on github and I’ll try and help you out.</p>
 
 
 </section>
