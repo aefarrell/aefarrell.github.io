@@ -1,10 +1,9 @@
 ---
 title: "Allan Farrell"
-image: profile.jpg
 about:
   template: trestles
-  image: /images/me.jpg
-  image-title: me at the beach
+  image: /images/space-toast-2.png
+  image-title: literally me
   links:
     - icon: airplane
       text: me
