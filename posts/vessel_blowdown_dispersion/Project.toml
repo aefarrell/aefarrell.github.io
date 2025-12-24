@@ -1,0 +1,13 @@
+[deps]
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
+Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
+UnitfulCorrelations = "0cc60a5a-b0e5-4da3-ae2a-6e3d3c47022e"
+
+[sources]
+UnitfulCorrelations = {rev = "main", url = "https://github.com/aefarrell/UnitfulCorrelations.jl"}
+
+[compat]
+CairoMakie = "0.15.8"
+SpecialFunctions = "2.6.1"
+Unitful = "1.27.0"

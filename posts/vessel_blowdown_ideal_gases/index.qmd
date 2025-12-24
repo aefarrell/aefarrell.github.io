@@ -523,7 +523,7 @@ $$
 \frac{w}{w_0} = \exp \left( \frac{-t}{\tau} \right)
 $$
 
-This can also be rearranged to give the blowdown time[^ *N.B.* the $\log \left( \dots \right)$ is the natural log, this matches the convention used in julia]
+This can also be rearranged to give the blowdown time^[*N.B.* the $\log \left( \dots \right)$ is the natural log, this matches the convention used in julia]
 
 $$
 t = \tau \log \left( \frac{P_0}{P_a} \right)
@@ -718,7 +718,7 @@ In the low pressure case the blowdown terminates at a much steeper part of the b
 
 It is not immediately clear to me why the adiabatic case is all over the standard references for process safety, and the isothermal model is not. If what you care about is the pressure sustained within a vessel, the mass flow rate emitted through a blowdown stack or vent, and the duration of the blowdown, it is almost always more conservative to use the isothermal case. The isothermal (fully choked) model is also just easier to calculate, being just $\exp \left( \frac{-t}{\tau} \right)$.
 
-The adiabatic case will give a better sense of how temperature changes within the vessel. I've largely left it out, but adiabatic blowdown does lead to a significant temperature drop and this cryogenic cooling can be a process hazard on its own. The gas exiting, and the vessel walls themselves, will get quite cold. Anyone who has gone camping in more marginal weather and watched a one-pound propane cylinder develop frost on the outside while cooking has seen this effect in action.[^This is also why butane cylinders are often not a good idea for early spring camping (in Canada), the cooling effect is strong enough to cause the butane inside to liquefy and the stove won't work very well.] But actually calculating the vessel temperature is almost entirely ignored in blowdown calculations for ideal gases, in my experience.
+The adiabatic case will give a better sense of how temperature changes within the vessel. I've largely left it out, but adiabatic blowdown does lead to a significant temperature drop and this cryogenic cooling can be a process hazard on its own. The gas exiting, and the vessel walls themselves, will get quite cold. Anyone who has gone camping in more marginal weather and watched a one-pound propane cylinder develop frost on the outside while cooking has seen this effect in action.^[This is also why butane cylinders are often not a good idea for early spring camping (in Canada), the cooling effect is strong enough to cause the butane inside to liquefy and the stove won't work very well.] But actually calculating the vessel temperature is almost entirely ignored in blowdown calculations for ideal gases, in my experience.
 
 The isothermal model, in my review of the literature, appeared to be more commonly used in operational contexts, such as estimating the time required to blowdown a system through a blowdown vent. In this case it is likely to be the conservative answer. The two curves do cross at high $\frac{t}{\tau}$ and so it is not *always* the case that the isothermal model is more conservative. Something worth noting.
 

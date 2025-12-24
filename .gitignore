@@ -1,4 +1,7 @@
 /.quarto/
 /_site/
+/_freeze/
 .ipynb_checkpoints
 Manifest.toml
+
+**/*.quarto_ipynb

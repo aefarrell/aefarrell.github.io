@@ -1,0 +1,32 @@
+---
+title: "PicoMite Library"
+description: "A collection of PicoMite BASIC programs written for the PicoCalc"
+image: cardiod.bmp
+categories: [basic]
+lightbox: true
+repo-actions: false
+---
+
+[![LICENSE](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/aefarrell/picomite_library/blob/main/LICENSE)&nbsp;
+
+A [collection of programs](https://aefarrell.github.io/picomite_library/) written in PicoMite BASIC for the [PicoCalc](https://www.clockworkpi.com/picocalc).
+
+The programs are organized into the following categories:
+
+- `math\` BASIC code for doing math
+- `art\` BASIC code for generating cool visualizations and art
+- `utils\` useful utilities
+- `toys\` little toy programs
+
+
+::: {layout-ncol=2}
+
+![](cardiod.bmp){group="picocalc"}
+
+![](snake.bmp){group="picocalc"}
+
+![](tone.bmp){group="picocalc"}
+
+![](out.bmp){group="picocalc"}
+
+:::
