@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,18 +71,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-58cfad456c997869d10d7b4a2ae8222c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-451e46ac69b7dce1f7bf1afa5bdb676d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -427,10 +428,10 @@ background: url(./chris-desort-unsplash.jpg);
 <p>What I would like to do is take a table with the number of seats each party got in each election and calculate the change in seats from one election to the next, then add that up. I can’t simply add it up though, as the total number of seats (usually) remains constant and any party’s gain is another party’s loss: the total would always be zero. Instead I am going to add up the absolute value of the change, which effectively double counts each seat (it is counted when one party loses it and again when another party gains it). Also the total number of seats in the house of commons has not always been 338, to adjust for this I will take the absolute value of the change in percentage of seats. So, for example, if party A enters an election with 20% of the seats and leaves with 20% of the seats then this counts as no change, though if they entered with 20 seats and left with 20 seats but <em>the overall number of seats</em> had increased, then that counts as a change.</p>
 <p>I can calculate this for each election and see how much of an outlier 2021 was.</p>
 <div id="baa26b42-9460-4523-ad91-f77e4fafce33" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CSV</span>, <span class="bu">DataFrames</span>, <span class="bu">Statistics</span>, <span class="bu">Pipe</span>, <span class="bu">Plots</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CSV</span>, <span class="bu">DataFrames</span>, <span class="bu">Statistics</span>, <span class="bu">Pipe</span>, <span class="bu">Plots</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="eb284f94-e1ec-424c-abf2-41e40e98160e" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># takes a dataframe of the form</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># takes a dataframe of the form</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># | YEAR | party1 | party 2 | ... | party n |</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># |------|--------|---------|-----|---------|</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># | 1    |  100   |  50     | ... |   0     |</span></span>
@@ -465,7 +466,7 @@ background: url(./chris-desort-unsplash.jpg);
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> changes</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="dataset" class="level2">
@@ -473,7 +474,7 @@ background: url(./chris-desort-unsplash.jpg);
 <p>I pulled the seat count for each federal election since 1867 from <a href="https://en.wikipedia.org/wiki/List_of_Canadian_federal_general_elections">wikipedia</a> as a CSV, with a little bit of finessing in the data entry. We have had a lot of political parties in our short time as a country and many of them either never ended up with any seats or only one or two before disappearing from history – I have elected to lump these in with the independents as “Other”. We have also had several parties that merged or changed, for example the CCF ultimately became the NDP and the Reform party became part of the Canadian Alliance, I have chosen to treat those as the same party.</p>
 <p>Running this through the function I defined earlier gives the relative absolute seat change per election.</p>
 <div id="40600bbd-0215-4864-bd56-5c017b37d333" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data_file <span class="op">=</span> <span class="st">"data/federal-electon-results.csv"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data_file <span class="op">=</span> <span class="st">"data/federal-electon-results.csv"</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> <span class="pp">@pipe</span> data_file <span class="op">|&gt;</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    CSV.<span class="fu">File</span>( _ ;  header<span class="op">=</span><span class="fl">1</span> ) <span class="op">|&gt;</span></span>
@@ -481,7 +482,7 @@ background: url(./chris-desort-unsplash.jpg);
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hcat</span>(_, <span class="fu">seat_change</span>(_)) <span class="op">|&gt;</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(_, <span class="st">"x1"</span> <span class="op">=&gt;</span> <span class="st">"Change"</span>)</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">show</span>(<span class="fu">first</span>(results, <span class="fl">6</span>), allcols<span class="op">=</span><span class="cn">true</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">show</span>(<span class="fu">first</span>(results, <span class="fl">6</span>), allcols<span class="op">=</span><span class="cn">true</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-bold">6×14 DataFrame</span>
@@ -527,9 +528,9 @@ Figure&nbsp;1: Change in seats per Canadian Federal Election, 1867-2021
 </div>
 <p>We can filter out the low-change elections and get a sense of not just the 2021 election, but the neighbourhood of low-change elections.</p>
 <div id="1dadd6ee-4f8e-438f-be1d-a072adc1d9d7" class="cell" data-tags="[]" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lowest <span class="op">=</span> <span class="fu">filter</span>(row <span class="op">-&gt;</span> row[<span class="op">:</span>Change] <span class="op">&lt;</span> <span class="fl">0.10</span>, results)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lowest <span class="op">=</span> <span class="fu">filter</span>(row <span class="op">-&gt;</span> row[<span class="op">:</span>Change] <span class="op">&lt;</span> <span class="fl">0.10</span>, results)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sort!</span>(lowest, [<span class="op">:</span>Change]);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sort!</span>(lowest, [<span class="op">:</span>Change]);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="32eaf7ae-f971-4154-874e-22c515cf345b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
@@ -629,13 +630,14 @@ Figure&nbsp;1: Change in seats per Canadian Federal Election, 1867-2021
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

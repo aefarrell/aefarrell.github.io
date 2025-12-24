@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,18 +91,19 @@ div.csl-indent {
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-58cfad456c997869d10d7b4a2ae8222c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-451e46ac69b7dce1f7bf1afa5bdb676d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -169,7 +170,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -527,8 +528,8 @@ Figure&nbsp;1: A hypothetical pressure relief device, connected to a pressure re
 <section id="a-motivating-example" class="level2">
 <h2 class="anchored" data-anchor-id="a-motivating-example">A Motivating Example</h2>
 <p>Consider the release of ethane from a vessel at 200 bar and 400 K, for the sake of simplicity assume the release is directly into the atmosphere at 1 bar and 288.15 K (15°C) (the flow is going to be choked, so this doesn’t actually matter).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Unitful</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Unitful</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the vessel properties</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    P₁ <span class="op">=</span> <span class="fl">200</span>u<span class="st">"bar"</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    T₁ <span class="op">=</span> <span class="fl">400</span>u<span class="st">"K"</span></span>
@@ -536,18 +537,18 @@ Figure&nbsp;1: A hypothetical pressure relief device, connected to a pressure re
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># the ambient properties</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    P₂ <span class="op">=</span> <span class="fl">1</span>u<span class="st">"bar"</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    T₂ <span class="op">=</span> <span class="fl">288.15</span>u<span class="st">"K"</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>We can use <code>Clapeyron.jl</code> to initialize a few example equations of state for ethane. In this case I’m going to use an ideal gas model (<code>ReidIdeal</code> is an ideal gas model that also includes correlations for the ideal gas heat capacity), a cubic equation of state (volume translated Peng Robinson), and an empirical Helmholtz model (GERG-2008).</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Clapeyron</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Clapeyron</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># assorted equations of state for ethane</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    ig_ethane <span class="op">=</span> <span class="fu">ReidIdeal</span>([<span class="st">"ethane"</span>])</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    vtpr_ethane <span class="op">=</span> <span class="fu">VTPR</span>([<span class="st">"ethane"</span>]; idealmodel <span class="op">=</span> ReidIdeal)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    gerg_ethane <span class="op">=</span> <span class="fu">GERG2008</span>([<span class="st">"ethane"</span>])</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is a hack, ideal models in Clapeyron do not return a </span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is a hack, ideal models in Clapeyron do not return a </span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># molar weight and so cannot return a mass density</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>Clapeyron.<span class="fu">mw</span>(model<span class="op">::</span><span class="dt">IdealModel</span>) <span class="op">=</span> Clapeyron.<span class="fu">mw</span>(vtpr_ethane)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>Clapeyron.<span class="fu">mw</span>(model<span class="op">::</span><span class="dt">IdealModel</span>) <span class="op">=</span> Clapeyron.<span class="fu">mw</span>(vtpr_ethane)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>At system conditions ethane is a super critical fluid, with the temperature and pressure above the critical point, which can be modelled as a dense gas.</p>
 </section>
 <section id="the-ideal-gas-case" class="level2 page-columns page-full">
@@ -587,23 +588,23 @@ Note
 </div>
 </div>
 <p>We can use <code>Clapeyron.jl</code> to calculate <span class="math inline">\(k\)</span> at any given temperature, using correlations for the ideal gas heat capacity.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">isentropic_expansion_factor</span>(model<span class="op">::</span><span class="dt">IdealModel</span>, P, T; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">isentropic_expansion_factor</span>(model<span class="op">::</span><span class="dt">IdealModel</span>, P, T; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    cₚ_ig <span class="op">=</span> <span class="fu">isobaric_heat_capacity</span>(model, P, T; phase<span class="op">=:</span>vapor)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    cᵥ_ig <span class="op">=</span> <span class="fu">isochoric_heat_capacity</span>(model, P, T; phase<span class="op">=:</span>vapor)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cₚ_ig<span class="op">/</span>cᵥ_ig</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>From which we calculate k= 1.146.</p>
 <p>We can check our work by comparing with the tabulated values. At 15°C and 1 atm we calculate k= 1.193 which is the same as the tabulated value of 1.19 (given at 15°C and 1 atm).<span class="citation" data-cites="API-2020"><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></span></p>
-<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;<a href="#ref-API-2020" role="doc-biblioref">API, 70</a>.</p></div></div><div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_choked</span>(model, P, T; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
+<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;<a href="#ref-API-2020" role="doc-biblioref">API, 70</a>.</p></div></div><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_choked</span>(model, P, T; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="fu">isentropic_expansion_factor</span>(model, P, T; z<span class="op">=</span>z)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    ρ <span class="op">=</span> <span class="fu">mass_density</span>(model, P, T, z; phase<span class="op">=:</span>vapor)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    Gₜ² <span class="op">=</span> <span class="fu">k*P*ρ*</span>(<span class="fl">2</span><span class="op">/</span>(k<span class="op">+</span><span class="fl">1</span>))<span class="op">^</span>((k<span class="op">+</span><span class="fl">1</span>)<span class="op">/</span>(k<span class="op">-</span><span class="fl">1</span>))</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">√</span>(Gₜ²)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The theoretical mass flux for the ideal gas is then 38359 kg m^-2 s^-1</p>
 <p>The ideal gas model, when the flow is choked, calculates the mass flux directly without needing to calculate the actual conditions at the nozzle. These can be calculated easily as well.<span class="citation" data-cites="tilton-2008"><a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></span></p>
-<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;<a href="#ref-tilton-2008" role="doc-biblioref">Tilton, <span>“Fluid and Particle Dynamics”</span></a> equations 6-119 and 6-120.</p></div></div><div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nozzle_pressure_ideal</span>(P, T, k) <span class="op">=</span> <span class="fu">P*</span>(<span class="fl">2</span><span class="op">/</span>(k<span class="op">+</span><span class="fl">1</span>))<span class="op">^</span>(k<span class="op">/</span>(k<span class="op">-</span><span class="fl">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nozzle_temperature_ideal</span>(P, T, k) <span class="op">=</span> <span class="fu">T*</span>(<span class="fl">2</span><span class="op">/</span>(k<span class="op">+</span><span class="fl">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;<a href="#ref-tilton-2008" role="doc-biblioref">Tilton, <span>“Fluid and Particle Dynamics”</span></a> equations 6-119 and 6-120.</p></div></div><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nozzle_pressure_ideal</span>(P, T, k) <span class="op">=</span> <span class="fu">P*</span>(<span class="fl">2</span><span class="op">/</span>(k<span class="op">+</span><span class="fl">1</span>))<span class="op">^</span>(k<span class="op">/</span>(k<span class="op">-</span><span class="fl">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nozzle_temperature_ideal</span>(P, T, k) <span class="op">=</span> <span class="fu">T*</span>(<span class="fl">2</span><span class="op">/</span>(k<span class="op">+</span><span class="fl">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The pressure at the nozzle is 115 bar the temperature at the nozzle is 373 K, which is above the critical point. The fluid supercritical and choked when leaving the PSV.</p>
 </section>
 <section id="the-isentropic-expansion-factor" class="level2 page-columns page-full">
@@ -629,12 +630,12 @@ Note
 <p>where <span class="math inline">\(n\)</span> has been used to distinguish it from <span class="math inline">\(k\)</span> (the ideal gas case). This is the version of <span class="math inline">\(n\)</span> presented in most references, such as API 520. The derivation, however, hints at a useful shortcut to calculating <span class="math inline">\(n\)</span> that does not require digging into the internals of <code>Clapeyron.jl</code> to retrieve partial derivatives:</p>
 <p><span class="math display">\[ n = { c^2 \over {P v} } = { {\rho c^2} \over P } \]</span></p>
 <p>The remainder of the calculations are identical as the ideal gas case, simply substituting <span class="math inline">\(n\)</span> wherever <span class="math inline">\(k\)</span> appears. Unfortunately <span class="math inline">\(n\)</span> is not actually constant and depends on the temperature and pressure, which are not actually known in the nozzle, so the temperature and pressure at the stagnation point are often used instead.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">isentropic_expansion_factor</span>(model, P, T; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">isentropic_expansion_factor</span>(model, P, T; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    ρ <span class="op">=</span> <span class="fu">mass_density</span>(model, P, T, z)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> <span class="fu">speed_of_sound</span>(model, P, T, z)</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> ρ<span class="op">*</span>c<span class="op">^</span><span class="fl">2</span><span class="op">/</span>P</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Using effective isentropic expansion factors from the VTPR equation of state, the theoretical mass flux is 57811 kg m^-2 s^-1 ( 59321 kg m^-2 s^-1 from GERG-2008 ). This is quite a bit larger than the ideal case, indicating that the ideal gas law leads to a significantly over-sized PRV, 51.0% larger.</p>
 <div id="fig-2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -656,9 +657,9 @@ Figure&nbsp;2: The isentropic expansion factor for ethane at 400K, calculated fo
 <p><span class="math display">\[ G_t = \rho_t c_t \]</span></p>
 <p>There are a few ways this could be done, a straight-forward way is to divide the problem into two: 1. Define the isentropic path, i.e.&nbsp;find the isentropic temperature for a given pressure <em>P</em> 2. Use the energy balance to solve for the pressure, following the isentropic path.</p>
 <p>A more direct way is to solve for <span class="math inline">\(P_t\)</span> and <span class="math inline">\(T_t\)</span> simultaneously. This is what I do next, using <a href="https://docs.sciml.ai/NonlinearSolve/stable/">NonlinearSolve.jl</a></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clapeyron does not expose this by default</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">molecular_weight</span>(model,z) <span class="op">=</span> Clapeyron.<span class="fu">molecular_weight</span>(model,z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">nozzle_balance</span>(y, prms)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clapeyron does not expose this by default</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">molecular_weight</span>(model,z) <span class="op">=</span> Clapeyron.<span class="fu">molecular_weight</span>(model,z)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">nozzle_balance</span>(y, prms)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    P, T <span class="op">=</span> y</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># stagnation point</span></span>
@@ -672,8 +673,8 @@ Figure&nbsp;2: The isentropic expansion factor for ethane at 400K, calculated fo
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [ s₁ <span class="op">-</span> s₂</span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>             h₁ <span class="op">-</span> h₂ <span class="op">-</span> <span class="fl">0.5</span><span class="op">*</span>c² ]</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_choked_energy_balance</span>(model, P, T; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_choked_energy_balance</span>(model, P, T; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate the entropy and specific enthalpy at </span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># initial conditions</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    Mw <span class="op">=</span> <span class="fu">molecular_weight</span>(model, z)</span>
@@ -693,12 +694,12 @@ Figure&nbsp;2: The isentropic expansion factor for ethane at 400K, calculated fo
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    cₜ <span class="op">=</span> <span class="fu">speed_of_sound</span>(model, Pₜ, Tₜ, z)</span>
 <span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ρₜ<span class="op">*</span>cₜ</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_choked_energy_balance</span>(model, P<span class="op">::</span><span class="dt">Quantity</span>, T<span class="op">::</span><span class="dt">Quantity</span>; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_choked_energy_balance</span>(model, P<span class="op">::</span><span class="dt">Quantity</span>, T<span class="op">::</span><span class="dt">Quantity</span>; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"Pa"</span>, P)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"K"</span>, T)</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">mass_flux_choked_energy_balance</span>(model, P, T; z<span class="op">=</span>z)<span class="op">*</span><span class="fl">1</span>u<span class="st">"kg*m^-2*s^-1"</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Solving the choked flow energy balance, using VTPR equation of state, the theoretical mass flux is 54629 kg m^-2 s^-1 ( 54353 kg m^-2 s^-1 from GERG-2008 ). This is also quite a bit larger than the ideal case, 42.0% larger. Though the values for the two equations of state are closer, indicating that this method is less sensitive to model choice.</p>
 <div id="fig-3" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -724,14 +725,14 @@ Figure&nbsp;3: The isentropic paths for the ideal gas, effective isentropic fact
 <p>subject to the constraint</p>
 <p><span class="math display">\[ s(P_1 - \Delta P, T) = s(P_1, T_1) \]</span></p>
 <p>Which can be implemented as a differential algebraic equation using <a href="https://docs.sciml.ai/DiffEqDocs/stable/">DifferentialEquations.jl</a></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DifferentialEquations</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">rhs</span>(u, params, ΔP)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DifferentialEquations</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">rhs</span>(u, params, ΔP)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    ∫vdP, T <span class="op">=</span> u</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    model, P₁, s₁, z, Mw <span class="op">=</span> params</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> P₁ <span class="op">-</span> ΔP</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [ <span class="fu">volume</span>(model, P, T, z)<span class="op">/</span>Mw</span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>             s₁ <span class="op">-</span> <span class="fu">entropy</span>(model, P, T) ]</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>But we want to stop the integration when <span class="math inline">\({ {\partial G} \over {\partial \left( \Delta P \right) } } = 0\)</span> or, equivalently, when the velocity is sonic. We can show that these are the same by finding the stationary points of <span class="math inline">\(G^2\)</span></p>
 <p><span class="math display">\[ { {\partial G^2} \over {\partial \left( \Delta P \right) } } = { {\partial } \over {\partial \left( \Delta P \right) } } \left( 2 \rho_t^2 \int_0^{\Delta P_t} v d \left( \Delta P \right) \right) = 0 \]</span></p>
 <p>by applying the chain rule and cancelling <span class="math inline">\(\rho\)</span> we get</p>
@@ -741,14 +742,14 @@ Figure&nbsp;3: The isentropic paths for the ideal gas, effective isentropic fact
 <p>we have</p>
 <p><span class="math display">\[ 2 \int_0^{\Delta P_t} v d \left( \Delta P \right) - c^2 = 0 \]</span></p>
 <p>which is simply restating <span class="math inline">\(u_t = c_t\)</span>.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">∂G²_callback</span>(u, ΔP, integrator)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">∂G²_callback</span>(u, ΔP, integrator)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    ∫vdP, Tₜ <span class="op">=</span> u</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    model, P₁, s₁, z, Mw <span class="op">=</span> integrator.p</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    Pₜ <span class="op">=</span> P₁ <span class="op">-</span> ΔP</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> <span class="fu">speed_of_sound</span>(model, Pₜ, Tₜ, z)</span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">2</span>∫vdP <span class="op">-</span> c<span class="op">^</span><span class="fl">2</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_direct_integration</span>(model, P₁, T₁, P₂; </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_direct_integration</span>(model, P₁, T₁, P₂; </span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                                      z<span class="op">=</span>[<span class="fl">1.0</span>], solver<span class="op">=</span><span class="fu">Rodas5P</span>())</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    s₁ <span class="op">=</span> <span class="fu">entropy</span>(model, P₁, T₁, z)</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    Mw <span class="op">=</span> <span class="fu">molecular_weight</span>(model, z)</span>
@@ -773,14 +774,14 @@ Figure&nbsp;3: The isentropic paths for the ideal gas, effective isentropic fact
 <span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    ∫vdP, Tₜ <span class="op">=</span> sol.u[<span class="kw">end</span>]</span>
 <span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    ρₜ <span class="op">=</span> <span class="fu">mass_density</span>(model, P₁<span class="op">-</span>ΔPₜ, Tₜ, z)</span>
 <span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">ρₜ*√</span>(<span class="fl">2</span><span class="op">*</span>∫vdP)</span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_direct_integration</span>(model, P₁<span class="op">::</span><span class="dt">Quantity</span>, T₁<span class="op">::</span><span class="dt">Quantity</span>,</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_direct_integration</span>(model, P₁<span class="op">::</span><span class="dt">Quantity</span>, T₁<span class="op">::</span><span class="dt">Quantity</span>,</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                          P₂<span class="op">::</span><span class="dt">Quantity</span>; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    P_1 <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"Pa"</span>, P₁)</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    P_2 <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"Pa"</span>, P₂)</span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    T_1 <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"K"</span>, T₁)</span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">mass_flux_direct_integration</span>(model, P_1, T_1, P_2; z<span class="op">=</span>z)<span class="op">*</span><span class="fl">1</span>u<span class="st">"kg*m^-2*s^-1"</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Direct integration of the VTPR equation of state gives a theoretical mass flux of 54629 kg m^-2 s^-1 ( 54353 kg m^-2 s^-1 from GERG-2008 ). Which is exactly the same as from solving the choked flow energy balance, as expected.</p>
 <div id="fig-4" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -909,13 +910,14 @@ Tilton, James N. <span>“Fluid and Particle Dynamics.”</span> In <em>Perry’
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,18 +91,19 @@ div.csl-indent {
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-58cfad456c997869d10d7b4a2ae8222c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-451e46ac69b7dce1f7bf1afa5bdb676d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -169,7 +170,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -494,11 +495,11 @@ window.Quarto = {
 <p>Where <span class="math inline">\(\dot{m}\)</span> is the mass emission rate, <em>Δt</em> the duration of the release, and <em>u</em> the ambient windspeed. The coordinates are such that the release point is at the origin, the puff moves in the downwind, <em>x</em>, direction while spreading into the crosswind, <em>y</em>, and vertical, <em>z</em>, directions.</p>
 <p>The dispersion parameters, <em>σ<sub>x</sub></em>, <em>σ<sub>y</sub></em>, <em>σ<sub>z</sub></em> are all functions of the downwind distance and the atmospheric stability.</p>
 <div id="dfc495ae-1375-463f-8803-aa2857ce5b16" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># class F puff dispersion</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># class F puff dispersion</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># x is in meters</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">σx</span>(x) <span class="op">=</span> <span class="fl">0.024</span><span class="op">*</span>x<span class="op">^</span><span class="fl">0.89</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">σy</span>(x) <span class="op">=</span> <span class="fu">σx</span>(x)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">σz</span>(x) <span class="op">=</span> <span class="fl">0.05</span><span class="op">*</span>x<span class="op">^</span><span class="fl">0.61</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">σz</span>(x) <span class="op">=</span> <span class="fl">0.05</span><span class="op">*</span>x<span class="op">^</span><span class="fl">0.61</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="integrating-the-puff" class="level2 page-columns page-full">
@@ -537,19 +538,19 @@ Figure&nbsp;1: The relative change in dispersion parameters, ±1σ, as a functio
 <p>where I am abusing notation with the <span class="math inline">\(\prime\)</span> indicates the variable with units, and no <span class="math inline">\(\prime\)</span> indicates it is unitless. A characteristic length, <span class="math inline">\(L\)</span>, is introduced to make everything unitless and, due to the dispersion correlations <span class="math inline">\(L = 1 \mathrm{m}\)</span> is the most convenient.</p>
 <p>We can then explore the performance of different approximations to the integrated puff model by only examining the Gaussian distributions – with no dependence upon <span class="math inline">\(\dot{m}\)</span> or <em>u</em>.</p>
 <div id="57713646-d107-46aa-9e34-e87b73a27f4c" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">g</span>(ξ,σ) <span class="op">=</span> <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>(ξ<span class="op">/</span>σ)<span class="op">^</span><span class="fl">2</span>)<span class="op">/</span>(<span class="fu">√</span>(<span class="fl">2</span>π)<span class="op">*</span>σ)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">g</span>(ξ,σ) <span class="op">=</span> <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>(ξ<span class="op">/</span>σ)<span class="op">^</span><span class="fl">2</span>)<span class="op">/</span>(<span class="fu">√</span>(<span class="fl">2</span>π)<span class="op">*</span>σ)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">gx</span>(x, t) <span class="op">=</span> <span class="fu">g</span>((x<span class="op">-</span>t),<span class="fu">σx</span>(t))</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">gy</span>(y, t) <span class="op">=</span> <span class="fu">g</span>(y,<span class="fu">σy</span>(t))</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">gz</span>(z, t) <span class="op">=</span> <span class="fl">2</span><span class="fu">*g</span>(z,<span class="fu">σz</span>(t))</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">pf</span>(x,y,z,t; Δt) <span class="op">=</span> <span class="fu">gx</span>(x,t)<span class="fu">*gy</span>(y,t)<span class="fu">*gz</span>(z,t)<span class="op">*</span>Δt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">pf</span>(x,y,z,t; Δt) <span class="op">=</span> <span class="fu">gx</span>(x,t)<span class="fu">*gy</span>(y,t)<span class="fu">*gz</span>(z,t)<span class="op">*</span>Δt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="sum-of-discrete-puffs" class="level3">
 <h3 class="anchored" data-anchor-id="sum-of-discrete-puffs">Sum of discrete puffs</h3>
 <p>The first type of approximation is to divide the release interval into <em>n</em> sub-intervals and <em>n</em> Gaussian puffs</p>
 <div id="9556b6c0-12ca-497f-92a8-64743d3e594b" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Σpf</span>(x,y,z,t; Δt, n)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Σpf</span>(x,y,z,t; Δt, n)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    Δt <span class="op">=</span> <span class="fu">min</span>(t,Δt)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    δt <span class="op">=</span> Δt<span class="op">/</span>(n<span class="op">-</span><span class="fl">1</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    _sum <span class="op">=</span> <span class="fl">0</span></span>
@@ -559,7 +560,7 @@ Figure&nbsp;1: The relative change in dispersion parameters, ±1σ, as a functio
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        _sum <span class="op">+=</span> pf_i</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> _sum</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="integrating-assuming-constant-σs" class="level3">
@@ -567,7 +568,7 @@ Figure&nbsp;1: The relative change in dispersion parameters, ±1σ, as a functio
 <p>The next type of approximation is the one I made in <a href="../../posts/integrated_puff/#integrated-puffs">the previous post</a> wherein <span class="math inline">\(g_x(x,t)\)</span> is integrated with respect to time, treating the σs as constants.</p>
 <p>There is a little sleight of hand as I include the downwind distance dependence of the σs after the integration (they aren’t <em>actually</em> constants)</p>
 <div id="f5020b7f-8d92-4b2a-978d-2937d5a7296d" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">SpecialFunctions</span>: erf</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">SpecialFunctions</span>: erf</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">∫gx</span>(x,t,Δt)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    Δt <span class="op">=</span> <span class="fu">min</span>(t,Δt)</span>
@@ -576,20 +577,20 @@ Figure&nbsp;1: The relative change in dispersion parameters, ±1σ, as a functio
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">erf</span>(b,a)<span class="op">/</span><span class="fl">2</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">∫pf_approx</span>(x,y,z,t; Δt) <span class="op">=</span> <span class="fu">∫gx</span>(x,t,Δt)<span class="fu">*gy</span>(y,x)<span class="fu">*gz</span>(z,x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">∫pf_approx</span>(x,y,z,t; Δt) <span class="op">=</span> <span class="fu">∫gx</span>(x,t,Δt)<span class="fu">*gy</span>(y,x)<span class="fu">*gz</span>(z,x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="numerically-integrating-the-full-model" class="level3">
 <h3 class="anchored" data-anchor-id="numerically-integrating-the-full-model">Numerically integrating the full model</h3>
 <p>Finally, I take advantage of the <code>QuadGK</code> package to numerically integrate the Gaussian puff model, including the time dependence of the dispersion parameters.</p>
 <div id="e0dfd47f-a66b-4549-8465-2ed6dd230d78" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">QuadGK</span>: quadgk</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">QuadGK</span>: quadgk</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">∫pf</span>(x,y,z,t; Δt)</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    Δt <span class="op">=</span> <span class="fu">min</span>(t,Δt)</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    integral, err <span class="op">=</span> <span class="fu">quadgk</span>(τ <span class="op">-&gt;</span> <span class="fu">gx</span>(x,τ)<span class="fu">*gy</span>(y,τ)<span class="fu">*gz</span>(z,τ), t<span class="op">-</span>Δt, t)</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> integral</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 </section>
@@ -662,17 +663,17 @@ Figure&nbsp;5: Top: concentration profile over time near the origin, for discret
 <h3 class="anchored" data-anchor-id="compute-time">Compute time</h3>
 <p>Model error is not the only factor in deciding upon an approximation. Since <code>QuadGK</code> exists we have to ask ourselves, why would we not always use it? We can answer that by benchmarking the three approaches at a particular point of interest (I don’t think the choice of point impacts the calculations at all)</p>
 <div id="fac7e799-1849-41e3-bd6d-ef2c0fc6f50a" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">BenchmarkTools</span>: @benchmark</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">BenchmarkTools</span>: @benchmark</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># point of interest</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>x₁ <span class="op">=</span> <span class="fl">100</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>y₁ <span class="op">=</span> <span class="fu">σy</span>(x₁)</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>z₁ <span class="op">=</span> <span class="fu">σz</span>(x₁)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>t₁ <span class="op">=</span> x₁</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>t₁ <span class="op">=</span> x₁</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Starting with the full numerical integration of the model, this is the <em>time to beat</em>. Any approximation that takes longer than ~30μs is literally pointless: it generates worse results and takes longer.</p>
 <div id="78e45c2d-d8eb-4967-b01e-5ff27f44447c" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">∫pf</span>(x₁,y₁,z₁,t₁; Δt<span class="op">=</span><span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">∫pf</span>(x₁,y₁,z₁,t₁; Δt<span class="op">=</span><span class="fl">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <div class="ansi-escaped-output">
 <pre>BenchmarkTools.Trial: 10000 samples with 1 evaluation.
@@ -688,7 +689,7 @@ Figure&nbsp;5: Top: concentration profile over time near the origin, for discret
 </div>
 <p>As we expect, the sequence of discrete puffs is much faster for fewer puffs, and adding an order of magnitude more puffs increases the time by an order of magnitude. At around <em>n=100</em> we are no longer gaining anything over the full numerical integration. So, if the near-field matters a lot to you, then this is probably not a great approximation as the number of puffs required to approximate the full numerical integration well takes longer than just doing the integration.</p>
 <div id="6d0aed2f-0a9e-4700-a25b-1c9376443f2e" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">Σpf</span>(x₁,y₁,z₁,t₁; Δt<span class="op">=</span><span class="fl">10</span>, n<span class="op">=</span><span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">Σpf</span>(x₁,y₁,z₁,t₁; Δt<span class="op">=</span><span class="fl">10</span>, n<span class="op">=</span><span class="fl">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div class="ansi-escaped-output">
 <pre>BenchmarkTools.Trial: 10000 samples with 8 evaluations.
@@ -703,7 +704,7 @@ Figure&nbsp;5: Top: concentration profile over time near the origin, for discret
 </div>
 </div>
 <div id="1be36ded-63ec-446d-98b3-d9dbfd003120" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">Σpf</span>(x₁,y₁,z₁,t₁; Δt<span class="op">=</span><span class="fl">10</span>, n<span class="op">=</span><span class="fl">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">Σpf</span>(x₁,y₁,z₁,t₁; Δt<span class="op">=</span><span class="fl">10</span>, n<span class="op">=</span><span class="fl">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <div class="ansi-escaped-output">
 <pre>BenchmarkTools.Trial: 10000 samples with 1 evaluation.
@@ -719,7 +720,7 @@ Figure&nbsp;5: Top: concentration profile over time near the origin, for discret
 </div>
 <p>Finally we have the integral approximation. This takes ~1/50th the time as the full numerical integration and, by the results above, it potentially performs just as well as the discrete puff approximation. In the examples above it was doing as well as discrete puff approximations that are too large to be worthwhile.</p>
 <div id="84dafac6-b194-4716-a0fd-f4ee9a38f122" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">∫pf_approx</span>(x₁,y₁,z₁,t₁; Δt<span class="op">=</span><span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">∫pf_approx</span>(x₁,y₁,z₁,t₁; Δt<span class="op">=</span><span class="fl">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <div class="ansi-escaped-output">
 <pre>BenchmarkTools.Trial: 10000 samples with 189 evaluations.
@@ -824,13 +825,14 @@ Slade, David H. <em>Meteorology and Atomic Energy</em>. Springfield, VA: Nationa
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

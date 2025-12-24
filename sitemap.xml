@@ -49,64 +49,76 @@
     <lastmod>2025-05-30T17:00:55.992Z</lastmod>
   </url>
   <url>
-    <loc>https://aefarrell.github.io/posts/engineering_a_cup_of_coffee/index.html</loc>
-    <lastmod>2025-05-30T17:00:56.009Z</lastmod>
-  </url>
-  <url>
-    <loc>https://aefarrell.github.io/posts/building_infiltration_example/index.html</loc>
-    <lastmod>2025-05-30T17:00:56.093Z</lastmod>
-  </url>
-  <url>
-    <loc>https://aefarrell.github.io/posts/indoor_air_quality/index.html</loc>
-    <lastmod>2025-05-30T17:00:55.999Z</lastmod>
-  </url>
-  <url>
-    <loc>https://aefarrell.github.io/posts/butane_leak_example/index.html</loc>
-    <lastmod>2025-05-30T17:00:55.986Z</lastmod>
-  </url>
-  <url>
-    <loc>https://aefarrell.github.io/posts/dynamic_mode_decomposition/index.html</loc>
-    <lastmod>2025-05-30T17:00:56.039Z</lastmod>
-  </url>
-  <url>
-    <loc>https://aefarrell.github.io/posts/vessel_blowdown_real_gases/index.html</loc>
-    <lastmod>2025-05-30T17:00:56.001Z</lastmod>
-  </url>
-  <url>
-    <loc>https://aefarrell.github.io/projects/unitfulcorrelations_jl/index.html</loc>
-    <lastmod>2025-06-27T14:16:10.238Z</lastmod>
-  </url>
-  <url>
-    <loc>https://aefarrell.github.io/projects/gas_dispersion_jl/index.html</loc>
-    <lastmod>2025-06-27T14:16:00.691Z</lastmod>
-  </url>
-  <url>
-    <loc>https://aefarrell.github.io/archive.html</loc>
-    <lastmod>2025-06-01T00:39:07.326Z</lastmod>
-  </url>
-  <url>
-    <loc>https://aefarrell.github.io/posts/atmotube_data_logging/index.html</loc>
-    <lastmod>2025-05-30T17:28:01.693Z</lastmod>
-  </url>
-  <url>
-    <loc>https://aefarrell.github.io/posts/building_infiltration_2/index.html</loc>
-    <lastmod>2025-05-30T17:00:56.013Z</lastmod>
-  </url>
-  <url>
-    <loc>https://aefarrell.github.io/posts/turbulent_jet_notes_part_2/index.html</loc>
-    <lastmod>2025-05-30T17:00:56.086Z</lastmod>
-  </url>
-  <url>
-    <loc>https://aefarrell.github.io/posts/turbulent_jet_example/index.html</loc>
-    <lastmod>2025-05-30T17:00:56.087Z</lastmod>
+    <loc>https://aefarrell.github.io/posts/vessel_blowdown_dispersion/index.html</loc>
+    <lastmod>2025-12-24T00:49:53.033Z</lastmod>
   </url>
   <url>
     <loc>https://aefarrell.github.io/posts/impossible_bowling/index.html</loc>
     <lastmod>2025-05-30T17:00:56.087Z</lastmod>
   </url>
   <url>
+    <loc>https://aefarrell.github.io/posts/turbulent_jet_example/index.html</loc>
+    <lastmod>2025-05-30T17:00:56.087Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aefarrell.github.io/posts/turbulent_jet_notes_part_2/index.html</loc>
+    <lastmod>2025-05-30T17:00:56.086Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aefarrell.github.io/posts/building_infiltration_2/index.html</loc>
+    <lastmod>2025-05-30T17:00:56.013Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aefarrell.github.io/posts/atmotube_data_logging/index.html</loc>
+    <lastmod>2025-12-19T22:14:39.126Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aefarrell.github.io/archive.html</loc>
+    <lastmod>2025-06-01T00:39:07.326Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aefarrell.github.io/projects/pymotube/index.html</loc>
+    <lastmod>2025-12-24T00:50:30.386Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aefarrell.github.io/projects/gas_dispersion_jl/index.html</loc>
+    <lastmod>2025-06-27T14:16:00.691Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aefarrell.github.io/projects/unitfulcorrelations_jl/index.html</loc>
+    <lastmod>2025-06-27T14:16:10.238Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aefarrell.github.io/projects/picocalc/index.html</loc>
+    <lastmod>2025-11-29T18:52:07.261Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aefarrell.github.io/posts/vessel_blowdown_real_gases/index.html</loc>
+    <lastmod>2025-05-30T17:00:56.001Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aefarrell.github.io/posts/dynamic_mode_decomposition/index.html</loc>
+    <lastmod>2025-05-30T17:00:56.039Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aefarrell.github.io/posts/butane_leak_example/index.html</loc>
+    <lastmod>2025-05-30T17:00:55.986Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aefarrell.github.io/posts/indoor_air_quality/index.html</loc>
+    <lastmod>2025-05-30T17:00:55.999Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aefarrell.github.io/posts/building_infiltration_example/index.html</loc>
+    <lastmod>2025-05-30T17:00:56.093Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aefarrell.github.io/posts/engineering_a_cup_of_coffee/index.html</loc>
+    <lastmod>2025-05-30T17:00:56.009Z</lastmod>
+  </url>
+  <url>
     <loc>https://aefarrell.github.io/posts/vessel_blowdown_ideal_gases/index.html</loc>
-    <lastmod>2025-05-30T17:00:56.000Z</lastmod>
+    <lastmod>2025-11-10T16:57:35.206Z</lastmod>
   </url>
   <url>
     <loc>https://aefarrell.github.io/posts/hydrogen_blending/index.html</loc>
@@ -118,7 +130,7 @@
   </url>
   <url>
     <loc>https://aefarrell.github.io/posts/ooms_plume_model/index.html</loc>
-    <lastmod>2025-06-27T14:04:14.384Z</lastmod>
+    <lastmod>2025-11-15T19:49:48.152Z</lastmod>
   </url>
   <url>
     <loc>https://aefarrell.github.io/posts/pollen_dispersion/index.html</loc>

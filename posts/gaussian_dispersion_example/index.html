@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,18 +91,19 @@ div.csl-indent {
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-58cfad456c997869d10d7b4a2ae8222c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-451e46ac69b7dce1f7bf1afa5bdb676d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -169,7 +170,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -512,7 +513,7 @@ Figure&nbsp;1: The problem domain, a stack with a Gaussian plume (<a href="https
 <p>In this case we are interested in the carbon monoxide concentrations at a work platform at the same height as the stack and 100m away, we also would like to know the concentration for a worker at ground level. I am approximately 2m tall let’s suppose the relevant height is 2m (for anyone shorter than that the concentration should be lower and thus this is conservative).</p>
 <p>Additionally I am assuming ambient conditions of 25°C and 1atm</p>
 <div id="cell-2" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Unitful</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Unitful</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>W <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"GJ/s"</span>, <span class="fl">300</span>u<span class="st">"GJ/hr"</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>hₛ <span class="op">=</span> <span class="fl">10</span>u<span class="st">"m"</span>   <span class="co"># stack height</span></span>
@@ -523,7 +524,7 @@ Figure&nbsp;1: The problem domain, a stack with a Gaussian plume (<a href="https
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>x₁ <span class="op">=</span> <span class="fl">100</span>u<span class="st">"m"</span> <span class="co"># distance to platform, m</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>pₐ <span class="op">=</span> <span class="fl">101.325</span>u<span class="st">"kPa"</span> <span class="co"># ambient pressure, 1atm</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Tₐ <span class="op">=</span> <span class="fl">298.15</span>u<span class="st">"K"</span>    <span class="co"># ambient temperature, 25°C</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Tₐ <span class="op">=</span> <span class="fl">298.15</span>u<span class="st">"K"</span>    <span class="co"># ambient temperature, 25°C</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>298.15 K</code></pre>
 </div>
@@ -542,10 +543,10 @@ Figure&nbsp;1: The problem domain, a stack with a Gaussian plume (<a href="https
 <p><span class="math display">\[ Q = { W \cdot EF \over HV}  \]</span></p>
 <p>Where <em>EF</em> is the emission factor and <em>HV</em> the higher heating value.</p>
 <div id="cell-4" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>HV <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"GJ/m^3"</span>, <span class="fl">1020</span>u<span class="st">"btu/ft^3"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>HV <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"GJ/m^3"</span>, <span class="fl">1020</span>u<span class="st">"btu/ft^3"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>EF <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"kg/m^3"</span>, <span class="fl">84</span><span class="op">*</span><span class="fl">1e-6</span>u<span class="st">"lb/ft^3"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> EF <span class="op">*</span> W <span class="op">/</span> HV <span class="co"># mass emission rate in kg/s</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> EF <span class="op">*</span> W <span class="op">/</span> HV <span class="co"># mass emission rate in kg/s</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>0.002950437713234783 kg s^-1</code></pre>
 </div>
@@ -563,13 +564,13 @@ Figure&nbsp;1: The problem domain, a stack with a Gaussian plume (<a href="https
 <li>from Method 19 for natural gas, <span class="math inline">\(F_w = 2.85 \times 10^{-7} \mathrm{sm^3 \over J}\)</span></li>
 </ul>
 <div id="cell-6" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Fw <span class="op">=</span> <span class="fl">2.85e-7</span>u<span class="st">"m^3/J"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Fw <span class="op">=</span> <span class="fl">2.85e-7</span>u<span class="st">"m^3/J"</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pct_O2 <span class="op">=</span> <span class="fl">4</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>Bwa <span class="op">=</span> <span class="fl">0.027</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>Vₛᵒ <span class="op">=</span> Fw <span class="op">*</span> (<span class="fl">20.9</span> <span class="op">/</span> (<span class="fl">20.9</span><span class="fu">*</span>(<span class="fl">1</span><span class="op">-</span>Bwa) <span class="op">-</span> pct_O2)) <span class="op">*</span> W</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>Vₛᵒ <span class="op">=</span> <span class="fu">upreferred</span>(Vₛᵒ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>Vₛᵒ <span class="op">=</span> <span class="fu">upreferred</span>(Vₛᵒ)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>30.385903267077627 m^3 s^-1</code></pre>
 </div>
@@ -579,13 +580,13 @@ Figure&nbsp;1: The problem domain, a stack with a Gaussian plume (<a href="https
 <p><span class="math display">\[ V_s = { T_s \over T^o } { p^o \over p_a } V_s^o \]</span></p>
 <p>Where the standard conditions of Method 19 are <span class="math inline">\(T^o = 20 \mathrm{C}\)</span> and <span class="math inline">\(p^o = 760 \mathrm{mm Hg}\)</span></p>
 <div id="cell-8" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unitful doesn't know what "mm Hg" is</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unitful doesn't know what "mm Hg" is</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@unit</span> mmHg <span class="st">"mm Hg"</span> MillimetersMercury <span class="fl">133.322387415</span>u<span class="st">"Pa"</span> <span class="cn">false</span> </span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>Tᵒ <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"K"</span>, <span class="fl">20</span>u<span class="st">"°C"</span>)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>pᵒ <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"kPa"</span>, <span class="fl">760</span>mmHg)</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>Vₛ <span class="op">=</span> (Tₛ <span class="op">/</span> Tᵒ) <span class="op">*</span> (pᵒ <span class="op">/</span> pₐ) <span class="op">*</span> Vₛᵒ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>Vₛ <span class="op">=</span> (Tₛ <span class="op">/</span> Tᵒ) <span class="op">*</span> (pᵒ <span class="op">/</span> pₐ) <span class="op">*</span> Vₛᵒ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>46.6438970432218 m^3 s^-1</code></pre>
 </div>
@@ -627,19 +628,19 @@ Figure&nbsp;1: The problem domain, a stack with a Gaussian plume (<a href="https
 </tbody>
 </table>
 <div id="cell-10" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>TWA <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"kg/m^3"</span>, <span class="fl">40</span>u<span class="st">"mg/m^3"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>TWA <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"kg/m^3"</span>, <span class="fl">40</span>u<span class="st">"mg/m^3"</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Ceil <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"kg/m^3"</span>, <span class="fl">229</span>u<span class="st">"mg/m^3"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>IDLH <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"kg/m^3"</span>, <span class="fl">1380</span>u<span class="st">"mg/m^3"</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>IDLH <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"kg/m^3"</span>, <span class="fl">1380</span>u<span class="st">"mg/m^3"</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We can check if the stack gas concentration at the exit exceeds the TWA. If it does not exceed the TWA then there is no reason to proceed with the calculations as a worker could work <em>in the stack</em> and not exceed the limits and they certainly would not exceed the limits after the plume mixed with ambient air.</p>
 <div id="cell-12" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">uconvert</span>(u<span class="st">"mg/m^3"</span>, Q<span class="op">/</span>Vₛᵒ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">uconvert</span>(u<span class="st">"mg/m^3"</span>, Q<span class="op">/</span>Vₛᵒ)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>97.0988977125952 mg m^-3</code></pre>
 </div>
 </div>
 <div id="cell-13" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Q<span class="op">/</span>Vₛᵒ <span class="op">&gt;</span> TWA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Q<span class="op">/</span>Vₛᵒ <span class="op">&gt;</span> TWA</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>true</code></pre>
 </div>
@@ -652,7 +653,7 @@ Figure&nbsp;1: The problem domain, a stack with a Gaussian plume (<a href="https
 <p>The ambient conditions impact the release in some obvious ways and in some non-obvious ways. Obviously the wind speed impacts how far the plume is moved, through advection. Somewhat non-obviously the ambient conditions also govern how high the plume will rise due to buoyancy as well as the extent of mixing as the plume moves through the air.</p>
 <p>Suppose a wind speed of 1.5m/s at the stack height, just arbitrarily.</p>
 <div id="cell-16" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>uₛ <span class="op">=</span> <span class="fl">1.5</span>u<span class="st">"m/s"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>uₛ <span class="op">=</span> <span class="fl">1.5</span>u<span class="st">"m/s"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>1.5 m s^-1</code></pre>
 </div>
@@ -680,7 +681,7 @@ Figure&nbsp;2: The effect of atmospheric stability on plume dispersion.
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Addendum
+<span class="screen-reader-only">Warning</span>Addendum
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -688,14 +689,14 @@ Addendum
 </div>
 </div>
 <div id="cell-18" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># acceleration due to gravity</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># acceleration due to gravity</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="fl">9.80616</span>u<span class="st">"m/s^2"</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># default lapse rate for class F</span></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>Γ <span class="op">=</span> <span class="fl">0.035</span>u<span class="st">"K/m"</span></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># stability parameter</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> (g<span class="op">/</span>Tₐ) <span class="op">*</span> Γ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> (g<span class="op">/</span>Tₐ) <span class="op">*</span> Γ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>0.0011511507630387393 s^-2</code></pre>
 </div>
@@ -708,9 +709,9 @@ Addendum
 <p>Where <span class="math inline">\(v_s\)</span> is the stack exit velocity and is calculated from the volumetric flow as</p>
 <p><span class="math display">\[ v_s = { V_s \over A_s} = { V_s \over \frac{\pi}{4} D^2 } \]</span></p>
 <div id="cell-20" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>vₛ <span class="op">=</span> Vₛ <span class="op">/</span> ((<span class="cn">π</span><span class="op">/</span><span class="fl">4</span>)<span class="op">*</span>Dₛ<span class="op">^</span><span class="fl">2</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>vₛ <span class="op">=</span> Vₛ <span class="op">/</span> ((<span class="cn">π</span><span class="op">/</span><span class="fl">4</span>)<span class="op">*</span>Dₛ<span class="op">^</span><span class="fl">2</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>vₛ <span class="op">&gt;</span> <span class="fl">1.5</span>uₛ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>vₛ <span class="op">&gt;</span> <span class="fl">1.5</span>uₛ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>true</code></pre>
 </div>
@@ -719,9 +720,9 @@ Addendum
 <p>The first question that must be answered is whether or not the plume rise is dominated by buoyancy or by momentum. For buoyant plume rise to dominate the actual temperature difference – the difference between the stack exit temperature and the ambient temperature – must be greater than a critical temperature difference<span class="citation" data-cites="epa-1995b"><a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></span></p>
 <div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;<a href="#ref-epa-1995b" role="doc-biblioref">EPA, 2:1–9</a>.</p></div></div><p><span class="math display">\[ T_s - T_a = \Delta T \gt \left( \Delta T \right)_c = 0.019582 T_s v_s \sqrt{s} \]</span></p>
 <div id="cell-22" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ΔTc <span class="op">=</span> <span class="fl">0.019582</span>u<span class="st">"m^-1*s^2"</span> <span class="op">*</span> Tₛ <span class="op">*</span> vₛ <span class="op">*</span> <span class="fu">√</span>(s)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ΔTc <span class="op">=</span> <span class="fl">0.019582</span>u<span class="st">"m^-1*s^2"</span> <span class="op">*</span> Tₛ <span class="op">*</span> vₛ <span class="op">*</span> <span class="fu">√</span>(s)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>(Tₛ <span class="op">-</span> Tₐ) <span class="op">&gt;</span> ΔTc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>(Tₛ <span class="op">-</span> Tₐ) <span class="op">&gt;</span> ΔTc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>true</code></pre>
 </div>
@@ -736,19 +737,19 @@ Addendum
 <div class="no-row-height column-margin column-container"><div id="fn11"><p><sup>11</sup>&nbsp;<a href="#ref-epa-1995b" role="doc-biblioref">EPA, 2:1–10</a>.</p></div></div><p><span class="math display">\[ \Delta h = 1.60 \left( F_b x^2 \over u_s^3 \right)^{1/3} \]</span></p>
 <p>this can be put together into a function that calculates <span class="math inline">\(\Delta h\)</span> as a function of distance <em>x</em></p>
 <div id="cell-24" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>Fb <span class="op">=</span> g <span class="op">*</span> vₛ <span class="op">*</span> Dₛ<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> (Tₛ <span class="op">-</span> Tₐ) <span class="op">/</span> (<span class="fl">4</span>Tₛ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>Fb <span class="op">=</span> g <span class="op">*</span> vₛ <span class="op">*</span> Dₛ<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> (Tₛ <span class="op">-</span> Tₐ) <span class="op">/</span> (<span class="fl">4</span>Tₛ)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>49.1299376393856 m^4 s^-3</code></pre>
 </div>
 </div>
 <div id="cell-25" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>xf <span class="op">=</span> <span class="fl">2.0715</span><span class="op">*</span>uₛ<span class="op">/</span><span class="fu">√</span>(s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>xf <span class="op">=</span> <span class="fl">2.0715</span><span class="op">*</span>uₛ<span class="op">/</span><span class="fu">√</span>(s)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>91.58199372993636 m</code></pre>
 </div>
 </div>
 <div id="cell-26" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Δh</span>(x)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Δh</span>(x)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    xf <span class="op">=</span> <span class="fl">2.0715</span><span class="op">*</span>uₛ<span class="op">/</span><span class="fu">√</span>(s)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x <span class="op">&lt;</span> xf</span>
@@ -757,7 +758,7 @@ Addendum
 <span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">2.6</span><span class="fu">*</span>(Fb<span class="op">/</span>(uₛ<span class="op">*</span>s))<span class="op">^</span>(<span class="fl">1</span><span class="op">/</span><span class="fl">3</span>)</span>
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-plume-height" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="15">
 <div class="cell-output cell-output-display" data-execution_count="15">
@@ -865,7 +866,7 @@ Figure&nbsp;5: A sketch of ground reflection by method of images.
 <p>With the constants tabulated based on the <a href="https://en.wikipedia.org/wiki/Outline_of_air_pollution_dispersion#Characterization_of_atmospheric_turbulence">Pasquill stability class criteria</a>.</p>
 <p>These particular correlations come from Lees<span class="citation" data-cites="lees-1996"><a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></span> and are for a Pasquill stability class F</p>
 <div class="no-row-height column-margin column-container"><div id="fn12"><p><sup>12</sup>&nbsp;<a href="#ref-lees-1996" role="doc-biblioref">Lees, <em>Loss Prevention in the Process Industries</em>, 15</a>/113. There is a typo in the 4th edition of <em>Lees’</em> for the <span class="math inline">\(\sigma_{z}\)</span> corresponding to class F stability. For <span class="math inline">\(x&gt;500\)</span> it is given as <span class="math display">\[ \sigma_{z} = 10^{(1.91 - 1.37 \log(x) - 0.119 \log(x)^2)} \]</span> when it should be (note the signs) <span class="math display">\[ \sigma_{z} = 10^{(-1.91 + 1.37 \log(x) - 0.119 \log(x)^2)} \]</span>. I happen to have the paper version of the 2nd edition at home, which does not have the typo, whereas the standard version I use at work is the 4th edition on Knovel.</p></div></div><div id="cell-33" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">σy</span>(x) <span class="op">=</span> <span class="fl">0.067</span><span class="op">*</span>x<span class="op">^</span><span class="fl">0.90</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">σy</span>(x) <span class="op">=</span> <span class="fl">0.067</span><span class="op">*</span>x<span class="op">^</span><span class="fl">0.90</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">σz</span>(x)</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x <span class="op">&lt;</span> <span class="fl">500.0</span></span>
@@ -875,11 +876,11 @@ Figure&nbsp;5: A sketch of ground reflection by method of images.
 <span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 10^(1.91 - 1.37*log10(x) - 0.119*log10(x)^2)</span></span>
 <span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">10</span><span class="op">^</span>(<span class="op">-</span><span class="fl">1.91</span> <span class="op">+</span> <span class="fl">1.37</span><span class="fu">*log10</span>(x) <span class="op">-</span> <span class="fl">0.119</span><span class="fu">*log10</span>(x)<span class="op">^</span><span class="fl">2</span>)</span>
 <span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>These correlations are currently not unit-aware, so we can add that using a macro</p>
 <div id="cell-35" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this macro adds a method to handle units</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this macro adds a method to handle units</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">macro</span> <span class="fu">correl</span>(f, in_unit, out_unit)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">quote</span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">function</span> <span class="op">$</span>(<span class="fu">esc</span>(f))(x<span class="op">::</span><span class="dt">Quantity</span>)<span class="op">::</span><span class="dt">Quantity</span></span>
@@ -891,7 +892,7 @@ Figure&nbsp;5: A sketch of ground reflection by method of images.
 <span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>σy <span class="op">=</span> <span class="pp">@correl</span>(σy, u<span class="st">"m"</span>, u<span class="st">"m"</span>)</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>σz <span class="op">=</span> <span class="pp">@correl</span>(σz, u<span class="st">"m"</span>, u<span class="st">"m"</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>σz <span class="op">=</span> <span class="pp">@correl</span>(σz, u<span class="st">"m"</span>, u<span class="st">"m"</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-sigmas" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="19">
 <div class="cell-output cell-output-display" data-execution_count="19">
@@ -916,7 +917,7 @@ Figure&nbsp;6: Pasquill-Gifford dispersion parameters as a function of downwind 
 <p><span class="math display">\[ C = {Q \over 2 \pi u \sigma_{ye} \sigma_{ze} } \exp \left[ -\frac{1}{2} \left( y \over \sigma_{ye} \right)^2 \right] \]</span></p>
 <p><span class="math display">\[ \times \left\{ \exp \left[ -\frac{1}{2} \left( { z -h_e } \over \sigma_{ze} \right)^2 \right] + \exp \left[ -\frac{1}{2} \left( { z + h_e } \over \sigma_{ze} \right)^2 \right] \right\} \]</span></p>
 <div id="cell-38" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">C</span>(x, y, z)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">C</span>(x, y, z)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    hₑ  <span class="op">=</span> hₛ <span class="op">+</span> <span class="fu">Δh</span>(x)</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    σyₑ <span class="op">=</span> <span class="fu">√</span>( (<span class="fu">Δh</span>(x)<span class="op">/</span><span class="fl">3.5</span>)<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fu">σy</span>(x)<span class="op">^</span><span class="fl">2</span> )</span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    σzₑ <span class="op">=</span> <span class="fu">√</span>( (<span class="fu">Δh</span>(x)<span class="op">/</span><span class="fl">3.5</span>)<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fu">σz</span>(x)<span class="op">^</span><span class="fl">2</span> )</span>
@@ -925,7 +926,7 @@ Figure&nbsp;6: Pasquill-Gifford dispersion parameters as a function of downwind 
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>         <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>(y<span class="op">/</span>σyₑ)<span class="op">^</span><span class="fl">2</span>) <span class="op">*</span></span>
 <span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>         ( <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>((z<span class="op">-</span>hₑ)<span class="op">/</span>σzₑ)<span class="op">^</span><span class="fl">2</span>) <span class="op">+</span> <span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="fu">*</span>((z<span class="op">+</span>hₑ)<span class="op">/</span>σzₑ)<span class="op">^</span><span class="fl">2</span>) )</span>
 <span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>C (generic function with 1 method)</code></pre>
 </div>
@@ -973,13 +974,13 @@ Figure&nbsp;8: Contour plots of concentration with using Briggs’ plume rise eq
 </div>
 <p>In this model the plume clearly rises significantly and, as it goes, mixes into the air column to such an extent that there is hardly any carbon monoxide at the elevations of interest downwind of the stack.</p>
 <div id="cell-44" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">uconvert</span>(u<span class="st">"mg/m^3"</span>,<span class="fu">C</span>(x₁, <span class="fl">0</span>u<span class="st">"m"</span>, h₁))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">uconvert</span>(u<span class="st">"mg/m^3"</span>,<span class="fu">C</span>(x₁, <span class="fl">0</span>u<span class="st">"m"</span>, h₁))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="23">
 <pre><code>0.0014282911474771348 mg m^-3</code></pre>
 </div>
 </div>
 <div id="cell-45" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">C</span>(x₁, <span class="fl">0</span>u<span class="st">"m"</span>, h₁) <span class="op">&gt;</span> TWA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">C</span>(x₁, <span class="fl">0</span>u<span class="st">"m"</span>, h₁) <span class="op">&gt;</span> TWA</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="24">
 <pre><code>false</code></pre>
 </div>
@@ -1084,13 +1085,14 @@ Vallero, Daniel. <em>Fundamentals of Air Pollution</em>. 5th ed. Amsterdam: Else
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

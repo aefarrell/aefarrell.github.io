@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,18 +91,19 @@ div.csl-indent {
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-58cfad456c997869d10d7b4a2ae8222c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-451e46ac69b7dce1f7bf1afa5bdb676d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -169,7 +170,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -697,7 +698,7 @@ Figure&nbsp;1: A turbulent jet emitted from a circular orifice.
 <p>at <em>φ = 0</em>, therefore <em>F’’(0) = -1</em></p></div></div><p><span class="math display">\[ {d \mathbf{u} \over dt }_{t=0} = \begin{bmatrix} 0 \\ -1 \end{bmatrix}\]</span></p>
 <p>Putting that together, the ODE can be integrated easily<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;Because of how <span class="math inline">\(\bar{v}_z\)</span> and <span class="math inline">\(\bar{v}_r\)</span> were defined <span class="math inline">\(-{ F^{\prime} \over \phi } \ge 0\)</span>, i.e.&nbsp;<span class="math inline">\({ F^{\prime} \over \phi } \le 0\)</span>. For the signs to work out, <span class="math inline">\(F \le 0\)</span> and <span class="math inline">\(F^{\prime} \le 0\)</span> (since <span class="math inline">\(F F^{\prime} \ge 0\)</span>)</p></div></div><div id="b60f42cc-66ed-4af1-a274-295c3143a916" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">StaticArrays</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">StaticArrays</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DifferentialEquations</span>: ODEProblem, Tsit5, solve, TerminateSteadyState</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">sys</span>(u,p,t)</span>
@@ -718,7 +719,7 @@ Figure&nbsp;1: A turbulent jet emitted from a circular orifice.
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>prob  <span class="op">=</span> <span class="fu">ODEProblem</span>(sys, u0, tspan)</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>sol   <span class="op">=</span> <span class="fu">solve</span>(prob, <span class="fu">Tsit5</span>(), dtmax<span class="op">=</span><span class="fl">0.1</span>, callback<span class="op">=</span><span class="fu">TerminateSteadyState</span>())</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sol.retcode)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sol.retcode)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Success</code></pre>
 </div>
@@ -739,7 +740,7 @@ Figure&nbsp;2: The numerical integration of F(φ), Prandtl mixing length theory.
 </div>
 <p>Using the solution in terms of φ we can write a function <em>f(ξ)</em></p>
 <div id="5be93f8e-8c9b-40fb-b5fa-8c1bbca7c152" class="cell" data-tags="[]" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">f_pml</span>(ξ; a<span class="op">=</span><span class="fl">0.066</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">f_pml</span>(ξ; a<span class="op">=</span><span class="fl">0.066</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    ϕ <span class="op">=</span> <span class="fu">abs</span>(ξ)<span class="op">/</span>a</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ϕ <span class="op">&gt;</span><span class="fl">0</span></span>
@@ -751,7 +752,7 @@ Figure&nbsp;2: The numerical integration of F(φ), Prandtl mixing length theory.
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> f</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="comparison-with-tollmien" class="level3 page-columns page-full">
@@ -778,9 +779,9 @@ Figure&nbsp;3: This solution versus the tabulated results of Tollmien, demonstra
 <p>The width at half height, <span class="math inline">\(b_{1/2}\)</span>, is an important parameter and often velocity profiles are scaled relative to this. To compare different models on a fair basis, it is a good idea to determine what the model parameters are relative to <span class="math inline">\(b_{1/2}\)</span>. Then each model can be scaled to the same <span class="math inline">\(b_{1/2}\)</span> and compared, apples-to-apples.</p>
 <p>In this case we don’t have a closed form for the velocity profile so we need to solve for φ such that <em>f(φ)=0</em> numerically.</p>
 <div id="8564b3cb-03f4-4154-9353-d171ece8ecf0" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ϕ_half <span class="op">=</span> <span class="fu">find_zero</span>( ϕ <span class="op">-&gt;</span> <span class="fu">f_pml</span>(ϕ; a<span class="op">=</span><span class="fl">1</span>)<span class="op">-</span><span class="fl">0.5</span>, (<span class="fl">1</span>, <span class="fl">1.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ϕ_half <span class="op">=</span> <span class="fu">find_zero</span>( ϕ <span class="op">-&gt;</span> <span class="fu">f_pml</span>(ϕ; a<span class="op">=</span><span class="fl">1</span>)<span class="op">-</span><span class="fl">0.5</span>, (<span class="fl">1</span>, <span class="fl">1.25</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>1.2277665940765845</code></pre>
 </div>
@@ -793,9 +794,9 @@ Figure&nbsp;3: This solution versus the tabulated results of Tollmien, demonstra
 </div>
 <p>Using a default value for <span class="math inline">\({ b_{1/2} \over z } = 0.0848\)</span> we arrive at</p>
 <div id="4273aa8d-aff1-4202-80ac-f5a81c0a3097" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>b_half <span class="op">=</span> <span class="fl">0.0848</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>b_half <span class="op">=</span> <span class="fl">0.0848</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> b_half<span class="op">/</span>ϕ_half</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> b_half<span class="op">/</span>ϕ_half</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>0.06906850244103516</code></pre>
 </div>
@@ -827,7 +828,7 @@ Figure&nbsp;3: This solution versus the tabulated results of Tollmien, demonstra
 <p><span class="math display">\[ k = \sqrt{1 \over 8 I } v_0 d_0 \]</span></p>
 <p>with the value of the integral coming directly from the ode solver</p>
 <div id="fc66ee5d-7e40-4463-bc85-febd183760c3" class="cell" data-tags="[]" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NumericalIntegration</span>: integrate</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NumericalIntegration</span>: integrate</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ϕ, F′ <span class="op">=</span> sol.t, sol[<span class="fl">2</span>,<span class="op">:</span>]</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -843,7 +844,7 @@ Figure&nbsp;3: This solution versus the tabulated results of Tollmien, demonstra
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>I <span class="op">=</span> <span class="fu">integrate</span>(ϕ, <span class="fu">integrand</span>.(ϕ, F′))</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>I <span class="op">=</span> a<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> I</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>I <span class="op">=</span> a<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> I</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>0.002573069044757039</code></pre>
 </div>
@@ -898,7 +899,7 @@ Figure&nbsp;3: This solution versus the tabulated results of Tollmien, demonstra
 <p><span class="math display">\[ = {2 \varepsilon C_2^2 \over z} \left( 1 + \left( C_2 \xi \over 2 \right)^2 \right)^{-2} \]</span></p>
 <p><span class="math display">\[ f \left( \xi \right) = { \bar{v}_z \over \bar{v}_{z,max} } =  \left( 1 + \left( C_2 \xi \over 2 \right)^2 \right)^{-2} \]</span></p>
 <div id="d09837c9-cd76-4a68-923a-6d3ef0b55da6" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f_ev</span>(ξ; C₂<span class="op">=</span><span class="fl">15.1</span>) <span class="op">=</span> ( <span class="fl">1</span> <span class="op">+</span> (C₂<span class="op">*</span>ξ<span class="op">/</span><span class="fl">2</span>)<span class="op">^</span><span class="fl">2</span> )<span class="op">^-</span><span class="fl">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f_ev</span>(ξ; C₂<span class="op">=</span><span class="fl">15.1</span>) <span class="op">=</span> ( <span class="fl">1</span> <span class="op">+</span> (C₂<span class="op">*</span>ξ<span class="op">/</span><span class="fl">2</span>)<span class="op">^</span><span class="fl">2</span> )<span class="op">^-</span><span class="fl">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="width-at-half-height-1" class="level3">
@@ -909,7 +910,7 @@ Figure&nbsp;3: This solution versus the tabulated results of Tollmien, demonstra
 <p><span class="math display">\[ C_2 = 2 \sqrt{\sqrt{2}-1} \frac{z}{ b_{1/2} } \]</span></p>
 <p>using the same parameterization as above we get</p>
 <div id="0c1512c0-a800-4eb8-8ba8-becabad14713" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>C₂ <span class="op">=</span> <span class="fl">2</span><span class="fu">*√</span>(<span class="fu">√</span>(<span class="fl">2</span>)<span class="op">-</span><span class="fl">1</span>)<span class="op">/</span>b_half</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>C₂ <span class="op">=</span> <span class="fl">2</span><span class="fu">*√</span>(<span class="fu">√</span>(<span class="fl">2</span>)<span class="op">-</span><span class="fl">1</span>)<span class="op">/</span>b_half</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>15.179109738339214</code></pre>
 </div>
@@ -937,7 +938,7 @@ Figure&nbsp;3: This solution versus the tabulated results of Tollmien, demonstra
 <p><span class="math display">\[ f \left( \xi \right) = \exp \left( -c \xi^2 \right) \]</span></p>
 <p>Where <em>c</em> is a parameter determined by fitting to a dataset.</p>
 <div id="2c811dd9-5c34-4f0a-af30-4b183d1f5242" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f_emp</span>(ξ; c<span class="op">=</span><span class="fl">72</span>) <span class="op">=</span> <span class="fu">exp</span>(<span class="op">-</span>c<span class="op">*</span>ξ<span class="op">^</span><span class="fl">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f_emp</span>(ξ; c<span class="op">=</span><span class="fl">72</span>) <span class="op">=</span> <span class="fu">exp</span>(<span class="op">-</span>c<span class="op">*</span>ξ<span class="op">^</span><span class="fl">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="width-at-half-height-2" class="level3">
 <h3 class="anchored" data-anchor-id="width-at-half-height-2">Width at Half Height</h3>
@@ -947,7 +948,7 @@ Figure&nbsp;3: This solution versus the tabulated results of Tollmien, demonstra
 <p><span class="math display">\[ c = \ln \left( 2 \right) \left( \frac{z}{ b_{1/2} } \right)^2 \]</span></p>
 <p>using the same parameterization as above we get</p>
 <div id="798cacec-796d-4310-9a00-5d253d863b6a" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fu">log</span>(<span class="fl">2</span>)<span class="op">/</span>b_half<span class="op">^</span><span class="fl">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fu">log</span>(<span class="fl">2</span>)<span class="op">/</span>b_half<span class="op">^</span><span class="fl">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>96.39039423504045</code></pre>
 </div>
@@ -1107,13 +1108,14 @@ Tollmien, Walter. <span>“Berechnung Turbulenter Ausbreitungsvorgänge.”</spa
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

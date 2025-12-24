@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,18 +71,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-58cfad456c997869d10d7b4a2ae8222c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-451e46ac69b7dce1f7bf1afa5bdb676d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -149,7 +150,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -467,35 +468,35 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="outdoor-particulate-concentration">Outdoor particulate concentration</h3>
 <p>The purple air monitor can output the raw pm2.5 concentrations as a csv, which is easily imported into julia. As a first step I define when the experiment started such that I can also calculate how much time has elapsed – it is going to be easier to work with a time variable that is just a number starting at 0 when the experiment started than datetime objects. The default units of time, in julia, are milliseconds however the more convenient units for building ventilation are hours and so the time variable here is in hours.</p>
 <div id="d86d75ca-b304-4465-aaa9-801057949d42" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CSV</span>, <span class="bu">DataFrames</span>, <span class="bu">Dates</span>, <span class="bu">Pipe</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CSV</span>, <span class="bu">DataFrames</span>, <span class="bu">Dates</span>, <span class="bu">Pipe</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="0bfd5892-2e17-4f64-809c-7730e7824613" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> <span class="fu">DateTime</span>(<span class="fl">2023</span>,<span class="fl">5</span>,<span class="fl">21</span>,<span class="fl">14</span>,<span class="fl">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> <span class="fu">DateTime</span>(<span class="fl">2023</span>,<span class="fl">5</span>,<span class="fl">21</span>,<span class="fl">14</span>,<span class="fl">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>2023-05-21T14:15:00</code></pre>
 </div>
 </div>
 <p>The purple air monitor has dual particle count sensors, labeled in this dataset as “Purple Air A” and “Purple Air B”, for convenience I take the average of the two as the outdoor concentration.</p>
 <div id="42da9c60-631d-4868-a0f4-697e2996c071" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Statistics</span>: mean</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Statistics</span>: mean</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>outdoor <span class="op">=</span> <span class="pp">@pipe</span> <span class="st">"data/22_May_2023_raw-pm25-gm.csv"</span> <span class="op">|&gt;</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                CSV.<span class="fu">read</span>( _ , DataFrame, dateformat<span class="op">=</span><span class="st">"yyyy-mm-dd HH:MM:SS"</span>) <span class="op">|&gt;</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">transform</span>( _ , <span class="fu">AsTable</span>([<span class="st">"Purple Air A"</span>, <span class="st">"Purple Air B"</span>]) <span class="op">=&gt;</span> <span class="fu">ByRow</span>(mean) <span class="op">=&gt;</span> <span class="op">:</span>pm25) <span class="op">|&gt;</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                <span class="fu">transform</span>( _ , <span class="op">:</span><span class="dt">DateTime</span> <span class="op">=&gt;</span> <span class="fu">ByRow</span>((x) <span class="op">-&gt;</span> <span class="bu">Dates</span>.<span class="fu">value</span>(x <span class="op">-</span> start)<span class="op">/</span>(<span class="fl">3600</span><span class="op">*</span><span class="fl">1000</span>)) <span class="op">=&gt;</span> <span class="op">:</span>time);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                <span class="fu">transform</span>( _ , <span class="op">:</span><span class="dt">DateTime</span> <span class="op">=&gt;</span> <span class="fu">ByRow</span>((x) <span class="op">-&gt;</span> <span class="bu">Dates</span>.<span class="fu">value</span>(x <span class="op">-</span> start)<span class="op">/</span>(<span class="fl">3600</span><span class="op">*</span><span class="fl">1000</span>)) <span class="op">=&gt;</span> <span class="op">:</span>time);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="indoor-particulate-concentration" class="level3">
 <h3 class="anchored" data-anchor-id="indoor-particulate-concentration">Indoor particulate concentration</h3>
 <p>The atmotube outputs a whole bunch of stuff in one csv, including temperature, barometric pressure, VOCs, pm1, pm2.5 and pm10, I am only interested in the pm2.5s. That said, the csv has one serious issue: it implements a zero-order hold on data. There are pm2.5 values for every minute however the pm2.5 values are not sampled every minute, the atmotube holds the last value for all the minutes in between measurements. This is a problem as I am fitting a model to this data and I need the actual data at the times it was taken.</p>
 <div id="ab4167eb-5d1d-4799-ae71-3877673177d0" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>raw_indoor <span class="op">=</span> <span class="pp">@pipe</span> <span class="st">"data/C22B42153089_22_May_2023_00_43_32.csv"</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>raw_indoor <span class="op">=</span> <span class="pp">@pipe</span> <span class="st">"data/C22B42153089_22_May_2023_00_43_32.csv"</span> <span class="op">|&gt;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                   CSV.<span class="fu">read</span>( _ , DataFrame; dateformat<span class="op">=</span><span class="st">"yyyy-mm-dd HH:MM:SS"</span>) <span class="op">|&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">sort!</span>( _ , <span class="op">:</span><span class="dt">Date</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">sort!</span>( _ , <span class="op">:</span><span class="dt">Date</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>To retrieve only the actual measured data, and not the filled in rows, I create a new dataframe and walk through the raw data keeping a data point if it differs from the previous one or if more than 15 minutes have elapsed. Rows where the concentration value has not changed, and it has been less than 15 minutes from the last update, are assumed to be filled in rows and not “real”.</p>
 <div id="6c313830-eeb5-46f6-929d-a638c6c66477" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>last_good_data <span class="op">=</span> raw_indoor[!, <span class="st">"PM2.5, ug/m3"</span>][<span class="fl">1</span>]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>last_good_data <span class="op">=</span> raw_indoor[!, <span class="st">"PM2.5, ug/m3"</span>][<span class="fl">1</span>]</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>last_good_datetime <span class="op">=</span> raw_indoor[!, <span class="op">:</span><span class="dt">Date</span>][<span class="fl">1</span>]</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>indoor <span class="op">=</span> <span class="fu">DataFrame</span>(datetime <span class="op">=</span> <span class="dt">DateTime</span>[], meas <span class="op">=</span> <span class="dt">Float64</span>[], time <span class="op">=</span> <span class="dt">Float64</span>[])</span>
@@ -516,7 +517,7 @@ window.Quarto = {
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Plotting the data looks encouraging (as far as fitting a model goes, not encouraging if one wanted to spend time in there breathing) as the particulates appear to be infiltrating with a rate proportional to the difference between the concentrations – the standard building infiltration model.</p>
 <div id="cell-fig-time-series" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="6">
@@ -538,15 +539,15 @@ Figure&nbsp;1: Time series data for indoor and outdoor pm2.5 concentrations with
 <h3 class="anchored" data-anchor-id="fitting-the-model">Fitting the model</h3>
 <p>The type of fit I am doing is quite simple: I am fitting a differential equation to the <em>indoor</em> concentration while taking the <em>outdoor</em> concentration as a parameter of the model. Thus I need the outdoor concentration as a continuous function of time and, for simplicity, I am using a linear interpolation of the measured outdoor concentration.</p>
 <div id="47aac2b5-a9d3-4ba4-805d-6e6e0e909185" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Interpolations</span>: linear_interpolation, Flat</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Interpolations</span>: linear_interpolation, Flat</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>cₒ <span class="op">=</span> <span class="fu">linear_interpolation</span>(outdoor.time, outdoor.pm25, extrapolation_bc<span class="op">=</span><span class="fu">Flat</span>());</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>cₒ <span class="op">=</span> <span class="fu">linear_interpolation</span>(outdoor.time, outdoor.pm25, extrapolation_bc<span class="op">=</span><span class="fu">Flat</span>());</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>To start, I define the differential equation that I am going to be fitting to the measured indoor concentration. This is the simple linear model for building infiltration</p>
 <p><span class="math display">\[ {d \over dt} c = \lambda \left( c\_o - c \right) \]</span></p>
 <p>Where <em>c</em> is the indoor concentration, <em>c</em><sub>o</sub> the outdoor concentration, and <em>λ</em> is the ventilation rate in units of h<sup>-1</sup>.</p>
 <div id="1f3ca614-b4dc-41df-a5ce-22589cff388c" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">OrdinaryDiffEq</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">OrdinaryDiffEq</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># the model</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(c, λ, t) <span class="op">=</span> <span class="fu">λ*</span>(<span class="fu">cₒ</span>(t) <span class="op">-</span> c)</span>
@@ -560,22 +561,22 @@ Figure&nbsp;1: Time series data for indoor and outdoor pm2.5 concentrations with
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># parameters</span></span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>p<span class="op">=</span> [<span class="fl">0.5</span>] <span class="co">#initial guess of λ=0.5</span></span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>prb <span class="op">=</span> <span class="fu">ODEProblem</span>(f, c0, tspan, p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>prb <span class="op">=</span> <span class="fu">ODEProblem</span>(f, c0, tspan, p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now I define the fit itself: with the cost function as the L2 loss between the measured indoor concentration and the predicted indoor concentration.</p>
 <div id="a22cb80f-78ba-4c3e-a71e-6d8256bce51c" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DiffEqParamEstim</span>: build_loss_objective, L2Loss</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DiffEqParamEstim</span>: build_loss_objective, L2Loss</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>lossfn <span class="op">=</span> <span class="fu">L2Loss</span>(indoor.time, indoor.meas)</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>cost_function <span class="op">=</span> <span class="fu">build_loss_objective</span>(prb,<span class="fu">Tsit5</span>(),lossfn,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                                     maxiters<span class="op">=</span><span class="fl">10000</span>,verbose<span class="op">=</span><span class="cn">false</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                                     maxiters<span class="op">=</span><span class="fl">10000</span>,verbose<span class="op">=</span><span class="cn">false</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then using the <code>Optim</code> package to find the parameter <em>λ</em> which minimizes the cost function.</p>
 <div id="8b30affa-e48b-459a-9f3d-9e74aa4be0c7" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Optim</span>: optimize</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Optim</span>: optimize</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> <span class="fu">optimize</span>(cost_function, <span class="fl">0.0</span>, <span class="fl">1.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> <span class="fu">optimize</span>(cost_function, <span class="fl">0.0</span>, <span class="fl">1.0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>Results of Optimization Algorithm
  * Algorithm: Brent's Method
@@ -589,14 +590,14 @@ Figure&nbsp;1: Time series data for indoor and outdoor pm2.5 concentrations with
 </div>
 <p>I can then retrieve the ventilation rate for my bedroom</p>
 <div id="36228901-4e00-4edd-bf6d-39c0b03deaa8" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>λfit <span class="op">=</span> result.minimizer[<span class="fl">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>λfit <span class="op">=</span> result.minimizer[<span class="fl">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>0.07848373551388874</code></pre>
 </div>
 </div>
 <div id="869b43a1-b327-4142-81bf-e22f7bb1daa3" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>prb <span class="op">=</span> <span class="fu">ODEProblem</span>(f, c0, tspan, λfit)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>fit <span class="op">=</span> <span class="fu">solve</span>(prb, <span class="fu">Tsit5</span>());</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>prb <span class="op">=</span> <span class="fu">ODEProblem</span>(f, c0, tspan, λfit)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>fit <span class="op">=</span> <span class="fu">solve</span>(prb, <span class="fu">Tsit5</span>());</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-curve-fit" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="13">
 <div class="cell-output cell-output-display" data-execution_count="13">
@@ -622,12 +623,12 @@ Figure&nbsp;2: Best fit curve for the simple linear building infiltration model.
 <p>After all that time measuring how rapidly the particulates infiltrated a room, what is to be done? The air quality in Edmonton has been poor for several days on end. Without any sort of mitigation my bedroom would be well above the limits and would be unhealthly to be in and yet that’s where I sleep. The solution is either installing furnace air filters with a high MERV rating or, in places like mine that lack central air, using a portable fan with a HEPA filter. I picked up <a href="https://www.ikea.com/ca/en/p/starkvind-air-purifier-black-smart-40501967/">a portable air filter from IKEA</a> and similar ones are available from many places, and can be <a href="https://www.wikihow.com/Make-an-Air-Filter">made by hand</a>. Unfortunately, dangerously high levels of pm2.5s are invisible and generally undetectable to one’s senses, so without some sort of monitoring one is left merely trusting that the system is doing what it is supposed to be doing.</p>
 <p>I tested my IKEA unit on Saturday night in a similar manner to the building infiltration test: I turned off the unit, closed my bedroom door, and left the space to accumulate particulates for several hours. Then, before I went to bed, I went in and turned it on. Throughout this the atmotube was located in the middle of the room collecting data. From the plot below it is clear that the air filter works: the indoor particulate concentration drops rapidly and stays at a low level throughout the night, even as the outdoor concentration rises to very high levels.</p>
 <div id="2d468055-137e-4d1c-97c0-83c069439d7b" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>indoor_hepa <span class="op">=</span> <span class="pp">@pipe</span> <span class="st">"data/C22B42153089_21_May_2023_10_05_00.csv"</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>indoor_hepa <span class="op">=</span> <span class="pp">@pipe</span> <span class="st">"data/C22B42153089_21_May_2023_10_05_00.csv"</span> <span class="op">|&gt;</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                    CSV.<span class="fu">read</span>( _ , DataFrame; dateformat<span class="op">=</span><span class="st">"yyyy-mm-dd HH:MM:SS"</span>);</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>outdoor_hepa <span class="op">=</span> <span class="pp">@pipe</span> <span class="st">"data/21_May_2023_raw-pm25-gm.csv"</span> <span class="op">|&gt;</span></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                     CSV.<span class="fu">read</span>( _ , DataFrame, dateformat<span class="op">=</span><span class="st">"yyyy-mm-dd HH:MM:SS"</span>) <span class="op">|&gt;</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">transform</span>( _ , <span class="fu">AsTable</span>([<span class="st">"Purple Air A"</span>, <span class="st">"Purple Air B"</span>]) <span class="op">=&gt;</span> <span class="fu">ByRow</span>(mean) <span class="op">=&gt;</span> <span class="op">:</span>pm25);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">transform</span>( _ , <span class="fu">AsTable</span>([<span class="st">"Purple Air A"</span>, <span class="st">"Purple Air B"</span>]) <span class="op">=&gt;</span> <span class="fu">ByRow</span>(mean) <span class="op">=&gt;</span> <span class="op">:</span>pm25);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-hepa" class="cell" data-tags="[]" data-execution_count="15">
 <div class="cell-output cell-output-display" data-execution_count="15">
@@ -718,13 +719,14 @@ Figure&nbsp;3: Response of measured indoor particulate concentrations to air fil
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

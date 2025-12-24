@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,18 +71,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-58cfad456c997869d10d7b4a2ae8222c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-451e46ac69b7dce1f7bf1afa5bdb676d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -149,7 +150,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -492,12 +493,12 @@ Figure&nbsp;1: The points value of each pin in five-pin bowling.
 <p>I suspect that, if you wanted to put the work in, you could extend this argument to include spares and strikes, with all of the complications around how the 10th frame is scored. But an alternative is to just look through all possible scores and try and find a game that achieves it, using this general approach as a guide.</p>
 <p>This is pretty easy to do when only looking at the case where there are no strikes or spares: I generate a list of possible scores for a single frame (a possible move I can take towards my goal), sorted largest to smallest.</p>
 <div id="85febf74-4afa-401a-acc8-6f749c5052cf" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>basic_moves <span class="op">=</span> [ n <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">16</span>) <span class="cf">if</span> n <span class="kw">not</span> <span class="kw">in</span> [<span class="dv">1</span>,<span class="dv">14</span>] ]</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>basic_moves.reverse()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>basic_moves <span class="op">=</span> [ n <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">16</span>) <span class="cf">if</span> n <span class="kw">not</span> <span class="kw">in</span> [<span class="dv">1</span>,<span class="dv">14</span>] ]</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>basic_moves.reverse()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then I define a function that recursively walks through the tree of possible games, always picking the largest viable move at each frame. If it finds an answer it returns it (in reverse order), if it exhausts the possible moves then it returns an empty list.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;This code stops once it has found a single valid solution, it could be extended very easily to find <em>every</em> valid solution, however the space of possible games is <em>huge</em>.</p></div></div><div id="87d5e760-5217-453f-be96-92aa2bece4ab" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_moves(cur_frame, cur_score, max_frame, target, moves<span class="op">=</span>basic_moves):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_moves(cur_frame, cur_score, max_frame, target, moves<span class="op">=</span>basic_moves):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> cur_frame <span class="op">==</span> max_frame:</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [<span class="dv">0</span>] <span class="cf">if</span> cur_score <span class="op">==</span> target <span class="cf">else</span> []</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
@@ -512,14 +513,14 @@ Figure&nbsp;1: The points value of each pin in five-pin bowling.
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                advance.append(move)</span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> advance</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> []</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> []</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Looping through all the scores: <span class="math inline">\(0 \le score \le 150\)</span> yields the impossible to bowl scores.</p>
 <div id="a48cbae2-0bea-48bc-aa74-170005390f05" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> score <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">151</span>):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> score <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">151</span>):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    game <span class="op">=</span> make_moves(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">10</span>,score)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(game) <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Score </span><span class="sc">{0}</span><span class="st"> is not possible"</span>.<span class="bu">format</span>(score))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Score </span><span class="sc">{0}</span><span class="st"> is not possible"</span>.<span class="bu">format</span>(score))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Score 1 is not possible
 Score 149 is not possible</code></pre>
@@ -531,14 +532,14 @@ Score 149 is not possible</code></pre>
 <p>Another question that comes to mind is: what if you were restricted to always hitting a pin, no gutter balls? Now you can’t get a score less than 7 (equivalent to hitting 2-2-3, the lowest pins). Does this change anything?<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;In five pin it is actually possible to bowl between the pins and hit nothing without it <em>technically</em> being a gutter ball, and you can bowl into the blank spots left by pins that were already knocked down to score zeros without putting it in the gutter. I am using the term <em>gutter ball</em> loosely.</p></div></div><p>Probably I could go back and look at the math again, but the nice thing about having written code is that I can just change the space of possible moves and run it again.</p>
 <div id="286fa9c3-9bbc-4fc6-92a9-232278cb36f7" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>no_gutters <span class="op">=</span> [ n <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">7</span>,<span class="dv">16</span>) <span class="cf">if</span> n <span class="op">!=</span> <span class="dv">14</span> ]</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>no_gutters.reverse()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>no_gutters <span class="op">=</span> [ n <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">7</span>,<span class="dv">16</span>) <span class="cf">if</span> n <span class="op">!=</span> <span class="dv">14</span> ]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>no_gutters.reverse()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="874c255f-0893-4e0c-b7df-20a3300c4f67" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> score <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">70</span>,<span class="dv">151</span>):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> score <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">70</span>,<span class="dv">151</span>):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    game <span class="op">=</span> make_moves(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">10</span>,score,no_gutters)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(game)<span class="op">==</span><span class="dv">0</span>:</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Score </span><span class="sc">{0}</span><span class="st"> is not possible, with no gutters"</span>.<span class="bu">format</span>(score))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Score </span><span class="sc">{0}</span><span class="st"> is not possible, with no gutters"</span>.<span class="bu">format</span>(score))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Score 149 is not possible, with no gutters</code></pre>
 </div>
@@ -546,7 +547,7 @@ Score 149 is not possible</code></pre>
 <p>So nothing really changes. I mean you can’t get a score <em>&lt;70</em>, obviously, but this doesn’t open up any <em>gaps</em> in possible scores either.</p>
 <p>It does mean the strategy changes, now the code takes the biggest strides it can until the remainder is a multiple of 7 then runs out the game with a string of 7s.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;You may have noticed an extra “frame” at the end with a score of 0. This is because, in five pin bowling, the last frame has special rules. You always get 3 balls in the last frame, even if your first two are a strike or spare. In this case, with no strikes or spares allowed by design, that extra scoring doesn’t enter into it.</p></div></div><div id="983f771b-8091-4551-bf4c-e3423a31d2ee" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>[ frame <span class="cf">for</span> frame <span class="kw">in</span> <span class="bu">reversed</span>(make_moves(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">10</span>,<span class="dv">100</span>,no_gutters)) ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>[ frame <span class="cf">for</span> frame <span class="kw">in</span> <span class="bu">reversed</span>(make_moves(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">10</span>,<span class="dv">100</span>,no_gutters)) ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>[15, 15, 15, 13, 7, 7, 7, 7, 7, 7, 0]</code></pre>
 </div>
@@ -564,20 +565,20 @@ Score 149 is not possible</code></pre>
 <p>Instead of diving into the full set of scoring rules for everything, I’m going to take one baby step forward and add in a data structure to track the state of the frame and select from two sets of possibilities for the subsequent frame: was there a spare or not?</p>
 <p>The data structure I’m using is just a struct, tracking the score, whether it is a “special” frame and whether or not it is the end of the game.</p>
 <div id="2628cef9-6add-4636-b2bd-c5db816a52d9" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SingleFrame:</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SingleFrame:</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, score, special<span class="op">=</span><span class="va">None</span>, end<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.score <span class="op">=</span> score</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.special <span class="op">=</span> special</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.end <span class="op">=</span> end</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.end <span class="op">=</span> end</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Instead of a list of integers for possible moves, I now need a list of possible <code>SingleFrame</code> objects that represent a possible frame, now including the possibility of a spare. Note the <em>pass forward</em> approach to scoring: a spare in a regular frame is only worth <em>15</em>.</p>
 <div id="eac02e56-2bca-429f-95e9-ee0c8e14f173" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>single_frame_moves <span class="op">=</span> [ SingleFrame(score) <span class="cf">for</span> score <span class="kw">in</span> basic_moves ]</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>single_frame_moves.insert(<span class="dv">0</span>, SingleFrame(<span class="dv">15</span>,<span class="st">"spare"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>single_frame_moves <span class="op">=</span> [ SingleFrame(score) <span class="cf">for</span> score <span class="kw">in</span> basic_moves ]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>single_frame_moves.insert(<span class="dv">0</span>, SingleFrame(<span class="dv">15</span>,<span class="st">"spare"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now I iterate through the possible first, second, and third balls for a frame <em>following</em> a spare. There are more possible scores here since the first ball will be double counted. First I exhaustively generate every combination then use <code>set()</code> to extract only the unique elements. For this purpose it doesn’t matter how many ways you can get a given score.</p>
 <div id="44582399-3b57-4aec-a204-5eb0632f3ca5" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>spares <span class="op">=</span> [ <span class="dv">2</span><span class="op">*</span>f<span class="op">+</span>s <span class="cf">for</span> f <span class="kw">in</span> basic_moves </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>spares <span class="op">=</span> [ <span class="dv">2</span><span class="op">*</span>f<span class="op">+</span>s <span class="cf">for</span> f <span class="kw">in</span> basic_moves </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                 <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">filter</span>(<span class="kw">lambda</span> x: f<span class="op">+</span>x<span class="op">==</span><span class="dv">15</span>,basic_moves)]</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>spares <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>(spares))</span>
@@ -588,38 +589,38 @@ Score 149 is not possible</code></pre>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                       <span class="cf">for</span> t <span class="kw">in</span> <span class="bu">filter</span>(<span class="kw">lambda</span> x: f<span class="op">+</span>s<span class="op">+</span>x<span class="op">&lt;=</span><span class="dv">15</span>, basic_moves) ]</span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>non_spares <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>(non_spares))</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>non_spares.sort(reverse<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>non_spares.sort(reverse<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now I generate a list of moves by combining the spares and non-spares. They are arranged such that the code tries the spares first before the non-spares, going from largest to smallest. There are now <em>42</em> possible ways of scoring a frame when spares are included (versus only <em>14</em> when they aren’t).</p>
 <div id="bd690852-98e2-49f2-84ff-4ba4584c4f3b" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>spare_frame_moves <span class="op">=</span> [ SingleFrame(score,<span class="st">"spare"</span>) <span class="cf">for</span> score <span class="kw">in</span> spares ]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>spare_frame_moves <span class="op">=</span> [ SingleFrame(score,<span class="st">"spare"</span>) <span class="cf">for</span> score <span class="kw">in</span> spares ]</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>spare_frame_moves <span class="op">+=</span> [ SingleFrame(score) <span class="cf">for</span> score <span class="kw">in</span> non_spares ]</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(spare_frame_moves)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(spare_frame_moves)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>42</code></pre>
 </div>
 </div>
 <p>There are only two scores that are not achievable in the frame following a spare: <em>1</em> and <em>29</em></p>
 <div id="6dfb1df5-0b23-4b43-865b-4595aa3e34df" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>[ s <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">31</span>) <span class="cf">if</span> s <span class="kw">not</span> <span class="kw">in</span> [x.score <span class="cf">for</span> x <span class="kw">in</span> spare_frame_moves] ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>[ s <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">31</span>) <span class="cf">if</span> s <span class="kw">not</span> <span class="kw">in</span> [x.score <span class="cf">for</span> x <span class="kw">in</span> spare_frame_moves] ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>[1, 29]</code></pre>
 </div>
 </div>
 <p>Adding spares has also complicated determining if a move is <em>valid</em> or not. Since scoring now depends on the state of a given move – <em>is it a spare or not</em> – this impacts the bounds of possible scores that can follow any given move. Instead of putting this all into the same function, as I did before, I have broken it out into its own function that decides, given a move, a remaining number of frames, and a remaining number of points to pick up, is the move <em>valid</em>.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;There is an extra move at the end because of the last frame rule: A spare at the start of the last frame leads to an extra ball, but one that can only count for up to 15.</p></div></div><div id="60f4d5b4-cf71-4128-92ac-1199a719b380" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> valid_spare_moves(move, n, r, mn<span class="op">=</span><span class="dv">0</span>, mx<span class="op">=</span><span class="dv">15</span>):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> valid_spare_moves(move, n, r, mn<span class="op">=</span><span class="dv">0</span>, mx<span class="op">=</span><span class="dv">15</span>):</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> move.special<span class="op">==</span><span class="st">"spare"</span>:</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        up <span class="op">=</span> (<span class="dv">2</span><span class="op">*</span>n <span class="op">+</span> <span class="dv">1</span>)<span class="op">*</span>mx</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        up <span class="op">=</span> (<span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span><span class="op">*</span><span class="bu">max</span>(n<span class="op">-</span><span class="dv">1</span>,<span class="dv">0</span>) <span class="op">+</span> <span class="dv">1</span>)<span class="op">*</span>mx</span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n<span class="op">*</span>mn <span class="op">&lt;=</span> (r <span class="op">-</span> move.score) <span class="op">&lt;=</span> up</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n<span class="op">*</span>mn <span class="op">&lt;=</span> (r <span class="op">-</span> move.score) <span class="op">&lt;=</span> up</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The bulk of the main function is the same. The one exception is that it now tracks whether the previous frame was a spare (with <code>was_spare</code>) and uses this to determine how to finish the last frame: if the last frame was a spare, then an extra ball is thrown but with no multiplier.</p>
 <div id="433d9989-7aa0-4cf8-9976-0b15c14b6d9e" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_spare_moves(cur_frame, cur_score, max_frame, target, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_spare_moves(cur_frame, cur_score, max_frame, target, </span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                     moves<span class="op">=</span>single_frame_moves, was_spare<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> cur_frame <span class="op">==</span> max_frame:</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> cur_score <span class="op">==</span> target:</span>
@@ -645,14 +646,14 @@ Score 149 is not possible</code></pre>
 <span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>                advance.append(move)</span>
 <span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> advance</span>
 <span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> []</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> []</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Looping through all the scores: <span class="math inline">\(0 \le score \le 300\)</span> yields the impossible to bowl scores, when spares are allowed.</p>
 <div id="6a2e1ed3-7815-422f-bc7c-ff71326d015a" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> score <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">301</span>):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> score <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">301</span>):</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    game <span class="op">=</span> make_spare_moves(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">10</span>,score)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(game)<span class="op">==</span><span class="dv">0</span>:</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Score </span><span class="sc">{0}</span><span class="st"> is not possible, with only spares allowed"</span>.<span class="bu">format</span>(score))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Score </span><span class="sc">{0}</span><span class="st"> is not possible, with only spares allowed"</span>.<span class="bu">format</span>(score))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Score 1 is not possible, with only spares allowed
 Score 299 is not possible, with only spares allowed</code></pre>
@@ -664,32 +665,32 @@ Score 299 is not possible, with only spares allowed</code></pre>
 <h2 class="anchored" data-anchor-id="in-striking-distance-of-the-final-answer">In striking distance of the final answer</h2>
 <p>This puts me in a good position to try a full game, I need to add the possibility of a strike. For single frame scores with nothing special before them, this just means adding a third way to score a <em>15</em>. There are now 16 possible moves.</p>
 <div id="c81fdd40-e5a0-40f4-acc4-0909cd0fbc05" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all the different scores for a frame following a regular frame</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all the different scores for a frame following a regular frame</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>single_frame_moves <span class="op">=</span> [ SingleFrame(score) <span class="cf">for</span> score <span class="kw">in</span> basic_moves ]</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>single_frame_moves.insert(<span class="dv">0</span>, SingleFrame(<span class="dv">15</span>,<span class="st">"spare"</span>))</span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>single_frame_moves.insert(<span class="dv">0</span>, SingleFrame(<span class="dv">15</span>,<span class="st">"strike"</span>))</span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(single_frame_moves)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(single_frame_moves)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>16</code></pre>
 </div>
 </div>
 <p>Similarly the possible ways to follow a spare are the same as before, except that there is no way to “spare” with 30. Scoring a 30 after a spare requires that one throw a strike.</p>
 <div id="40968781-7b2a-4965-a8bb-a66cb8f7af66" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all the different scores for a frame following a spare</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all the different scores for a frame following a spare</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>spare_frame_moves <span class="op">=</span> [ move <span class="cf">for</span> move <span class="kw">in</span> spare_frame_moves <span class="cf">if</span> move.score <span class="op">!=</span><span class="dv">30</span> ]</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>spare_frame_moves.insert(<span class="dv">0</span>, SingleFrame(<span class="dv">30</span>,<span class="st">"strike"</span>))</span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(spare_frame_moves)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(spare_frame_moves)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>42</code></pre>
 </div>
 </div>
 <p>Following a single strike the rules are different: the first two balls count twice and the third counts once. Here I exhaustively generate all strikes, spares, and remaining that could follow a single strike and then trim only to the unique scores. This is a much <em>smaller</em> set as all spares that follow a strike must, by definition, have a score of 30.</p>
 <div id="0a1e2dcd-aede-4823-8dd7-ef58b8f73043" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all the different scores for a frame following a single strike</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all the different scores for a frame following a single strike</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>non_spares <span class="op">=</span> [ <span class="dv">2</span><span class="op">*</span>f<span class="op">+</span><span class="dv">2</span><span class="op">*</span>s<span class="op">+</span>t <span class="cf">for</span> f <span class="kw">in</span> <span class="bu">filter</span>(<span class="kw">lambda</span> x: x<span class="op">!=</span><span class="dv">15</span>,basic_moves)</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                         <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">filter</span>(<span class="kw">lambda</span> x: f<span class="op">+</span>x<span class="op">&lt;</span><span class="dv">15</span>, basic_moves)</span>
@@ -702,14 +703,14 @@ Score 299 is not possible, with only spares allowed</code></pre>
 <span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>single_strike_moves <span class="op">+=</span> [ SingleFrame(<span class="dv">30</span>,<span class="st">"spare"</span>) ]</span>
 <span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>single_strike_moves <span class="op">+=</span> [ SingleFrame(score) <span class="cf">for</span> score <span class="kw">in</span> non_spares ]</span>
 <span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(single_strike_moves)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(single_strike_moves)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
 <pre><code>30</code></pre>
 </div>
 </div>
 <p>Following a double strike the rules are different again: the first ball is triple counted, the second double counted, and the third single counted.</p>
 <div id="7c899e7c-be28-45d2-8166-a5ce3252efba" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all the different scores for a frame following 2 strikes</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all the different scores for a frame following 2 strikes</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>spares <span class="op">=</span> [ <span class="dv">3</span><span class="op">*</span>f<span class="op">+</span><span class="dv">2</span><span class="op">*</span>s <span class="cf">for</span> f <span class="kw">in</span> <span class="bu">filter</span>(<span class="kw">lambda</span> x: x<span class="op">!=</span><span class="dv">15</span>,basic_moves)</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                   <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">filter</span>(<span class="kw">lambda</span> x: f<span class="op">+</span>x<span class="op">==</span><span class="dv">15</span>,basic_moves)]</span>
@@ -728,14 +729,14 @@ Score 299 is not possible, with only spares allowed</code></pre>
 <span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>double_strike_moves <span class="op">+=</span> [ SingleFrame(score,<span class="st">"spare"</span>) <span class="cf">for</span> score <span class="kw">in</span> spares ]</span>
 <span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>double_strike_moves <span class="op">+=</span> [ SingleFrame(score) <span class="cf">for</span> score <span class="kw">in</span> non_spares ]</span>
 <span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(double_strike_moves)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(double_strike_moves)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>55</code></pre>
 </div>
 </div>
 <p>This change in scoring, allowing for triple scoring, changes the bounds of possible scores following a given move. Now, after a strike, the next frame could count triple. But there are also potentially <em>two</em> more balls in the 10th frame that don’t count equally towards the upper bound on the score. The function to check for valid moves needs to be updated to reflect this.</p>
 <div id="bfd21fb8-c8bb-4c13-a0d8-dd306b51071a" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> valid_full_moves(move, n, r, mn<span class="op">=</span><span class="dv">0</span>, mx<span class="op">=</span><span class="dv">15</span>):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> valid_full_moves(move, n, r, mn<span class="op">=</span><span class="dv">0</span>, mx<span class="op">=</span><span class="dv">15</span>):</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> move.special<span class="op">==</span><span class="st">"strike"</span>:</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># max score is 3 times the max score for the remaining frames</span></span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># plus the multiplier for the remaining balls in the last frame</span></span>
@@ -747,27 +748,27 @@ Score 299 is not possible, with only spares allowed</code></pre>
 <span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>        up <span class="op">=</span> (<span class="dv">2</span> <span class="op">+</span> <span class="dv">3</span><span class="op">*</span><span class="bu">max</span>(n<span class="op">-</span><span class="dv">1</span>,<span class="dv">0</span>) <span class="op">+</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)<span class="op">*</span>mx</span>
 <span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
 <span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>        up <span class="op">=</span> (<span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span><span class="op">*</span><span class="bu">max</span>(n<span class="op">-</span><span class="dv">1</span>,<span class="dv">0</span>) <span class="op">+</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)<span class="op">*</span>mx</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n<span class="op">*</span>mn <span class="op">&lt;=</span> r <span class="op">-</span> move.score <span class="op">&lt;=</span> up</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n<span class="op">*</span>mn <span class="op">&lt;=</span> r <span class="op">-</span> move.score <span class="op">&lt;=</span> up</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>At this point all of the sets of moves for a regular frame contain every score except <em>1</em> and <em>1</em> less than the max score (i.e.&nbsp;a frame following a spare or single strike cannot score a 29 and a frame following a double-strike cannot score a 44). At this point you may expect that the only impossible scores will be <em>1</em> and <em>449</em> – this was true with the cases above. <em>However</em> there are two more sets of scoring possibilities <em>just for the last frame</em>.</p>
 <p>If the last frame starts with a spare, then it is the same as before: single ball, no multiplier.</p>
 <p>If the last frame starts with a strike, and is not preceded by one, then there are <em>potentially</em> two more balls left with no multipliers attached. And these do leave gaps.</p>
 <div id="f08f4d6e-1ad8-4ef1-83f8-7d5f545f42b4" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all the different scores for the last 2 balls of the last frame</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all the different scores for the last 2 balls of the last frame</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># assuming the first ball in the last frame was a strike</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>last_frame_moves <span class="op">=</span> [ f<span class="op">+</span>s <span class="cf">for</span> f <span class="kw">in</span> basic_moves </span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                         <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">filter</span>(<span class="kw">lambda</span> x: f<span class="op">+</span>x<span class="op">&lt;=</span><span class="dv">15</span>,basic_moves) ]</span>
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>last_frame_moves <span class="op">+=</span> [ <span class="dv">15</span> <span class="op">+</span> s <span class="cf">for</span> s <span class="kw">in</span> basic_moves ]</span>
 <span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>last_frame_moves <span class="op">=</span> <span class="bu">set</span>(last_frame_moves)</span>
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>[ s <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">31</span>) <span class="cf">if</span> s <span class="kw">not</span> <span class="kw">in</span> last_frame_moves ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>[ s <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">31</span>) <span class="cf">if</span> s <span class="kw">not</span> <span class="kw">in</span> last_frame_moves ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>[1, 16, 29]</code></pre>
 </div>
 </div>
 <p>If the last frame starts with a strike <em>and</em> is preceded by one, then there are potentially two more balls but the first one is double counted. Again, this leaves gaps.</p>
 <div id="5218619b-732e-49c9-9149-6ccddbab7c52" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all the different scores for the last 2 balls of the last frame</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all the different scores for the last 2 balls of the last frame</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># assuming the second to last frame was a strike and the first ball</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># in the last frame was a strike</span></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>last_frame_double_moves <span class="op">=</span> [ <span class="dv">2</span><span class="op">*</span>f<span class="op">+</span>s <span class="cf">for</span> f <span class="kw">in</span> basic_moves</span>
@@ -775,14 +776,14 @@ Score 299 is not possible, with only spares allowed</code></pre>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>last_frame_double_moves <span class="op">+=</span> [ <span class="dv">30</span> <span class="op">+</span> s <span class="cf">for</span> s <span class="kw">in</span> basic_moves ]</span>
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>last_frame_double_moves <span class="op">=</span> <span class="bu">set</span>(last_frame_double_moves)</span>
 <span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>[ s <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">46</span>) <span class="cf">if</span> s <span class="kw">not</span> <span class="kw">in</span> last_frame_double_moves ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>[ s <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">46</span>) <span class="cf">if</span> s <span class="kw">not</span> <span class="kw">in</span> last_frame_double_moves ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>[1, 29, 31, 44]</code></pre>
 </div>
 </div>
 <p>It certainly looks now like there will be at least 4 scores that can’t be achieved because there no way to make the last step with the extra balls in the 10th frame, because the 10th frame is scored differently. This additional scoring complexity now makes it unwieldy to put all of that into the main function. I have broken it out into a separate function that just checks the last frame and either returns the last move with the remaining balls or returns an empty list if there is no possible move.</p>
 <div id="49694309-eeb0-4ca8-9ebf-86366ada9659" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> last_frame_rule(remaining, last_frame, max_move, mx<span class="op">=</span><span class="dv">45</span>):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> last_frame_rule(remaining, last_frame, max_move, mx<span class="op">=</span><span class="dv">45</span>):</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> remaining <span class="op">==</span> <span class="dv">0</span>:</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># hit the target, don't need any additional balls</span></span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [SingleFrame(<span class="dv">0</span>,<span class="va">None</span>,<span class="va">True</span>)]</span>
@@ -797,11 +798,11 @@ Score 299 is not possible, with only spares allowed</code></pre>
 <span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [SingleFrame(remaining,<span class="va">None</span>,<span class="va">True</span>)]</span>
 <span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
 <span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># not possible</span></span>
-<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> []</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> []</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The main function now has to track whether the last frame was a strike, to trigger the double strike rules, versus single strikes, spares, and regular frames. The logic is the same, though.</p>
 <div id="c098c600-e629-4d78-87f1-04895e2051f8" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_full_moves(cur_frame, cur_score, max_frame, target, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_full_moves(cur_frame, cur_score, max_frame, target, </span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                     moves<span class="op">=</span>single_frame_moves, last_frame<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> cur_frame <span class="op">==</span> max_frame:</span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># max_move is used to check if the second-to-last frame was a strike</span></span>
@@ -831,14 +832,14 @@ Score 299 is not possible, with only spares allowed</code></pre>
 <span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>                advance.append(move)</span>
 <span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> advance</span>
 <span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> []</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> []</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Looping through all the scores: <span class="math inline">\(0 \le score \le 450\)</span> yields the impossible to bowl scores, when spares and strikes are allowed.</p>
 <div id="287b94c0-d440-4fc8-9aba-1d820ae0e0ec" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> score <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">451</span>):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> score <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">451</span>):</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    game <span class="op">=</span> make_full_moves(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">10</span>,score)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(game)<span class="op">==</span><span class="dv">0</span>:</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Score </span><span class="sc">{}</span><span class="st"> is not possible, full game"</span>.<span class="bu">format</span>(score))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Score </span><span class="sc">{}</span><span class="st"> is not possible, full game"</span>.<span class="bu">format</span>(score))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Score 1 is not possible, full game
 Score 434 is not possible, full game
@@ -917,13 +918,14 @@ Score 449 is not possible, full game</code></pre>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

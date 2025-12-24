@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,18 +91,19 @@ div.csl-indent {
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-58cfad456c997869d10d7b4a2ae8222c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-451e46ac69b7dce1f7bf1afa5bdb676d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -169,7 +170,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -488,7 +489,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="energy-density">Energy density</h2>
 <p>The obvious place to start, and where I have found people often end, is with the heating value. For convenience I am going to use <a href="https://en.wikipedia.org/wiki/Heat_of_combustion#Higher_heating_value">higher heating values</a>, given here per standard cubic meter. Where <em>standard</em> in this case means at 15°C and 1atm.</p>
 <div id="9b190ba5-c5d9-4179-8159-0aa87342b45a" class="cell" data-tags="[]" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Unitful</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Unitful</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard State</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>R  <span class="op">=</span> <span class="fl">8.31446261815324</span>u<span class="st">"m^3*Pa/K/mol"</span></span>
@@ -499,11 +500,11 @@ window.Quarto = {
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>HHV_H2 <span class="op">=</span> <span class="fl">12.109</span>u<span class="st">"MJ/m^3"</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Natural Gas, typical</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>HHV_NG <span class="op">=</span> <span class="fl">35.396</span>u<span class="st">"MJ/m^3"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>HHV_NG <span class="op">=</span> <span class="fl">35.396</span>u<span class="st">"MJ/m^3"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We can use a simple mixing rule to determine what the heating value would be with <em>x</em>% hydrogen by volume.</p>
 <div id="71c60242-c112-4bc6-b35d-51fca0b03885" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">HHV</span>(x) <span class="op">=</span> x<span class="op">*</span>HHV_H2 <span class="op">+</span> (<span class="fl">1</span><span class="op">-</span>x)<span class="op">*</span>HHV_NG</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">HHV</span>(x) <span class="op">=</span> x<span class="op">*</span>HHV_H2 <span class="op">+</span> (<span class="fl">1</span><span class="op">-</span>x)<span class="op">*</span>HHV_NG</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-hhv" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="3">
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -539,13 +540,13 @@ Figure&nbsp;1: Higher heating value of blended natural gas/hydrogen fuel gas as 
 <p>So, assuming a constant pressure drop, along an identical pipe, with fully developed turbulent flow (i.e.&nbsp;<em>K</em> is constant) the ratio of heat delivered by hydrogen to that of natural gas is given by:</p>
 <p><span class="math display">\[ { q_{H_2} \over q_{NG} } = { HHV_{H_2} \over HHV_{NG} } \sqrt{ \rho_{NG} \over \rho_{H_2} } = { HHV_{H_2} \over HHV_{NG} } \sqrt{ MW_{NG} \over MW_{H_2} }\]</span></p>
 <div id="7812ae13-cacb-4c8d-9021-7241020616db" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hydrogen</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hydrogen</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>MW_H2 <span class="op">=</span> <span class="fl">2.016e-3</span>u<span class="st">"kg/mol"</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Natural Gas</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>MW_NG <span class="op">=</span> <span class="fl">19.5e-3</span>u<span class="st">"kg/mol"</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>heat_ratio <span class="op">=</span> (HHV_H2<span class="op">/</span>HHV_NG)<span class="fu">*√</span>(MW_NG<span class="op">/</span>MW_H2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>heat_ratio <span class="op">=</span> (HHV_H2<span class="op">/</span>HHV_NG)<span class="fu">*√</span>(MW_NG<span class="op">/</span>MW_H2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>1.0639620426132184</code></pre>
 </div>
@@ -559,8 +560,8 @@ Figure&nbsp;1: Higher heating value of blended natural gas/hydrogen fuel gas as 
 <p>giving</p>
 <p><span class="math display">\[ \rho = {P \over {R T} } \left( x_{H_2} MW_{H_2} + x_{NG} MW_{NG} \right)\]</span></p>
 <div id="b4fb26b1-9823-48ff-9388-5f753a2b7b39" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ideal gas density</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ρ</span>(x, T, P) <span class="op">=</span> (P<span class="op">/</span>(R<span class="op">*</span>T))<span class="fu">*</span>( x<span class="op">*</span>MW_H2 <span class="op">+</span> (<span class="fl">1</span><span class="op">-</span>x)<span class="op">*</span>MW_NG );</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ideal gas density</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ρ</span>(x, T, P) <span class="op">=</span> (P<span class="op">/</span>(R<span class="op">*</span>T))<span class="fu">*</span>( x<span class="op">*</span>MW_H2 <span class="op">+</span> (<span class="fl">1</span><span class="op">-</span>x)<span class="op">*</span>MW_NG );</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-density" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="6">
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -578,8 +579,8 @@ Figure&nbsp;2: Density and relative flowrate for blended natural gas/hydrogen fu
 </div>
 <p>So we have two competing effects: as the mole fraction increases the heating value of the gas decreases but at the same time the flowrate increases. We can explore this further by plotting the ratio of the heat rate with blended fuel gas to the heat rate with straight natural gas.</p>
 <div id="35c10598-43b4-48a2-b7d6-359173a78fdc" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># heat rate for blended fuel gas relative to natural gas</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">q_ratio</span>(x) <span class="op">=</span> (<span class="fu">HHV</span>(x)<span class="op">/</span>HHV_NG)<span class="fu">*√</span>(<span class="fu">ρ</span>(<span class="fl">0</span>,Tᵣ,Pᵣ)<span class="op">/</span><span class="fu">ρ</span>(x,Tᵣ,Pᵣ));</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># heat rate for blended fuel gas relative to natural gas</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">q_ratio</span>(x) <span class="op">=</span> (<span class="fu">HHV</span>(x)<span class="op">/</span>HHV_NG)<span class="fu">*√</span>(<span class="fu">ρ</span>(<span class="fl">0</span>,Tᵣ,Pᵣ)<span class="op">/</span><span class="fu">ρ</span>(x,Tᵣ,Pᵣ));</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-energy" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="8">
 <div class="cell-output cell-output-display" data-execution_count="8">
@@ -598,13 +599,13 @@ Figure&nbsp;3: The amount of energy delivered, in higher heating value, for a bl
 <p>Initially the loss of heating value “wins out” and increasing the hydrogen content merely decreases the energy supplied at a given pressure. But once the stream is predominantly hydrogen, the lower density takes over and the heat rate increases.</p>
 <p>The minimum ratio can be found by setting the derivative to zero</p>
 <div id="97fe8c41-62cd-49c3-8dfa-5560f2070036" class="cell" data-tags="[]" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ForwardDiff</span>: derivative</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ForwardDiff</span>: derivative</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">∂q_ratio</span>(x) <span class="op">=</span> <span class="fu">derivative</span>(q_ratio,x)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>xₘᵢₙ <span class="op">=</span> <span class="fu">find_zero</span>(∂q_ratio,(<span class="fl">0</span>,<span class="fl">1</span>))</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>xₘᵢₙ, <span class="fu">q_ratio</span>(xₘᵢₙ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>xₘᵢₙ, <span class="fu">q_ratio</span>(xₘᵢₙ)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>(0.7106211503798253, 0.8839840357969662)</code></pre>
 </div>
@@ -612,7 +613,7 @@ Figure&nbsp;3: The amount of energy delivered, in higher heating value, for a bl
 <p>Initially, blending hydrogen decreases the overall energy delivered, bottoming out at ~12% less, when hydrogen makes up 71% of the fuel gas. While this is not the 66% decline predicted by a naive look at energy density, neither is it nothing.</p>
 <p>Another important point is where the ratio becomes one: the concentration where the blended hydrogen fuel gas reattains the energy content of the original natural gas stream</p>
 <div id="6d3f358d-d65c-4335-84b9-3bfd15db1123" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>xₑᵥₑₙ <span class="op">=</span> <span class="fu">find_zero</span>( (x)<span class="op">-&gt;</span> <span class="fu">q_ratio</span>(x)<span class="op">-</span><span class="fl">1</span>, (xₘᵢₙ,<span class="fl">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>xₑᵥₑₙ <span class="op">=</span> <span class="fu">find_zero</span>( (x)<span class="op">-&gt;</span> <span class="fu">q_ratio</span>(x)<span class="op">-</span><span class="fl">1</span>, (xₘᵢₙ,<span class="fl">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>0.9684672945947692</code></pre>
 </div>
@@ -634,11 +635,11 @@ Figure&nbsp;3: The amount of energy delivered, in higher heating value, for a bl
 <p>If we assume that the users of fuel gas are using a fixed amount of energy, regardless of the actual flowrate, then what we want is the carbon <em>intensity</em> of the fuel: how much carbon dioxide is emitted <em>per Megajoule</em> of heat generated?</p>
 <p><span class="math display">\[ E = \frac{\dot{m}_{CO_2} }{q} = { {\left( 1 - x_{H_2} \right) \rho_{CO_2,r} Q_s} \over {HHV(x) Q_s} } = { { \left( 1 - x_{H_2} \right) \rho_{CO_2,r} } \over {HHV(x)} }\]</span></p>
 <div id="e6464333-5bf9-4d74-94c7-a75d3e46a6f8" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Carbon Dioxide</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Carbon Dioxide</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>MW_CO2 <span class="op">=</span> <span class="fl">44.009e-3</span>u<span class="st">"kg/mol"</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>ρ_CO2 <span class="op">=</span> MW_CO2<span class="op">*</span>Pᵣ<span class="op">/</span>(R<span class="op">*</span>Tᵣ)</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(x) <span class="op">=</span> (<span class="fl">1</span><span class="op">-</span>x)<span class="op">*</span>ρ_CO2<span class="op">/</span><span class="fu">HHV</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(x) <span class="op">=</span> (<span class="fl">1</span><span class="op">-</span>x)<span class="op">*</span>ρ_CO2<span class="op">/</span><span class="fu">HHV</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-co2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="12">
 <div class="cell-output cell-output-display" data-execution_count="12">
@@ -656,7 +657,7 @@ Figure&nbsp;4: The carbon dioxide emissions intensity for a blended natural gas/
 </div>
 <p>So there are emissions reductions but <em>at a cost</em>, beyond whatever method is used to generate the hydrogen in the first place. The system must be operated at greater pressures to supply the same amount of energy, which itself takes some energy, at least until the hydrogen exceeds 96.8%. At that high level the system seems like an easy win: it takes <em>less</em> pressure to supply the same amount of energy and the emissions intensity is a ~8.7% that of natural gas (a ~91% reduction)</p>
 <div id="b489cad5-0b9a-4637-9b50-560000835931" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(xₑᵥₑₙ)<span class="op">/</span><span class="fu">E</span>(<span class="fl">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(xₑᵥₑₙ)<span class="op">/</span><span class="fu">E</span>(<span class="fl">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>0.08690379085511468</code></pre>
 </div>
@@ -685,7 +686,7 @@ Figure&nbsp;4: The carbon dioxide emissions intensity for a blended natural gas/
 <h3 class="anchored" data-anchor-id="mixture-viscosity">Mixture viscosity</h3>
 <p>We’ve already worked out the mixture density and heating value, and the next most important material property is viscosity. I don’t have a curve for natural gas, so I am just going to use methane as a proxy. I am already treating natural gas like a homogeneous substance, so this is simply an extension of that.</p>
 <div id="731267ae-ed34-41c4-8f44-b98ab48f5ad1" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">UnitfulCorrelations</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">UnitfulCorrelations</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Hydrogen - from Perry's, 8th ed.</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">μ_H2</span>(T) <span class="op">=</span> (<span class="fl">1.797e-7</span><span class="op">*</span>T<span class="op">^</span><span class="fl">0.685</span>)<span class="op">/</span>(<span class="fl">1</span><span class="op">-</span><span class="fl">0.59</span><span class="op">/</span>T<span class="op">+</span><span class="fl">140</span><span class="op">/</span>(T<span class="op">^</span><span class="fl">2</span>));</span>
@@ -693,19 +694,19 @@ Figure&nbsp;4: The carbon dioxide emissions intensity for a blended natural gas/
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Methane (Natural Gas) - from Perry's, 8th ed. </span></span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">μ_NG</span>(T) <span class="op">=</span> (<span class="fl">5.2546e-7</span><span class="op">*</span>T<span class="op">^</span><span class="fl">0.59006</span>)<span class="op">/</span>(<span class="fl">1</span><span class="op">+</span><span class="fl">105.67</span><span class="op">/</span>T);</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="pp">@ucorrel</span> μ_NG u<span class="st">"K"</span> u<span class="st">"Pa*s"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="pp">@ucorrel</span> μ_NG u<span class="st">"K"</span> u<span class="st">"Pa*s"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Where I have used <a href="https://github.com/aefarrell/UnitfulCorrelations.jl">a macro that I wrote previously</a> to turn correlations into correlations <em>with units</em>.</p>
 <p>At standard conditions the viscosity of hydrogen and that of natural gas (methane) are not too different, so we can get away with using a simple method for estimating the viscosity of the overall mixture.</p>
 <div id="1fdfc7a6-8d78-4d91-b391-2fe888adedeb" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">μ_H2</span>(Tᵣ)<span class="op">/</span><span class="fu">μ_NG</span>(Tᵣ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">μ_H2</span>(Tᵣ)<span class="op">/</span><span class="fu">μ_NG</span>(Tᵣ)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>0.8004989026814741</code></pre>
 </div>
 </div>
 <p>I happen to already have Wilke’s method for a binary mixture worked out, I just need to swap in what the two components are. A more fulsome analysis would have a complete composition of natural gas (broken down into methane, ethane, propane, etc.) in which case the generalized Wilke’s method could be used as well.</p>
 <div id="109ea297-2245-4cb2-8796-1c4b7d927378" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mixture viscosity using Wilke method</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mixture viscosity using Wilke method</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># from *The Properties of Gases and Liquids* 5th ed.</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">μ</span>(x,T)</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    μ₁ <span class="op">=</span> <span class="fu">μ_H2</span>(T)</span>
@@ -721,7 +722,7 @@ Figure&nbsp;4: The carbon dioxide emissions intensity for a blended natural gas/
 <span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    μ <span class="op">=</span> (y₁<span class="op">*</span>μ₁<span class="op">/</span>(y₁<span class="op">+</span>y₂<span class="op">*</span>ϕ₁₂)) <span class="op">+</span> (y₂<span class="op">*</span>μ₂<span class="op">/</span>(y₂<span class="op">+</span>y₁<span class="op">*</span>ϕ₂₁))</span>
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> μ</span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-viscosity" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="17">
 <div class="cell-output cell-output-display" data-execution_count="17">
@@ -742,40 +743,40 @@ Figure&nbsp;5: The viscosity of blended natural gas/hydrogen for a range of hydr
 <h3 class="anchored" data-anchor-id="pipe-dimensions-and-friction">Pipe dimensions and friction</h3>
 <p>For the sake of having something to calculate I am just assuming a 20m length of 2in steel pipe. But you could put in really anything here.</p>
 <div id="7817b625-e538-4af7-8e06-4fba63a185e8" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pipe dimensions</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pipe dimensions</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> <span class="fl">20</span>u<span class="st">"m"</span>      <span class="co"># length</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> <span class="fl">52.5</span>u<span class="st">"mm"</span>   <span class="co"># diameter</span></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>ϵ <span class="op">=</span> <span class="fl">0.0457</span>u<span class="st">"mm"</span> <span class="co"># roughness</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="fl">0.25</span><span class="op">*</span><span class="cn">π</span><span class="op">*</span>D<span class="op">^</span><span class="fl">2</span>  <span class="co"># cross-sectional area</span></span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> L<span class="op">/</span>D         <span class="co"># relative length</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>κ <span class="op">=</span> ϵ<span class="op">/</span>D         <span class="co"># relative roughness</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>κ <span class="op">=</span> ϵ<span class="op">/</span>D         <span class="co"># relative roughness</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The Reynold’s number is simply a function of the mass velocity, <em>G</em>, the pipe diameter, <em>D</em>, and the mixture viscosity <em>μ</em></p>
 <div id="9a381946-0842-485d-a42a-e6168bab8b7d" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reynold's number</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Re</span>(x,T,G) <span class="op">=</span> G<span class="op">*</span>D<span class="op">/</span><span class="fu">μ</span>(x,T);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reynold's number</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Re</span>(x,T,G) <span class="op">=</span> G<span class="op">*</span>D<span class="op">/</span><span class="fu">μ</span>(x,T);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>I am using my favourite correlation for the Darcy friction factor, <em>f</em>,</p>
 <div id="027d13a5-e80b-445f-b5d8-634880d3a198" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Churchill correlation, from Perry's</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Churchill correlation, from Perry's</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">churchill</span>(Re)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> (<span class="fl">2.457</span> <span class="op">*</span> <span class="fu">log</span>(<span class="fl">1</span><span class="op">/</span>((<span class="fl">7</span><span class="op">/</span>Re)<span class="op">^</span><span class="fl">0.9</span> <span class="op">+</span> <span class="fl">0.27</span><span class="op">*</span>κ)))<span class="op">^</span><span class="fl">16</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    B <span class="op">=</span> (<span class="fl">37530</span><span class="op">/</span>Re)<span class="op">^</span><span class="fl">16</span></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">8</span><span class="fu">*</span>((<span class="fl">8</span><span class="op">/</span>Re)<span class="op">^</span><span class="fl">12</span> <span class="op">+</span> <span class="fl">1</span><span class="op">/</span>(A<span class="op">+</span>B)<span class="op">^</span>(<span class="fl">3</span><span class="op">/</span><span class="fl">2</span>))<span class="op">^</span>(<span class="fl">1</span><span class="op">/</span><span class="fl">12</span>)</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Since this is just a straight length of pipe, the K factor is simply <em>fL</em>/<em>D</em>, defaulting back to the Nikuradse rough pipe law for fully developed turbulent flow (i.e.&nbsp;very high Reynold’s numbers)</p>
 <div id="f977e08c-084b-40dd-8dfd-f5f7855fe423" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Kf</span>() <span class="op">=</span> l<span class="op">/</span>(<span class="fl">2</span><span class="fu">*log10</span>(<span class="fl">3.7</span><span class="op">/</span>κ))<span class="op">^</span><span class="fl">2</span> <span class="co"># Nikuradse</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Kf</span>(Re) <span class="op">=</span> <span class="fu">l*churchill</span>(Re)    <span class="co"># Churchill</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Kf</span>() <span class="op">=</span> l<span class="op">/</span>(<span class="fl">2</span><span class="fu">*log10</span>(<span class="fl">3.7</span><span class="op">/</span>κ))<span class="op">^</span><span class="fl">2</span> <span class="co"># Nikuradse</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Kf</span>(Re) <span class="op">=</span> <span class="fu">l*churchill</span>(Re)    <span class="co"># Churchill</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="volumetric-flowrate" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="volumetric-flowrate">Volumetric flowrate</h3>
 <p>The volumetric flowrate for an isothermal ideal gas is simply the mass velocity, <em>G</em>, multiplied by the cross sectional area and divided by the density <em>GA</em>/<em>ρ</em>. It is very easy to modify some code I had previously written to solve for the volumetric flowrate.</p>
 <div id="8ddd4778-4b72-431e-bbc0-60c39179cbc2" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Isothermal ideal gas pipeflow</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Isothermal ideal gas pipeflow</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Q₁</span>(x, T₁, P₁, P₂, K<span class="op">::</span><span class="dt">Number</span>)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    ρ₁ <span class="op">=</span> <span class="fu">ρ</span>(x, T₁, P₁)</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    v̄₁ <span class="op">=</span> <span class="fl">1</span><span class="op">/</span>ρ₁</span>
@@ -798,12 +799,12 @@ Figure&nbsp;5: The viscosity of blended natural gas/hydrogen for a range of hydr
 <span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">find_zero</span>(obj, G₀)</span>
 <span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">upreferred</span>(G<span class="op">*</span>A<span class="op">/</span>ρ₁)</span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This uses julia’s multiple dispatch to handle two cases: for large Reynold’s numbers where <em>K</em> is a constant, and for cases where K is a function of the Reynold’s number (and thus the volumetric flowrate).</p>
 <p>The volumetric flowrate at standard state is then the flowrate from above, corrected to the reference pressure and temperature<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;I have been using <code>upreferred</code> to force Unitful to cancel out and simplify units.</p></div></div><div id="90cf27cc-bb94-4ba5-b626-1837c6df6ce4" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Qₛ</span>(x, T₁, P₁, P₂) <span class="op">=</span> <span class="fu">upreferred</span>((P₁<span class="op">/</span>Pᵣ)<span class="fu">*</span>(Tᵣ<span class="op">/</span>T₁)<span class="fu">*Q₁</span>(x, T₁, P₁, P₂, Kf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Qₛ</span>(x, T₁, P₁, P₂) <span class="op">=</span> <span class="fu">upreferred</span>((P₁<span class="op">/</span>Pᵣ)<span class="fu">*</span>(Tᵣ<span class="op">/</span>T₁)<span class="fu">*Q₁</span>(x, T₁, P₁, P₂, Kf))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="23">
 <pre><code>Qₛ (generic function with 1 method)</code></pre>
 </div>
@@ -813,7 +814,7 @@ Figure&nbsp;5: The viscosity of blended natural gas/hydrogen for a range of hydr
 <h3 class="anchored" data-anchor-id="heat-rate">Heat rate</h3>
 <p>The heat rate is then the heating value, already worked out, times the volumetric flowrate at standard state</p>
 <div id="c772f9cb-6ef6-4ca4-8c37-a8c46b66f5ee" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">q</span>(x, T₁, P₁, P₂) <span class="op">=</span> <span class="fu">HHV</span>(x)<span class="fu">*Qₛ</span>(x, T₁, P₁, P₂)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">q</span>(x, T₁, P₁, P₂) <span class="op">=</span> <span class="fu">HHV</span>(x)<span class="fu">*Qₛ</span>(x, T₁, P₁, P₂)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="24">
 <pre><code>q (generic function with 1 method)</code></pre>
 </div>
@@ -937,13 +938,14 @@ Poling, Bruce E., George H. Thomson, Daniel G. Friend, Richard L. Rowley, and W.
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

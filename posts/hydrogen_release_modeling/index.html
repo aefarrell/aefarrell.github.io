@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,18 +91,19 @@ div.csl-indent {
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-58cfad456c997869d10d7b4a2ae8222c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-451e46ac69b7dce1f7bf1afa5bdb676d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -169,7 +170,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -507,23 +508,23 @@ Figure&nbsp;1: A sketch of the scenario: a hydrogen gas release from a fallen cy
 </div>
 <p>Using the HyRAM+ API we can create the ambient air, <code>air</code>, and hydrogen, <code>h2</code>, fluid models at initial conditions.</p>
 <div id="9098b823-859f-417a-97eb-9ab77efd1e7c" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hyram.phys.api <span class="im">as</span> api</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hyram.phys <span class="im">as</span> hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hyram.phys <span class="im">as</span> hp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="74a88bb5-1848-4147-8b89-dae4a9e7b946" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Ta, Pa <span class="op">=</span> <span class="fl">288.15</span>, <span class="dv">101325</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Ta, Pa <span class="op">=</span> <span class="fl">288.15</span>, <span class="dv">101325</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>air <span class="op">=</span> api.create_fluid(<span class="st">"Air"</span>, Ta, Pa)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Th2, Ph2 <span class="op">=</span> Ta, <span class="fl">35e6</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>h2 <span class="op">=</span> api.create_fluid(<span class="st">"Hydrogen"</span>, Th2, Ph2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>h2 <span class="op">=</span> api.create_fluid(<span class="st">"Hydrogen"</span>, Th2, Ph2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The broken valve is initialized as an <code>Orifice</code> object, which has a diameter and a discharge coefficient. In this case I assume the discharge coefficient is 0.6.</p>
 <div id="6b500dd3-2e78-47b5-8953-c72888a5e721" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>d_H <span class="op">=</span> <span class="fl">25.4e-3</span><span class="op">/</span><span class="dv">4</span> <span class="co"># mm</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>d_H <span class="op">=</span> <span class="fl">25.4e-3</span><span class="op">/</span><span class="dv">4</span> <span class="co"># mm</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>c_d <span class="op">=</span> <span class="fl">0.6</span> <span class="co"># assumed</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> np.pi<span class="op">/</span><span class="dv">4</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>orifice <span class="op">=</span> hp.Orifice(d_H, c_d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>orifice <span class="op">=</span> hp.Orifice(d_H, c_d)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="modeling-the-jet" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="modeling-the-jet">Modeling the Jet</h3>
@@ -536,10 +537,10 @@ Figure&nbsp;1: A sketch of the scenario: a hydrogen gas release from a fallen cy
 <div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;<a href="#ref-ooms-1972" role="doc-biblioref">Ooms, <span>“A New Method for the Calculation of the Plume Path of Gases Emitted by a Stack”</span></a>.</p></div></div><p>The jet is created by initializing a <code>Jet</code> object, which solves the zones and integrates the governing equations to determine the plume center-line.</p>
 <p>HyRAM+ has several internal models for solving the <em>notional nozzle</em>, the default is the model by Yüceil and Ötügen and is selected with the keyword parameters <code>nn_conserve_momentum=True</code> and <code>nn_T='solve_energy'</code></p>
 <div id="2cfaca8b-f3a4-48c3-b9ab-c122f82313e2" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>jet <span class="op">=</span> hp.Jet(h2, orifice, air, theta0<span class="op">=</span>theta,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>jet <span class="op">=</span> hp.Jet(h2, orifice, air, theta0<span class="op">=</span>theta,</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>             nn_conserve_momentum<span class="op">=</span><span class="va">True</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>             nn_T<span class="op">=</span><span class="st">'solve_energy'</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>             verbose<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>             verbose<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>solving for orifice flow... done
 solving for notional nozzle... done.
@@ -548,7 +549,7 @@ integrating... done.</code></pre>
 </div>
 <p>With this done, we can retrieve the mass flow-rate (in kg/s)</p>
 <div id="ed77a273-f644-4664-ac8e-93f77a9d8bf2" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>jet.mass_flow_rate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>jet.mass_flow_rate</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>0.4024272255826383</code></pre>
 </div>
@@ -556,18 +557,18 @@ integrating... done.</code></pre>
 <p>We can compare this to a simple ideal gas model of an adiabatic orifice<span class="citation" data-cites="ccps-1999"><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></span></p>
 <div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;<a href="#ref-ccps-1999" role="doc-biblioref">AIChE/CCPS, <em>Guidelines for Consequence Analysis of Chemical Releases.</em></a></p></div></div><p><span class="math display">\[ \dot{m} = c_d A_h \sqrt{ \rho_1 p_1 k \left( 2 \over k+1 \right)^{k+1 \over k-1} } \]</span></p>
 <div id="1cbb157a-f95b-48a8-ac8e-8e027ee3d913" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>A_h <span class="op">=</span> (np.pi<span class="op">/</span><span class="dv">4</span>)<span class="op">*</span>d_H<span class="op">**</span><span class="dv">2</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>A_h <span class="op">=</span> (np.pi<span class="op">/</span><span class="dv">4</span>)<span class="op">*</span>d_H<span class="op">**</span><span class="dv">2</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="fl">1.41</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>ideal_gas_jet <span class="op">=</span> c_d<span class="op">*</span>A_h<span class="op">*</span>np.sqrt( h2.rho<span class="op">*</span>h2.P<span class="op">*</span>k<span class="op">*</span><span class="bu">pow</span>(<span class="dv">2</span><span class="op">/</span>(k<span class="op">+</span><span class="dv">1</span>),(k<span class="op">+</span><span class="dv">1</span>)<span class="op">/</span>(k<span class="op">-</span><span class="dv">1</span>)) )</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>ideal_gas_jet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>ideal_gas_jet</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>0.37797876222402915</code></pre>
 </div>
 </div>
 <div id="11d25151-ad13-4900-81ae-be7187f9159e" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>jet.mass_flow_rate<span class="op">/</span>ideal_gas_jet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>jet.mass_flow_rate<span class="op">/</span>ideal_gas_jet</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>1.0646821086315916</code></pre>
 </div>
@@ -579,22 +580,22 @@ integrating... done.</code></pre>
 <h3 class="anchored" data-anchor-id="calculating-downstream-distances">Calculating Downstream Distances</h3>
 <p>For hydrogen, the hazard we are most concerned with is fires and explosions. Conveniently, we can retrieve the lower flammability limit (LFL) for hydrogen without needing to look it up ourselves.</p>
 <div id="2f00622c-2841-4ce0-9700-3b9f07cb957b" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>lfl <span class="op">=</span> hp.FuelProperties(h2.species).LFL</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>lfl <span class="op">=</span> hp.FuelProperties(h2.species).LFL</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>and calculate the distance, along the plume center-line, to the LFL</p>
 <div id="c83a7956-a0a8-4e19-b91d-d60fc73e95e8" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>streamline_dists <span class="op">=</span> jet.get_streamline_distances_to_mole_fractions([lfl])</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>streamline_dists <span class="op">=</span> jet.get_streamline_distances_to_mole_fractions([lfl])</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>streamline_dists[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>streamline_dists[<span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>19.655324152591245</code></pre>
 </div>
 </div>
 <p>similarly we can retrieve the x-y coordinates of the plume extent, out to the LFL</p>
 <div id="0d7b16fc-d5f4-4cc5-a64b-1093e77a4e3a" class="cell" data-scrolled="true" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mole_frac_dists <span class="op">=</span> jet.get_xy_distances_to_mole_fractions([lfl])</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mole_frac_dists <span class="op">=</span> jet.get_xy_distances_to_mole_fractions([lfl])</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>mole_frac_dists</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>mole_frac_dists</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>{0.04: [(0, 13.734800620965242), (0, 14.201255169630102)]}</code></pre>
 </div>
@@ -608,7 +609,7 @@ integrating... done.</code></pre>
 </div>
 <p>and, finally, calculate the flammable mass in the steady-state jet.</p>
 <div id="cc5d8100-42e4-45de-98b7-5c86f27b146f" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>jet.m_flammable()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>jet.m_flammable()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>0.2789535809847125</code></pre>
 </div>
@@ -618,7 +619,7 @@ integrating... done.</code></pre>
 <h3 class="anchored" data-anchor-id="plotting-the-plume-dispersion">Plotting the Plume Dispersion</h3>
 <p>The next obvious thing we want to do is plot the actual plume dispersion, to do this we retrieve the x-y coordinates and corresponding mass fraction (X), mole fraction (Y), velocity (v) and temperature (T) fields.</p>
 <div id="14359750-4acc-48a2-a576-1ae43515c516" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>x, y, X, Y, v, T <span class="op">=</span> jet._contourdata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>x, y, X, Y, v, T <span class="op">=</span> jet._contourdata</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>we can use matplotlib to plot the concentrations and highlight the contour corresponding to the LFL</p>
 <div id="d9257bd8-6ae5-44fb-9287-7385c2bba63b" class="cell" data-execution_count="14">
@@ -635,7 +636,7 @@ integrating... done.</code></pre>
 <h3 class="anchored" data-anchor-id="doing-it-the-easy-way">Doing it the Easy Way</h3>
 <p>Above I walked through the steps using the physics models included in HyRAM+, but if what you want is just the final plot and some basic parameters for QRA there is a much easier way: use the <code>analyze_plume_jet</code> model in the HyRAM+ API.</p>
 <div id="37068b15-81dd-4f4e-bd83-190f65d06715" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>plume <span class="op">=</span> api.analyze_jet_plume(air, h2, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>plume <span class="op">=</span> api.analyze_jet_plume(air, h2, </span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                              orif_diam<span class="op">=</span>d_H,</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                              rel_angle<span class="op">=</span>theta,</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                              dis_coeff<span class="op">=</span>c_d,</span>
@@ -648,25 +649,25 @@ integrating... done.</code></pre>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>                              vmin<span class="op">=</span><span class="dv">0</span>,</span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>                              vmax<span class="op">=</span><span class="dv">2</span><span class="op">*</span>lfl,</span>
 <span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>                              output_dir<span class="op">=</span><span class="st">'figures'</span>,</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>                              filename<span class="op">=</span><span class="st">'h2_plume_fig.png'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>                              filename<span class="op">=</span><span class="st">'h2_plume_fig.png'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><img src="index_files/figure-html/f1247962-7b07-4929-bc8d-be7dffbbee64-1-9785d155-d308-4c3c-96eb-ee3412136f7f.png" class="img-fluid"></p>
 <p>By default this outputs a file, instead of plotting directly into the notebook, and does not allow for as much control of the final figure. But it returns the necessary arrays if you wanted to do your own thing.</p>
 <p>The mass flow-rate, distance along the streamline to the LFL, and contour of the LFL are also retrievable.</p>
 <div id="3657537f-b58b-4719-aca6-4295afe6d712" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>plume[<span class="st">'mass_flow_rate'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>plume[<span class="st">'mass_flow_rate'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>0.4024272255826383</code></pre>
 </div>
 </div>
 <div id="765d1636-2598-4fea-b389-0e3e08eaff4f" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>plume[<span class="st">'streamline_dists'</span>][<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>plume[<span class="st">'streamline_dists'</span>][<span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
 <pre><code>19.655324152591245</code></pre>
 </div>
 </div>
 <div id="9eb9a514-7165-403a-82f9-e109353c2fa1" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>plume[<span class="st">'mole_frac_dists'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>plume[<span class="st">'mole_frac_dists'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>{0.04: [(0, 13.734800620965242), (0, 14.201255169630102)]}</code></pre>
 </div>
@@ -679,7 +680,7 @@ integrating... done.</code></pre>
 <p>Another limitation of this model, if it is being used for process equipment outdoors, is that there is no accounting for wind. Ambient conditions are always assumed to be quiescent. This leads to less dispersion than you would expect were wind included, and may over-estimate the degree to which the plume will rise and disperse vertically.</p>
 <p>Another, more major limitation, is that there is no accounting for the ground. For large releases, near ground level, it may not be obvious that mass is being lost through the ground, and not accumulating as you would actually expect. For example, taking the above scenario and setting the release angle to 45° <em>downward</em>, the jet simply disappears into the earth. In reality the hydrogen should accumulate along the ground, or reflect off with some momentum. Releases near ground-level, with shallow release angles relative to horizontal, may have hazardous build-ups in areas, and that is being neglected by this model.</p>
 <div id="fdffc749-8628-40ec-bbd8-cf9dec3975e1" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>plume <span class="op">=</span> api.analyze_jet_plume(air, h2, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>plume <span class="op">=</span> api.analyze_jet_plume(air, h2, </span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                              orif_diam<span class="op">=</span>d_H,</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                              rel_angle<span class="op">=-</span>theta,</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                              dis_coeff<span class="op">=</span>c_d,</span>
@@ -692,7 +693,7 @@ integrating... done.</code></pre>
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>                              vmin<span class="op">=</span><span class="dv">0</span>,</span>
 <span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                              vmax<span class="op">=</span><span class="dv">2</span><span class="op">*</span>lfl,</span>
 <span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>                              output_dir<span class="op">=</span><span class="st">'figures'</span>,</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                              filename<span class="op">=</span><span class="st">'h2_downward_plume_fig.png'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                              filename<span class="op">=</span><span class="st">'h2_downward_plume_fig.png'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><img src="index_files/figure-html/7cf751fd-8561-4fa2-b93f-909fb90a3fa7-1-8572b75f-1e38-4394-bd2a-c2c2fd005e31.png" class="img-fluid"></p>
 <p>For integral plume dispersion models, like this one, it is typical to restrict the plume center-line such that it cannot extend below the ground, i.e.&nbsp;any integration step that would have a center-line with <em>y&lt;0</em> is rejected and replaced with one with <em>y≥0</em>. It is also common to implement <em>ground reflection</em> where the plume dispersion “bounces off” the ground, perfectly elastically.</p>
@@ -721,15 +722,15 @@ Figure&nbsp;2: A sketch of the room, the cylinder is supposed to have fallen by 
 <p>where <em>m</em> is the mass remaining in the tank, <em>u</em> is the specific internal energy, <em>h</em> the specific enthalpy, and <em>v</em> the velocity through an isentropic nozzle. The thermodynamic state variables (P, T) are recovered from the fluid model and the internal energy, <em>u</em>, and the density <em>ρ = m/V</em>.</p>
 <p>First the cylinder is defined as a <code>Source</code> with an initial mass of hydrogen.</p>
 <div id="c51de55a-94d6-440b-a704-917a660cb3ca" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>m_h2 <span class="op">=</span> <span class="dv">50</span> <span class="co">#kg</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>cylinder <span class="op">=</span> hp.Source.fromMass(m_h2,h2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>m_h2 <span class="op">=</span> <span class="dv">50</span> <span class="co">#kg</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>cylinder <span class="op">=</span> hp.Source.fromMass(m_h2,h2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then the cylinder can be blown down through the <code>orifice</code> previously defined. This numerically integrates the governing equations and returns the mass, pressure, temperature, and flowrate as functions of time.</p>
 <p>A convenience function can also plot them for us.</p>
 <div id="a303af1b-9726-4fd9-b3a3-bc20bedb75ea" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;outputs_hidden&quot;:true}}" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>cylinder.empty(orifice)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>cylinder.empty(orifice)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>cylinder.plot_time_to_empty()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>cylinder.plot_time_to_empty()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><img src="index_files/figure-html/736ae8c3-5c97-4879-a0ef-8704ba348679-1-d475e27c-27c4-465d-99fa-196684c1f7da.png" class="img-fluid"></p>
 </section>
@@ -737,18 +738,18 @@ Figure&nbsp;2: A sketch of the room, the cylinder is supposed to have fallen by 
 <h3 class="anchored" data-anchor-id="the-indoor-release">The Indoor Release</h3>
 <p>At this point the release is still unconfined. We need to define the room. This also includes defining the location of vents. Since no room is perfectly leak free, and for the sake of an example, I assume a similar leak area for a vent near the ceiling and one near the floor. I also define the cylinder as leaking from ground level essentially at one wall and aimed 45° upwards towards the opposite wall.</p>
 <div id="753186cb-e2a6-46de-ace3-ad986c1b08ac" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>ceiling_height <span class="op">=</span> <span class="fl">2.7</span> <span class="co">#m</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>ceiling_height <span class="op">=</span> <span class="fl">2.7</span> <span class="co">#m</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>floor_area <span class="op">=</span> <span class="dv">16</span> <span class="co">#m^2</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>release_height <span class="op">=</span> <span class="dv">0</span> <span class="co">#m</span></span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>ceiling_vent <span class="op">=</span> hp.Vent(A_h,<span class="fl">2.6</span>)</span>
 <span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>floor_vent <span class="op">=</span> hp.Vent(A_h,<span class="fl">0.01</span>)</span>
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>room <span class="op">=</span> hp.Enclosure(ceiling_height, floor_area, release_height, ceiling_vent, floor_vent, Xwall<span class="op">=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>room <span class="op">=</span> hp.Enclosure(ceiling_height, floor_area, release_height, ceiling_vent, floor_vent, Xwall<span class="op">=</span><span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The release model then estimates the accumulation of a flammable layer starting at the roof and extending downwards.</p>
 <div id="674df1a5-52aa-4046-98dc-bd13069ca92d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;outputs_hidden&quot;:true}}" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>release <span class="op">=</span> hp.IndoorRelease(source<span class="op">=</span>cylinder,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>release <span class="op">=</span> hp.IndoorRelease(source<span class="op">=</span>cylinder,</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                           orifice<span class="op">=</span>orifice,</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                           ambient<span class="op">=</span>air,</span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                           enclosure<span class="op">=</span>room,</span>
@@ -758,18 +759,18 @@ Figure&nbsp;2: A sketch of the room, the cylinder is supposed to have fallen by 
 <span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>                           tmax<span class="op">=</span><span class="dv">30</span>,</span>
 <span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>                           verbose<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>release.plot_mass()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>release.plot_mass()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><img src="index_files/figure-html/354a8335-47cc-4ec1-9bac-9a5dfac1fd3d-1-8d17f0e0-4f8b-40a8-b7ba-d3a87a6254be.png" class="img-fluid"></p>
 <p>At this point I thought, initially, that there was something wrong with the code. Why does the flammable mass suddenly disappear? Where does it go? Nowhere. HyRAM+ by default assumes the flammable mass is between the LFL and UFL. At around 15 seconds the room is essentially saturated with hydrogen and above the UFL, hence why it suddenly disappears. This can be seen by plotting the flammable layer at the ceiling.</p>
 <div id="9b37fe8e-c6e2-4e1d-bafa-3111a33940c8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;outputs_hidden&quot;:true}}" data-scrolled="true" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>release.plot_layer()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>release.plot_layer()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><img src="index_files/figure-html/fc183c69-0a00-4c32-9388-2fda4fb7397e-1-95027319-589e-4d19-88ff-d62295e0357a.png" class="img-fluid"></p>
 <p>By 15 seconds the layer reaches the floor and the entire room is above the UFL. Some recommend not cutting off at the UFL, this room is still quite hazardous, say if someone opened a door there would be an explosive mixture right in the door-frame that could explode and that explosion would mix with the rest of the gas and the whole mass of released hydrogen could explode.</p>
 <p>To consider the flammable mass to be the mixed area above the LFL and include areas that exceed the UFL, the <code>X_lean</code> and <code>X_rich</code> keyword arguments must be used.</p>
 <div id="776f3a22-0d0a-4346-a60f-04990889e2f8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;outputs_hidden&quot;:true}}" data-scrolled="true" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>full_release <span class="op">=</span> hp.IndoorRelease(source<span class="op">=</span>cylinder,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>full_release <span class="op">=</span> hp.IndoorRelease(source<span class="op">=</span>cylinder,</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                                orifice<span class="op">=</span>orifice,</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                                ambient<span class="op">=</span>air,</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                                enclosure<span class="op">=</span>room,</span>
@@ -781,7 +782,7 @@ Figure&nbsp;2: A sketch of the room, the cylinder is supposed to have fallen by 
 <span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>                                tmax<span class="op">=</span><span class="dv">30</span>,</span>
 <span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>                                verbose<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>full_release.plot_mass()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>full_release.plot_mass()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><img src="index_files/figure-html/655a46be-7861-4c44-b9b3-dd7c869ac67a-1-c098687a-837e-48f0-ae23-9cd5fbaf9500.png" class="img-fluid"></p>
 </section>
@@ -789,7 +790,7 @@ Figure&nbsp;2: A sketch of the room, the cylinder is supposed to have fallen by 
 <h3 class="anchored" data-anchor-id="using-the-hyram-api">Using the HyRAM+ API</h3>
 <p>This whole analysis can also be accomplished using the API and the <code>analyze_accumulation</code> function. It outputs a series of plots into a given folder, including calculating the jet trajectories for a series of user selected times.</p>
 <div id="4b227dda-82bf-470d-b249-ae258ab27c9e" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>api.analyze_accumulation(amb_fluid<span class="op">=</span>air,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>api.analyze_accumulation(amb_fluid<span class="op">=</span>air,</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                         rel_fluid<span class="op">=</span>h2,</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                         tank_volume<span class="op">=</span>cylinder.V, </span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                         orif_diam<span class="op">=</span>d_H, </span>
@@ -806,7 +807,7 @@ Figure&nbsp;2: A sketch of the room, the cylinder is supposed to have fallen by 
 <span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>                         orif_dis_coeff<span class="op">=</span>c_d,</span>
 <span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>                         rel_angle<span class="op">=</span>theta,</span>
 <span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>                         nozzle_key<span class="op">=</span><span class="st">'yuce'</span>,</span>
-<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>                         output_dir<span class="op">=</span><span class="st">"figures/accumulation"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>                         output_dir<span class="op">=</span><span class="st">"figures/accumulation"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
 <pre><code>{'status': 1,
  'pressures_per_time': array([ 388375.73527918, 3092893.44785494,       0.        ,
@@ -929,13 +930,14 @@ Ooms, G. <span>“A New Method for the Calculation of the Plume Path of Gases Em
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

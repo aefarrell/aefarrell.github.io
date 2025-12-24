@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,18 +91,19 @@ div.csl-indent {
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-58cfad456c997869d10d7b4a2ae8222c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-451e46ac69b7dce1f7bf1afa5bdb676d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -169,7 +170,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -531,15 +532,15 @@ window.Quarto = {
 <p><span class="math display">\[ {g\left(\xi\right) \over g\left(0\right)} = \left( \exp \left(\int_0^{\xi} {F \over \sqrt{ F F^{\prime} } } d\xi \right)\right)^{ a_c^{-3} a^{3/2} } \]</span></p>
 <p>Which is something we can compute using <a href="../../posts/turbulent_jet_notes/#solving-the-ode">the ode solution from last time</a>, by importing the code for the ode from the previous notebook and running it to get the velocity distribution.</p>
 <div id="c13f57e6-4a76-4be3-83eb-f6d9a9f4b82e" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># importing just the ODE solution</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># importing just the ODE solution</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NBInclude</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@nbinclude</span>(<span class="st">"2022-04-08-turbulent_jet_notes.ipynb"</span>; counters<span class="op">=</span>[<span class="fl">1</span> <span class="fl">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@nbinclude</span>(<span class="st">"2022-04-08-turbulent_jet_notes.ipynb"</span>; counters<span class="op">=</span>[<span class="fl">1</span> <span class="fl">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We can then perform the integration numerically, in this case the cumulative integral</p>
 <div id="8c37cd29-ed60-453f-86fd-1f81591adcfa" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NumericalIntegration</span>: cumul_integrate</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NumericalIntegration</span>: cumul_integrate</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ϕ, F, F′ <span class="op">=</span> sol.t, sol[<span class="fl">1</span>,<span class="op">:</span>], sol[<span class="fl">2</span>,<span class="op">:</span>]</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -558,7 +559,7 @@ window.Quarto = {
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>log_g <span class="op">=</span> <span class="fu">cumul_integrate</span>(ϕ, <span class="fu">intgrnd</span>.(F, F′));</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>log_g <span class="op">=</span> <span class="fu">cumul_integrate</span>(ϕ, <span class="fu">intgrnd</span>.(F, F′));</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>For some context we can plot the concentration along with the velocity, with the constants <span class="math inline">\(a_c^{-3} a^{3/2} = 1\)</span></p>
 <div id="cell-fig-integration" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="3">
@@ -734,7 +735,7 @@ Figure&nbsp;3: The dimensionless concentration profile and velocity profile, Edd
 <div class="no-row-height column-margin column-container"><div id="fn10"><p><sup>10</sup>&nbsp;It is worth keeping in mind, when using the empirical constants provided in the literature, that they are often fitted parameters and as such mass and momentum conservation is not necessarily guaranteed.</p></div></div><p>As an example, suppose we wish to calculate the constant for the Prandtl mixing length model, we have already imported the solution to the ode for the velocity profile and it is a simple matter to numerically integrate (using the trapezoidal rule) the two integrals in question.</p>
 <p>We still need two parameters to complete the integration, the parameter <em>a</em> and <em>a<sub>c</sub></em> or, equivalently, <em>β</em> and the Schmidt number <em>Sc</em>.</p>
 <div id="54e89015-3bd5-46f1-ac9b-9bf9d9c5ba59" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NumericalIntegration</span>: integrate</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NumericalIntegration</span>: integrate</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># solutions of the ode</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ϕ, F′ <span class="op">=</span> sol.t, sol[<span class="fl">2</span>,<span class="op">:</span>]</span>
@@ -760,14 +761,14 @@ Figure&nbsp;3: The dimensionless concentration profile and velocity profile, Edd
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>I   <span class="op">=</span> <span class="fu">integrate</span>(ξ, int)</span>
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>I_c <span class="op">=</span> <span class="fu">integrate</span>(ξ, int_c)</span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>k_c <span class="op">=</span> <span class="fu">√</span>(I<span class="op">/</span>(<span class="fl">8</span><span class="op">*</span>I_c<span class="op">^</span><span class="fl">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>k_c <span class="op">=</span> <span class="fu">√</span>(I<span class="op">/</span>(<span class="fl">8</span><span class="op">*</span>I_c<span class="op">^</span><span class="fl">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>5.793131625346911</code></pre>
 </div>
 </div>
 <p>The other two models could also be integrated numerically, for example the eddy diffusivity model</p>
 <div id="63608e86-0054-480d-b71c-29046bf063f1" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">QuadGK</span>: quadgk</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">QuadGK</span>: quadgk</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>C₂ <span class="op">=</span> <span class="fl">2</span><span class="fu">*√</span>(<span class="fu">√</span>(<span class="fl">2</span>)<span class="op">-</span><span class="fl">1</span>)<span class="op">/</span>β</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">f_ev</span>(ξ) <span class="op">=</span> ( <span class="fl">1</span> <span class="op">+</span> (C₂<span class="op">*</span>ξ<span class="op">/</span><span class="fl">2</span>)<span class="op">^</span><span class="fl">2</span> )<span class="op">^-</span><span class="fl">2</span></span>
@@ -775,20 +776,20 @@ Figure&nbsp;3: The dimensionless concentration profile and velocity profile, Edd
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>I, err   <span class="op">=</span> <span class="fu">quadgk</span>((ξ) <span class="op">-&gt;</span> <span class="fu">ξ*f_ev</span>(ξ)<span class="op">^</span><span class="fl">2</span>, <span class="fl">0</span>, <span class="cn">Inf</span>)</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>I_c, err <span class="op">=</span> <span class="fu">quadgk</span>((ξ) <span class="op">-&gt;</span> <span class="fu">ξ*f_ev</span>(ξ)<span class="op">^</span>(Sc<span class="op">+</span><span class="fl">1</span>), <span class="fl">0</span>, <span class="cn">Inf</span>)</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>k_c <span class="op">=</span> <span class="fu">√</span>(I<span class="op">/</span>(<span class="fl">8</span><span class="op">*</span>I_c<span class="op">^</span><span class="fl">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>k_c <span class="op">=</span> <span class="fu">√</span>(I<span class="op">/</span>(<span class="fl">8</span><span class="op">*</span>I_c<span class="op">^</span><span class="fl">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>5.258197856093409</code></pre>
 </div>
 </div>
 <p>and the Gaussian model</p>
 <div id="1fb381c3-d2b9-4180-b602-f40b1042f8ec" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fu">log</span>(<span class="fl">2</span>)<span class="op">/</span>β<span class="op">^</span><span class="fl">2</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fu">log</span>(<span class="fl">2</span>)<span class="op">/</span>β<span class="op">^</span><span class="fl">2</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">f_emp</span>(ξ) <span class="op">=</span> <span class="fu">exp</span>(<span class="op">-</span>c<span class="op">*</span>ξ<span class="op">^</span><span class="fl">2</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>I, err   <span class="op">=</span> <span class="fu">quadgk</span>((ξ) <span class="op">-&gt;</span> <span class="fu">ξ*f_emp</span>(ξ)<span class="op">^</span><span class="fl">2</span>, <span class="fl">0</span>, <span class="cn">Inf</span>)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>I_c, err <span class="op">=</span> <span class="fu">quadgk</span>((ξ) <span class="op">-&gt;</span> <span class="fu">ξ*f_emp</span>(ξ)<span class="op">^</span>(Sc<span class="op">+</span><span class="fl">1</span>), <span class="fl">0</span>, <span class="cn">Inf</span>)</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>k_c <span class="op">=</span> <span class="fu">√</span>(I<span class="op">/</span>(<span class="fl">8</span><span class="op">*</span>I_c<span class="op">^</span><span class="fl">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>k_c <span class="op">=</span> <span class="fu">√</span>(I<span class="op">/</span>(<span class="fl">8</span><span class="op">*</span>I_c<span class="op">^</span><span class="fl">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>5.900934664729693</code></pre>
 </div>
@@ -944,30 +945,30 @@ Figure&nbsp;5: Gaussian concentration profile, range of values and recommended c
 <p>Where <span class="math inline">\(k_Q\)</span> is some constant defined by the particular model and the corresponding model parameter.</p>
 <p>For the Prandtl mixing length model we can compute this constant numerically</p>
 <div id="01d86e4a-2766-499c-aed2-a5700104e702" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> β<span class="op">/</span><span class="fl">1.2277667062444657</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> β<span class="op">/</span><span class="fl">1.2277667062444657</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>I   <span class="op">=</span> <span class="fu">integrate</span>(ξ, int)</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>F∞  <span class="op">=</span> a<span class="op">^</span><span class="fl">2</span><span class="op">*</span>sol[<span class="fl">1</span>,<span class="kw">end</span>]</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>k_Q <span class="op">=</span> <span class="fu">-√</span>(<span class="fl">8</span><span class="op">/</span>I)<span class="op">*</span>F∞</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>k_Q <span class="op">=</span> <span class="fu">-√</span>(<span class="fl">8</span><span class="op">/</span>I)<span class="op">*</span>F∞</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>0.3026710383017731</code></pre>
 </div>
 </div>
 <p>For the eddy viscosity model this can be worked out analytically to be <span class="math display">\[k_Q = {4\sqrt{3} \over C_2}\]</span></p>
 <div id="713cd359-3de5-4eb2-b86f-c2973ca4c57d" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>C₂ <span class="op">=</span> <span class="fl">2</span><span class="fu">*√</span>(<span class="fu">√</span>(<span class="fl">2</span>)<span class="op">-</span><span class="fl">1</span>)<span class="op">/</span>β</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>C₂ <span class="op">=</span> <span class="fl">2</span><span class="fu">*√</span>(<span class="fu">√</span>(<span class="fl">2</span>)<span class="op">-</span><span class="fl">1</span>)<span class="op">/</span>β</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>k_Q <span class="op">=</span> <span class="fl">4</span><span class="op">*</span>√<span class="fl">3</span><span class="op">/</span>C₂</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>k_Q <span class="op">=</span> <span class="fl">4</span><span class="op">*</span>√<span class="fl">3</span><span class="op">/</span>C₂</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>0.4564301431180997</code></pre>
 </div>
 </div>
 <p>The Gaussian model can also be worked out analytically, giving <span class="math display">\[k_Q = {4 \over \sqrt{2 c}}\]</span></p>
 <div id="6c531074-37ad-44f1-a021-0ff6cb400d3a" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fu">log</span>(<span class="fl">2</span>)<span class="op">/</span>β<span class="op">^</span><span class="fl">2</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fu">log</span>(<span class="fl">2</span>)<span class="op">/</span>β<span class="op">^</span><span class="fl">2</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>k_Q <span class="op">=</span> <span class="fl">4</span><span class="op">/</span><span class="fu">√</span>(<span class="fl">2</span><span class="op">*</span>c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>k_Q <span class="op">=</span> <span class="fl">4</span><span class="op">/</span><span class="fu">√</span>(<span class="fl">2</span><span class="op">*</span>c)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>0.28808995465769605</code></pre>
 </div>
@@ -1065,13 +1066,14 @@ Rajaratnam, N. <em>Turbulent Jets</em>. Amsterdam: Elsevier, 1974.
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

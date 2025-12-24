@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,18 +91,19 @@ div.csl-indent {
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-58cfad456c997869d10d7b4a2ae8222c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-451e46ac69b7dce1f7bf1afa5bdb676d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -169,7 +170,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -517,7 +518,7 @@ Figure&nbsp;2: A sketch of the goose neck vent.
 <p>For the pipe bends the bend radius to diameter ratio needs to be specified, I’m going to suppose <span class="math inline">\(r/D = 1.5\)</span>. Another important parameter is the pipe roughness, <span class="math inline">\(\epsilon\)</span>, which for commercial steel is <span class="math inline">\(\epsilon = 0.0457 \mathrm{mm}\)</span><span class="citation" data-cites="tilton-2007">.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></span> At this point I could specify a length for the straight section of pipe, a fixed height above the tank roof that is independent of the final chosen diameter of the piping, or I could fix a design and scale the whole vent up and down as required. For simplicity I am going to assume 3ft of piping.</p>
 <div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;<a href="#ref-tilton-2007" role="doc-biblioref">Tilton, <span>“Fluid and Particle Dynamics,”</span> 6–10</a>.</p></div></div><p>At this point I am going to set up the equations with no knowledge of what the final pipe diameter <span class="math inline">\(D\)</span> will be, then numerically solve for the minimum diameter that meets the requirements. The actual diameter will be the next largest NPS size pipe.</p>
 <div id="cell-3" class="cell" data-tags="[]" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Unitful</span>: @u_str, uconvert, ustrip, upreferred</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Unitful</span>: @u_str, uconvert, ustrip, upreferred</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting up some convenient unit conversions</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>SCFH <span class="op">=</span> <span class="fu">uconvert</span>(u<span class="st">"m^3/s"</span>, <span class="fl">1</span>u<span class="st">"ft^3/hr"</span>)</span>
@@ -531,11 +532,11 @@ Figure&nbsp;2: A sketch of the goose neck vent.
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>pₐ <span class="op">=</span> <span class="fl">14.696</span>psi</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>pₘₐₓ <span class="op">=</span> <span class="fl">1</span>psi <span class="op">+</span> pₐ</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> <span class="fl">3</span>ft</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>ϵ <span class="op">=</span> <span class="fl">0.0457</span>mm;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>ϵ <span class="op">=</span> <span class="fl">0.0457</span>mm;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>I am assuming, for simplicity, that ambient conditions are standard conditions.</p>
 <div id="cell-5" class="cell" data-tags="[]" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Universal gas constant to more digits than are at all necessary</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Universal gas constant to more digits than are at all necessary</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> <span class="fl">8.31446261815324</span>u<span class="st">"Pa*m^3/mol/K"</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard conditions, 15°C </span></span>
@@ -549,7 +550,7 @@ Figure&nbsp;2: A sketch of the goose neck vent.
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ρ</span>(p, T) <span class="op">=</span> (p <span class="op">*</span> Mw)<span class="op">/</span>(R <span class="op">*</span> T)</span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># viscosity of air, from Perry's</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">μ</span>(T) <span class="op">=</span> <span class="fl">1</span>u<span class="st">"Pa*s"</span><span class="fu">*</span>(<span class="fl">1.425e-6</span><span class="fu">*ustrip</span>(u<span class="st">"K"</span>,T)<span class="op">^</span><span class="fl">0.5039</span>)<span class="op">/</span>(<span class="fl">1</span> <span class="op">+</span> <span class="fl">108.3</span><span class="op">/</span><span class="fu">ustrip</span>(u<span class="st">"K"</span>,T));</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">μ</span>(T) <span class="op">=</span> <span class="fl">1</span>u<span class="st">"Pa*s"</span><span class="fu">*</span>(<span class="fl">1.425e-6</span><span class="fu">*ustrip</span>(u<span class="st">"K"</span>,T)<span class="op">^</span><span class="fl">0.5039</span>)<span class="op">/</span>(<span class="fl">1</span> <span class="op">+</span> <span class="fl">108.3</span><span class="op">/</span><span class="fu">ustrip</span>(u<span class="st">"K"</span>,T));</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="frictional-head-loss" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="frictional-head-loss">Frictional head loss</h3>
@@ -589,7 +590,7 @@ Figure&nbsp;3: A Moody diagram with the Serghide correlation and Churchill corre
 <p><span class="math display">\[ f_T = { 0.25 \over { \left( \log \left( \kappa \over 3.7 \right) \right)^2 } } \]</span></p>
 <p>With these defined I can write a function that gives <span class="math inline">\(\sum_j K_j\)</span> for any <span class="math inline">\(\kappa\)</span>, <em>l</em>, and <em>Re</em></p>
 <div id="cell-9" class="cell" data-tags="[]" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">f</span>(κ, Re)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">f</span>(κ, Re)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> (<span class="fl">2.457</span> <span class="op">*</span> <span class="fu">log</span>(<span class="fl">1</span><span class="op">/</span>((<span class="fl">7</span><span class="op">/</span>Re)<span class="op">^</span><span class="fl">0.9</span> <span class="op">+</span> <span class="fl">0.27</span><span class="op">*</span>κ)))<span class="op">^</span><span class="fl">16</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    B <span class="op">=</span> (<span class="fl">37530</span><span class="op">/</span>Re)<span class="op">^</span><span class="fl">16</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">8</span><span class="fu">*</span>((<span class="fl">8</span><span class="op">/</span>Re)<span class="op">^</span><span class="fl">12</span> <span class="op">+</span> <span class="fl">1</span><span class="op">/</span>(A<span class="op">+</span>B)<span class="op">^</span>(<span class="fl">3</span><span class="op">/</span><span class="fl">2</span>))<span class="op">^</span>(<span class="fl">1</span><span class="op">/</span><span class="fl">12</span>)</span>
@@ -597,7 +598,7 @@ Figure&nbsp;3: A Moody diagram with the Serghide correlation and Churchill corre
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">fT</span>(κ) <span class="op">=</span> <span class="fl">0.25</span><span class="op">/</span><span class="fu">log10</span>(κ<span class="op">/</span><span class="fl">3.7</span>)<span class="op">^</span><span class="fl">2</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ΣK</span>(κ,l,Re) <span class="op">=</span> <span class="fl">0.5</span> <span class="op">+</span> <span class="fu">f</span>(κ,Re)<span class="op">*</span>l <span class="op">+</span> <span class="fl">14</span><span class="fu">*fT</span>(κ) <span class="op">+</span> <span class="fl">14</span><span class="fu">*fT</span>(κ) <span class="op">+</span> <span class="fu">fT</span>(κ) <span class="op">+</span> <span class="fl">1.0</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ΣK</span>(κ,l,Re) <span class="op">=</span> <span class="fl">0.5</span> <span class="op">+</span> <span class="fu">f</span>(κ,Re)<span class="op">*</span>l <span class="op">+</span> <span class="fl">14</span><span class="fu">*fT</span>(κ) <span class="op">+</span> <span class="fl">14</span><span class="fu">*fT</span>(κ) <span class="op">+</span> <span class="fu">fT</span>(κ) <span class="op">+</span> <span class="fl">1.0</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="the-reynolds-number" class="level3">
@@ -610,7 +611,7 @@ Figure&nbsp;3: A Moody diagram with the Serghide correlation and Churchill corre
 <p><span class="math display">\[ Re = \frac{G D}{\mu} \]</span></p>
 <p>The only parameter in the Reynolds number which is not a constant is the viscosity, <span class="math inline">\(\mu\)</span>, which is mostly dependent upon temperature and not pressure. So, to a very good first approximation, the Reynolds number is only a function of temperature. Which is very convenient.</p>
 <div id="cell-11" class="cell" data-tags="[]" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mass flow, recall Q is at standard state so is not a function of </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mass flow, recall Q is at standard state so is not a function of </span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># temperature or pressure</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="fu">Q*ρ</span>(pₐ, Tₐ)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -620,7 +621,7 @@ Figure&nbsp;3: A Moody diagram with the Serghide correlation and Churchill corre
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Reynold's number</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># upreferred promotes derived units to combos of base units</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># e.g. converts Pa -&gt; kg/m/s^2</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">Re</span>(D, T) <span class="op">=</span> <span class="fu">upreferred</span>(<span class="fu">G</span>(D)<span class="op">*</span>D<span class="op">/</span><span class="fu">μ</span>(T));</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">Re</span>(D, T) <span class="op">=</span> <span class="fu">upreferred</span>(<span class="fu">G</span>(D)<span class="op">*</span>D<span class="op">/</span><span class="fu">μ</span>(T));</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 </section>
@@ -630,7 +631,7 @@ Figure&nbsp;3: A Moody diagram with the Serghide correlation and Churchill corre
 <p>To check whether or not the incompressible assumption is reasonable, consider the ratio of density inside the tank (at the max allowable pressure) to the density outside the tank, assuming ambient temperature. For an ideal gas this is</p>
 <p><span class="math display">\[ { \rho_1 \over \rho_2 } = { {p_1  Mw} \over {R  T_a} } { {R T_a} \over {p_2 Mw} } = \frac{p_1}{p_2} = \frac{p_{max} }{p_a}\]</span></p>
 <div id="cell-13" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pₘₐₓ<span class="op">/</span>pₐ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pₘₐₓ<span class="op">/</span>pₐ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>1.0680457267283614</code></pre>
 </div>
@@ -645,7 +646,7 @@ Figure&nbsp;3: A Moody diagram with the Serghide correlation and Churchill corre
 <p><span class="math display">\[ v = \frac{Q}{A} = { Q \over { \frac{\pi}{4} D^2 } } \]</span></p>
 <p>Which can be solved algebraically for <span class="math inline">\(D\)</span>, where <span class="math inline">\(\rho\)</span> is taken at the average pressure. That said it is easier to solve it numerically.</p>
 <div id="cell-15" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero, Brent</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero, Brent</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">v</span>(D) <span class="op">=</span> Q <span class="op">/</span> ((<span class="cn">π</span><span class="op">/</span><span class="fl">4</span>)<span class="op">*</span>D<span class="op">^</span><span class="fl">2</span>)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -656,7 +657,7 @@ Figure&nbsp;3: A Moody diagram with the Serghide correlation and Churchill corre
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>D0 <span class="op">=</span> <span class="fu">Dᵢₙ</span>(<span class="fl">4</span>inch, <span class="fl">12</span>inch)</span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="fu">uconvert</span>(u<span class="st">"inch"</span>, D0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="fu">uconvert</span>(u<span class="st">"inch"</span>, D0)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>6.497118827423374 inch</code></pre>
 </div>
@@ -675,7 +676,7 @@ Figure&nbsp;3: A Moody diagram with the Serghide correlation and Churchill corre
 <p><span class="math display">\[ p_1^{1-k} T_1^k = p_2^{1-k} T_2^k = \mathrm{const}\]</span></p>
 <p><span class="math display">\[ \frac{T_2}{T_1} = \left( p_1 \over p_2 \right)^{ {1-k} \over k}\]</span></p>
 <div id="cell-18" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(pₘₐₓ<span class="op">/</span>pₐ)<span class="op">^</span>((<span class="fl">1</span><span class="op">-</span>k)<span class="op">/</span>k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(pₘₐₓ<span class="op">/</span>pₐ)<span class="op">^</span>((<span class="fl">1</span><span class="op">-</span>k)<span class="op">/</span>k)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>0.9813670503935878</code></pre>
 </div>
@@ -686,20 +687,20 @@ Figure&nbsp;3: A Moody diagram with the Serghide correlation and Churchill corre
 <p>If we assume the system is at thermal equilibrium with the outside air, then <span class="math inline">\(T = T_a\)</span> and <span class="math inline">\(p_2 = p_a\)</span></p>
 <p>The only unknown is <em>p<sub>1</sub></em>, which can be solved for numerically.</p>
 <div id="cell-20" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pᵢₜ</span>(G,κ,l,Re) <span class="op">=</span> <span class="fu">find_zero</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pᵢₜ</span>(G,κ,l,Re) <span class="op">=</span> <span class="fu">find_zero</span>(</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    p <span class="op">-&gt;</span> p<span class="op">^</span><span class="fl">2</span> <span class="op">-</span> G<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> (R<span class="op">*</span>Tₐ<span class="op">/</span>Mw) <span class="op">*</span> (<span class="fu">ΣK</span>(κ,l,Re) <span class="op">+</span> <span class="fl">2</span><span class="fu">*log</span>(p<span class="op">/</span>pₐ)) <span class="op">-</span> pₐ<span class="op">^</span><span class="fl">2</span>, </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    pₘₐₓ); <span class="co"># initial guess</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    pₘₐₓ); <span class="co"># initial guess</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>At this point we can write a simple function to solve for the minimum diameter that meets our requirement that <span class="math inline">\(p_1 \le p_{max}\)</span>.</p>
 <div id="cell-22" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Dᵢₜ</span>(Dₗ, Dᵤ) <span class="op">=</span> <span class="fu">find_zero</span>( </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Dᵢₜ</span>(Dₗ, Dᵤ) <span class="op">=</span> <span class="fu">find_zero</span>( </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    D <span class="op">-&gt;</span> pₘₐₓ <span class="op">-</span> <span class="fu">pᵢₜ</span>( <span class="fu">G</span>(D), ϵ<span class="op">/</span>D, L<span class="op">/</span>D, <span class="fu">Re</span>(D, Tₐ)), </span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    (Dₗ, Dᵤ), <span class="co"># Lower and upper bracket of the root</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Brent</span>() ) <span class="co"># Solve using Brent's method</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>D1 <span class="op">=</span> <span class="fu">Dᵢₜ</span>(<span class="fl">4</span>inch, <span class="fl">12</span>inch)</span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">uconvert</span>(u<span class="st">"inch"</span>, D1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">uconvert</span>(u<span class="st">"inch"</span>, D1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>6.491472166277518 inch</code></pre>
 </div>
@@ -714,7 +715,7 @@ Figure&nbsp;3: A Moody diagram with the Serghide correlation and Churchill corre
 <p>with the criteria that flow is subsonic if</p>
 <p><span class="math display">\[ { p_2 \over p_1 } &gt; { p^o \over p_1 } \]</span></p>
 <div id="cell-24" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(pₐ <span class="op">/</span> pₘₐₓ) <span class="op">&gt;</span> (<span class="fl">2</span> <span class="op">/</span> (k<span class="op">+</span><span class="fl">1</span>))<span class="op">^</span>(k<span class="op">/</span>(k<span class="op">-</span><span class="fl">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(pₐ <span class="op">/</span> pₘₐₓ) <span class="op">&gt;</span> (<span class="fl">2</span> <span class="op">/</span> (k<span class="op">+</span><span class="fl">1</span>))<span class="op">^</span>(k<span class="op">/</span>(k<span class="op">-</span><span class="fl">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>true</code></pre>
 </div>
@@ -748,7 +749,7 @@ Figure&nbsp;3: A Moody diagram with the Serghide correlation and Churchill corre
 </ol>
 <p>While that looks complicated, each step is fairly easy. In my experience, with subsonic flow, this converges very quickly.</p>
 <div id="cell-26" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fanno parameter</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fanno parameter</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Fa</span>(Ma) <span class="op">=</span> ((<span class="fl">1</span><span class="op">-</span>Ma<span class="op">^</span><span class="fl">2</span>)<span class="op">/</span>(k<span class="op">*</span>Ma<span class="op">^</span><span class="fl">2</span>)) <span class="op">+</span> ((k<span class="op">+</span><span class="fl">1</span>)<span class="op">/</span>(<span class="fl">2</span>k))<span class="fu">*log</span>( ((k<span class="op">+</span><span class="fl">1</span>)<span class="op">*</span>Ma<span class="op">^</span><span class="fl">2</span>) <span class="op">/</span> (<span class="fl">2</span> <span class="op">+</span> (k<span class="op">+</span><span class="fl">1</span>)<span class="op">*</span>Ma<span class="op">^</span><span class="fl">2</span>))</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Mach number</span></span>
@@ -801,17 +802,17 @@ Figure&nbsp;3: A Moody diagram with the Serghide correlation and Churchill corre
 <span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> p₁ⁿᵉʷ</span>
-<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-27" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Dfa</span>(Dₗ, Dᵤ) <span class="op">=</span> <span class="fu">find_zero</span>( </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Dfa</span>(Dₗ, Dᵤ) <span class="op">=</span> <span class="fu">find_zero</span>( </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    D <span class="op">-&gt;</span> pₘₐₓ <span class="op">-</span> <span class="fu">pfa</span>(D), </span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    (Dₗ, Dᵤ), <span class="co"># Lower and upper bracket of the root</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Brent</span>() ) <span class="co"># Solve using Brent's method</span></span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>D2 <span class="op">=</span> <span class="fu">Dfa</span>(<span class="fl">4</span>inch, <span class="fl">12</span>inch)</span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">uconvert</span>(u<span class="st">"inch"</span>, D2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">uconvert</span>(u<span class="st">"inch"</span>, D2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>6.485474802835819 inch</code></pre>
 </div>
@@ -822,7 +823,7 @@ Figure&nbsp;3: A Moody diagram with the Serghide correlation and Churchill corre
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Update
+<span class="screen-reader-only">Note</span>Update
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -939,13 +940,14 @@ Tilton, James N. <span>“Fluid and Particle Dynamics.”</span> In <em>Perry’
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/vessel_blowdown_dispersion/index.html",
       "/posts/ooms_plume_model/index.html",
       "/posts/atmotube_data_logging/index.html",
       "/posts/pollen_dispersion/index.html",
@@ -39,6 +40,7 @@
   {
     "listing": "/archive.html",
     "items": [
+      "/posts/vessel_blowdown_dispersion/index.html",
       "/posts/ooms_plume_model/index.html",
       "/posts/atmotube_data_logging/index.html",
       "/posts/pollen_dispersion/index.html",
@@ -77,6 +79,8 @@
     "listing": "/projects.html",
     "items": [
       "/projects/gas_dispersion_jl/index.html",
+      "/projects/picocalc/index.html",
+      "/projects/pymotube/index.html",
       "/projects/unitfulcorrelations_jl/index.html"
     ]
   }

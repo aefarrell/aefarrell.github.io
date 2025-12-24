@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,18 +91,19 @@ div.csl-indent {
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-58cfad456c997869d10d7b4a2ae8222c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-e0b841d4c46610302a3b39cf654ab3f0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-451e46ac69b7dce1f7bf1afa5bdb676d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -169,7 +170,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -515,18 +516,18 @@ Figure&nbsp;1: A sketch of the example system, a long straight section of pipe t
 </figure>
 </div>
 <div id="d8908d0c-0c31-45ca-b6b5-fe366e466e6f" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pipe dimensions</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pipe dimensions</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> <span class="fl">20</span>     <span class="co"># m</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> <span class="fl">0.0525</span> <span class="co"># m</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ϵ <span class="op">=</span> <span class="fl">0.0457</span><span class="op">*</span><span class="fl">1e-3</span> <span class="co"># m</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="fl">0.25</span><span class="op">*</span><span class="cn">π</span><span class="op">*</span>D<span class="op">^</span><span class="fl">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="fl">0.25</span><span class="op">*</span><span class="cn">π</span><span class="op">*</span>D<span class="op">^</span><span class="fl">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>For “ambient” conditions I am assuming <em>standard</em> conditions: 1 atmosphere and 15°C</p>
 <div id="972d7515-b7ee-44a3-9dc6-9ad447aca75c" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>P₂ <span class="op">=</span> <span class="fl">101325</span> <span class="co">#Pa</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>P₂ <span class="op">=</span> <span class="fl">101325</span> <span class="co">#Pa</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>P₁ <span class="op">=</span> P₂ <span class="op">+</span> <span class="fl">100e3</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>T₁ <span class="op">=</span> <span class="fl">288.15</span> <span class="co">#K</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>T₁ <span class="op">=</span> <span class="fl">288.15</span> <span class="co">#K</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="key-assumptions" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="key-assumptions">Key Assumptions</h3>
@@ -540,7 +541,7 @@ Figure&nbsp;1: A sketch of the example system, a long straight section of pipe t
 <li>Friction factor is constant along the length</li>
 </ul>
 <div id="a8e74b7e-44ff-4ae7-95db-c062b2e622aa" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Universal gas constant </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Universal gas constant </span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># to more digits than are at all necessary</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> <span class="fl">8.31446261815324</span> <span class="co"># Pa⋅m³/mol/K</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -552,18 +553,18 @@ Figure&nbsp;1: A sketch of the example system, a long straight section of pipe t
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ρ</span>(P,T) <span class="op">=</span> (P<span class="op">*</span>Mw)<span class="op">/</span>(R<span class="op">*</span>T); <span class="co"># kg/m³</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># viscosity of air, from Perry's</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">μ</span>(T) <span class="op">=</span> (<span class="fl">1.425e-6</span><span class="op">*</span>T<span class="op">^</span><span class="fl">0.5039</span>)<span class="op">/</span>(<span class="fl">1</span><span class="op">+</span><span class="fl">108.3</span><span class="op">/</span>T); <span class="co"># Pa⋅s</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">μ</span>(T) <span class="op">=</span> (<span class="fl">1.425e-6</span><span class="op">*</span>T<span class="op">^</span><span class="fl">0.5039</span>)<span class="op">/</span>(<span class="fl">1</span><span class="op">+</span><span class="fl">108.3</span><span class="op">/</span>T); <span class="co"># Pa⋅s</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The mass velocity, <em>G</em> = <em>ρu</em>, in a pipe with constant cross-sectional area at steady state is constant<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>, and the Reynold’s number can be written in terms of <em>G</em> as:</p>
 <div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;This is a consequence of the steady state assumption, <span class="math display">\[\dot{m}_{in} = G_{in} A = G_{out} A = \dot{m}_{out}\]</span></p></div></div><p><span class="math display">\[ \mathrm{Re} = { {G D} \over \mu } \]</span></p>
 <p>Where only the viscosity is a function of temperature, and for most gases only weakly so.</p>
 <div id="c4c2138e-98c6-4df8-9ff0-fbf2366e6d65" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reynold's number</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Re</span>(G,T) <span class="op">=</span> G<span class="op">*</span>D<span class="op">/</span><span class="fu">μ</span>(T);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reynold's number</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Re</span>(G,T) <span class="op">=</span> G<span class="op">*</span>D<span class="op">/</span><span class="fu">μ</span>(T);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The Darcy friction factor, <em>f</em>, is a function of the Reynolds number and, for ease of calculation, I am assuming the Churchill correlation applies<span class="citation" data-cites="tilton-2007">,<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></span> and that it can be taken as a constant at the average temperature (the arithmetic average of <em>T<sub>1</sub></em> and <em>T<sub>2</sub></em>)</p>
 <div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;<a href="#ref-tilton-2007" role="doc-biblioref">Tilton, <span>“Fluid and Particle Dynamics,”</span> 6–11</a>.</p></div></div><div id="01bc9609-e7db-49f8-ba78-4b6c1c6f88cd" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">churchill</span>(Re; κ<span class="op">=</span>ϵ<span class="op">/</span>D)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">churchill</span>(Re; κ<span class="op">=</span>ϵ<span class="op">/</span>D)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> (<span class="fl">2.457</span> <span class="op">*</span> <span class="fu">log</span>(<span class="fl">1</span><span class="op">/</span>((<span class="fl">7</span><span class="op">/</span>Re)<span class="op">^</span><span class="fl">0.9</span> <span class="op">+</span> <span class="fl">0.27</span><span class="op">*</span>κ)))<span class="op">^</span><span class="fl">16</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    B <span class="op">=</span> (<span class="fl">37530</span><span class="op">/</span>Re)<span class="op">^</span><span class="fl">16</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">8</span><span class="fu">*</span>((<span class="fl">8</span><span class="op">/</span>Re)<span class="op">^</span><span class="fl">12</span> <span class="op">+</span> <span class="fl">1</span><span class="op">/</span>(A<span class="op">+</span>B)<span class="op">^</span>(<span class="fl">3</span><span class="op">/</span><span class="fl">2</span>))<span class="op">^</span>(<span class="fl">1</span><span class="op">/</span><span class="fl">12</span>)</span>
@@ -572,13 +573,13 @@ Figure&nbsp;1: A sketch of the example system, a long straight section of pipe t
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>K_entrance <span class="op">=</span> <span class="fl">0.5</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>K_exit <span class="op">=</span> <span class="fl">1.0</span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">Kf</span>(Re) <span class="op">=</span> K_entrance <span class="op">+</span> <span class="fu">churchill</span>(Re)<span class="op">*</span>L<span class="op">/</span>D <span class="op">+</span> K_exit;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">Kf</span>(Re) <span class="op">=</span> K_entrance <span class="op">+</span> <span class="fu">churchill</span>(Re)<span class="op">*</span>L<span class="op">/</span>D <span class="op">+</span> K_exit;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>For a <em>large Reynolds number</em> approximation I am using the Nikuradse rough pipe law.<span class="citation" data-cites="crane-2013"><a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></span></p>
 <div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;<a href="#ref-crane-2013" role="doc-biblioref">Crane, <span>“TP410M,”</span> 1–10</a>.</p></div></div><div id="33283b26-d2f9-4894-b0a2-b17ed6e59c24" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fₙ <span class="op">=</span> (<span class="fl">2</span><span class="fu">*log10</span>(<span class="fl">3.7</span><span class="op">*</span>D<span class="op">/</span>ϵ))<span class="op">^-</span><span class="fl">2</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fₙ <span class="op">=</span> (<span class="fl">2</span><span class="fu">*log10</span>(<span class="fl">3.7</span><span class="op">*</span>D<span class="op">/</span>ϵ))<span class="op">^-</span><span class="fl">2</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Kf</span>() <span class="op">=</span> K_entrance <span class="op">+</span> fₙ<span class="op">*</span>L<span class="op">/</span>D <span class="op">+</span> K_exit;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Kf</span>() <span class="op">=</span> K_entrance <span class="op">+</span> fₙ<span class="op">*</span>L<span class="op">/</span>D <span class="op">+</span> K_exit;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="choking-flow" class="level3 page-columns page-full">
@@ -587,13 +588,13 @@ Figure&nbsp;1: A sketch of the example system, a long straight section of pipe t
 <p>The easiest way to check for this is to use the limiting factors in Crane’s.<span class="citation" data-cites="crane-2013"><a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></span> Using the estimated <em>K<sub>f</sub></em> &gt; 8 and <em>γ</em>=1.4, we can check:</p>
 <div class="no-row-height column-margin column-container"><div id="fn10"><p><sup>10</sup>&nbsp;<a href="#ref-crane-2013" role="doc-biblioref">Crane, A–23</a>.</p></div></div><p><span class="math display">\[ {\Delta P \over P_1} \lt 0.762 \]</span></p>
 <div id="4432918c-ee7f-46bd-a680-24e9800e8f23" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(P₁ <span class="op">-</span> P₂)<span class="op">/</span>P₁</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(P₁ <span class="op">-</span> P₂)<span class="op">/</span>P₁</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>0.496709300881659</code></pre>
 </div>
 </div>
 <div id="750ca3a4-2460-4ac7-b443-ee3dca230859" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(P₁ <span class="op">-</span> P₂)<span class="op">/</span>P₁ <span class="op">&lt;</span> <span class="fl">0.762</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(P₁ <span class="op">-</span> P₂)<span class="op">/</span>P₁ <span class="op">&lt;</span> <span class="fl">0.762</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>true</code></pre>
 </div>
@@ -622,20 +623,20 @@ Figure&nbsp;1: A sketch of the example system, a long straight section of pipe t
 </tbody>
 </table>
 <div id="d1969e16-576b-4c2f-af00-30711a8779c4" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">critical_pressure</span>(Kf)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">critical_pressure</span>(Kf)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@assert</span> Kf <span class="op">&gt;</span> <span class="fl">0</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="fu">log</span>(Kf)</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="fl">0.0011</span><span class="op">*</span>x<span class="op">^</span><span class="fl">3</span> <span class="op">-</span> <span class="fl">0.0302</span><span class="op">*</span>x<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.238</span><span class="op">*</span>x <span class="op">-</span> <span class="fl">0.6455</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">exp</span>(y)</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="fu">critical_pressure</span>(<span class="fu">Kf</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="fu">critical_pressure</span>(<span class="fu">Kf</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>0.7707810480736812</code></pre>
 </div>
 </div>
 <div id="5c96b499-1e58-4d48-880c-03e6557aea69" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(P₁ <span class="op">-</span> P₂)<span class="op">/</span>P₁ <span class="op">&lt;</span> <span class="fu">critical_pressure</span>(<span class="fu">Kf</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(P₁ <span class="op">-</span> P₂)<span class="op">/</span>P₁ <span class="op">&lt;</span> <span class="fu">critical_pressure</span>(<span class="fu">Kf</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>true</code></pre>
 </div>
@@ -671,15 +672,15 @@ Figure&nbsp;1: A sketch of the example system, a long straight section of pipe t
 <p><span class="math display">\[ G = \sqrt{ { {2 \gamma \over {\gamma + 1} } P_1 \rho_1 \left( 1 - \left( P_2 \over P_1 \right)^{ {\gamma+1}\over\gamma} \right) } \over { K_f - {2 \over \gamma} \log \left( {P_2 \over P_1} \right) } } \]</span></p>
 <p>Which is the form typically given in texts. If one assumes <em>K<sub>f</sub></em> is a constant then the mass velocity can be calculated directly. In practice, however, <em>K<sub>f</sub></em> is a function of the Reynolds number and so this must be solved numerically.</p>
 <div id="7c3b9fe1-9c2f-45b0-be15-0f377d8aebf9" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">isentropic_flow</span>(P₁, K<span class="op">::</span><span class="dt">Number</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">isentropic_flow</span>(P₁, K<span class="op">::</span><span class="dt">Number</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> P₂<span class="op">/</span>P₁</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    ρ₁ <span class="op">=</span> <span class="fu">ρ</span>(P₁,T₁)</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">√</span>( ((<span class="fl">2</span>γ<span class="op">/</span>(γ<span class="op">+</span><span class="fl">1</span>))<span class="fu">*P₁*ρ₁*</span>(<span class="fl">1</span><span class="op">-</span>q<span class="op">^</span>((γ<span class="op">+</span><span class="fl">1</span>)<span class="op">/</span>γ)))<span class="op">/</span>(K <span class="op">-</span> (<span class="fl">2</span><span class="op">/</span>γ)<span class="fu">*log</span>(q)) )</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> G</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="628c1a2b-6d2c-4741-b4a0-97eba06f8e21" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">isentropic_flow</span>(P₁, K<span class="op">::</span><span class="dt">Function</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ) </span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize Parameters</span></span>
@@ -696,10 +697,10 @@ Figure&nbsp;1: A sketch of the example system, a long straight section of pipe t
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">find_zero</span>(obj, G_est)</span>
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> G</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="eac3b035-70f8-40d7-ac7b-c84914c824c9" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ṁ_i <span class="op">=</span> <span class="fu">isentropic_flow</span>(P₁, Kf)<span class="op">*</span>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ṁ_i <span class="op">=</span> <span class="fu">isentropic_flow</span>(P₁, Kf)<span class="op">*</span>A</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>0.43138829795543004</code></pre>
 </div>
@@ -749,16 +750,16 @@ Figure&nbsp;2: The mass flowrate through the example piping system as a function
 <p><span class="math display">\[ {T_2 \over T_1} = \left( P_2 \over P_1 \right)^{ {\gamma-1} \over \gamma} \]</span></p>
 <p>If we were assuming <em>K<sub>f</sub></em> is constant, then using this assumption to estimate the density at the exit allows for a direct calculation of the mass velocity, no numerical methods required. In the more general case, the flow still needs to be calculated iteratively as the friction factor is a function of the flow (Reynolds number).</p>
 <div id="ce87241c-2a7a-4964-9545-d58577c2ca55" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">approx_fanno_flow</span>(P₁, K<span class="op">::</span><span class="dt">Number</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">approx_fanno_flow</span>(P₁, K<span class="op">::</span><span class="dt">Number</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    ρ₁ <span class="op">=</span> <span class="fu">ρ</span>(P₁, T₁)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    ρ₂ <span class="op">=</span> <span class="fu">ρ₁*</span>(P₂<span class="op">/</span>P₁)<span class="op">^</span>(<span class="fl">1</span><span class="op">/</span>γ)</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    q  <span class="op">=</span> ρ₂<span class="op">/</span>ρ₁</span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">√</span>( (<span class="fu">P₁*ρ₁*</span>(<span class="fl">1</span><span class="op">-</span>q<span class="op">^</span><span class="fl">2</span>))<span class="op">/</span>(K <span class="op">-</span> ((γ<span class="op">-</span><span class="fl">1</span>)<span class="op">/</span>(<span class="fl">2</span>γ))<span class="fu">*</span>(<span class="fl">1</span><span class="op">-</span>q<span class="op">^</span><span class="fl">2</span>) <span class="op">-</span> ((γ<span class="op">+</span><span class="fl">1</span>)<span class="op">/</span>γ)<span class="fu">*log</span>(q)) )</span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> G</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="951cfaf0-17f4-4491-93bb-a3ebedab3d3b" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">approx_fanno_flow</span>(P₁, K<span class="op">::</span><span class="dt">Function</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initializing some parameters</span></span>
@@ -776,10 +777,10 @@ Figure&nbsp;2: The mass flowrate through the example piping system as a function
 <span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">find_zero</span>(obj, G_est)</span>
 <span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> G</span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="a9da024b-b5ba-4c77-b7a0-b61f0fdcbbdf" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ṁ_fa <span class="op">=</span> <span class="fu">approx_fanno_flow</span>(P₁, Kf)<span class="op">*</span>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ṁ_fa <span class="op">=</span> <span class="fu">approx_fanno_flow</span>(P₁, Kf)<span class="op">*</span>A</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
 <pre><code>0.38355173684967075</code></pre>
 </div>
@@ -796,7 +797,7 @@ Figure&nbsp;2: The mass flowrate through the example piping system as a function
 <p>From this the temperature at the exit can be backed out using the ideal gas law, and used to update the Reynolds number.</p>
 <p>This makes the whole calculation somewhat more complicated, and I think that added complication makes the simplification that <em>K<sub>f</sub></em> is constant pointless – that assumption does not make <em>the math</em> easier in any case.</p>
 <div id="05eb4d7b-0e01-4e77-9a04-125e487b3525" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">fanno_flow</span>(P₁, K<span class="op">::</span><span class="dt">Function</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize some parameters</span></span>
@@ -825,17 +826,17 @@ Figure&nbsp;2: The mass flowrate through the example piping system as a function
 <span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">find_zero</span>(obj, G_est)</span>
 <span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> G</span>
-<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="486307a3-889d-49af-86a3-9cfa8ad758f6" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">fanno_flow</span>(P₁, K<span class="op">::</span><span class="dt">Number</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">fanno_flow</span>(P₁, K<span class="op">::</span><span class="dt">Number</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fn</span>() <span class="op">=</span> K</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fn</span>(Re) <span class="op">=</span> K</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">fanno_flow</span>(P₁, fn; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="887ddb9d-153f-4ee5-8eea-4157c4c98fa5" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ṁ_f <span class="op">=</span> <span class="fu">fanno_flow</span>(P₁, Kf)<span class="op">*</span>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ṁ_f <span class="op">=</span> <span class="fu">fanno_flow</span>(P₁, Kf)<span class="op">*</span>A</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>0.40934309494917254</code></pre>
 </div>
@@ -867,7 +868,7 @@ Figure&nbsp;3: The mass flowrate through the example piping system as a function
 <p>This has the added convenience of telling you when you have crossed into choked flow, it happens when <em>q</em>&gt;<em>q<sub>cr</sub></em>.</p>
 <p>One downside is that this method does not directly produce the exit conditions, so the Reynolds number is typically taken at the entrance conditions only. Since the Reynolds number is only a function of Temperature through the viscosity, this works out fine over ranges where the viscosity is approximately constant.<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn14"><p><sup>14</sup>&nbsp;The temperature can be worked out by using the method given in the section for Fanno flow, calculating the invariant at entrance conditions (once <em>G</em> is known) and then solving for the exit density.</p></div></div><div id="bef3d79f-3af0-4565-96d0-a4f15237514e" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlations for γ=1.4</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlations for γ=1.4</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Ycr</span>(K)</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="fu">log</span>(K)</span>
@@ -879,7 +880,7 @@ Figure&nbsp;3: The mass flowrate through the example piping system as a function
 <span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="fu">log</span>(K)</span>
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="fl">0.0011</span><span class="op">*</span>x<span class="op">^</span><span class="fl">3</span> <span class="op">-</span> <span class="fl">0.0302</span><span class="op">*</span>x<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.238</span><span class="op">*</span>x <span class="op">-</span> <span class="fl">0.6455</span></span>
 <span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">exp</span>(y)</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-correl" class="cell page-columns page-full" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="23">
 <div class="cell-output cell-output-display page-columns page-full" data-execution_count="23">
@@ -897,14 +898,14 @@ Figure&nbsp;4: The correlation curves for critical expansion factor and critical
 </div>
 <p>The correlation curves I am using fit the tabulated values from Crane’s reasonably well, but clearly the fit is not perfect.</p>
 <div id="372201c5-130c-4b7a-848b-17775e96d4a9" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Y</span>(K,q)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Y</span>(K,q)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    Yc, qc <span class="op">=</span> <span class="fu">Ycr</span>(K), <span class="fu">qcr</span>(K)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> q <span class="op">&lt;</span> qc</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (Yc<span class="op">-</span><span class="fl">1</span>)<span class="fu">*</span>(q<span class="op">/</span>qc)<span class="op">+</span><span class="fl">1</span></span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> Yc</span>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-exp-factor" class="cell page-columns page-full" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="25">
 <div class="cell-output cell-output-display page-columns page-full" data-execution_count="25">
@@ -923,15 +924,15 @@ Figure&nbsp;5: The expansion factor vs pressure ratio, this calculated example f
 <p>The calculated curve is between the bracketing curves in Crane’s and looks plausible.</p>
 <p>If you are assuming that <em>K<sub>f</sub></em> is constant then the mass velocity can be calculated directly, however if you wish to be more exact you can also iterate.</p>
 <div id="fa4ede00-d44b-4c14-aace-3b5f6e72c95a" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">modified_darcy</span>(P₁, K<span class="op">::</span><span class="dt">Number</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">modified_darcy</span>(P₁, K<span class="op">::</span><span class="dt">Number</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    ρ₁ <span class="op">=</span> <span class="fu">ρ</span>(P₁,T₁)</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> (P₁<span class="op">-</span>P₂)<span class="op">/</span>P₁</span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">Y</span>(K,q)<span class="fu">*√</span>(<span class="fl">2</span><span class="fu">*ρ₁*</span>(P₁<span class="op">-</span>P₂)<span class="op">/</span>K)</span>
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> G</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="689516ae-3892-4ad0-b2b9-0bece90fd8b4" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">modified_darcy</span>(P₁, K<span class="op">::</span><span class="dt">Function</span>; T₁<span class="op">=</span>T₁, P₂<span class="op">=</span>P₂, γ<span class="op">=</span>γ)</span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Intialize Parameters</span></span>
@@ -946,10 +947,10 @@ Figure&nbsp;5: The expansion factor vs pressure ratio, this calculated example f
 <span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">find_zero</span>(obj, G_est)</span>
 <span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> G</span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="89a52e34-9513-4577-9c8a-9c70cbd6a62a" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>ṁ_y <span class="op">=</span> <span class="fu">modified_darcy</span>(P₁, Kf)<span class="op">*</span>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>ṁ_y <span class="op">=</span> <span class="fu">modified_darcy</span>(P₁, Kf)<span class="op">*</span>A</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
 <pre><code>0.4049511071122898</code></pre>
 </div>
@@ -1129,13 +1130,14 @@ Tilton, James N. <span>“Fluid and Particle Dynamics.”</span> In <em>Perry’
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
