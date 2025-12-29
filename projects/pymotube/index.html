@@ -372,7 +372,146 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p><a href="https://github.com/aefarrell/PymoTube/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-lightgrey.svg" class="img-fluid" alt="LICENSE"></a>&nbsp;</p>
 <p>A python module for logging data from an AtmoTube via bluetooth. Very much in development.</p>
-<p><a href="https://github.com/aefarrell/PymoTube/">PymoTube</a> is currently just a set of helper classes for taking bytearrays returned by the AtmoTube and turning it into a basic struct. Over time I plan on adding some additional helpers for using <a href="https://github.com/hbldh/bleak">Bleak</a>. In the meantime a minimal example of connecting to an AtmoTube and logging results into an asynchronous queue is <a href="https://github.com/aefarrell/PymoTube/blob/main/examples/data_logging_example.py">shown here</a></p>
+<p><a href="https://github.com/aefarrell/PymoTube/">PymoTube</a> is currently just a set of helper functions and classes for taking bytearrays returned by the AtmoTube and turning it into a basic struct. The actual connection to the AtmoTube is managed by <a href="https://github.com/hbldh/bleak">Bleak</a>. A minimal example of connecting to an AtmoTube and logging results into an asynchronous queue is <a href="https://github.com/aefarrell/PymoTube/blob/main/examples/data_logging_example.py">shown here</a></p>
+<section id="a-logging-example" class="level2">
+<h2 class="anchored" data-anchor-id="a-logging-example">A Logging Example</h2>
+<p>As an example of how to use this, consider the case where you want to connect to your AtmoTube from a PC, log data from it over a pre-defined period, then exit. This will be done asynchronously and the retrieved data put into an asynchronous queue for processing.</p>
+<p>The first step is to create a function which connects to the AtmoTube, collects data, and then puts that data into a queue.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bleak <span class="im">import</span> BleakClient, BleakScanner</span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> atmotube <span class="im">import</span> start_gatt_notifications, get_available_services</span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> asyncio</span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> collect_data(mac, queue, collection_time):</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-1-7" class="code-annotation-target"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> callback_queue(packet):</span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">await</span> queue.put(packet)</span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-1-10" class="code-annotation-target"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a>    device <span class="op">=</span> <span class="cf">await</span> BleakScanner.find_device_by_address(mac)</span>
+<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> device:</span>
+<span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">"Device not found"</span>)</span>
+<span id="annotated-cell-1-13"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-1-14" class="code-annotation-target"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="cf">with</span> BleakClient(device) <span class="im">as</span> client:</span>
+<span id="annotated-cell-1-15"><a href="#annotated-cell-1-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> client.is_connected:</span>
+<span id="annotated-cell-1-16"><a href="#annotated-cell-1-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">"Failed to connect to device"</span>)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-1-17" class="code-annotation-target"><a href="#annotated-cell-1-17" aria-hidden="true" tabindex="-1"></a>        packet_list <span class="op">=</span> get_available_services(client)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-1-18" class="code-annotation-target"><a href="#annotated-cell-1-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">await</span> start_gatt_notifications(client, callback_queue,</span>
+<span id="annotated-cell-1-19"><a href="#annotated-cell-1-19" aria-hidden="true" tabindex="-1"></a>                                       packet_list<span class="op">=</span>packet_list)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-1-20" class="code-annotation-target"><a href="#annotated-cell-1-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">await</span> asyncio.sleep(collection_time)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-1-21" class="code-annotation-target"><a href="#annotated-cell-1-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">await</span> queue.put(<span class="va">None</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="7,8" data-code-annotation="1">Define a callback function which takes a packet of data and does something with it. In this case it puts it in an asynchronous queue.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="10" data-code-annotation="2">Find the device using Bleak, in this case by mac address</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="14" data-code-annotation="3">Connect to the device using Bleak</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="17" data-code-annotation="4">Call the <code>get_available_services</code> function with the connected device, this generates a list of GATT services that both the atmotube library knows about and the AtmoTube device supports.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="18,19" data-code-annotation="5">Start the GATT notifications for the list of available services. If no list is provided, it will attempt to start GATT notifications for all services supported by the atmotube library.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="20" data-code-annotation="6">Wait while data is collected, for the pre-defined collection time (in seconds)</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="21" data-code-annotation="7">Put a <code>None</code> on the queue to indicate that the collection has ended.</span>
+</dd>
+</dl>
+<p>What ends up on the queue is a series of <code>AtmoTubePacket</code> objects representing the different types of data packets the AtmoTube returns. Each packet has an associated datetime object representing the time when the packet was received. As a somewhat silly example, this takes those packets and logs them to the logger – a more realistic thing to do might be to put the data in a database or append the data to a CSV.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> atmotube <span class="im">import</span> SPS30Packet, StatusPacket, BME280Packet, SGPC3Packet</span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
+<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-6"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_packet(packet):</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-2-7" class="code-annotation-target"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">match</span> packet:</span>
+<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> StatusPacket():</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-2-9" class="code-annotation-target"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a>            logging.info(<span class="ss">f"</span><span class="sc">{</span><span class="bu">str</span>(packet.date_time)<span class="sc">}</span><span class="ss"> - Status Packet - "</span></span>
+<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"Battery: </span><span class="sc">{</span>packet<span class="sc">.</span>battery_level<span class="sc">}</span><span class="ss">%, "</span></span>
+<span id="annotated-cell-2-11"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"PM Sensor: </span><span class="sc">{</span>packet<span class="sc">.</span>pm_sensor_status<span class="sc">}</span><span class="ss">, "</span></span>
+<span id="annotated-cell-2-12"><a href="#annotated-cell-2-12" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"Pre-heating: </span><span class="sc">{</span>packet<span class="sc">.</span>pre_heating<span class="sc">}</span><span class="ss">, "</span></span>
+<span id="annotated-cell-2-13"><a href="#annotated-cell-2-13" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"Error: </span><span class="sc">{</span>packet<span class="sc">.</span>error_flag<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="annotated-cell-2-14"><a href="#annotated-cell-2-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> SPS30Packet():</span>
+<span id="annotated-cell-2-15"><a href="#annotated-cell-2-15" aria-hidden="true" tabindex="-1"></a>            logging.info(<span class="ss">f"</span><span class="sc">{</span><span class="bu">str</span>(packet.date_time)<span class="sc">}</span><span class="ss"> - SPS30 Packet - "</span></span>
+<span id="annotated-cell-2-16"><a href="#annotated-cell-2-16" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"PM1: </span><span class="sc">{</span>packet<span class="sc">.</span>pm1<span class="sc">}</span><span class="ss"> µg/m³, "</span></span>
+<span id="annotated-cell-2-17"><a href="#annotated-cell-2-17" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"PM2.5: </span><span class="sc">{</span>packet<span class="sc">.</span>pm2_5<span class="sc">}</span><span class="ss"> µg/m³, "</span></span>
+<span id="annotated-cell-2-18"><a href="#annotated-cell-2-18" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"PM4: </span><span class="sc">{</span>packet<span class="sc">.</span>pm4<span class="sc">}</span><span class="ss"> µg/m³, "</span></span>
+<span id="annotated-cell-2-19"><a href="#annotated-cell-2-19" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"PM10: </span><span class="sc">{</span>packet<span class="sc">.</span>pm10<span class="sc">}</span><span class="ss"> µg/m³"</span>)</span>
+<span id="annotated-cell-2-20"><a href="#annotated-cell-2-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> BME280Packet():</span>
+<span id="annotated-cell-2-21"><a href="#annotated-cell-2-21" aria-hidden="true" tabindex="-1"></a>            logging.info(<span class="ss">f"</span><span class="sc">{</span><span class="bu">str</span>(packet.date_time)<span class="sc">}</span><span class="ss"> - BME280 Packet - "</span></span>
+<span id="annotated-cell-2-22"><a href="#annotated-cell-2-22" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"Humidity: </span><span class="sc">{</span>packet<span class="sc">.</span>humidity<span class="sc">}</span><span class="ss">%, "</span></span>
+<span id="annotated-cell-2-23"><a href="#annotated-cell-2-23" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"Temperature: </span><span class="sc">{</span>packet<span class="sc">.</span>temperature<span class="sc">}</span><span class="ss">°C, "</span></span>
+<span id="annotated-cell-2-24"><a href="#annotated-cell-2-24" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"Pressure: </span><span class="sc">{</span>packet<span class="sc">.</span>pressure<span class="sc">}</span><span class="ss"> mbar"</span>)</span>
+<span id="annotated-cell-2-25"><a href="#annotated-cell-2-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> SGPC3Packet():</span>
+<span id="annotated-cell-2-26"><a href="#annotated-cell-2-26" aria-hidden="true" tabindex="-1"></a>            logging.info(<span class="ss">f"</span><span class="sc">{</span><span class="bu">str</span>(packet.date_time)<span class="sc">}</span><span class="ss"> - SGPC3 Packet - "</span></span>
+<span id="annotated-cell-2-27"><a href="#annotated-cell-2-27" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"TVOC: </span><span class="sc">{</span>packet<span class="sc">.</span>tvoc<span class="sc">}</span><span class="ss"> ppb"</span>)</span>
+<span id="annotated-cell-2-28"><a href="#annotated-cell-2-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> _:</span>
+<span id="annotated-cell-2-29"><a href="#annotated-cell-2-29" aria-hidden="true" tabindex="-1"></a>            logging.info(<span class="st">"Unknown packet type"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="7,8" data-code-annotation="1">Use structural pattern matching to identify which data has been returned.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="9,10,11,12,13" data-code-annotation="2">Send some information about it to the logger</span>
+</dd>
+</dl>
+<p>Finally, an asynchronous event loop is created which runs the collector and then logs the data.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>ATMOTUBE <span class="op">=</span> <span class="st">"00:00:00:00:00:00"</span> <span class="co"># the mac address of the ATMOTUBE</span></span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> main():</span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>    mac <span class="op">=</span> ATMOTUBE</span>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>    collection_time <span class="op">=</span> <span class="dv">60</span>  <span class="co"># seconds</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-6" class="code-annotation-target"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>    queue <span class="op">=</span> asyncio.Queue()</span>
+<span id="annotated-cell-3-7"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-3-8" class="code-annotation-target"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> runner():</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-3-9" class="code-annotation-target"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>        collector <span class="op">=</span> asyncio.create_task(</span>
+<span id="annotated-cell-3-10"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>            collect_data(mac, queue, collection_time)</span>
+<span id="annotated-cell-3-11"><a href="#annotated-cell-3-11" aria-hidden="true" tabindex="-1"></a>            )</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-3-12" class="code-annotation-target"><a href="#annotated-cell-3-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="annotated-cell-3-13"><a href="#annotated-cell-3-13" aria-hidden="true" tabindex="-1"></a>            item <span class="op">=</span> <span class="cf">await</span> queue.get()</span>
+<span id="annotated-cell-3-14"><a href="#annotated-cell-3-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> item <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="annotated-cell-3-15"><a href="#annotated-cell-3-15" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
+<span id="annotated-cell-3-16"><a href="#annotated-cell-3-16" aria-hidden="true" tabindex="-1"></a>            log_packet(item)</span>
+<span id="annotated-cell-3-17"><a href="#annotated-cell-3-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">await</span> collector</span>
+<span id="annotated-cell-3-18"><a href="#annotated-cell-3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-19"><a href="#annotated-cell-3-19" aria-hidden="true" tabindex="-1"></a>    asyncio.run(runner())</span>
+<span id="annotated-cell-3-20"><a href="#annotated-cell-3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-21"><a href="#annotated-cell-3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-22"><a href="#annotated-cell-3-22" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="annotated-cell-3-23"><a href="#annotated-cell-3-23" aria-hidden="true" tabindex="-1"></a>    logging.basicConfig(level<span class="op">=</span>logging.INFO)</span>
+<span id="annotated-cell-3-24"><a href="#annotated-cell-3-24" aria-hidden="true" tabindex="-1"></a>    main()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="6" data-code-annotation="1">Initialize an asynchronous queue, this will be used to pass the data between the two workers</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="8" data-code-annotation="2">Create a <code>runner</code> function to handle the main sequence of events</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="9,10,11" data-code-annotation="3">Start the collector</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="12,13,14,15,16" data-code-annotation="4">Wait for data to appear on the queue, and then pass the data to <code>log_packet</code></span>
+</dd>
+</dl>
+</section>
 <section id="packets" class="level2">
 <h2 class="anchored" data-anchor-id="packets">Packets</h2>
 <section id="status-packet" class="level3">
