@@ -11,7 +11,116 @@ repo-actions: false
 
 A python module for logging data from an AtmoTube via bluetooth. Very much in development.
 
-[PymoTube](https://github.com/aefarrell/PymoTube/) is currently just a set of helper classes for taking bytearrays returned by the AtmoTube and turning it into a basic struct. Over time I plan on adding some additional helpers for using [Bleak](https://github.com/hbldh/bleak). In the meantime a minimal example of connecting to an AtmoTube and logging results into an asynchronous queue is [shown here](https://github.com/aefarrell/PymoTube/blob/main/examples/data_logging_example.py)
+[PymoTube](https://github.com/aefarrell/PymoTube/) is currently just a set of helper functions and classes for taking bytearrays returned by the AtmoTube and turning it into a basic struct. The actual connection to the AtmoTube is managed by [Bleak](https://github.com/hbldh/bleak). A minimal example of connecting to an AtmoTube and logging results into an asynchronous queue is [shown here](https://github.com/aefarrell/PymoTube/blob/main/examples/data_logging_example.py)
+
+## A Logging Example
+
+As an example of how to use this, consider the case where you want to connect to your AtmoTube from a PC, log data from it over a pre-defined period, then exit. This will be done asynchronously and the retrieved data put into an asynchronous queue for processing.
+
+The first step is to create a function which connects to the AtmoTube, collects data, and then puts that data into a queue.
+
+```python
+from bleak import BleakClient, BleakScanner
+from atmotube import start_gatt_notifications, get_available_services
+import asyncio
+
+
+async def collect_data(mac, queue, collection_time):
+    async def callback_queue(packet):                           # <1>
+        await queue.put(packet)                                 # <1>
+
+    device = await BleakScanner.find_device_by_address(mac)     # <2>
+    if not device:
+        raise Exception("Device not found")
+
+    async with BleakClient(device) as client:                   # <3>
+        if not client.is_connected:
+            raise Exception("Failed to connect to device")
+        packet_list = get_available_services(client)            # <4>
+        await start_gatt_notifications(client, callback_queue,  # <5>
+                                       packet_list=packet_list) # <5>
+        await asyncio.sleep(collection_time)                    # <6>
+        await queue.put(None)                                   # <7>
+```
+
+1. Define a callback function which takes a packet of data and does something with it. In this case it puts it in an asynchronous queue.
+2. Find the device using Bleak, in this case by mac address
+3. Connect to the device using Bleak
+4. Call the `get_available_services` function with the connected device, this generates a list of GATT services that both the atmotube library knows about and the AtmoTube device supports.
+5. Start the GATT notifications for the list of available services. If no list is provided, it will attempt to start GATT notifications for all services supported by the atmotube library.
+6. Wait while data is collected, for the pre-defined collection time (in seconds)
+7. Put a `None` on the queue to indicate that the collection has ended.
+
+What ends up on the queue is a series of `AtmoTubePacket` objects representing the different types of data packets the AtmoTube returns. Each packet has an associated datetime object representing the time when the packet was received. As a somewhat silly example, this takes those packets and logs them to the logger -- a more realistic thing to do might be to put the data in a database or append the data to a CSV.
+
+```python
+from atmotube import SPS30Packet, StatusPacket, BME280Packet, SGPC3Packet
+
+import logging
+
+
+def log_packet(packet):
+    match packet: # <1>
+        case StatusPacket(): # <1>
+            logging.info(f"{str(packet.date_time)} - Status Packet - " # <2>
+                         f"Battery: {packet.battery_level}%, " # <2>
+                         f"PM Sensor: {packet.pm_sensor_status}, " # <2>
+                         f"Pre-heating: {packet.pre_heating}, " # <2>
+                         f"Error: {packet.error_flag}") # <2>
+        case SPS30Packet():
+            logging.info(f"{str(packet.date_time)} - SPS30 Packet - "
+                         f"PM1: {packet.pm1} µg/m³, "
+                         f"PM2.5: {packet.pm2_5} µg/m³, "
+                         f"PM4: {packet.pm4} µg/m³, "
+                         f"PM10: {packet.pm10} µg/m³")
+        case BME280Packet():
+            logging.info(f"{str(packet.date_time)} - BME280 Packet - "
+                         f"Humidity: {packet.humidity}%, "
+                         f"Temperature: {packet.temperature}°C, "
+                         f"Pressure: {packet.pressure} mbar")
+        case SGPC3Packet():
+            logging.info(f"{str(packet.date_time)} - SGPC3 Packet - "
+                         f"TVOC: {packet.tvoc} ppb")
+        case _:
+            logging.info("Unknown packet type")
+```
+
+1. Use structural pattern matching to identify which data has been returned.
+2. Send some information about it to the logger
+
+Finally, an asynchronous event loop is created which runs the collector and then logs the data.
+
+```python
+ATMOTUBE = "00:00:00:00:00:00" # the mac address of the ATMOTUBE
+
+def main():
+    mac = ATMOTUBE
+    collection_time = 60  # seconds
+    queue = asyncio.Queue() # <1>
+
+    async def runner(): # <2>
+        collector = asyncio.create_task( # <3>
+            collect_data(mac, queue, collection_time) # <3>
+            ) # <3>
+        while True: # <4>
+            item = await queue.get() # <4>
+            if item is None: # <4>
+                break # <4>
+            log_packet(item) # <4>
+        await collector
+
+    asyncio.run(runner())
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    main()
+```
+
+1. Initialize an asynchronous queue, this will be used to pass the data between the two workers
+2. Create a `runner` function to handle the main sequence of events
+3. Start the collector
+4. Wait for data to appear on the queue, and then pass the data to `log_packet`
 
 
 ## Packets
