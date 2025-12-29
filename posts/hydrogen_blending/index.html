@@ -506,7 +506,7 @@ window.Quarto = {
 <div id="71c60242-c112-4bc6-b35d-51fca0b03885" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">HHV</span>(x) <span class="op">=</span> x<span class="op">*</span>HHV_H2 <span class="op">+</span> (<span class="fl">1</span><span class="op">-</span>x)<span class="op">*</span>HHV_NG</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-fig-hhv" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="3">
+<div id="cell-fig-hhv" class="cell" data-tags="[]" data-execution_count="3">
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div id="fig-hhv" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -805,19 +805,13 @@ Figure&nbsp;5: The viscosity of blended natural gas/hydrogen for a range of hydr
 <p>The volumetric flowrate at standard state is then the flowrate from above, corrected to the reference pressure and temperature<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;I have been using <code>upreferred</code> to force Unitful to cancel out and simplify units.</p></div></div><div id="90cf27cc-bb94-4ba5-b626-1837c6df6ce4" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Qₛ</span>(x, T₁, P₁, P₂) <span class="op">=</span> <span class="fu">upreferred</span>((P₁<span class="op">/</span>Pᵣ)<span class="fu">*</span>(Tᵣ<span class="op">/</span>T₁)<span class="fu">*Q₁</span>(x, T₁, P₁, P₂, Kf))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="23">
-<pre><code>Qₛ (generic function with 1 method)</code></pre>
-</div>
 </div>
 </section>
 <section id="heat-rate" class="level3">
 <h3 class="anchored" data-anchor-id="heat-rate">Heat rate</h3>
 <p>The heat rate is then the heating value, already worked out, times the volumetric flowrate at standard state</p>
 <div id="c772f9cb-6ef6-4ca4-8c37-a8c46b66f5ee" class="cell" data-execution_count="24">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">q</span>(x, T₁, P₁, P₂) <span class="op">=</span> <span class="fu">HHV</span>(x)<span class="fu">*Qₛ</span>(x, T₁, P₁, P₂)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="24">
-<pre><code>q (generic function with 1 method)</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">q</span>(x, T₁, P₁, P₂) <span class="op">=</span> <span class="fu">HHV</span>(x)<span class="fu">*Qₛ</span>(x, T₁, P₁, P₂)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-energy-pv" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="25">
 <div class="cell-output cell-output-display" data-execution_count="25">
@@ -835,7 +829,7 @@ Figure&nbsp;6: The energy supplied by the example fuel gas delivery system for a
 </div>
 <p>We see the same ordering that we expect, given the previous analysis, namely that the 0% and 100% cases are pretty close to each other, followed by the in-between hydrogen contents.</p>
 <p>Another way of looking at this is to pick a required heat rate and look at the pressure drop as a function of hydrogen content.</p>
-<div id="cell-fig-pressure-drop" class="cell" data-tags="[]" data-execution_count="26">
+<div id="cell-fig-pressure-drop" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="26">
 <div class="cell-output cell-output-display" data-execution_count="26">
 <div id="fig-pressure-drop" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">

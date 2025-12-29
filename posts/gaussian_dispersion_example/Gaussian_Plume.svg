@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generator: Adobe Illustrator 15.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="333px" height="259px" viewBox="0 0 333 259" enable-background="new 0 0 333 259" xml:space="preserve">
+<path fill="#E6E6E5" stroke="#000000" stroke-miterlimit="10" d="M69.06,175c6.667-32.667,93.607-71.5,172.274-124.833  C245.001,44.25,296,65.833,296.167,78.5C110.001,143.5,81.06,155.334,69.06,175z"/>
+<g>
+	<g>
+		<g>
+			<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="199.667" y1="52.75" x2="220.887" y2="52.75"/>
+			<g>
+				<polygon points="224.417,52.75 219.442,54.783 220.623,52.75 219.442,50.718     "/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="164.917" y1="72.75" x2="164.917" y2="85.97"/>
+			<g>
+				<polygon points="164.917,89.5 162.884,84.525 164.917,85.706 166.949,84.525     "/>
+			</g>
+		</g>
+	</g>
+	<text transform="matrix(1 0 0 1 139.5674 44.25)"><tspan x="0" y="0" font-family="'ArialMT'" font-size="12">Pollutant</tspan><tspan x="-12.674" y="12.4" font-family="'ArialMT'" font-size="12">concentration</tspan><tspan x="4.008" y="24.8" font-family="'ArialMT'" font-size="12">profiles</tspan></text>
+</g>
+<g>
+	<g>
+		<g>
+			<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="296.167" y1="30.5" x2="296.167" y2="41.97"/>
+			<g>
+				<polygon points="296.167,45.5 294.134,40.525 296.167,41.706 298.199,40.525     "/>
+			</g>
+		</g>
+	</g>
+	<text transform="matrix(1 0 0 1 284.1602 16)"><tspan x="0" y="0" font-family="'ArialMT'" font-size="12">Plume</tspan><tspan x="-9.009" y="12.4" font-family="'ArialMT'" font-size="12">centerline</tspan></text>
+</g>
+<g>
+	<g>
+		<g>
+			<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="249.167" y1="78.197" x2="249.167" y2="133.637"/>
+			<g>
+				<polygon points="249.167,74.667 247.134,79.642 249.167,78.461 251.199,79.642     "/>
+			</g>
+			<g>
+				<polygon points="249.167,137.167 247.134,132.192 249.167,133.373 251.199,132.192     "/>
+			</g>
+		</g>
+	</g>
+	<text transform="matrix(1 0 0 1 251.5 112.1665)" font-family="'ArialMT'" font-size="12">H</text>
+	<text transform="matrix(0.583 0 0 0.583 260.166 116.1626)" font-family="'ArialMT'" font-size="12">e</text>
+	<text transform="matrix(1 0 0 1 264.0566 112.1665)" font-family="'ArialMT'" font-size="12"> at x</text>
+	<text transform="matrix(0.583 0 0 0.583 286.7324 116.1626)" font-family="'ArialMT'" font-size="12">3</text>
+</g>
+<g>
+	<g>
+		<g>
+			<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="157" y1="122.697" x2="157" y2="177.22"/>
+			<g>
+				<polygon points="157,119.167 154.968,124.141 157,122.961 159.033,124.141     "/>
+			</g>
+			<g>
+				<polygon points="157,180.75 154.968,175.775 157,176.956 159.033,175.775     "/>
+			</g>
+		</g>
+	</g>
+	<text transform="matrix(1 0 0 1 159.5 153.834)" font-family="'ArialMT'" font-size="12">H</text>
+	<text transform="matrix(0.583 0 0 0.583 168.166 157.8301)" font-family="'ArialMT'" font-size="12">e</text>
+	<text transform="matrix(1 0 0 1 172.0566 153.834)" font-family="'ArialMT'" font-size="12"> at x</text>
+	<text transform="matrix(0.583 0 0 0.583 194.7324 157.8301)" font-family="'ArialMT'" font-size="12">2</text>
+</g>
+<g>
+	<g>
+		<g>
+			<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="93" y1="154.197" x2="93" y2="207.303"/>
+			<g>
+				<polygon points="93,150.667 90.968,155.642 93,154.461 95.033,155.642     "/>
+			</g>
+			<g>
+				<polygon points="93,210.833 90.968,205.858 93,207.039 95.033,205.858     "/>
+			</g>
+		</g>
+	</g>
+	<text transform="matrix(1 0 0 1 94.3335 179.834)" font-family="'ArialMT'" font-size="12">H</text>
+	<text transform="matrix(0.583 0 0 0.583 102.9995 183.8301)" font-family="'ArialMT'" font-size="12">e</text>
+	<text transform="matrix(1 0 0 1 106.8901 179.834)" font-family="'ArialMT'" font-size="12"> at x</text>
+	<text transform="matrix(0.583 0 0 0.583 129.5659 183.8301)" font-family="'ArialMT'" font-size="12">1</text>
+</g>
+<g>
+	<g>
+		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="49.917" y1="166.53" x2="49.917" y2="209.97"/>
+		<g>
+			<polygon points="49.917,163 47.884,167.975 49.917,166.794 51.949,167.975    "/>
+		</g>
+		<g>
+			<polygon points="49.917,213.5 47.884,208.525 49.917,209.706 51.949,208.525    "/>
+		</g>
+	</g>
+</g>
+<text transform="matrix(1 0 0 1 8.417 190)" font-family="'ArialMT'" font-size="12">+y</text>
+<text transform="matrix(1 0 0 1 116.917 242)" font-family="'ArialMT'" font-size="12">-y</text>
+<g>
+	<text transform="matrix(1 0 0 1 201.083 199)" font-family="'ArialMT'" font-size="12">Actual stack height</text>
+	<text transform="matrix(1 0 0 1 201.083 211.4004)" font-family="'ArialMT'" font-size="12">Effective stack height</text>
+	<text transform="matrix(1 0 0 1 201.083 223.7998)" font-family="'ArialMT'" font-size="12">pollutant release height</text>
+	<text transform="matrix(1 0 0 1 201.083 236.2002)" font-family="'ArialMT'" font-size="12">H</text>
+	<text transform="matrix(0.583 0 0 0.583 209.749 240.1963)" font-family="'ArialMT'" font-size="12">s</text>
+	<text transform="matrix(1 0 0 1 213.2471 236.2002)" font-family="'ArialMT'" font-size="12"> + Δh</text>
+	<text transform="matrix(1 0 0 1 201.083 248.5996)" font-family="'ArialMT'" font-size="12">plume rise</text>
+	<text transform="matrix(1 0 0 1 189.333 199)"><tspan x="0" y="0" font-family="'ArialMT'" font-size="12">=</tspan><tspan x="0" y="12.4" font-family="'ArialMT'" font-size="12">=</tspan><tspan x="0" y="24.8" font-family="'ArialMT'" font-size="12">=</tspan><tspan x="0" y="37.2" font-family="'ArialMT'" font-size="12">=</tspan><tspan x="0" y="49.6" font-family="'ArialMT'" font-size="12">=</tspan></text>
+	<text transform="matrix(1 0 0 1 169.666 199)" font-family="'ArialMT'" font-size="12">H</text>
+	<text transform="matrix(0.583 0 0 0.583 178.332 202.9961)" font-family="'ArialMT'" font-size="12">s </text>
+	<text transform="matrix(1 0 0 1 169.666 211.4004)" font-family="'ArialMT'" font-size="12">H</text>
+	<text transform="matrix(0.583 0 0 0.583 178.332 215.3965)" font-family="'ArialMT'" font-size="12">e</text>
+	<text transform="matrix(1 0 0 1 169.666 248.5996)" font-family="'ArialMT'" font-size="12">Δh</text>
+</g>
+<text transform="matrix(1 0 0 1 56.6675 18.8335)" font-family="'ArialMT'" font-size="12">z  </text>
+<text transform="matrix(1 0 0 1 112.0005 100.167)" font-family="'ArialMT'" font-size="12">Wind</text>
+<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="241.334" y1="50.167" x2="253.001" y2="42.833"/>
+<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="296.167" y1="78.5" x2="308.668" y2="74.667"/>
+<path fill="none" stroke="#000000" stroke-miterlimit="10" d="M296.167,78.5l-54.833-28.333  C241.295,62.75,291.917,84.333,296.167,78.5z"/>
+<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="268.751" y1="71.986" x2="268.751" y2="56.757"/>
+<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="157" y1="89.5" x2="216.668" y2="119.167"/>
+<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="227.334" y1="46.5" x2="227.334" y2="114.5"/>
+<path fill="none" stroke="#000000" stroke-miterlimit="10" d="M227.334,69.833c0,9.667,13.996,11.333,13.996,15.333  s-13.996,6-13.996,13.667"/>
+<path fill="none" stroke="#000000" stroke-miterlimit="10" d="M164.917,93.436c10.238,5.09,16.751-5.603,23.417-1.936  s9.563,18.333,18.948,23"/>
+<g>
+	<g>
+		<path fill="none" stroke="#000000" stroke-miterlimit="10" d="M69.06,175c8.25-22.584,42.857-36.75,59.607-44.5    c14.713-6.808,136.674-64.414,166.12-78.325"/>
+		<g>
+			<polygon points="301.167,49.161 293.902,57.082 294.304,52.397 290.435,49.728    "/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="18.87" y1="198.053" x2="108.714" y2="242.197"/>
+		<g>
+			<polygon points="13.167,195.25 19.59,202.482 19.296,198.262 22.817,195.916    "/>
+		</g>
+		<g>
+			<polygon points="114.417,245 104.767,244.335 108.288,241.988 107.994,237.769    "/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="69.06" y1="222.713" x2="311.599" y2="107.068"/>
+		<g>
+			<polygon points="317.334,104.333 310.826,111.489 311.169,107.272 307.677,104.885    "/>
+		</g>
+	</g>
+</g>
+<text transform="matrix(1 0 0 1 321.667 105.917)" font-family="'ArialMT'" font-size="12">x</text>
+<g>
+	<g>
+		<line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="69.06" y1="222.713" x2="69.06" y2="220.713"/>
+		
+			<line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" stroke-dasharray="3.9739,3.9739,3.9739,3.9739" x1="69.06" y1="216.739" x2="69.06" y2="202.83"/>
+		
+			<line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" stroke-dasharray="3.9739,3.9739,3.9739,3.9739,3.9739,3.9739" x1="69.06" y1="200.844" x2="69.06" y2="178.987"/>
+		<line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="69.06" y1="177" x2="69.06" y2="175"/>
+	</g>
+</g>
+<g>
+	<g>
+		<line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="69.06" y1="175" x2="69.06" y2="22.354"/>
+		<g>
+			<polygon points="69.06,16 72.718,24.954 69.06,22.83 65.401,24.954    "/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="81.667" y1="119.167" x2="110.526" y2="105.611"/>
+		<g>
+			<polygon points="116.917,102.609 109.64,110.519 110.049,105.835 106.184,103.16    "/>
+		</g>
+	</g>
+</g>
+<text transform="matrix(1 0 0 1 33.667 187)" font-family="'ArialMT'" font-size="12">H</text>
+<text transform="matrix(0.583 0 0 0.583 42.333 190.9961)" font-family="'ArialMT'" font-size="12">s</text>
+<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="45.667" y1="160.834" x2="69.06" y2="175"/>
+<path fill="none" stroke="#000000" stroke-miterlimit="10" d="M177.66,120.481l-28.348-13.154  C148.917,103.5,177.403,112.712,177.66,120.481z"/>
+<path fill="none" stroke="#000000" stroke-miterlimit="10" d="M149.313,107.327c-1.646,4.839,27.841,17.635,28.348,13.154"/>
+<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="163.484" y1="109.653" x2="163.453" y2="117.74"/>
+<ellipse fill="none" stroke="#000000" stroke-miterlimit="10" cx="69.06" cy="175" rx="7.274" ry="3.167"/>
+<ellipse fill="none" stroke="#000000" stroke-miterlimit="10" cx="69.06" cy="222.713" rx="7.274" ry="3.167"/>
+<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="61.785" y1="175" x2="61.785" y2="222.713"/>
+<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="76.334" y1="175" x2="76.334" y2="222.713"/>
+</svg>
