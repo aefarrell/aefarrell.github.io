@@ -511,55 +511,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span data-code-cell="annotated-cell-3" data-code-lines="12,13,14,15,16" data-code-annotation="4">Wait for data to appear on the queue, and then pass the data to <code>log_packet</code></span>
 </dd>
 </dl>
-</section>
-<section id="packets" class="level2">
-<h2 class="anchored" data-anchor-id="packets">Packets</h2>
-<section id="status-packet" class="level3">
-<h3 class="anchored" data-anchor-id="status-packet">Status Packet</h3>
-<p>The <code>StatusPacket</code> class takes a bytearray returned from the Status GATT characteristic and an optional timestamp and creates a data structure with fields corresponding to the different status flags:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> atmotube <span class="im">import</span> StatusPacket</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>example_status <span class="op">=</span> <span class="bu">bytearray</span>(<span class="st">b'Ad'</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>packet <span class="op">=</span> StatusPacket(example_status)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(packet)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># StatusPacket(pm_sensor_status=True, error_flag=False, bonding_flag=False, charging=False, charging_timer=False, pre_heating=True, battery_level=100%)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="sps30-packet" class="level3">
-<h3 class="anchored" data-anchor-id="sps30-packet">SPS30 Packet</h3>
-<p>The <code>SPS30Packet</code> takes a bytearray returned from the SPS30 GATT characteristic with an optional timestamp and creates a data structure with fields corresponding to the PM measurements in ug/m^3</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> atmotube <span class="im">import</span> SPS30Packet</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>example_sps30 <span class="op">=</span> <span class="bu">bytearray</span>(<span class="st">b'd</span><span class="ch">\x00\x00\xb9\x00\x00</span><span class="st">J</span><span class="ch">\x01\x00</span><span class="st">o</span><span class="ch">\x00\x00</span><span class="st">'</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>packet <span class="op">=</span> SPS30Packet(example_sps30)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(packet)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># SPS30Packet(pm1=1.0µg/m³, pm2_5=1.85µg/m³, pm10=3.3µg/m³, pm4=1.11µg/m³)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="bme280-packet" class="level3">
-<h3 class="anchored" data-anchor-id="bme280-packet">BME280 Packet</h3>
-<p>The <code>BME280Packet</code> takes a bytearray returned from the BME280 GATT characteristic with an optional timestamp and creates a datastructure with fields corresponding the temperature, pressure, and humidity.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> atmotube <span class="im">import</span> BME280Packet</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>example_bme280 <span class="op">=</span> <span class="bu">bytearray</span>(<span class="st">b'</span><span class="ch">\x0e\x17\x8a</span><span class="st">o</span><span class="ch">\x01\x00\x1a\t</span><span class="st">'</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>packet <span class="op">=</span> BME280Packet(example_bme280)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(packet)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># BME280Packet(humidity=14%, temperature=23.3°C, pressure=940.9mbar)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="sgpc3-packet" class="level3">
-<h3 class="anchored" data-anchor-id="sgpc3-packet">SGPC3 Packet</h3>
-<p>The <code>SGPC3Packet</code> takes a bytearray returned from the SGPC3 GATT characteristic with an optional timestamp and creates a datastructure with a single field for the VOC.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> atmotube <span class="im">import</span> SGPC3Packet</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>example_sgpc3 <span class="op">=</span> <span class="bu">bytearray</span>(<span class="st">b'</span><span class="ch">\x02\x00\x00\x00</span><span class="st">'</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>packet <span class="op">=</span> SGPC3Packet(example_sgpc3)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(packet)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># SGPC3Packet(tvoc=0.002ppb)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
