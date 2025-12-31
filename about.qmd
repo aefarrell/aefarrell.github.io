@@ -29,7 +29,6 @@ These blog posts do not contain my professional advice or opinion, nor do they r
 
 ## Some technical caveats
 
-The blog itself is rendered directly from the jupyter notebooks by [quarto](https://quarto.org/). However, a lot of the boiler plate and set-up is hidden in the final blog post for readability. If you want more details (especially how the plots are generated), please see the source noteboook.
+The blog itself is rendered directly from the jupyter notebooks by [quarto](https://quarto.org/). However, a lot of the boiler plate and set-up is hidden in the final blog post for readability. If you want more details (especially how the plots are generated), please see the source noteboook. Posts which use julia take advantage of the built in environment manager and there is an associated `Project.toml` for each notebook where the compat entries have been frozen at the *last known working* versions. Many packages under active development will change significantly over time, so it is worth checking to see which version I was using as the package may have changed in the meantime.
 
-I'm no great coder but, at one point, all of the code here did work. It ran and it generated the results and figures in the given notebook. However, libraries change all the time and often in breaking ways, especially when packages are new (pre version 1.0). Which is a round-about way of saying that any julia code you find online, that is more than a couple of years old, may not run with the latest versions of everything. If you find yourself trying to run old code of mine that no longer works, please open an issue on github and I'll try and help you out.
-
+I have not done the equivalent for the python notebooks. This is pure laziness on my part, a jupyter notebook running a julia kernel will automatically create a virtual environment if it finds a `Project.toml`, and install the relevant packages. As far as I know there is no equivalent with python.
