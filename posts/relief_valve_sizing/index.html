@@ -674,32 +674,33 @@ Figure&nbsp;2: The isentropic expansion factor for ethane at 400K, calculated fo
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [ s₁ <span class="op">-</span> s₂</span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>             h₁ <span class="op">-</span> h₂ <span class="op">-</span> <span class="fl">0.5</span><span class="op">*</span>c² ]</span>
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_choked_energy_balance</span>(model, P, T; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate the entropy and specific enthalpy at </span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># initial conditions</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    Mw <span class="op">=</span> <span class="fu">molecular_weight</span>(model, z)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    s₁ <span class="op">=</span> <span class="fu">entropy</span>(model, P, T)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    h₁ <span class="op">=</span> <span class="fu">enthalpy</span>(model, P, T)<span class="op">/</span>Mw</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># solve the choked flow energy balance for</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># an isentropic nozzle</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    params <span class="op">=</span> (model<span class="op">=</span>model, entropy<span class="op">=</span>s₁, enthalpy<span class="op">=</span>h₁, z<span class="op">=</span>z, Mw<span class="op">=</span>Mw)</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    y₀ <span class="op">=</span> [P; T]</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    prob <span class="op">=</span> <span class="fu">NonlinearProblem</span>(nozzle_balance, y₀, params)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    sol <span class="op">=</span> <span class="fu">solve</span>(prob, <span class="fu">NewtonRaphson</span>())</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    Pₜ, Tₜ <span class="op">=</span> sol.u</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># velocity is the sonic velocity at nozzle conditions</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    ρₜ <span class="op">=</span> <span class="fu">mass_density</span>(model, Pₜ, Tₜ, z)</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    cₜ <span class="op">=</span> <span class="fu">speed_of_sound</span>(model, Pₜ, Tₜ, z)</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ρₜ<span class="op">*</span>cₜ</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_choked_energy_balance</span>(model, P<span class="op">::</span><span class="dt">Quantity</span>, T<span class="op">::</span><span class="dt">Quantity</span>; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"Pa"</span>, P)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"K"</span>, T)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">mass_flux_choked_energy_balance</span>(model, P, T; z<span class="op">=</span>z)<span class="op">*</span><span class="fl">1</span>u<span class="st">"kg*m^-2*s^-1"</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NonlinearSolve</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_choked_energy_balance</span>(model, P, T; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate the entropy and specific enthalpy at </span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># initial conditions</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    Mw <span class="op">=</span> <span class="fu">molecular_weight</span>(model, z)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    s₁ <span class="op">=</span> <span class="fu">entropy</span>(model, P, T)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    h₁ <span class="op">=</span> <span class="fu">enthalpy</span>(model, P, T)<span class="op">/</span>Mw</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># solve the choked flow energy balance for</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># an isentropic nozzle</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    params <span class="op">=</span> (model<span class="op">=</span>model, entropy<span class="op">=</span>s₁, enthalpy<span class="op">=</span>h₁, z<span class="op">=</span>z, Mw<span class="op">=</span>Mw)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    y₀ <span class="op">=</span> [P; T]</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    prob <span class="op">=</span> <span class="fu">NonlinearProblem</span>(nozzle_balance, y₀, params)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    sol <span class="op">=</span> <span class="fu">solve</span>(prob, <span class="fu">NewtonRaphson</span>())</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    Pₜ, Tₜ <span class="op">=</span> sol.u</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># velocity is the sonic velocity at nozzle conditions</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    ρₜ <span class="op">=</span> <span class="fu">mass_density</span>(model, Pₜ, Tₜ, z)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    cₜ <span class="op">=</span> <span class="fu">speed_of_sound</span>(model, Pₜ, Tₜ, z)</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ρₜ<span class="op">*</span>cₜ</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_choked_energy_balance</span>(model, P<span class="op">::</span><span class="dt">Quantity</span>, T<span class="op">::</span><span class="dt">Quantity</span>; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"Pa"</span>, P)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"K"</span>, T)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">mass_flux_choked_energy_balance</span>(model, P, T; z<span class="op">=</span>z)<span class="op">*</span><span class="fl">1</span>u<span class="st">"kg*m^-2*s^-1"</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Solving the choked flow energy balance, using VTPR equation of state, the theoretical mass flux is 54629 kg m^-2 s^-1 ( 54353 kg m^-2 s^-1 from GERG-2008 ). This is also quite a bit larger than the ideal case, 42.0% larger. Though the values for the two equations of state are closer, indicating that this method is less sensitive to model choice.</p>
 <div id="fig-3" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -725,14 +726,14 @@ Figure&nbsp;3: The isentropic paths for the ideal gas, effective isentropic fact
 <p>subject to the constraint</p>
 <p><span class="math display">\[ s(P_1 - \Delta P, T) = s(P_1, T_1) \]</span></p>
 <p>Which can be implemented as a differential algebraic equation using <a href="https://docs.sciml.ai/DiffEqDocs/stable/">DifferentialEquations.jl</a></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DifferentialEquations</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">rhs</span>(u, params, ΔP)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    ∫vdP, T <span class="op">=</span> u</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    model, P₁, s₁, z, Mw <span class="op">=</span> params</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> P₁ <span class="op">-</span> ΔP</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [ <span class="fu">volume</span>(model, P, T, z)<span class="op">/</span>Mw</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>             s₁ <span class="op">-</span> <span class="fu">entropy</span>(model, P, T) ]</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DifferentialEquations</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">rhs</span>(u, params, ΔP)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    ∫vdP, T <span class="op">=</span> u</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    model, P₁, s₁, z, Mw <span class="op">=</span> params</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> P₁ <span class="op">-</span> ΔP</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [ <span class="fu">volume</span>(model, P, T, z)<span class="op">/</span>Mw</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>             s₁ <span class="op">-</span> <span class="fu">entropy</span>(model, P, T) ]</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>But we want to stop the integration when <span class="math inline">\({ {\partial G} \over {\partial \left( \Delta P \right) } } = 0\)</span> or, equivalently, when the velocity is sonic. We can show that these are the same by finding the stationary points of <span class="math inline">\(G^2\)</span></p>
 <p><span class="math display">\[ { {\partial G^2} \over {\partial \left( \Delta P \right) } } = { {\partial } \over {\partial \left( \Delta P \right) } } \left( 2 \rho_t^2 \int_0^{\Delta P_t} v d \left( \Delta P \right) \right) = 0 \]</span></p>
 <p>by applying the chain rule and cancelling <span class="math inline">\(\rho\)</span> we get</p>
@@ -742,46 +743,46 @@ Figure&nbsp;3: The isentropic paths for the ideal gas, effective isentropic fact
 <p>we have</p>
 <p><span class="math display">\[ 2 \int_0^{\Delta P_t} v d \left( \Delta P \right) - c^2 = 0 \]</span></p>
 <p>which is simply restating <span class="math inline">\(u_t = c_t\)</span>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">∂G²_callback</span>(u, ΔP, integrator)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    ∫vdP, Tₜ <span class="op">=</span> u</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    model, P₁, s₁, z, Mw <span class="op">=</span> integrator.p</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    Pₜ <span class="op">=</span> P₁ <span class="op">-</span> ΔP</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> <span class="fu">speed_of_sound</span>(model, Pₜ, Tₜ, z)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">2</span>∫vdP <span class="op">-</span> c<span class="op">^</span><span class="fl">2</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_direct_integration</span>(model, P₁, T₁, P₂; </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                                      z<span class="op">=</span>[<span class="fl">1.0</span>], solver<span class="op">=</span><span class="fu">Rodas5P</span>())</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    s₁ <span class="op">=</span> <span class="fu">entropy</span>(model, P₁, T₁, z)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    Mw <span class="op">=</span> <span class="fu">molecular_weight</span>(model, z)</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># defining the ODEFunction</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    M <span class="op">=</span> [ <span class="fl">1</span> <span class="fl">0</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>          <span class="fl">0</span> <span class="fl">0</span> ]</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    f <span class="op">=</span> <span class="fu">ODEFunction</span>(rhs, mass_matrix <span class="op">=</span> M)</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># defining the ODEProblem</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    u0 <span class="op">=</span> [<span class="fl">0.0</span>; T₁]</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    params <span class="op">=</span> (model, P₁, s₁, z, Mw)</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    ΔP_span <span class="op">=</span> (<span class="fl">0.0</span>, P₁ <span class="op">-</span> P₂)</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    prob <span class="op">=</span> <span class="fu">ODEProblem</span>(f, u0, ΔP_span, params)</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    cb <span class="op">=</span> <span class="fu">ContinuousCallback</span>(∂G²_callback, terminate!)</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># solving the DAE</span></span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    sol <span class="op">=</span> <span class="fu">solve</span>(prob, solver, callback<span class="op">=</span>cb)</span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># unpacking the solution</span></span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    ΔPₜ <span class="op">=</span> sol.t[<span class="kw">end</span>]</span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    ∫vdP, Tₜ <span class="op">=</span> sol.u[<span class="kw">end</span>]</span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    ρₜ <span class="op">=</span> <span class="fu">mass_density</span>(model, P₁<span class="op">-</span>ΔPₜ, Tₜ, z)</span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">ρₜ*√</span>(<span class="fl">2</span><span class="op">*</span>∫vdP)</span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_direct_integration</span>(model, P₁<span class="op">::</span><span class="dt">Quantity</span>, T₁<span class="op">::</span><span class="dt">Quantity</span>,</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                          P₂<span class="op">::</span><span class="dt">Quantity</span>; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    P_1 <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"Pa"</span>, P₁)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    P_2 <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"Pa"</span>, P₂)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    T_1 <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"K"</span>, T₁)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">mass_flux_direct_integration</span>(model, P_1, T_1, P_2; z<span class="op">=</span>z)<span class="op">*</span><span class="fl">1</span>u<span class="st">"kg*m^-2*s^-1"</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">∂G²_callback</span>(u, ΔP, integrator)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    ∫vdP, Tₜ <span class="op">=</span> u</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    model, P₁, s₁, z, Mw <span class="op">=</span> integrator.p</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    Pₜ <span class="op">=</span> P₁ <span class="op">-</span> ΔP</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> <span class="fu">speed_of_sound</span>(model, Pₜ, Tₜ, z)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">2</span>∫vdP <span class="op">-</span> c<span class="op">^</span><span class="fl">2</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_direct_integration</span>(model, P₁, T₁, P₂; </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                                      z<span class="op">=</span>[<span class="fl">1.0</span>], solver<span class="op">=</span><span class="fu">Rodas5P</span>())</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    s₁ <span class="op">=</span> <span class="fu">entropy</span>(model, P₁, T₁, z)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    Mw <span class="op">=</span> <span class="fu">molecular_weight</span>(model, z)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># defining the ODEFunction</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    M <span class="op">=</span> [ <span class="fl">1</span> <span class="fl">0</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>          <span class="fl">0</span> <span class="fl">0</span> ]</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    f <span class="op">=</span> <span class="fu">ODEFunction</span>(rhs, mass_matrix <span class="op">=</span> M)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># defining the ODEProblem</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    u0 <span class="op">=</span> [<span class="fl">0.0</span>; T₁]</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    params <span class="op">=</span> (model, P₁, s₁, z, Mw)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    ΔP_span <span class="op">=</span> (<span class="fl">0.0</span>, P₁ <span class="op">-</span> P₂)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    prob <span class="op">=</span> <span class="fu">ODEProblem</span>(f, u0, ΔP_span, params)</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    cb <span class="op">=</span> <span class="fu">ContinuousCallback</span>(∂G²_callback, terminate!)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># solving the DAE</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    sol <span class="op">=</span> <span class="fu">solve</span>(prob, solver, callback<span class="op">=</span>cb)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># unpacking the solution</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    ΔPₜ <span class="op">=</span> sol.t[<span class="kw">end</span>]</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    ∫vdP, Tₜ <span class="op">=</span> sol.u[<span class="kw">end</span>]</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    ρₜ <span class="op">=</span> <span class="fu">mass_density</span>(model, P₁<span class="op">-</span>ΔPₜ, Tₜ, z)</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> <span class="fu">ρₜ*√</span>(<span class="fl">2</span><span class="op">*</span>∫vdP)</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_flux_direct_integration</span>(model, P₁<span class="op">::</span><span class="dt">Quantity</span>, T₁<span class="op">::</span><span class="dt">Quantity</span>,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                          P₂<span class="op">::</span><span class="dt">Quantity</span>; z<span class="op">=</span>[<span class="fl">1.0</span>])</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    P_1 <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"Pa"</span>, P₁)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    P_2 <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"Pa"</span>, P₂)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    T_1 <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"K"</span>, T₁)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">mass_flux_direct_integration</span>(model, P_1, T_1, P_2; z<span class="op">=</span>z)<span class="op">*</span><span class="fl">1</span>u<span class="st">"kg*m^-2*s^-1"</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Direct integration of the VTPR equation of state gives a theoretical mass flux of 54629 kg m^-2 s^-1 ( 54353 kg m^-2 s^-1 from GERG-2008 ). Which is exactly the same as from solving the choked flow energy balance, as expected.</p>
 <div id="fig-4" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">

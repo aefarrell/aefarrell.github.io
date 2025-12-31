@@ -2207,10 +2207,11 @@ Figure&nbsp;11: A discretized mass transfer system, the column is divided into <
 <p>Which could presumably be solved by eigendecomposition, but more generally this would be solved using a standard ode solver.</p>
 <div id="1d969e3a-703b-4e05-8178-40c2fd259b56" class="cell" data-execution_count="65">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">OrdinaryDiffEq</span></span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>sol <span class="op">=</span> <span class="fu">solve</span>(<span class="fu">ODEProblem</span>(rhs!,<span class="fu">parameters</span>(<span class="fl">10</span>)<span class="op">...</span>), <span class="fu">Tsit5</span>(thread<span class="op">=</span>OrdinaryDiffEq.<span class="fu">True</span>()))</span>
-<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>sol.retcode</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">Static</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>sol <span class="op">=</span> <span class="fu">solve</span>(<span class="fu">ODEProblem</span>(rhs!,<span class="fu">parameters</span>(<span class="fl">10</span>)<span class="op">...</span>), <span class="fu">Tsit5</span>(thread<span class="op">=</span>Static.<span class="fu">True</span>()))</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>sol.retcode</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="65">
 <pre><code>ReturnCode.Success = 1</code></pre>
 </div>
@@ -2226,7 +2227,7 @@ Figure&nbsp;11: A discretized mass transfer system, the column is divided into <
 <span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Below is a figure showing a series of runs for increasing <em>n</em>. At low values of <em>n</em> the solution looks reasonable, but with much more diffusion than is actually warranted given the mass transfer coefficient. This is a common feature of <a href="https://en.wikipedia.org/wiki/Method_of_lines">Method of Lines</a> when applied to pdes of this type and can, if one is not careful, lead to under-estimates of the actual effective diffusion (since much of the diffusion seen in the results is coming from the numerical method). As <em>n</em> increases, a spurious oscillatory behaviour appears at the end of the extraction and damping this requires increasing <em>n</em> &gt; 250.</p>
-<div id="cell-fig-mol-conc" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="67">
+<div id="cell-fig-mol-conc" class="cell" data-execution_count="67">
 <div id="fig-mol-conc" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="67">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mol-conc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
