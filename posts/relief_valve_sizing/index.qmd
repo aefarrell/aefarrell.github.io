@@ -304,6 +304,10 @@ end
 ```
 
 ```julia
+using NonlinearSolve
+```
+
+```julia
 function mass_flux_choked_energy_balance(model, P, T; z=[1.0])
     # calculate the entropy and specific enthalpy at 
     # initial conditions

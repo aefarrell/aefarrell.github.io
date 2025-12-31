@@ -473,7 +473,7 @@ using CSV, DataFrames
 ```
 
 ```julia
-trees_df = CSV.read("data/pollen_dispersion/Ulmus_americana_wihkwentowin.csv", 
+trees_df = CSV.read("data/Ulmus_americana_wihkwentowin.csv", 
                      DataFrame);
 ```
 
