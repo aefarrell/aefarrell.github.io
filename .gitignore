@@ -3,5 +3,6 @@
 /_freeze/
 .ipynb_checkpoints
 Manifest.toml
+poetry.lock
 
 **/*.quarto_ipynb
