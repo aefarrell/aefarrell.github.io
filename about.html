@@ -341,7 +341,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-anchor-id="some-technical-caveats">Some technical caveats</h2>
 <p>The blog itself is rendered directly from the jupyter notebooks by <a href="https://quarto.org/">quarto</a>. However, a lot of the boiler plate and set-up is hidden in the final blog post for readability. If you want more details (especially how the plots are generated), please see the source noteboook.</p>
 <p>Posts which use julia take advantage of the built in environment manager and there is an associated <code>Project.toml</code> for each notebook with compat entries frozen at the <em>last known working</em> versions. Many packages under active development will change significantly over time, so it is worth checking to see which version I was using as the package may have changed in the meantime.</p>
-<p>Posts which use python use the <a href="https://github.com/pathbird/poetry-kernel">poetry-kernel</a> to track the associated virtual environments, which are maintained in the ‘pyproject.toml’ for each notebook. This shows the state of the virtual environment at the last time I ran the notebook.</p>
+<p>Posts which use python use the <a href="https://github.com/pathbird/poetry-kernel">poetry-kernel</a> to track the associated virtual environments, which are maintained in the <code>pyproject.toml</code> for each notebook. This shows the state of the virtual environment at the last time I ran the notebook.</p>
 
 
 </section>
