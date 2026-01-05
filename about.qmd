@@ -33,4 +33,4 @@ The blog itself is rendered directly from the jupyter notebooks by [quarto](http
 
 Posts which use julia take advantage of the built in environment manager and there is an associated `Project.toml` for each notebook with compat entries frozen at the *last known working* versions. Many packages under active development will change significantly over time, so it is worth checking to see which version I was using as the package may have changed in the meantime.
 
-Posts which use python use the [poetry-kernel](https://github.com/pathbird/poetry-kernel) to track the associated virtual environments, which are maintained in the 'pyproject.toml' for each notebook. This shows the state of the virtual environment at the last time I ran the notebook.
+Posts which use python use the [poetry-kernel](https://github.com/pathbird/poetry-kernel) to track the associated virtual environments, which are maintained in the `pyproject.toml` for each notebook. This shows the state of the virtual environment at the last time I ran the notebook.
