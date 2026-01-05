@@ -29,6 +29,8 @@ These blog posts do not contain my professional advice or opinion, nor do they r
 
 ## Some technical caveats
 
-The blog itself is rendered directly from the jupyter notebooks by [quarto](https://quarto.org/). However, a lot of the boiler plate and set-up is hidden in the final blog post for readability. If you want more details (especially how the plots are generated), please see the source noteboook. Posts which use julia take advantage of the built in environment manager and there is an associated `Project.toml` for each notebook where the compat entries have been frozen at the *last known working* versions. Many packages under active development will change significantly over time, so it is worth checking to see which version I was using as the package may have changed in the meantime.
+The blog itself is rendered directly from the jupyter notebooks by [quarto](https://quarto.org/). However, a lot of the boiler plate and set-up is hidden in the final blog post for readability. If you want more details (especially how the plots are generated), please see the source noteboook. 
 
-I have not done the equivalent for the python notebooks. This is pure laziness on my part, a jupyter notebook running a julia kernel will automatically create a virtual environment if it finds a `Project.toml`, and install the relevant packages. As far as I know there is no equivalent with python.
+Posts which use julia take advantage of the built in environment manager and there is an associated `Project.toml` for each notebook with compat entries frozen at the *last known working* versions. Many packages under active development will change significantly over time, so it is worth checking to see which version I was using as the package may have changed in the meantime.
+
+Posts which use python use the [poetry-kernel](https://github.com/pathbird/poetry-kernel) to track the associated virtual environments, which are maintained in the 'pyproject.toml' for each notebook. This shows the state of the virtual environment at the last time I ran the notebook.
