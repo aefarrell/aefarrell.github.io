@@ -3,7 +3,7 @@ name = "atmotube-data-logging"
 version = "0"
 description = "a post about data logging from an Atmotube PRO"
 authors = [
-    {name = "allan",email = ""}
+    {name = "allan",email = "75338859+aefarrell@users.noreply.github.com"}
 ]
 readme = ""
 requires-python = ">=3.14"
