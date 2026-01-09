@@ -1,11 +1,11 @@
 [project]
 name = "atmotube-data-logging"
-version = "0.1.0"
-description = ""
+version = "0"
+description = "a post about data logging from an Atmotube PRO"
 authors = [
-    {name = "allan",email = "75338859+aefarrell@users.noreply.github.com"}
+    {name = "allan",email = ""}
 ]
-readme = "README.md"
+readme = ""
 requires-python = ">=3.14"
 dependencies = [
     "bleak (>=2.1.1,<3.0.0)",
