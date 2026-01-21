@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,9 +74,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-a74e2cdc3b80062cae06dc0c30a79fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -436,24 +436,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-2-6"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_packet(packet):</span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-2-7" class="code-annotation-target"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">match</span> packet:</span>
-<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> StatusPacket():</span>
+<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> AtmotubeProStatus():</span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-2-9" class="code-annotation-target"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a>            logging.info(<span class="ss">f"</span><span class="sc">{</span><span class="bu">str</span>(packet.date_time)<span class="sc">}</span><span class="ss"> - Status Packet - "</span></span>
 <span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"Battery: </span><span class="sc">{</span>packet<span class="sc">.</span>battery_level<span class="sc">}</span><span class="ss">%, "</span></span>
 <span id="annotated-cell-2-11"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"PM Sensor: </span><span class="sc">{</span>packet<span class="sc">.</span>pm_sensor_status<span class="sc">}</span><span class="ss">, "</span></span>
 <span id="annotated-cell-2-12"><a href="#annotated-cell-2-12" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"Pre-heating: </span><span class="sc">{</span>packet<span class="sc">.</span>pre_heating<span class="sc">}</span><span class="ss">, "</span></span>
 <span id="annotated-cell-2-13"><a href="#annotated-cell-2-13" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"Error: </span><span class="sc">{</span>packet<span class="sc">.</span>error_flag<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="annotated-cell-2-14"><a href="#annotated-cell-2-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> SPS30Packet():</span>
+<span id="annotated-cell-2-14"><a href="#annotated-cell-2-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> AtmotubeProSPS30():</span>
 <span id="annotated-cell-2-15"><a href="#annotated-cell-2-15" aria-hidden="true" tabindex="-1"></a>            logging.info(<span class="ss">f"</span><span class="sc">{</span><span class="bu">str</span>(packet.date_time)<span class="sc">}</span><span class="ss"> - SPS30 Packet - "</span></span>
 <span id="annotated-cell-2-16"><a href="#annotated-cell-2-16" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"PM1: </span><span class="sc">{</span>packet<span class="sc">.</span>pm1<span class="sc">}</span><span class="ss"> µg/m³, "</span></span>
 <span id="annotated-cell-2-17"><a href="#annotated-cell-2-17" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"PM2.5: </span><span class="sc">{</span>packet<span class="sc">.</span>pm2_5<span class="sc">}</span><span class="ss"> µg/m³, "</span></span>
 <span id="annotated-cell-2-18"><a href="#annotated-cell-2-18" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"PM4: </span><span class="sc">{</span>packet<span class="sc">.</span>pm4<span class="sc">}</span><span class="ss"> µg/m³, "</span></span>
 <span id="annotated-cell-2-19"><a href="#annotated-cell-2-19" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"PM10: </span><span class="sc">{</span>packet<span class="sc">.</span>pm10<span class="sc">}</span><span class="ss"> µg/m³"</span>)</span>
-<span id="annotated-cell-2-20"><a href="#annotated-cell-2-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> BME280Packet():</span>
+<span id="annotated-cell-2-20"><a href="#annotated-cell-2-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> AtmotubeProBME280():</span>
 <span id="annotated-cell-2-21"><a href="#annotated-cell-2-21" aria-hidden="true" tabindex="-1"></a>            logging.info(<span class="ss">f"</span><span class="sc">{</span><span class="bu">str</span>(packet.date_time)<span class="sc">}</span><span class="ss"> - BME280 Packet - "</span></span>
 <span id="annotated-cell-2-22"><a href="#annotated-cell-2-22" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"Humidity: </span><span class="sc">{</span>packet<span class="sc">.</span>humidity<span class="sc">}</span><span class="ss">%, "</span></span>
 <span id="annotated-cell-2-23"><a href="#annotated-cell-2-23" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"Temperature: </span><span class="sc">{</span>packet<span class="sc">.</span>temperature<span class="sc">}</span><span class="ss">°C, "</span></span>
 <span id="annotated-cell-2-24"><a href="#annotated-cell-2-24" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"Pressure: </span><span class="sc">{</span>packet<span class="sc">.</span>pressure<span class="sc">}</span><span class="ss"> mbar"</span>)</span>
-<span id="annotated-cell-2-25"><a href="#annotated-cell-2-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> SGPC3Packet():</span>
+<span id="annotated-cell-2-25"><a href="#annotated-cell-2-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> AtmotubeProSGPC3():</span>
 <span id="annotated-cell-2-26"><a href="#annotated-cell-2-26" aria-hidden="true" tabindex="-1"></a>            logging.info(<span class="ss">f"</span><span class="sc">{</span><span class="bu">str</span>(packet.date_time)<span class="sc">}</span><span class="ss"> - SGPC3 Packet - "</span></span>
 <span id="annotated-cell-2-27"><a href="#annotated-cell-2-27" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"TVOC: </span><span class="sc">{</span>packet<span class="sc">.</span>tvoc<span class="sc">}</span><span class="ss"> ppb"</span>)</span>
 <span id="annotated-cell-2-28"><a href="#annotated-cell-2-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> _:</span>
