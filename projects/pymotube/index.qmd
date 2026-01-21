@@ -61,24 +61,24 @@ import logging
 
 def log_packet(packet):
     match packet: # <1>
-        case StatusPacket(): # <1>
+        case AtmotubeProStatus(): # <1>
             logging.info(f"{str(packet.date_time)} - Status Packet - " # <2>
                          f"Battery: {packet.battery_level}%, " # <2>
                          f"PM Sensor: {packet.pm_sensor_status}, " # <2>
                          f"Pre-heating: {packet.pre_heating}, " # <2>
                          f"Error: {packet.error_flag}") # <2>
-        case SPS30Packet():
+        case AtmotubeProSPS30():
             logging.info(f"{str(packet.date_time)} - SPS30 Packet - "
                          f"PM1: {packet.pm1} µg/m³, "
                          f"PM2.5: {packet.pm2_5} µg/m³, "
                          f"PM4: {packet.pm4} µg/m³, "
                          f"PM10: {packet.pm10} µg/m³")
-        case BME280Packet():
+        case AtmotubeProBME280():
             logging.info(f"{str(packet.date_time)} - BME280 Packet - "
                          f"Humidity: {packet.humidity}%, "
                          f"Temperature: {packet.temperature}°C, "
                          f"Pressure: {packet.pressure} mbar")
-        case SGPC3Packet():
+        case AtmotubeProSGPC3():
             logging.info(f"{str(packet.date_time)} - SGPC3 Packet - "
                          f"TVOC: {packet.tvoc} ppb")
         case _:
