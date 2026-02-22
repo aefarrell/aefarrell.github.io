@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/gaussian_explosive_mass/index.html",
       "/posts/vessel_blowdown_dispersion/index.html",
       "/posts/ooms_plume_model/index.html",
       "/posts/atmotube_data_logging/index.html",
@@ -40,6 +41,7 @@
   {
     "listing": "/archive.html",
     "items": [
+      "/posts/gaussian_explosive_mass/index.html",
       "/posts/vessel_blowdown_dispersion/index.html",
       "/posts/ooms_plume_model/index.html",
       "/posts/atmotube_data_logging/index.html",
