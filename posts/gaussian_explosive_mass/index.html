@@ -459,11 +459,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#the-gaussian-dispersion-model-a-recap" id="toc-the-gaussian-dispersion-model-a-recap" class="nav-link active" data-scroll-target="#the-gaussian-dispersion-model-a-recap">The Gaussian dispersion model, a recap</a></li>
-  <li><a href="#a-survey-of-estimates-of-the-potential-explosive-energy-in-vapour-clouds" id="toc-a-survey-of-estimates-of-the-potential-explosive-energy-in-vapour-clouds" class="nav-link" data-scroll-target="#a-survey-of-estimates-of-the-potential-explosive-energy-in-vapour-clouds">A survey of estimates of the potential explosive energy in vapour clouds</a>
-  <ul class="collapse">
-  <li><a href="#the-volume-of-vapour-clouds" id="toc-the-volume-of-vapour-clouds" class="nav-link" data-scroll-target="#the-volume-of-vapour-clouds">The volume of vapour clouds</a></li>
-  <li><a href="#the-mass-of-vapour-clouds" id="toc-the-mass-of-vapour-clouds" class="nav-link" data-scroll-target="#the-mass-of-vapour-clouds">The mass of vapour clouds</a></li>
-  </ul></li>
+  <li><a href="#a-survey-of-estimates-of-the-mass-of-vapour-clouds" id="toc-a-survey-of-estimates-of-the-mass-of-vapour-clouds" class="nav-link" data-scroll-target="#a-survey-of-estimates-of-the-mass-of-vapour-clouds">A survey of estimates of the mass of vapour clouds</a></li>
   <li><a href="#the-mass-of-a-gaussian-plume" id="toc-the-mass-of-a-gaussian-plume" class="nav-link" data-scroll-target="#the-mass-of-a-gaussian-plume">The mass of a Gaussian plume</a>
   <ul class="collapse">
   <li><a href="#total-mass" id="toc-total-mass" class="nav-link" data-scroll-target="#total-mass">Total mass</a></li>
@@ -538,56 +534,13 @@ window.Quarto = {
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>χ₂ <span class="op">=</span> <span class="fu">χ</span>(x₂,<span class="fl">0</span>,<span class="fl">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="a-survey-of-estimates-of-the-potential-explosive-energy-in-vapour-clouds" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="a-survey-of-estimates-of-the-potential-explosive-energy-in-vapour-clouds">A survey of estimates of the potential explosive energy in vapour clouds</h2>
-<p>At the level of screening tools there are broadly two approaches to estimating the potential explosive energy in a vapour cloud:</p>
-<ol type="1">
-<li>Estimate the volume of the cloud and calculate the energy from the enthalpy of combustion, <span class="math inline">\(Q = H V_e\)</span> where <span class="math inline">\(H \approx 3.5 \mathrm{\frac{MJ}{m^3}}\)</span> for hydrocarbons</li>
-<li>Estimate the mass of explosive material in the cloud and calculate the energy from the specific enthalpy of combustion, <span class="math inline">\(Q = h m_e\)</span> where <span class="math inline">\(h \approx 45 \mathrm{\frac{MJ}{kg}}\)</span> for hydrocarbons</li>
-</ol>
-<section id="the-volume-of-vapour-clouds" class="level3">
-<h3 class="anchored" data-anchor-id="the-volume-of-vapour-clouds">The volume of vapour clouds</h3>
-<p>Presumably one could estimate the volume of the cloud from a Gaussian model directly, but I have not seen this actually done anywhere for the purposes of calculating explosive energy. Instead, earlier versions of <a href="https://www.aiche.org/ccps/resources/tools/risk-analysis-screening-tool-rast-and-chemical-hazard-engineering-fundamentals-chef/chef-overview">CHEF</a> as well as <a href="https://www.aiche.org/ccps/resources/tools/risk-analysis-screening-tool-rast-and-chemical-hazard-engineering-fundamentals-chef/rast-overview">RAST</a> use an equation of the form</p>
-<p><span class="math display">\[ V_e = A x_l^B \]</span></p>
-<p>where <span class="math inline">\(x_l\)</span> is the downwind distance to the concentration which defines the flammable or explosive region (e.g.&nbsp;the LFL) and <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are constants</p>
+<section id="a-survey-of-estimates-of-the-mass-of-vapour-clouds" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="a-survey-of-estimates-of-the-mass-of-vapour-clouds">A survey of estimates of the mass of vapour clouds</h2>
+<p>At the level of screening tools, estimating the potential explosive energy in a vapour cloud typically involves estimating the mass of explosive material in the cloud<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>, then calculating the energy from the specific enthalpy of combustion.</p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;How one defines the flammable mass of a vapour cloud varies significantly from author to author, depending on whether one takes it to be the <em>entire</em> region with a concentration greater than the LFL, some fraction of the LFL (1/2 is common), or only the region between the LFL and UFL.</p></div><div id="fn4"><p><sup>4</sup>&nbsp;<a href="#ref-bakkum-2005" role="doc-biblioref">Bakkum and Duijm., <span>“Vapour Cloud Dispersion,”</span> 4.78</a>.</p></div><div id="fn5"><p><sup>5</sup>&nbsp;<a href="#ref-vanbuijtenen-1980" role="doc-biblioref"><span>“Calculation of the Amount of Gas in the Explosive Region of a Vapour Cloud Released in the Atmosphere”</span></a>.</p></div></div><p>The CCPS tools <a href="https://www.aiche.org/ccps/resources/tools/risk-analysis-screening-tool-rast-and-chemical-hazard-engineering-fundamentals-chef/chef-overview">CHEF</a> and <a href="https://www.aiche.org/ccps/resources/tools/risk-analysis-screening-tool-rast-and-chemical-hazard-engineering-fundamentals-chef/rast-overview">RAST</a>, the TNO Yellow Book<span class="citation" data-cites="bakkum-2005">,<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></span> and <span class="citation" data-cites="vanbuijtenen-1980">Van Buijtenen<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></span> give the mass of a vapour cloud as</p>
+<p><span class="math display">\[ m_e = C \frac{w}{u} x_l \]</span></p>
+<p>Where <span class="math inline">\(m_l\)</span> is the mass of the region defined by the concentration <span class="math inline">\(\chi_l\)</span> and <span class="math inline">\(C\)</span> is a constant, which generally depends upon atmospheric stability. If the explosive mass is taken to be the region between two concentrations <span class="math inline">\(\chi_1\)</span> and <span class="math inline">\(\chi_2\)</span> with <span class="math inline">\(\chi_1 &gt; \chi_2\)</span> then <span class="math inline">\(m_e = m_2 - m_1\)</span></p>
 <table class="caption-top table">
-<thead>
-<tr class="header">
-<th></th>
-<th>Stability</th>
-<th>A</th>
-<th>B</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>CHEF (old)</td>
-<td>D</td>
-<td>0.03</td>
-<td>3</td>
-</tr>
-<tr class="even">
-<td>RAST</td>
-<td>D</td>
-<td>0.08</td>
-<td>2.6</td>
-</tr>
-<tr class="odd">
-<td>RAST</td>
-<td>F</td>
-<td>0.04</td>
-<td>2.6</td>
-</tr>
-</tbody>
-</table>
-<p>This is perhaps unsurprising as both tools were ultimately developed at the same place (Dow), and share a common approach to consequence analysis. It is not clear to me where these constants come from, both tools use a Gaussian model to calculate <span class="math inline">\(x_l\)</span> but I don’t immediately see how these constants would arise from that.</p>
-</section>
-<section id="the-mass-of-vapour-clouds" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="the-mass-of-vapour-clouds">The mass of vapour clouds</h3>
-<p>The latest version of <a href="https://www.aiche.org/ccps/resources/tools/risk-analysis-screening-tool-rast-and-chemical-hazard-engineering-fundamentals-chef/chef-overview">CHEF</a>, the TNO Yellow Book<span class="citation" data-cites="bakkum-2005">,<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></span> and <span class="citation" data-cites="vanbuijtenen-1980">Van Buijtenen<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></span> give the mass of a vapour cloud as</p>
-<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;<a href="#ref-bakkum-2005" role="doc-biblioref">Bakkum and Duijm., <span>“Vapour Cloud Dispersion,”</span> 4.78</a>.</p></div><div id="fn4"><p><sup>4</sup>&nbsp;<a href="#ref-vanbuijtenen-1980" role="doc-biblioref"><span>“Calculation of the Amount of Gas in the Explosive Region of a Vapour Cloud Released in the Atmosphere”</span></a>.</p></div></div><p><span class="math display">\[ m_e = m_l = C \frac{w}{u} x_l \]</span></p>
-<p>Where <span class="math inline">\(m_l\)</span> is the mass of the region defined by the concentration <span class="math inline">\(\chi_l\)</span><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> and <span class="math inline">\(C\)</span> is a constant, which generally depends upon atmospheric stability. If the explosive mass is taken to be the region between two concentrations <span class="math inline">\(\chi_1\)</span> and <span class="math inline">\(\chi_2\)</span> with <span class="math inline">\(\chi_1 &gt; \chi_2\)</span> then <span class="math inline">\(m_e = m_2 - m_1\)</span></p>
-<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;How one defines the flammable mass of a vapour cloud varies significantly from author to author, depending on whether one takes it to be the <em>entire</em> region with a concentration greater than the LFL, some fraction of the LFL (1/2 is common), or only the region between the LFL and UFL.</p></div></div><table class="caption-top table">
 <thead>
 <tr class="header">
 <th></th>
@@ -596,7 +549,7 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td>CHEF v4.5</td>
+<td>CHEF &amp; RAST</td>
 <td>1</td>
 </tr>
 <tr class="even">
@@ -612,7 +565,6 @@ window.Quarto = {
 <p><span class="citation" data-cites="woodward-1998">Woodward<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></span> gives the following as the rigorous method for plumes, specifically for a free plume it is</p>
 <div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;<a href="#ref-woodward-1998" role="doc-biblioref"><em>Estimating the Flammable Mass of a Vapour Cloud</em></a>.</p></div></div><p><span class="math display">\[ m_e = 4 \left( \chi_1 - \chi_2 \right) \int_{x_1}^{x_2} \sigma_y^2 E\left( k^2 \right) dx \]</span></p>
 <p>where <span class="math inline">\(E \left( k^2 \right)\)</span> is the <a href="https://en.wikipedia.org/wiki/Elliptic_integral#Complete_elliptic_integral_of_the_second_kind">complete elliptic integral of the second kind</a> and <span class="math inline">\(k\)</span> is a function of <span class="math inline">\(x\)</span> and atmospheric stability.</p>
-</section>
 </section>
 <section id="the-mass-of-a-gaussian-plume" class="level2">
 <h2 class="anchored" data-anchor-id="the-mass-of-a-gaussian-plume">The mass of a Gaussian plume</h2>
@@ -1023,7 +975,7 @@ Figure&nbsp;4: The cross-sectional area of the plume, an ellipse.
 </div>
 <p>It is definitely a little bit of cheating to point out that the simple one-dimensional integral is much more performant than any of the three integrations of the whole volume, see <a href="#tbl-perf" class="quarto-xref">Table&nbsp;1</a>.</p>
 <div class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="42">
-<div id="tbl-perf" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="42">
+<div id="tbl-perf" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="42" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-perf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1: Performance of the integration methods.
