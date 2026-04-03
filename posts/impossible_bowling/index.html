@@ -479,6 +479,84 @@ Figure&nbsp;1: The points value of each pin in five-pin bowling.
 <p>While hanging out at the lanes a few obvious impossible scores got thrown out: a <em>1</em>, obviously, but also a <em>449</em> – there’s no way to throw a 14 with the last ball in the tenth frame. But the question still lingered: are there any other gaps? It was not immediately obvious, to my bowling team, how you would figure that out without checking.</p>
 <p>Maybe we can brute-force this and try every conceivable bowling game? However there are <em>a lot</em> of possible bowling games. As a first pass, there are thirty balls thrown in a game and each ball has <em>up to</em> fourteen possible pinfall scores (0 through 15 excluding 1 and 14). This would give <em>14<sup>30</sup></em> possible bowling games. Even if it took a single nanosecond to evaluate each game that would take longer than the current age of the universe to work through.</p>
 <p>But that’s not a great upper bound, it doesn’t take into account the rules of bowling: you can only knock down up to five pins in any given frame, for example if the first ball scores a <em>13</em> then the second ball doesn’t get to choose from fourteen possibilities, it gets to chose from two: 0 and 2. Still, it is going to be a large number. The vast majority of those games are going to be completely redundant, since we are only looking for scores from 2 to 450.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I was thinking about this some more and there is a different way of looking at this that gives a better estimate for the number of possible games. First let’s consider a single frame (within the first 9 frames). We can count the number of ways to knock down any subset of pins (including all and none):</p>
+<p><span class="math display">\[
+\binom{5}{0} + \binom{5}{1} + \binom{5}{2} + \binom{5}{3} + \binom{5}{4} + \binom{5}{5} = 32
+\]</span></p>
+<p>For a single frame there are three possibilities:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Frame</th>
+<th style="text-align: left;">Number of Possibilities</th>
+<th style="text-align: left;">description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">? ? ?</td>
+<td style="text-align: left;">32</td>
+<td style="text-align: left;">All three balls are thrown</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">A single ball is thrown, a strike</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">? \</td>
+<td style="text-align: left;">31</td>
+<td style="text-align: left;">Two balls are thrown, a spare</td>
+</tr>
+</tbody>
+</table>
+<p>So there are 64 possible ways of bowling a single frame of bowling <em>that is not the tenth frame</em>.</p>
+<p>The tenth frame has some extra rules, so lets go through it:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Frame</th>
+<th style="text-align: left;">Number of Possibilities</th>
+<th style="text-align: left;">description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">? ? ?</td>
+<td style="text-align: left;">32</td>
+<td style="text-align: left;">Anything but a strike or spare in the first two balls</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X ? ?</td>
+<td style="text-align: left;">32</td>
+<td style="text-align: left;">First ball a strike, two non strikes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">X X ?</td>
+<td style="text-align: left;">32</td>
+<td style="text-align: left;">Two strikes, one anything</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">? \ ?</td>
+<td style="text-align: left;">992</td>
+<td style="text-align: left;">A spare (31 options) and anything (32)</td>
+</tr>
+</tbody>
+</table>
+<p>Which gives 1088 possible ways of bowling the 10th frame.</p>
+<p>So this gives a total count of possible 5 pin bowling games of <span class="math inline">\(1088 \times 64^9\)</span> which is about <span class="math inline">\(2 \times 10^{19}\)</span></p>
+</div>
+</div>
 </section>
 <section id="nothing-fancy" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="nothing-fancy">Nothing fancy</h2>
