@@ -1,0 +1,6 @@
+[deps]
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+Clapeyron = "7c7805af-46cc-48c9-995b-ed0ed2dc909a"
+Handcalcs = "e8a07092-c156-4455-ab8e-ed8bc81edefb"
+Roots = "f2b01f46-fcfa-551c-844a-d8ac1e96c665"
+Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
