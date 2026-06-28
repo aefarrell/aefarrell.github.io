@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/ooms_1974/index.html",
       "/posts/hydrogen_compression/index.html",
       "/posts/gaussian_explosive_mass/index.html",
       "/posts/vessel_blowdown_dispersion/index.html",
@@ -42,6 +43,7 @@
   {
     "listing": "/archive.html",
     "items": [
+      "/posts/ooms_1974/index.html",
       "/posts/hydrogen_compression/index.html",
       "/posts/gaussian_explosive_mass/index.html",
       "/posts/vessel_blowdown_dispersion/index.html",
