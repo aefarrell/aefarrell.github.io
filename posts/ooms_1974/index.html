@@ -882,12 +882,35 @@ Figure&nbsp;3: The plume height as a function of downwind distance, comparing th
 </div>
 <p>In fact, for models like this one where the air density does not change with height, the model is <em>entirely</em> insensitive to specific heat capacity. We can see this by re-examining the thermal energy balance for the case where <span class="math inline">\(\rho_a = 1\)</span></p>
 <p><span class="math display">\[ \frac{d}{d\bar{s}} \left\{ \bar{b}^2 G_2 \left[ \cos \theta \left( 2 - 2\bar{\rho_a} - C_2 \bar{\rho_a} \bar{\rho} - C_2 G_1 \bar{c} \bar{\rho_o} \right) + \bar{u} \left( C_1 - C_1 \bar{\rho_a} - C_3 \bar{\rho_a} \bar{\rho} - C_3 G_1 \bar{c} \bar{\rho_0} \right)\right] \right\} = 2 \bar{b} \left( 1 - \bar{\rho_a} \right) \bar{E} \]</span></p>
-<p><span class="math display">\[ -G_2 \frac{d}{d\bar{s}} \left\{ \bar{b}^2  \left[ C_2 \cos \theta \left( \bar{\rho} + G_1 \bar{c} \bar{\rho_0} \right) + C_3 \bar{u} \left( \bar{\rho} + G_1 \bar{c} \bar{\rho_0} \right)\right] \right\} = 0 \]</span></p>
-<p><span class="math display">\[ \frac{d}{d\bar{s}} \left\{ \bar{b}^2  \left[ C_2 \cos \theta \left( \bar{\rho} + G_1 \bar{c} \bar{\rho_0} \right) + C_3 \bar{u} \left( \bar{\rho} + G_1 \bar{c} \bar{\rho_0} \right)\right] \right\} = 0 \]</span></p>
+<p><span class="math display">\[ -G_2 \frac{d}{d\bar{s}} \left\{ \bar{b}^2  \left( C_2 \cos \theta + C_3 \bar{u} \right) \left( \bar{\rho} + G_1 \bar{c} \bar{\rho_0} \right) \right\} = 0 \]</span></p>
+<p><span class="math display">\[ \frac{d}{d\bar{s}} \left\{ \bar{b}^2  \left( C_2 \cos \theta + C_3 \bar{u} \right) \left( \bar{\rho} + G_1 \bar{c} \bar{\rho_0} \right) \right\} = 0 \]</span></p>
 <p>Since we can eliminate <span class="math inline">\(G_2\)</span> entirely, and that is the only place where the specific heat appears in the model, the model is entirely insensitive to differences in specific heat capacity between the jet and the ambient air when there is no density gradient in the ambient air.</p>
 <p>Comparing this to the 1972 Ooms model, when <span class="math inline">\(\rho_a = 1\)</span> we find, unsurprisingly, that they are quite similar</p>
-<p><span class="math display">\[ \frac{d}{d\bar{s}} \left\{ \bar{b}^2  \left[ C_2 \cos \theta \bar{\rho} + C_3 \bar{u} \bar{\rho} \right] \right\} = 0 \]</span></p>
-<p>Just from playing around, the 1974 model also appears to be quite insensitive to differences in <span class="math inline">\(G_1\)</span>, in that low density jets of gas appear to give the same plume regardless of how the density comes about – from temperature or molecular weight. I haven’t looked at it too closely but I wouldn’t be surprised if the terms containing <span class="math inline">\(G_1\)</span> turn out to be mostly constant (i.e.&nbsp;the derivative goes to zero). It could just be a coincidence, but quite a surprising coincidence, that every example I’ve tried the value of <span class="math inline">\(G_1\)</span> hasn’t mattered as long as it is consistent with <span class="math inline">\(\rho_0\)</span>.</p>
+<p><span class="math display">\[ \frac{d}{d\bar{s}} \left\{ \bar{b}^2  \bar{\rho} \left( C_2 \cos \theta + C_3 \bar{u} \right) \right\} = 0 \]</span></p>
+<p>Just from playing around, the 1974 model also appears to be quite insensitive to differences in <span class="math inline">\(G_1\)</span>, in that low density jets of gas appear to give the same plume regardless of how the density comes about – from temperature or molecular weight. I haven’t looked at it too closely but I wouldn’t be surprised if the terms containing <span class="math inline">\(G_1\)</span> turn out to be mostly constant (i.e.&nbsp;the derivative goes to zero). It could just be a coincidence, but quite a surprising coincidence, that every example I’ve tried the value of <span class="math inline">\(G_1\)</span> hasn’t mattered.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Update
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I did think of an easy way of showing that the model is also insensitive to <span class="math inline">\(G_1\)</span>, for the case when <span class="math inline">\(\bar{c} \propto \bar{\rho}\)</span>. Suppose <span class="math inline">\(\bar{c} = k \bar{\rho}\)</span> where <em>k</em> is some constant of proportionality (it doesn’t matter what it is). Picking up where I left off with the 1974 version of the Ooms energy balance equation with <span class="math inline">\(\bar{\rho}_a = 1\)</span></p>
+<p><span class="math display">\[ \frac{d}{d\bar{s}} \left\{ \bar{b}^2  \left( C_2 \cos \theta + C_3 \bar{u} \right) \left( \bar{\rho} + G_1 \bar{c} \bar{\rho_0} \right) \right\} = 0 \]</span></p>
+<p><span class="math display">\[ \frac{d}{d\bar{s}} \left\{ \bar{b}^2  \left( C_2 \cos \theta + C_3 \bar{u} \right) \left( 1 + G_1 k \bar{\rho_0} \right) \bar{\rho} \right\} = 0 \]</span></p>
+<p>Since <span class="math inline">\(\left( 1 + G_1 k \bar{\rho_0} \right)\)</span> is a constant we can pull it out of the derivative</p>
+<p><span class="math display">\[ \left( 1 + G_1 k \bar{\rho_0} \right) \frac{d}{d\bar{s}} \left\{ \bar{b}^2  \bar{\rho} \left( C_2 \cos \theta + C_3 \bar{u} \right)  \right\} = 0 \]</span></p>
+<p>and ultimately eliminate it entirely</p>
+<p><span class="math display">\[ \frac{d}{d\bar{s}} \left\{ \bar{b}^2  \bar{\rho} \left( C_2 \cos \theta + C_3 \bar{u} \right)  \right\} = 0 \]</span></p>
+<p>Which is the 1972 version of the thermal energy balance.</p>
+<p>That <span class="math inline">\(\bar{c} \propto \bar{\rho}\)</span> isn’t an onerous condition, in fact it follows directly from the ideal gas assumption and the mixing rule given in the definition of <span class="math inline">\(MW\)</span>, in fact it is</p>
+<p><span class="math display">\[ \bar{\rho} = { {\rho - \rho_a} \over \rho_a} = { {\rho_0 - \rho_{a,0}} \over \rho_{a,0}} \bar{c} \]</span></p>
+<p>Which is a round-about way of saying that, with the assumptions underlying the 1974 model, when <span class="math inline">\(\bar{\rho_a}=1\)</span> the model reduces down to the 1972 model and the exact molar weight and specific heat capacity of the gas don’t actually matter.</p>
+</div>
+</div>
 <p>The result of this is that, actually, the 1972 version of the Ooms plume dispersion model probably works fine in most situations being used for chemical engineering consequence analysis, where atmospheric density gradients are typically neglected. Once the right-hand-side of the equation is zero, a lot of complexity can be eliminated.</p>
 </section>
 <section id="breaking-out-the-result" class="level2">
