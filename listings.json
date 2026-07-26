@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/cooling_tower_plumes/index.html",
       "/posts/ooms_1974/index.html",
       "/posts/hydrogen_compression/index.html",
       "/posts/gaussian_explosive_mass/index.html",
@@ -43,6 +44,7 @@
   {
     "listing": "/archive.html",
     "items": [
+      "/posts/cooling_tower_plumes/index.html",
       "/posts/ooms_1974/index.html",
       "/posts/hydrogen_compression/index.html",
       "/posts/gaussian_explosive_mass/index.html",
