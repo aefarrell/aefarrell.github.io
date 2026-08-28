@@ -523,27 +523,9 @@ font-style: inherit;">:</span><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">end</span>]</span>
-<span id="annotated-cell-7-3"></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-7-4" class="code-annotation-target">    <span class="kw" style="color: #003B4F;
+<span id="annotated-cell-7-3">    ΔF <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-weight: bold;
-font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">log_likely</span>(params)</span>
-<span id="annotated-cell-7-5">        μ, σ <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> params</span>
-<span id="annotated-cell-7-6">        LN <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">LogNormal</span>(μ,σ)</span>
-<span id="annotated-cell-7-7">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">-sum</span>( ( Fs[<span class="fl" style="color: #AD0000;
+font-style: inherit;">=</span> Fs[<span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">2</span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -563,7 +545,28 @@ font-style: inherit;">end</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">1</span>] ) <span class="op" style="color: #5E5E5E;
+font-style: inherit;">1</span>]</span>
+<span id="annotated-cell-7-4"></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-7-5" class="code-annotation-target">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">log_likely</span>(params)</span>
+<span id="annotated-cell-7-6">        μ, σ <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> params</span>
+<span id="annotated-cell-7-7">        LN <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">LogNormal</span>(μ,σ)</span>
+<span id="annotated-cell-7-8">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">-sum</span>( ΔF <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">.*</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -574,12 +577,12 @@ background-color: null;
 font-style: inherit;">.-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">cdf</span>(LN, a ) ) )</span>
-<span id="annotated-cell-7-8">    <span class="kw" style="color: #003B4F;
+<span id="annotated-cell-7-9">    <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">end</span></span>
-<span id="annotated-cell-7-9"></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-7-10" class="code-annotation-target">    mids <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-7-10"></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-7-11" class="code-annotation-target">    mids <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
 background-color: null;
@@ -601,7 +604,7 @@ font-style: inherit;">:</span><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">end</span>]</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-7-11" class="code-annotation-target">    μ₀ <span class="op" style="color: #5E5E5E;
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-7-12" class="code-annotation-target">    μ₀ <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -628,7 +631,7 @@ background-color: null;
 font-style: inherit;">1</span>] ) <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">.*</span> mids )</span>
-<span id="annotated-cell-7-12">    σ₀² <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-7-13">    σ₀² <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -665,8 +668,8 @@ background-color: null;
 font-style: inherit;">^</span><span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">2</span></span>
-<span id="annotated-cell-7-13">    </span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-7-14" class="code-annotation-target">    res <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-7-14">    </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-7-15" class="code-annotation-target">    res <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -675,16 +678,16 @@ background-color: null;
 font-style: inherit;">√</span>(σ₀²)], <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">NelderMead</span>())</span>
-<span id="annotated-cell-7-15">    μ,σ <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-7-16">    μ,σ <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> Optim.<span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">minimizer</span>(res)</span>
-<span id="annotated-cell-7-16">    <span class="cf" style="color: #003B4F;
+<span id="annotated-cell-7-17">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> μ, σ, res</span>
-<span id="annotated-cell-7-17"><span class="kw" style="color: #003B4F;
+<span id="annotated-cell-7-18"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">end</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div></div>
@@ -692,19 +695,19 @@ font-style: inherit;">end</span></span><div class="code-annotation-gutter-bg"></
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="4" data-code-annotation="1">Define the (negative) log likelihood, <img src="https://latex.codecogs.com/png.latex?%5Cmathscr%7Bl%7D"></span>
+<span data-code-cell="annotated-cell-7" data-code-lines="5" data-code-annotation="1">Define the (negative) log likelihood, <img src="https://latex.codecogs.com/png.latex?%5Cmathscr%7Bl%7D"></span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="10" data-code-annotation="2">The first bin starts at <img src="https://latex.codecogs.com/png.latex?%5Clog%20d%20=%20%5Clog%200%20=%20-%5Cinfty">, so it has to be dropped when estimating <img src="https://latex.codecogs.com/png.latex?%5Cmu_0"> and <img src="https://latex.codecogs.com/png.latex?%5Csigma_0"></span>
+<span data-code-cell="annotated-cell-7" data-code-lines="11" data-code-annotation="2">The first bin starts at <img src="https://latex.codecogs.com/png.latex?%5Clog%20d%20=%20%5Clog%200%20=%20-%5Cinfty">, so it has to be dropped when estimating <img src="https://latex.codecogs.com/png.latex?%5Cmu_0"> and <img src="https://latex.codecogs.com/png.latex?%5Csigma_0"></span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="11,12" data-code-annotation="3">Calculate the initial guess for <img src="https://latex.codecogs.com/png.latex?%5Cmu"> and <img src="https://latex.codecogs.com/png.latex?%5Csigma"></span>
+<span data-code-cell="annotated-cell-7" data-code-lines="12,13" data-code-annotation="3">Calculate the initial guess for <img src="https://latex.codecogs.com/png.latex?%5Cmu"> and <img src="https://latex.codecogs.com/png.latex?%5Csigma"></span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="14" data-code-annotation="4">Find the set of parameters which minimize the negative log likelihood, equivalent to maximizing the log likelihood</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="15" data-code-annotation="4">Find the set of parameters which minimize the negative log likelihood, equivalent to maximizing the log likelihood</span>
 </dd>
 </dl>
 </div>
@@ -6553,7 +6556,7 @@ font-style: inherit;">mass🔴</span>(x₂)</span></code></pre></div></div>
 </div>
 <p>It is definitely a little bit of cheating to point out that the simple one-dimensional integral is much more performant than any of the three integrations of the whole volume, see Table&nbsp;1.</p>
 <div class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="42">
-<div id="tbl-perf" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="42">
+<div id="tbl-perf" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="42" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-perf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1: Performance of the integration methods.
