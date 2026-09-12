@@ -1,6 +1,7 @@
 /.quarto/
 /_site/
 /_freeze/
+/_extensions/
 .ipynb_checkpoints
 Manifest.toml
 poetry.lock

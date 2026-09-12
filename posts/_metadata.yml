@@ -20,6 +20,12 @@ comments:
   utterances:
     repo: aefarrell/aefarrell.github.io
 
+# share buttons
+filters:
+  - code-insertion
+insert-after-post: _sharebuttons.md
+
+
 # include CSS style for title blocks
 title-block-banner: url(/images/pipes-unsplash-header.jpg)
 title-block-banner-color: "#ffffff"
