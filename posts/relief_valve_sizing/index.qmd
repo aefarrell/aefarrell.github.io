@@ -4,11 +4,6 @@ description: "Compressible orifice flow calculations using equations of state."
 author: "Allan Farrell"
 date: "10/28/2024"
 categories: [julia, pressure relief, compressible flow, equations of state]
-image-credits:
-  - image: Banner
-    creator: CHUTTERSNAP
-    source: Unsplash
-    url: "https://unsplash.com/@chuttersnap"
 reference-location: margin
 bibliography: references.bib
 nocite: |
