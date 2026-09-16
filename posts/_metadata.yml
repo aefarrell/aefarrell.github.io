@@ -22,6 +22,7 @@ comments:
 
 # share buttons
 filters:
+  - image-credits
   - code-insertion
 insert-after-post: _sharebuttons.md
 

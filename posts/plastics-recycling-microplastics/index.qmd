@@ -6,6 +6,11 @@ date: "07/14/2024"
 categories: [plastic]
 title-block-banner: url(./soren-funk-unsplash.jpg)
 image: thumbnail.jpg
+image-credits:
+  - image: Banner and Thumbnail
+    creator: Sören Funk
+    source: Unsplash
+    url: https://unsplash.com/photos/green-and-brown-stone-on-brown-sand-jQuky0VINAI
 reference-location: margin
 bibliography: references.bib
 nocite: |
