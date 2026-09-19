@@ -5,6 +5,11 @@ author: "Allan Farrell"
 date: "03/19/2025"
 categories: [julia, compressible flow, blowdown, equations of state]
 title-block-banner: url(/images/pexels-daniil-prikhno-header.jpg)
+image-credits:
+  - image: Banner
+    creator: Daniil Prikhno
+    source: Pexels
+    url: https://www.pexels.com/photo/teal-gas-tanks-11489637/
 reference-location: margin
 ---
 
