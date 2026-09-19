@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/engineering_a_cup_of_coffee_part-3/index.html",
       "/posts/cooling_tower_plumes/index.html",
       "/posts/ooms_1974/index.html",
       "/posts/hydrogen_compression/index.html",
@@ -44,6 +45,7 @@
   {
     "listing": "/archive.html",
     "items": [
+      "/posts/engineering_a_cup_of_coffee_part-3/index.html",
       "/posts/cooling_tower_plumes/index.html",
       "/posts/ooms_1974/index.html",
       "/posts/hydrogen_compression/index.html",

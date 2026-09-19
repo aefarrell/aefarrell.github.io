@@ -155,6 +155,7 @@ background: url(./christianbuehner-unsplash-header.jpg);
   box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
 }
 </style>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=6aa5a22746655ee67163fe9c&amp;product=sop" async="async"></script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -468,6 +469,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#final-thoughts" id="toc-final-thoughts" class="nav-link" data-scroll-target="#final-thoughts">Final thoughts</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#image-credits" id="toc-image-credits" class="nav-link" data-scroll-target="#image-credits">Credits</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/aefarrell/aefarrell.github.io/blob/main/posts/Britter-McQuaid/index.ipynb" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/aefarrell/aefarrell.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
 </nav>
@@ -498,77 +500,77 @@ window.Quarto = {
 </ul>
 <p>The goal is to find the distance to the lower flammability limit (LFL) which is 5%(v/v) and ultimately work out the extent of the plume and total explosive mass.</p>
 <div id="3e0ab224-c20a-4676-a52f-2006af30ffaf" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Unitful</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>using Unitful</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Tₐ  <span class="op">=</span> <span class="fl">288.15</span>u<span class="st">"K"</span>      <span class="co"># ambient air temperature </span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ρₐ  <span class="op">=</span> <span class="fl">1.225</span>u<span class="st">"kg/m^3"</span>  <span class="co"># density of air at 15°C and 1atm</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>u₁₀ <span class="op">=</span> <span class="fl">10.9</span>u<span class="st">"m/s"</span>      <span class="co"># windspeed at 10m </span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Tₐ  <span class="op">=</span> <span class="fl">288.15</span><span class="er">u</span><span class="st">"K"</span>      <span class="co"># ambient air temperature </span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ρₐ  <span class="op">=</span> <span class="fl">1.225</span><span class="er">u</span><span class="st">"kg/m^3"</span>  <span class="co"># density of air at 15°C and 1atm</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>u₁₀ <span class="op">=</span> <span class="fl">10.9</span><span class="er">u</span><span class="st">"m/s"</span>      <span class="co"># windspeed at 10m </span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>ρₗ  <span class="op">=</span> <span class="fl">425.6</span>u<span class="st">"kg/m^3"</span>  <span class="co"># liquid density of LNG, given</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>ρᵥ  <span class="op">=</span> <span class="fl">1.76</span>u<span class="st">"kg/m^3"</span>   <span class="co"># vapour density of LNG, given</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>ṁ   <span class="op">=</span> ρₗ<span class="op">*</span><span class="fl">0.23</span>u<span class="st">"m^3/s"</span> <span class="co"># mass release rate</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Tᵣ  <span class="op">=</span> (<span class="fl">273.15</span> <span class="op">-</span> <span class="fl">162</span>)u<span class="st">"K"</span> <span class="co"># boiling point of LNG, given</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>ρₗ  <span class="op">=</span> <span class="fl">425.6</span><span class="er">u</span><span class="st">"kg/m^3"</span>  <span class="co"># liquid density of LNG, given</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>ρᵥ  <span class="op">=</span> <span class="fl">1.76</span><span class="er">u</span><span class="st">"kg/m^3"</span>   <span class="co"># vapour density of LNG, given</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>ṁ   <span class="op">=</span> ρₗ<span class="op">*</span><span class="fl">0.23</span><span class="er">u</span><span class="st">"m^3/s"</span> <span class="co"># mass release rate</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Tᵣ  <span class="op">=</span> (<span class="fl">273.15</span> <span class="op">-</span> <span class="dv">162</span>)<span class="st">u"K"</span> <span class="co"># boiling point of LNG, given</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>LFL <span class="op">=</span> <span class="fl">0.05</span> <span class="co"># lower flammability limit, volume fraction</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>Qₒ <span class="op">=</span> ṁ<span class="op">/</span>ρᵥ <span class="co"># gas volumetric flowrate: mass flowrate divided by gas density</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>First calculate the critical length, <em>D</em>, and the dimensionless parameter <em>α</em> for the model</p>
 <div id="ce5c3bc2-97c6-476c-bd84-7bbf871530cc" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> <span class="fu">√</span>(Qₒ<span class="op">/</span>u₁₀)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> √(Qₒ<span class="op">/</span>u₁₀)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="fl">9.806</span>u<span class="st">"m/s^2"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="fl">9.806</span><span class="er">u</span><span class="st">"m/s^2"</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>gₒ <span class="op">=</span> g <span class="op">*</span> (ρᵥ <span class="op">-</span> ρₐ )<span class="op">/</span> ρₐ</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>α <span class="op">=</span> <span class="fl">0.2</span><span class="fu">*log10</span>(gₒ<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> Qₒ <span class="op">/</span> u₁₀<span class="op">^</span><span class="fl">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>α <span class="op">=</span> <span class="fl">0.2</span><span class="op">*</span>log10(gₒ<span class="op">^</span><span class="dv">2</span> <span class="op">*</span> Qₒ <span class="op">/</span> u₁₀<span class="op">^</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then, using digitized curves<span class="citation" data-cites="ccps-1999">,<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></span> work out the points for the linear interpolation in terms of <span class="math inline">\(\beta = \log_{10}(x/D)\)</span></p>
 <div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;<a href="#ref-ccps-1999" role="doc-biblioref">AIChE/CCPS, 118</a>.</p></div></div><div id="e52641b4-c472-4025-8484-dcdf5205bc39" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Cs <span class="op">=</span> [ <span class="fl">0.1</span>,         <span class="fl">0.05</span>,        <span class="fl">0.02</span>,        <span class="fl">0.01</span>,        <span class="fl">0.005</span>,       <span class="fl">0.002</span>]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Cs <span class="op">=</span> [ <span class="fl">0.1</span>,         <span class="fl">0.05</span>,        <span class="fl">0.02</span>,        <span class="fl">0.01</span>,        <span class="fl">0.005</span>,       <span class="fl">0.002</span>]</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>βs <span class="op">=</span> [ <span class="fl">0.24</span><span class="op">*</span>α<span class="op">+</span><span class="fl">1.88</span>, <span class="fl">0.36</span><span class="op">*</span>α<span class="op">+</span><span class="fl">2.16</span>, <span class="fl">0.45</span><span class="op">*</span>α<span class="op">+</span><span class="fl">2.39</span>, <span class="fl">0.49</span><span class="op">*</span>α<span class="op">+</span><span class="fl">2.59</span>, <span class="fl">0.59</span><span class="op">*</span>α<span class="op">+</span><span class="fl">2.80</span>, <span class="fl">0.39</span><span class="op">*</span>α<span class="op">+</span><span class="fl">2.87</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>These points only cover the middle region of the concentration curve, where the concentration ratio, <span class="math inline">\({ c_m \over c_0 }\)</span>, is between 0.1 and 0.002, there is a near-field correlation that needs to be connected for concentration ratios &gt;0.1</p>
 <div id="fd2a3642-4625-420e-823a-7013d79d14c1" class="cell" data-tags="[]" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Cm_nf</span>(x′)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x′ <span class="op">&gt;</span> <span class="fl">0</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">306</span><span class="op">/</span>(<span class="fl">306</span> <span class="op">+</span> x′<span class="op">^</span><span class="fl">2</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>function Cm_nf(x′)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x′ <span class="op">&gt;</span> <span class="dv">0</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">306</span><span class="op">/</span>(<span class="dv">306</span> <span class="op">+</span> x′<span class="op">^</span><span class="dv">2</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">1.0</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    end</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>end</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>xnf <span class="op">=</span> <span class="fl">30</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>βnf <span class="op">=</span> <span class="fu">log10</span>(xnf)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>Cnf <span class="op">=</span> <span class="fu">Cm_nf</span>(xnf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>xnf <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>βnf <span class="op">=</span> log10(xnf)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>Cnf <span class="op">=</span> Cm_nf(xnf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>And a far field correlation for when the concentration ratio is &lt;0.002 which is basically just continuing the curve from the last point but such that the concentration decays with <em>1/x<sup>2</sup></em></p>
 <div id="cfe25b61-334c-4383-ad8d-932e635040c3" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>xff <span class="op">=</span> <span class="fl">10</span><span class="op">^</span>(<span class="fu">maximum</span>(βs))</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="fu">minimum</span>(Cs)<span class="op">*</span>xff<span class="op">^</span><span class="fl">2</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>xff <span class="op">=</span> <span class="dv">10</span><span class="op">^</span>(maximum(βs))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> minimum(Cs)<span class="op">*</span>xff<span class="op">^</span><span class="dv">2</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Cm_ff</span>(x′; A<span class="op">=</span>A)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A<span class="op">/</span>x′<span class="op">^</span><span class="fl">2</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>function Cm_ff(x′<span class="op">;</span> A<span class="op">=</span>A)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A<span class="op">/</span>x′<span class="op">^</span><span class="dv">2</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>end</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Finally, putting together the pieces: near field correlation, a linear interpolation for the middle of the concentration curve, and a far field correlation, to form the complete concentration function, along with a correction for non-isothermal releases (of which this is an example)</p>
 <div id="64d1219d-fc54-4834-9712-cc7abd9ceef8" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Interpolations</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>using Interpolations</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>itp <span class="op">=</span> <span class="fu">interpolate</span>( ([βnf; βs],), [Cnf; Cs], <span class="fu">Gridded</span>(<span class="fu">Linear</span>()) )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>itp <span class="op">=</span> interpolate( ([βnf<span class="op">;</span> βs],), [Cnf<span class="op">;</span> Cs], Gridded(Linear()) )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="3c720df7-8608-4c80-a9d3-60a82769aad7" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Cm</span>(x<span class="op">::</span><span class="dt">Quantity</span>; xnf<span class="op">=</span>xnf, xff<span class="op">=</span>xff, D<span class="op">=</span>D, T′<span class="op">=</span>Tᵣ<span class="op">/</span>Tₐ)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>function Cm(x::Quantity<span class="op">;</span> xnf<span class="op">=</span>xnf, xff<span class="op">=</span>xff, D<span class="op">=</span>D, T′<span class="op">=</span>Tᵣ<span class="op">/</span>Tₐ)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    x′ <span class="op">=</span> x<span class="op">/</span>D</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    c′ <span class="op">=</span> <span class="cf">if</span> x′ <span class="op">&lt;</span> xnf</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">Cm_nf</span>(x′)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elseif</span> xnf <span class="op">≤</span> x′ <span class="op">&lt;</span> xff</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">itp</span>(<span class="fu">log10</span>(x′))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        Cm_nf(x′)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    elseif xnf ≤ x′ <span class="op">&lt;</span> xff</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        itp(log10(x′))</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">Cm_ff</span>(x′)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        Cm_ff(x′)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    end</span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> c′ <span class="op">/</span> (c′ <span class="op">+</span> (<span class="fl">1</span> <span class="op">-</span> c′)<span class="op">*</span>T′)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> c′ <span class="op">/</span> (c′ <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> c′)<span class="op">*</span>T′)</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> c</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>end</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-conc-profile" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="8">
 <div class="cell-output cell-output-display" data-execution_count="8">
@@ -587,9 +589,9 @@ Figure&nbsp;1: The concentration profile for the Britter-McQuaid dense gas model
 <p>If all one needs is the distance to the LFL there is an easier way of doing this: interpolate the concentrations to find the <em>β</em> corresponding to the LFL (after applying the non-isothermal correction). However, if one also requires the plume dimensions the concentration profile is required.</p>
 <p>From the concentration profile calculating the downwind distance to the LFL is very straight-forward.</p>
 <div id="fd2c1ba0-b326-4b48-aa85-5f709eed97dc" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>using Roots</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>xn <span class="op">=</span> <span class="fu">find_zero</span>((x) <span class="op">-&gt;</span> <span class="fu">Cm</span>(x) <span class="op">-</span> LFL, (<span class="fl">300</span>,<span class="fl">400</span>)<span class="op">.*</span><span class="fl">1</span>u<span class="st">"m"</span>, Roots.<span class="fu">Brent</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>xn <span class="op">=</span> find_zero((x) <span class="op">-&gt;</span> Cm(x) <span class="op">-</span> LFL, (<span class="dv">300</span>,<span class="dv">400</span>).<span class="op">*</span><span class="dv">1</span><span class="er">u</span><span class="st">"m"</span>, Roots.Brent())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>354.5630187009715 m</code></pre>
 </div>
@@ -614,25 +616,25 @@ Figure&nbsp;2: Dense plume concentration contour<span class="citation" data-cite
 <p><span class="math display">\[ L_H = L_{Ho} + 2.5 \sqrt[3]{ l_b x^2 } \]</span></p>
 <p>with the buoyancy scale <em>l<sub>b</sub></em> defined as <span class="math display">\[ l_b = { { g_o Q_o } \over u_{ref}^{3} } \]</span></p>
 <div id="0824525a-09de-4815-b856-07095ab81c89" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> (gₒ<span class="op">*</span>Qₒ)<span class="op">/</span>u₁₀<span class="op">^</span><span class="fl">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> (gₒ<span class="op">*</span>Qₒ)<span class="op">/</span>u₁₀<span class="op">^</span><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>0.18392758812310803 m</code></pre>
 </div>
 </div>
 <div id="9325cc24-ba5d-4a58-b248-99dd3c7879bc" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Lᵤ  <span class="op">=</span> D<span class="op">/</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">2</span>lb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Lᵤ  <span class="op">=</span> D<span class="op">/</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">2l</span><span class="er">b</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>1.4973003373658906 m</code></pre>
 </div>
 </div>
 <div id="e0b14449-f2a8-4334-8600-01ff11d2e2c8" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Lₕₒ <span class="op">=</span> D <span class="op">+</span> <span class="fl">8</span>lb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Lₕₒ <span class="op">=</span> D <span class="op">+</span> <span class="dv">8l</span><span class="er">b</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>3.7303110272242135 m</code></pre>
 </div>
 </div>
 <div id="895da9f3-e885-45ee-8088-e0da07801300" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Lₕ</span>(x) <span class="op">=</span> Lₕₒ <span class="op">+</span> <span class="fl">2.5</span><span class="fu">∛</span>(lb<span class="op">*</span>x<span class="op">^</span><span class="fl">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>Lₕ(x) <span class="op">=</span> Lₕₒ <span class="op">+</span> <span class="fl">2.5</span>∛(lb<span class="op">*</span>x<span class="op">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="upwind-region" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="upwind-region">Upwind region</h3>
@@ -678,7 +680,7 @@ Figure&nbsp;3: The various approaches to estimating the upwind plume extent, bla
 <p>Setting the advection velocity of the plume to the reference windspeed gives</p>
 <p><span class="math display">\[ L_V = {1 \over 2}{ c_o \over c_m } { Q_o \over {u_{ref} L_H} } = {1 \over 2} { c_o \over c_m } { D^2 \over L_H }\]</span></p>
 <div id="e8d233f6-e668-4df5-b7b3-ba5ccbb5d78a" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Lᵥ</span>(x) <span class="op">=</span> D<span class="op">^</span><span class="fl">2</span><span class="op">/</span>(<span class="fl">2</span><span class="fu">*Cm</span>(x)<span class="fu">*Lₕ</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>Lᵥ(x) <span class="op">=</span> D<span class="op">^</span><span class="dv">2</span><span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>Cm(x)<span class="op">*</span>Lₕ(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This is definitely similar to what is given by Britter and McQuaid but with two big differences:</p>
 <ul>
@@ -787,9 +789,9 @@ Figure&nbsp;4: Approaches to plume height estimation (top) and the corresponding
 <p><span class="math display">\[ = 2 c_o L_U L_{Ho} {1 \over 2}{D^2 \over L_{Ho} } + c_o D^2 x_n \]</span></p>
 <p><span class="math display">\[ = c_o D^2 \left( L_U + x_n \right)\]</span></p>
 <div id="dab48e6e-44d1-4bec-bf45-2da635d57de1" class="cell" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cₒ <span class="op">=</span> ṁ<span class="op">/</span>Qₒ</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cₒ <span class="op">=</span> ṁ<span class="op">/</span>Qₒ</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>mₑ <span class="op">=</span> cₒ<span class="op">*</span>D<span class="op">^</span><span class="fl">2</span><span class="fu">*</span>(Lᵤ<span class="op">+</span>xn)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>mₑ <span class="op">=</span> cₒ<span class="op">*</span>D<span class="op">^</span><span class="dv">2</span><span class="op">*</span>(Lᵤ<span class="op">+</span>xn)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
 <pre><code>3197.617661470163 kg</code></pre>
 </div>
@@ -798,19 +800,19 @@ Figure&nbsp;4: Approaches to plume height estimation (top) and the corresponding
 <div class="no-row-height column-margin column-container"><div id="fn10"><p><sup>10</sup>&nbsp;<a href="#ref-woodward-1998" role="doc-biblioref">Woodward, <em>Estimating the Flammable Mass of a Vapour Cloud</em></a>.</p></div><div id="fn11"><p><sup>11</sup>&nbsp;Some sources recommend calculating the explosive mass as the region of the plume with the concentration <em>LFL</em> ≤ <em>c</em> ≤ <em>UFL</em>, in which case <span class="math inline">\(m_e = c_o D^2 \left( x_{n,LFL} - x_{n,UFL} \right)\)</span></p></div></div><p>If this seems too good to be true, the integration can be performed numerically by taking</p>
 <p><span class="math display">\[ \iint_A c \,dA = c_m \cdot 2L_H \cdot L_V \]</span></p>
 <div id="ff116de9-ba98-4c92-8e53-4262ada3ba09" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">QuadGK</span>: quadgk</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>using QuadGK: quadgk</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">∫∫cdA</span>(x)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="fu">Cm</span>(x) <span class="op">≥</span> LFL</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">cₒ*Cm</span>(x)<span class="fu">*</span>(<span class="fl">2</span><span class="fu">Lₕ</span>(x))<span class="fu">*Lᵥ</span>(x)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>function ∫∫cdA(x)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> Cm(x) ≥ LFL</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> cₒ<span class="op">*</span>Cm(x)<span class="op">*</span>(<span class="dv">2L</span><span class="er">ₕ</span>(x))<span class="op">*</span>Lᵥ(x)</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">0.0</span>u<span class="st">"kg/m"</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">0.0</span><span class="er">u</span><span class="st">"kg/m"</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    end</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>end</span>
 <span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>m_ed, err <span class="op">=</span> <span class="fu">quadgk</span>(∫∫cdA, <span class="fl">0</span>u<span class="st">"m"</span>, xn)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>m_ed, err <span class="op">=</span> quadgk(∫∫cdA, <span class="dv">0</span><span class="er">u</span><span class="st">"m"</span>, xn)</span>
 <span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>m_eu <span class="op">=</span> <span class="fl">2</span><span class="fu">*cₒ*Lᵤ*Lₕₒ*Lᵥ</span>(<span class="fl">0</span>u<span class="st">"m"</span>)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>m_eu <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>cₒ<span class="op">*</span>Lᵤ<span class="op">*</span>Lₕₒ<span class="op">*</span>Lᵥ(<span class="dv">0</span><span class="er">u</span><span class="st">"m"</span>)</span>
 <span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>m_eu <span class="op">+</span> m_ed</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
@@ -820,7 +822,7 @@ Figure&nbsp;4: Approaches to plume height estimation (top) and the corresponding
 <p>Which is exactly the same.</p>
 <p>Above I claimed the upwind region was “small” relative to the downwind region, this can be shown easily as the mass in each region is directly proportional to the length.</p>
 <div id="20b52fcc-d551-4021-adc9-9572aa23c07c" class="cell" data-execution_count="19">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Lᵤ<span class="op">/</span>(Lᵤ<span class="op">+</span>xn)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Lᵤ<span class="op">/</span>(Lᵤ<span class="op">+</span>xn)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>0.004205187316042018</code></pre>
 </div>
@@ -846,15 +848,15 @@ Figure&nbsp;4: Approaches to plume height estimation (top) and the corresponding
 <p>There is probably a closed form for this integral but it is just as easy to integrate that numerically.</p>
 <p><span class="math display">\[ m_{e, \textrm{cut off} } = c_o D^2 \left( L_U + \frac{2}{3}x_n + 3 L_{H, 2/3 x_n} \int_{2/3 x_n}^{x_n} { 1 \over L_H(x) } { {x_n - x} \over x_n } \,dx   \right)\]</span></p>
 <div id="4542aa2b-35b4-4cd8-92eb-532ce03c795a" class="cell" data-execution_count="20">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>mₑ_cutoff <span class="op">=</span> cₒ<span class="op">*</span>D<span class="op">^</span><span class="fl">2</span><span class="fu">*</span>(Lᵤ <span class="op">+</span> (<span class="fl">2</span><span class="op">/</span><span class="fl">3</span>)<span class="op">*</span>xn </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> <span class="fl">3</span><span class="fu">*Lₕ</span>((<span class="fl">2</span><span class="op">/</span><span class="fl">3</span>)<span class="op">*</span>xn)<span class="fu">*quadgk</span>( (x) <span class="op">-&gt;</span> (xn <span class="op">-</span> x)<span class="op">/</span>(<span class="fu">xn*Lₕ</span>(x)), (<span class="fl">2</span><span class="op">/</span><span class="fl">3</span>)<span class="op">*</span>xn, xn)[<span class="fl">1</span>] )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>mₑ_cutoff <span class="op">=</span> cₒ<span class="op">*</span>D<span class="op">^</span><span class="dv">2</span><span class="op">*</span>(Lᵤ <span class="op">+</span> (<span class="dv">2</span><span class="op">/</span><span class="dv">3</span>)<span class="op">*</span>xn </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> <span class="dv">3</span><span class="op">*</span>Lₕ((<span class="dv">2</span><span class="op">/</span><span class="dv">3</span>)<span class="op">*</span>xn)<span class="op">*</span>quadgk( (x) <span class="op">-&gt;</span> (xn <span class="op">-</span> x)<span class="op">/</span>(xn<span class="op">*</span>Lₕ(x)), (<span class="dv">2</span><span class="op">/</span><span class="dv">3</span>)<span class="op">*</span>xn, xn)[<span class="dv">1</span>] )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>2620.489605856347 kg</code></pre>
 </div>
 </div>
 <p>This works out to be about 20% less than the original explosive mass.</p>
 <div id="e233ee82-ee31-48f8-9c1c-b2571d12756b" class="cell" data-execution_count="21">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>mₑ_cutoff<span class="op">/</span>mₑ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>mₑ_cutoff<span class="op">/</span>mₑ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>0.8195131136008078</code></pre>
 </div>
@@ -891,6 +893,17 @@ Woodward, John L. <em>Estimating the Flammable Mass of a Vapour Cloud</em>. New 
 </div>
 
 
+</section>
+<section id="image-credits" class="level2">
+<h2 class="anchored" data-anchor-id="image-credits">Credits</h2>
+<ul>
+<li>Banner: Christian Buehner (
+<a href="https://unsplash.com/es/fotos/una-foto-en-blanco-y-negro-de-una-gran-columna-de-humo-_zkkEn64jfU">Unsplash</a>
+)</li>
+</ul>
+<div class="sharethis-inline-share-buttons pt-5">
+
+</div>
 </section>
 
 

@@ -159,6 +159,7 @@ background-size: cover;
   box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
 }
 </style>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=6aa5a22746655ee67163fe9c&amp;product=sop" async="async"></script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -465,6 +466,8 @@ window.Quarto = {
   <li><a href="#wandering-off" id="toc-wandering-off" class="nav-link" data-scroll-target="#wandering-off">Wandering off</a></li>
   <li><a href="#a-model-of-cooling-tower-plumes" id="toc-a-model-of-cooling-tower-plumes" class="nav-link" data-scroll-target="#a-model-of-cooling-tower-plumes">A Model of Cooling Tower Plumes</a></li>
   <li><a href="#final-thoughts-and-recommendations" id="toc-final-thoughts-and-recommendations" class="nav-link" data-scroll-target="#final-thoughts-and-recommendations">Final Thoughts and Recommendations</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#image-credits" id="toc-image-credits" class="nav-link" data-scroll-target="#image-credits">Credits</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/aefarrell/aefarrell.github.io/blob/main/posts/cooling_tower_plumes/index.ipynb" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/aefarrell/aefarrell.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
 </nav>
@@ -508,79 +511,14 @@ Note
 <p><span class="math display">\[ y_{mid} = { {y_2 + y_1} \over 2 } \]</span></p>
 </div>
 </div>
-<p>Before we dive into doing any math, below are the two datasets we will be working with, loaded into <code>DataFrame</code>s and scaled.</p>
-<div id="c06952ef-a17d-4f78-8b92-436d88f0a545" class="cell" data-scrolled="true" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Drift Data from Old Wood Herringbone Mist Eliminators</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># W = 0.01%</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>herringbone <span class="op">=</span> CSV.<span class="fu">read</span>(<span class="fu">IOBuffer</span>(<span class="st">"""</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="st">d   F</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="st">0   0.00</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">15  0.15</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="st">25  0.29</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="st">35  0.99</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="st">45  2.22</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="st">55  3.79</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="st">65  5.54</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st">80  9.25</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">100 13.52</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="st">120 18.15</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="st">140 22.97</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="st">165 32.07</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="st">195 42.56</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="st">225 53.43</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="st">255 63.24</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="st">285 71.38</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="st">325 80.88</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="st">375 87.36</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="st">425 90.89</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="st">475 94.04</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="st">550 97.54</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="st">650 99.52</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="st">750 99.52</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="st">850 99.52</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="st">950 100.00</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>), DataFrame; delim<span class="op">=</span><span class="st">"    "</span>, types<span class="op">=</span>[<span class="dt">Float64</span>, <span class="dt">Float64</span>], header<span class="op">=</span><span class="cn">true</span>);</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>herringbone.F <span class="op">.=</span> herringbone.F <span class="op">./</span> <span class="fl">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div id="cf92b476-5416-48a1-99e7-37e2477d7955" class="cell" data-scrolled="true" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Drift Data from New Cellular Drift Eliminators</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># W = 0.0003%</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>cellular <span class="op">=</span> CSV.<span class="fu">read</span>(<span class="fu">IOBuffer</span>(<span class="st">"""</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">d   F</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="st">0   0.00</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st">10  0.00</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">20  0.20</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">30  0.23</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="st">40  0.51</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="st">50  1.82</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="st">60  5.70</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="st">70  21.35</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="st">90  49.81</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="st">110 70.51</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="st">130 82.02</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="st">150 88.01</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="st">180 91.03</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="st">210 92.47</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="st">240 94.09</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="st">270 94.69</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="st">300 96.29</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="st">350 97.01</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="st">400 98.34</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="st">450 99.07</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="st">500 99.07</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="st">600 100.00</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>), DataFrame; delim<span class="op">=</span><span class="st">"    "</span>, types<span class="op">=</span>[<span class="dt">Float64</span>, <span class="dt">Float64</span>], header<span class="op">=</span><span class="cn">true</span>);</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>cellular.F <span class="op">.=</span> cellular.F <span class="op">./</span> <span class="fl">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
+<p>I have loaded two dataframes, <code>herringbone</code> and <code>cellular</code> with the data for the “Old Wood Herringbone Mist Eliminators” and the “New Cellular Drift Eliminators”, respectively.</p>
 <p>The method presented in the ECCC calculator is equivalent to the following</p>
 <div id="7cc1678f-9ff2-4bfc-b1b2-134fd2859d5a" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="fl">0.5</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ECCC <span class="op">=</span> <span class="fu">DataFrame</span>()</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ECCC.d <span class="op">=</span> (<span class="fl">1</span><span class="op">-</span>t)<span class="op">*</span>herringbone.d[<span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(cellular.d)] <span class="op">.+</span> t<span class="op">*</span>cellular.d</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ECCC.F <span class="op">=</span> (<span class="fl">1</span><span class="op">-</span>t)<span class="op">*</span>herringbone.F[<span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(cellular.F)] <span class="op">.+</span> t<span class="op">*</span>cellular.F</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ECCC <span class="op">=</span> <span class="fu">DataFrame</span>()</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ECCC.d <span class="op">=</span> (<span class="fl">1</span><span class="op">-</span>t)<span class="op">*</span>herringbone.d[<span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(cellular.d)] <span class="op">.+</span> t<span class="op">*</span>cellular.d</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>ECCC.F <span class="op">=</span> (<span class="fl">1</span><span class="op">-</span>t)<span class="op">*</span>herringbone.F[<span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(cellular.F)] <span class="op">.+</span> t<span class="op">*</span>cellular.F</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-eccc-model" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="5">
 <div id="fig-eccc-model" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="5">
@@ -636,29 +574,29 @@ Figure&nbsp;3: A model for cooling tower plume generation, two sub-processes gen
 <p>The final value is then given by the interpolation:</p>
 <p><span class="math display">\[ F_t(d) = (1 - t)F_1(d) + t F_2(d) \]</span></p>
 <div id="c5af8639-d296-4a0c-978d-b5f3d23d7fb0" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Interpolations</span>: linear_interpolation, Flat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Interpolations</span>: linear_interpolation, Flat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="f1268b14-de96-4f61-941a-16e5881dcbdf" class="cell" data-scrolled="true" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode julia code-annotation-code code-with-copy code-annotated"><code class="sourceCode julia"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>F₁ <span class="op">=</span> <span class="fu">linear_interpolation</span>(herringbone.d, herringbone.F;</span>
-<span id="annotated-cell-5-2"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>                          extrapolation_bc <span class="op">=</span> <span class="fu">Flat</span>())</span>
-<span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-4" class="code-annotation-target"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>F₂ <span class="op">=</span> <span class="fu">linear_interpolation</span>(cellular.d,cellular.F;</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-5-5" class="code-annotation-target"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>                          extrapolation_bc <span class="op">=</span> <span class="fu">Flat</span>())</span>
-<span id="annotated-cell-5-6"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-5-7" class="code-annotation-target"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">Fₜ</span>(d; t<span class="op">=</span><span class="fl">0.5</span>) <span class="op">=</span> (<span class="fl">1</span><span class="op">-</span>t)<span class="fu">*F₁</span>(d) <span class="op">+</span> <span class="fu">t*F₂</span>(d)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode julia code-annotation-code code-with-copy code-annotated"><code class="sourceCode julia"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>F₁ <span class="op">=</span> <span class="fu">linear_interpolation</span>(herringbone.d, herringbone.F;</span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>                          extrapolation_bc <span class="op">=</span> <span class="fu">Flat</span>())</span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-4" class="code-annotation-target"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>F₂ <span class="op">=</span> <span class="fu">linear_interpolation</span>(cellular.d,cellular.F;</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-3-5" class="code-annotation-target"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>                          extrapolation_bc <span class="op">=</span> <span class="fu">Flat</span>())</span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-3-7" class="code-annotation-target"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">Fₜ</span>(d; t<span class="op">=</span><span class="fl">0.5</span>) <span class="op">=</span> (<span class="fl">1</span><span class="op">-</span>t)<span class="fu">*F₁</span>(d) <span class="op">+</span> <span class="fu">t*F₂</span>(d)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="4" data-code-annotation="1">Linear interpolation of the experimental data using <code>Interpolations.jl</code></span>
+<span data-code-cell="annotated-cell-3" data-code-lines="4" data-code-annotation="1">Linear interpolation of the experimental data using <code>Interpolations.jl</code></span>
 </dd>
-<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="5" data-code-annotation="2">Assume the cdfs are constant at the ends, so <span class="math inline">\(F(d) = F_{max} = 1.0\)</span> when <span class="math inline">\(d&gt;d_{max}\)</span></span>
+<span data-code-cell="annotated-cell-3" data-code-lines="5" data-code-annotation="2">Assume the cdfs are constant at the ends, so <span class="math inline">\(F(d) = F_{max} = 1.0\)</span> when <span class="math inline">\(d&gt;d_{max}\)</span></span>
 </dd>
-<dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="7" data-code-annotation="3">Interpolate between <span class="math inline">\(F_1\)</span> and <span class="math inline">\(F_2\)</span> to arrive at the final cdf.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="7" data-code-annotation="3">Interpolate between <span class="math inline">\(F_1\)</span> and <span class="math inline">\(F_2\)</span> to arrive at the final cdf.</span>
 </dd>
 </dl>
 </div>
@@ -685,7 +623,7 @@ Figure&nbsp;4: The two measured droplet size distributions, the interpolated by 
 <p>I’m being a little loose with terminology, by “fitting” a log-normal distribution to this binned data what I really mean is finding the parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> which minimize the <a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">K-L divergence</a> between the observed cdf and that of a log-normal distribution (with parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> obviously).</p>
 <p><span class="math display">\[ D_{KL} = \sum_i \left( F_{i+1} - F_{i} \right) \log \left( {F_{i+1} - F_{i}} \over { LN\left( d_{i+1}; \mu, \sigma \right) - LN\left( d_{i} ; \mu, \sigma \right) }\right) \]</span></p>
 <p>Where <span class="math inline">\(LN\left( x ; \mu, \sigma \right)\)</span> is the cdf for the <a href="https://en.wikipedia.org/wiki/Log-normal_distribution">log-normal distribution</a>. Expanding the log gives</p>
-<p><span class="math display">\[ D_{KL} = \sum_i \left( F_{i+1} - F_{i} \right) \log \left( {F_{i+1} - F_{i}} \right) - \sum_i \left( F_{i+1} - F_{i} \right) \log \left( LN\left( d_{i+1}; \mu, \sigma \right) - LN\left( d_{i} ; \mu, \sigma \right) \right) \]</span></p>
+<p><span class="math display">\[ D_{KL} = \sum_i \left( F_{i+1} - F_{i} \right) \log \left( {F_{i+1} - F_{i}} \right) \]</span> <span class="math display">\[- \sum_i \left( F_{i+1} - F_{i} \right) \log \left( LN\left( d_{i+1}; \mu, \sigma \right) - LN\left( d_{i} ; \mu, \sigma \right) \right) \]</span></p>
 <p>The entire expression <span class="math inline">\(\sum_i \left( F_{i+1} - F_{i} \right) \log \left( {F_{i+1} - F_{i}} \right)\)</span> is a constant with respect to <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> so minimizing the KL divergence ultimately amounts to maximizing</p>
 <p><span class="math display">\[ \mathscr{l} = \sum_i \left( F_{i+1} - F_{i} \right) \log \left( LN\left( d_{i+1}; \mu, \sigma \right) - LN\left( d_{i} ; \mu, \sigma \right) \right) \]</span></p>
 <p>which is just maximizing the log-likelihood (something you may have expected).</p>
@@ -694,63 +632,63 @@ Figure&nbsp;4: The two measured droplet size distributions, the interpolated by 
 <p><span class="math display">\[ \sigma_0^2 = \frac{1}{4} \sum_i \left( F_{i+1} - F_{i} \right) \left( \log d_{i+1} + \log d_{i} \right)^2 - \mu_0^2\]</span></p>
 <p>These will not always be great approximations, especially when there are few bins, but they are useful starting points. Probably one could work through setting <span class="math inline">\(\frac{\partial \mathscr{l}}{\partial \mu} = 0\)</span> and <span class="math inline">\(\frac{\partial \mathscr{l}}{\partial \sigma} = 0\)</span> and solving for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> that way. It is just as easier for the lazy engineer to pop everything into <code>Optim.jl</code> and have it do all the work.</p>
 <div id="1a7de5c1-73a2-4650-b8a9-7071d32d90f0" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Optim</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Distributions</span>: LogNormal, cdf, pdf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Optim</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Distributions</span>: LogNormal, cdf, pdf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="c6cbe537-2573-48ff-8713-22b7b60fa89e" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode julia code-annotation-code code-with-copy code-annotated"><code class="sourceCode julia"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">fit_lognormal</span>(ds, Fs)          </span>
-<span id="annotated-cell-7-2"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a>    a, b <span class="op">=</span> ds[<span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>], ds[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
-<span id="annotated-cell-7-3"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a>    ΔF <span class="op">=</span> Fs[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>] <span class="op">.-</span> Fs[<span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>]</span>
-<span id="annotated-cell-7-4"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-7-5" class="code-annotation-target"><a href="#annotated-cell-7-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">log_likely</span>(params)</span>
-<span id="annotated-cell-7-6"><a href="#annotated-cell-7-6" aria-hidden="true" tabindex="-1"></a>        μ, σ <span class="op">=</span> params</span>
-<span id="annotated-cell-7-7"><a href="#annotated-cell-7-7" aria-hidden="true" tabindex="-1"></a>        LN <span class="op">=</span> <span class="fu">LogNormal</span>(μ,σ)</span>
-<span id="annotated-cell-7-8"><a href="#annotated-cell-7-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">-sum</span>( ΔF <span class="op">.*</span> <span class="fu">log</span>.( <span class="fu">cdf</span>(LN, b ) <span class="op">.-</span> <span class="fu">cdf</span>(LN, a ) ) )</span>
-<span id="annotated-cell-7-9"><a href="#annotated-cell-7-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
-<span id="annotated-cell-7-10"><a href="#annotated-cell-7-10" aria-hidden="true" tabindex="-1"></a></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-7-11" class="code-annotation-target"><a href="#annotated-cell-7-11" aria-hidden="true" tabindex="-1"></a>    mids <span class="op">=</span> <span class="fl">0.5</span><span class="fu">*</span>( <span class="fu">log</span>.(b) <span class="op">.+</span> <span class="fu">log</span>.(a) ); mids <span class="op">=</span> mids[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-7-12" class="code-annotation-target"><a href="#annotated-cell-7-12" aria-hidden="true" tabindex="-1"></a>    μ₀ <span class="op">=</span> <span class="fu">sum</span>( ( Fs[<span class="fl">3</span><span class="op">:</span><span class="kw">end</span>] <span class="op">.-</span> Fs[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>] ) <span class="op">.*</span> mids )</span>
-<span id="annotated-cell-7-13"><a href="#annotated-cell-7-13" aria-hidden="true" tabindex="-1"></a>    σ₀² <span class="op">=</span> <span class="fu">sum</span>( ( Fs[<span class="fl">3</span><span class="op">:</span><span class="kw">end</span>] <span class="op">.-</span> Fs[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>] ) <span class="op">.*</span> ( mids<span class="op">.^</span><span class="fl">2</span>) ) <span class="op">-</span> μ₀<span class="op">^</span><span class="fl">2</span></span>
-<span id="annotated-cell-7-14"><a href="#annotated-cell-7-14" aria-hidden="true" tabindex="-1"></a>    </span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-7-15" class="code-annotation-target"><a href="#annotated-cell-7-15" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> <span class="fu">optimize</span>(log_likely, [μ₀, <span class="fu">√</span>(σ₀²)], <span class="fu">NelderMead</span>())</span>
-<span id="annotated-cell-7-16"><a href="#annotated-cell-7-16" aria-hidden="true" tabindex="-1"></a>    μ,σ <span class="op">=</span> Optim.<span class="fu">minimizer</span>(res)</span>
-<span id="annotated-cell-7-17"><a href="#annotated-cell-7-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> μ, σ, res</span>
-<span id="annotated-cell-7-18"><a href="#annotated-cell-7-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode julia code-annotation-code code-with-copy code-annotated"><code class="sourceCode julia"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">fit_lognormal</span>(ds, Fs)          </span>
+<span id="annotated-cell-5-2"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>    a, b <span class="op">=</span> ds[<span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>], ds[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
+<span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>    ΔF <span class="op">=</span> Fs[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>] <span class="op">.-</span> Fs[<span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>]</span>
+<span id="annotated-cell-5-4"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-5" class="code-annotation-target"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">log_likely</span>(params)</span>
+<span id="annotated-cell-5-6"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>        μ, σ <span class="op">=</span> params</span>
+<span id="annotated-cell-5-7"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a>        LN <span class="op">=</span> <span class="fu">LogNormal</span>(μ,σ)</span>
+<span id="annotated-cell-5-8"><a href="#annotated-cell-5-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">-sum</span>( ΔF <span class="op">.*</span> <span class="fu">log</span>.( <span class="fu">cdf</span>(LN, b ) <span class="op">.-</span> <span class="fu">cdf</span>(LN, a ) ) )</span>
+<span id="annotated-cell-5-9"><a href="#annotated-cell-5-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="annotated-cell-5-10"><a href="#annotated-cell-5-10" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-5-11" class="code-annotation-target"><a href="#annotated-cell-5-11" aria-hidden="true" tabindex="-1"></a>    mids <span class="op">=</span> <span class="fl">0.5</span><span class="fu">*</span>( <span class="fu">log</span>.(b) <span class="op">.+</span> <span class="fu">log</span>.(a) ); mids <span class="op">=</span> mids[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-5-12" class="code-annotation-target"><a href="#annotated-cell-5-12" aria-hidden="true" tabindex="-1"></a>    μ₀ <span class="op">=</span> <span class="fu">sum</span>( ( Fs[<span class="fl">3</span><span class="op">:</span><span class="kw">end</span>] <span class="op">.-</span> Fs[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>] ) <span class="op">.*</span> mids )</span>
+<span id="annotated-cell-5-13"><a href="#annotated-cell-5-13" aria-hidden="true" tabindex="-1"></a>    σ₀² <span class="op">=</span> <span class="fu">sum</span>( ( Fs[<span class="fl">3</span><span class="op">:</span><span class="kw">end</span>] <span class="op">.-</span> Fs[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>] ) <span class="op">.*</span> ( mids<span class="op">.^</span><span class="fl">2</span>) ) <span class="op">-</span> μ₀<span class="op">^</span><span class="fl">2</span></span>
+<span id="annotated-cell-5-14"><a href="#annotated-cell-5-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-5-15" class="code-annotation-target"><a href="#annotated-cell-5-15" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> <span class="fu">optimize</span>(log_likely, [μ₀, <span class="fu">√</span>(σ₀²)], <span class="fu">NelderMead</span>())</span>
+<span id="annotated-cell-5-16"><a href="#annotated-cell-5-16" aria-hidden="true" tabindex="-1"></a>    μ,σ <span class="op">=</span> Optim.<span class="fu">minimizer</span>(res)</span>
+<span id="annotated-cell-5-17"><a href="#annotated-cell-5-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> μ, σ, res</span>
+<span id="annotated-cell-5-18"><a href="#annotated-cell-5-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="5" data-code-annotation="1">Define the (negative) log likelihood, <span class="math inline">\(\mathscr{l}\)</span></span>
+<span data-code-cell="annotated-cell-5" data-code-lines="5" data-code-annotation="1">Define the (negative) log likelihood, <span class="math inline">\(\mathscr{l}\)</span></span>
 </dd>
-<dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="11" data-code-annotation="2">The first bin starts at <span class="math inline">\(\log d = \log 0 = -\infty\)</span>, so it has to be dropped when estimating <span class="math inline">\(\mu_0\)</span> and <span class="math inline">\(\sigma_0\)</span></span>
+<span data-code-cell="annotated-cell-5" data-code-lines="11" data-code-annotation="2">The first bin starts at <span class="math inline">\(\log d = \log 0 = -\infty\)</span>, so it has to be dropped when estimating <span class="math inline">\(\mu_0\)</span> and <span class="math inline">\(\sigma_0\)</span></span>
 </dd>
-<dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="12,13" data-code-annotation="3">Calculate the initial guess for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span></span>
+<span data-code-cell="annotated-cell-5" data-code-lines="12,13" data-code-annotation="3">Calculate the initial guess for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span></span>
 </dd>
-<dt data-target-cell="annotated-cell-7" data-target-annotation="4">4</dt>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="15" data-code-annotation="4">Find the set of parameters which minimize the negative log likelihood, equivalent to maximizing the log likelihood</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="15" data-code-annotation="4">Find the set of parameters which minimize the negative log likelihood, equivalent to maximizing the log likelihood</span>
 </dd>
 </dl>
 </div>
 </div>
 <div id="1f961a10-2793-4b9a-bd7f-558cdb5bb8aa" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>μh, σh, resh <span class="op">=</span> <span class="fu">fit_lognormal</span>(herringbone.d, herringbone.F)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>μc, σc, resc <span class="op">=</span> <span class="fu">fit_lognormal</span>(cellular.d, cellular.F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>μh, σh, resh <span class="op">=</span> <span class="fu">fit_lognormal</span>(herringbone.d, herringbone.F)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>μc, σc, resc <span class="op">=</span> <span class="fu">fit_lognormal</span>(cellular.d, cellular.F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>After finding the log-normal fit to the two datasets, we then interpolate the parameters for the new log-normal distribution using</p>
 <p><span class="math display">\[ \mu_t = (1-t) \mu_h + t \mu_c \]</span></p>
 <p><span class="math display">\[ \sigma^2_t = (1-t) \sigma_h^2 + t \sigma_c^2 \]</span></p>
 <p>Below I have provided a helper function that gives us a new <code>LogNormal</code> distribution as a function of <span class="math inline">\(t\)</span> (and we can use the functions built into <code>Distributions.jl</code> to retrieve whatever we like)</p>
 <div id="7f116c62-b023-48f1-832b-4a4a237c76c7" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">LNₜ</span>(t)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    μₜ <span class="op">=</span> (<span class="fl">1</span><span class="op">-</span>t)<span class="op">*</span>μh <span class="op">+</span> t<span class="op">*</span>μc</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    σₜ <span class="op">=</span> <span class="fu">√</span>( (<span class="fl">1</span><span class="op">-</span>t)<span class="op">*</span>σh<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> t<span class="op">*</span>σc<span class="op">^</span><span class="fl">2</span> )</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">LogNormal</span>(μₜ,σₜ)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">LNₜ</span>(t)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    μₜ <span class="op">=</span> (<span class="fl">1</span><span class="op">-</span>t)<span class="op">*</span>μh <span class="op">+</span> t<span class="op">*</span>μc</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    σₜ <span class="op">=</span> <span class="fu">√</span>( (<span class="fl">1</span><span class="op">-</span>t)<span class="op">*</span>σh<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> t<span class="op">*</span>σc<span class="op">^</span><span class="fl">2</span> )</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">LogNormal</span>(μₜ,σₜ)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-parametric-model" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="15">
 <div id="fig-parametric-model" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="15">
@@ -775,78 +713,78 @@ Figure&nbsp;5: The two measured droplet size distributions, with log-normal fits
 <p><span class="math display">\[ G(d) = (1 - \xi) \int_{0}^{d} \mathscr{f}_{LN}\left( x; \mu_1, \sigma_1 \right) dx + \xi \int_{0}^{d} \mathscr{f}_{LN}\left( x; \mu_2, \sigma_2 \right) dx \]</span></p>
 <p><span class="math display">\[ G(d) = (1 - \xi) LN \left( d; \mu_1, \sigma_1 \right) + \xi LN \left( d; \mu_2, \sigma_2 \right) \]</span></p>
 <p>In this model we want both the Old Herringbone and New Cellular distributions to share the parameters <span class="math inline">\(\mu_1\)</span>, <span class="math inline">\(\sigma_1\)</span>, <span class="math inline">\(\mu_2\)</span>, and <span class="math inline">\(\sigma_2\)</span>, they will only differ in <span class="math inline">\(\xi\)</span>. Putting this in terms of KL divergence, we want to find the parameters <span class="math inline">\(\mu_1\)</span>, <span class="math inline">\(\sigma_1\)</span>, <span class="math inline">\(\mu_2\)</span>, <span class="math inline">\(\sigma_2\)</span>, <span class="math inline">\(\xi_h\)</span>, <span class="math inline">\(\xi_c\)</span> which minimize</p>
-<p><span class="math display">\[ D_{KL} = \sum_{i \in \mathrm{herringbone}} \left( F_{i+1} - F_{i} \right) \log \left( {F_{i+1} - F_{i}} \over { G(d_{i+1}; \xi_h, \dots) - G(d_{i}; \xi_h, \dots) }\right) + \sum_{j \in \mathrm{cellular}} \left( F_{j+1} - F_{j} \right) \log \left( {F_{j+1} - F_{j}} \over { G(d_{j+1}; \xi_c, \dots) - G(d_{j}; \xi_c, \dots) }\right) \]</span></p>
+<p><span class="math display">\[ D_{KL} = \sum_{i \in \mathrm{herringbone}} \left( F_{i+1} - F_{i} \right) \log \left( {F_{i+1} - F_{i}} \over { G(d_{i+1}; \xi_h, \dots) - G(d_{i}; \xi_h, \dots) }\right)\]</span> <span class="math display">\[+ \sum_{j \in \mathrm{cellular}} \left( F_{j+1} - F_{j} \right) \log \left( {F_{j+1} - F_{j}} \over { G(d_{j+1}; \xi_c, \dots) - G(d_{j}; \xi_c, \dots) }\right) \]</span></p>
 <p>Following the same logic as before, this is equivalent to maximizing the log-likelihood given by</p>
-<p><span class="math display">\[ \mathscr{l} = \sum_{i \in \mathrm{herringbone}} \left( F_{i+1} - F_{i} \right) \log \left( { G(d_{i+1}; \xi_h, \dots) - G(d_{i}; \xi_h, \dots) }\right) + \sum_{j \in \mathrm{cellular}} \left( F_{j+1} - F_{j} \right) \log \left( { G(d_{j+1}; \xi_c, \dots) - G(d_{j}; \xi_c, \dots) }\right) \]</span></p>
+<p><span class="math display">\[ \mathscr{l} = \sum_{i \in \mathrm{herringbone}} \left( F_{i+1} - F_{i} \right) \log \left( { G(d_{i+1}; \xi_h, \dots) - G(d_{i}; \xi_h, \dots) }\right)\]</span> <span class="math display">\[ + \sum_{j \in \mathrm{cellular}} \left( F_{j+1} - F_{j} \right) \log \left( { G(d_{j+1}; \xi_c, \dots) - G(d_{j}; \xi_c, \dots) }\right) \]</span></p>
 <p>To make my life simpler I am going write some helper functions. If this was going to be used in a more fulsome analysis or calculation tool, building a proper distribution consistent with <code>Distributions.jl</code> would be worthwhile. I’m just going to cobble together a struct and overload some functions to get a minimum viable distribution for what I need right now.</p>
 <div id="f703bf61-138f-400e-a840-6f23a7bdbb40" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> MixtureModel{D1,D2,F}</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    d1<span class="op">::</span><span class="dt">D1</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    d2<span class="op">::</span><span class="dt">D2</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    ξ<span class="op">::</span><span class="dt">F</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> MixtureModel{D1,D2,F}</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    d1<span class="op">::</span><span class="dt">D1</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    d2<span class="op">::</span><span class="dt">D2</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    ξ<span class="op">::</span><span class="dt">F</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="d98780f8-5e51-4ff3-9326-81a1871d0ded" class="cell" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a mixture model of two arbitrary distributions dist1 and dist2</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">Distributions.cdf</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cdf</span>(m<span class="op">::</span><span class="dt">MixtureModel</span>, x<span class="op">::</span><span class="dt">Real</span>) <span class="op">=</span> (<span class="fl">1</span><span class="op">-</span>m.ξ)<span class="fu">*cdf</span>(m.d1,x) <span class="op">+</span> m.<span class="fu">ξ*cdf</span>(m.d2,x)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># this is a really lazy way of doing this since I know I'm only using vectors</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cdf</span>(m<span class="op">::</span><span class="dt">MixtureModel</span>, v<span class="op">::</span><span class="dt">AbstractArray{&lt;:Real}</span>) <span class="op">=</span> [ <span class="fu">cdf</span>(m,x) for x <span class="kw">in</span> v ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a mixture model of two arbitrary distributions dist1 and dist2</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">Distributions.cdf</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cdf</span>(m<span class="op">::</span><span class="dt">MixtureModel</span>, x<span class="op">::</span><span class="dt">Real</span>) <span class="op">=</span> (<span class="fl">1</span><span class="op">-</span>m.ξ)<span class="fu">*cdf</span>(m.d1,x) <span class="op">+</span> m.<span class="fu">ξ*cdf</span>(m.d2,x)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># this is a really lazy way of doing this since I know I'm only using vectors</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cdf</span>(m<span class="op">::</span><span class="dt">MixtureModel</span>, v<span class="op">::</span><span class="dt">AbstractArray{&lt;:Real}</span>) <span class="op">=</span> [ <span class="fu">cdf</span>(m,x) for x <span class="kw">in</span> v ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then the log-likelihood for a given dataframe, with columns <code>d</code> and <code>F</code></p>
 <div id="293f8af4-d849-4ac7-9de3-2cde8324c864" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">log_likelihood_dataframe</span>(df, mm<span class="op">::</span><span class="dt">MixtureModel</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    Ga <span class="op">=</span> <span class="fu">cdf</span>(mm, df.d[<span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>])</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    Gb <span class="op">=</span> <span class="fu">cdf</span>(mm, df.d[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>])</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">sum</span>( (df.F[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>] <span class="op">.-</span> df.F[<span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>]) <span class="op">.*</span> <span class="fu">log</span>.( Gb <span class="op">.-</span> Ga ) )</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">log_likelihood_dataframe</span>(df, mm<span class="op">::</span><span class="dt">MixtureModel</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    Ga <span class="op">=</span> <span class="fu">cdf</span>(mm, df.d[<span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>])</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    Gb <span class="op">=</span> <span class="fu">cdf</span>(mm, df.d[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>])</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">sum</span>( (df.F[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>] <span class="op">.-</span> df.F[<span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>]) <span class="op">.*</span> <span class="fu">log</span>.( Gb <span class="op">.-</span> Ga ) )</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Finally a function which fits the mixture cdf to two dataframes <code>dfa</code> and <code>dfb</code> – this could be written more generically so that any number of data sets could be included fairly easily, but I only have two so that’s good enough for now.</p>
 <div id="bf8ab56e-825d-4af2-896c-4feef21a8d95" class="cell" data-execution_count="19">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-13"><pre class="sourceCode julia code-annotation-code code-with-copy code-annotated"><code class="sourceCode julia"><span id="annotated-cell-13-1"><a href="#annotated-cell-13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">fit_parametric_mixture</span>(dfa, dfb;  ξa<span class="op">=</span><span class="fl">0.5</span>, ξb<span class="op">=</span><span class="fl">0.5</span>, </span>
-<span id="annotated-cell-13-2"><a href="#annotated-cell-13-2" aria-hidden="true" tabindex="-1"></a>                                           μ₁<span class="op">=</span>μh, σ₁<span class="op">=</span>σh, μ₂<span class="op">=</span>μc, σ₂<span class="op">=</span>σc)</span>
-<span id="annotated-cell-13-3"><a href="#annotated-cell-13-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">log_likely</span>(params)</span>
-<span id="annotated-cell-13-4"><a href="#annotated-cell-13-4" aria-hidden="true" tabindex="-1"></a>        ξa, ξb, μ₁, σ₁, μ₂, σ₂ <span class="op">=</span> params</span>
-<span id="annotated-cell-13-5"><a href="#annotated-cell-13-5" aria-hidden="true" tabindex="-1"></a>        dist1 <span class="op">=</span> <span class="fu">LogNormal</span>(μ₁, σ₁)</span>
-<span id="annotated-cell-13-6"><a href="#annotated-cell-13-6" aria-hidden="true" tabindex="-1"></a>        dist2 <span class="op">=</span> <span class="fu">LogNormal</span>(μ₂, σ₂)</span>
-<span id="annotated-cell-13-7"><a href="#annotated-cell-13-7" aria-hidden="true" tabindex="-1"></a>        la <span class="op">=</span> <span class="fu">log_likelihood_dataframe</span>(dfa, <span class="fu">MixtureModel</span>(dist1,dist2,ξa))</span>
-<span id="annotated-cell-13-8"><a href="#annotated-cell-13-8" aria-hidden="true" tabindex="-1"></a>        lb <span class="op">=</span> <span class="fu">log_likelihood_dataframe</span>(dfb, <span class="fu">MixtureModel</span>(dist1,dist2,ξb))</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-13-9" class="code-annotation-target"><a href="#annotated-cell-13-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">-</span>(la <span class="op">+</span> lb)</span>
-<span id="annotated-cell-13-10"><a href="#annotated-cell-13-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
-<span id="annotated-cell-13-11"><a href="#annotated-cell-13-11" aria-hidden="true" tabindex="-1"></a>    </span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-13-12" class="code-annotation-target"><a href="#annotated-cell-13-12" aria-hidden="true" tabindex="-1"></a>    lower <span class="op">=</span> <span class="fu">zeros</span>(<span class="fl">6</span>)</span>
-<span id="annotated-cell-13-13"><a href="#annotated-cell-13-13" aria-hidden="true" tabindex="-1"></a>    upper <span class="op">=</span> [<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>]</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-13-14" class="code-annotation-target"><a href="#annotated-cell-13-14" aria-hidden="true" tabindex="-1"></a>    initial <span class="op">=</span> [ξa, ξb, μ₁, σ₁, μ₂, σ₂]</span>
-<span id="annotated-cell-13-15"><a href="#annotated-cell-13-15" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> <span class="fu">optimize</span>(log_likely, lower, upper, initial, </span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-13-16" class="code-annotation-target"><a href="#annotated-cell-13-16" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">Fminbox</span>( <span class="fu">NelderMead</span>() ))</span>
-<span id="annotated-cell-13-17"><a href="#annotated-cell-13-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> res</span>
-<span id="annotated-cell-13-18"><a href="#annotated-cell-13-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-11"><pre class="sourceCode julia code-annotation-code code-with-copy code-annotated"><code class="sourceCode julia"><span id="annotated-cell-11-1"><a href="#annotated-cell-11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">fit_parametric_mixture</span>(dfa, dfb;  ξa<span class="op">=</span><span class="fl">0.5</span>, ξb<span class="op">=</span><span class="fl">0.5</span>,</span>
+<span id="annotated-cell-11-2"><a href="#annotated-cell-11-2" aria-hidden="true" tabindex="-1"></a>                                           μ₁<span class="op">=</span>μh, σ₁<span class="op">=</span>σh, μ₂<span class="op">=</span>μc, σ₂<span class="op">=</span>σc)</span>
+<span id="annotated-cell-11-3"><a href="#annotated-cell-11-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">log_likely</span>(params)</span>
+<span id="annotated-cell-11-4"><a href="#annotated-cell-11-4" aria-hidden="true" tabindex="-1"></a>        ξa, ξb, μ₁, σ₁, μ₂, σ₂ <span class="op">=</span> params</span>
+<span id="annotated-cell-11-5"><a href="#annotated-cell-11-5" aria-hidden="true" tabindex="-1"></a>        dist1 <span class="op">=</span> <span class="fu">LogNormal</span>(μ₁, σ₁)</span>
+<span id="annotated-cell-11-6"><a href="#annotated-cell-11-6" aria-hidden="true" tabindex="-1"></a>        dist2 <span class="op">=</span> <span class="fu">LogNormal</span>(μ₂, σ₂)</span>
+<span id="annotated-cell-11-7"><a href="#annotated-cell-11-7" aria-hidden="true" tabindex="-1"></a>        la <span class="op">=</span> <span class="fu">log_likelihood_dataframe</span>(dfa, <span class="fu">MixtureModel</span>(dist1,dist2,ξa))</span>
+<span id="annotated-cell-11-8"><a href="#annotated-cell-11-8" aria-hidden="true" tabindex="-1"></a>        lb <span class="op">=</span> <span class="fu">log_likelihood_dataframe</span>(dfb, <span class="fu">MixtureModel</span>(dist1,dist2,ξb))</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-11-9" class="code-annotation-target"><a href="#annotated-cell-11-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">-</span>(la <span class="op">+</span> lb)</span>
+<span id="annotated-cell-11-10"><a href="#annotated-cell-11-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="annotated-cell-11-11"><a href="#annotated-cell-11-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-11-12" class="code-annotation-target"><a href="#annotated-cell-11-12" aria-hidden="true" tabindex="-1"></a>    lower <span class="op">=</span> <span class="fu">zeros</span>(<span class="fl">6</span>)</span>
+<span id="annotated-cell-11-13"><a href="#annotated-cell-11-13" aria-hidden="true" tabindex="-1"></a>    upper <span class="op">=</span> [<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>]</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-11-14" class="code-annotation-target"><a href="#annotated-cell-11-14" aria-hidden="true" tabindex="-1"></a>    initial <span class="op">=</span> [ξa, ξb, μ₁, σ₁, μ₂, σ₂]</span>
+<span id="annotated-cell-11-15"><a href="#annotated-cell-11-15" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> <span class="fu">optimize</span>(log_likely, lower, upper, initial, </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-11-16" class="code-annotation-target"><a href="#annotated-cell-11-16" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">Fminbox</span>( <span class="fu">NelderMead</span>() ))</span>
+<span id="annotated-cell-11-17"><a href="#annotated-cell-11-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> res</span>
+<span id="annotated-cell-11-18"><a href="#annotated-cell-11-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-13" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-13" data-code-lines="9" data-code-annotation="1">Again this is the <em>negative</em> log likelihood, which is being minimized</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="9" data-code-annotation="1">Again this is the <em>negative</em> log likelihood, which is being minimized</span>
 </dd>
-<dt data-target-cell="annotated-cell-13" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-13" data-code-lines="12,13" data-code-annotation="2">In this case the <span class="math inline">\(\xi\)</span> must be strictly between zero and one</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="12,13" data-code-annotation="2">In this case the <span class="math inline">\(\xi\)</span> must be strictly between zero and one</span>
 </dd>
-<dt data-target-cell="annotated-cell-13" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-13" data-code-lines="14" data-code-annotation="3">The initial guess is derived from the log normal fits performed earlier</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="14" data-code-annotation="3">The initial guess is derived from the log normal fits performed earlier</span>
 </dd>
-<dt data-target-cell="annotated-cell-13" data-target-annotation="4">4</dt>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-13" data-code-lines="16" data-code-annotation="4">The optimization algorithm is the same, but with box constraints</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="16" data-code-annotation="4">The optimization algorithm is the same, but with box constraints</span>
 </dd>
 </dl>
 </div>
 </div>
 <p>With all of this in place we can easily fit the parametric mixture model to the two datasets.</p>
 <div id="99b76ba9-39c3-449b-806c-b57924594a6a" class="cell" data-execution_count="20">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> <span class="fu">fit_parametric_mixture</span>(herringbone, cellular)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> <span class="fu">fit_parametric_mixture</span>(herringbone, cellular)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code> * Status: success
 
@@ -872,21 +810,21 @@ Figure&nbsp;5: The two measured droplet size distributions, with log-normal fits
 </div>
 </div>
 <div id="74b6c2fd-aef3-4165-8608-915e5f00a91e" class="cell" data-execution_count="21">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ξh, ξc, μ₁, σ₁, μ₂, σ₂ <span class="op">=</span> Optim.<span class="fu">minimizer</span>(res)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ξh, ξc, μ₁, σ₁, μ₂, σ₂ <span class="op">=</span> Optim.<span class="fu">minimizer</span>(res)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="786a0445-ce80-4d05-9c00-528861410667" class="cell" data-execution_count="22">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>LN₁ <span class="op">=</span> <span class="fu">LogNormal</span>(μ₁, σ₁)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>LN₂ <span class="op">=</span> <span class="fu">LogNormal</span>(μ₂, σ₂)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>LN₁ <span class="op">=</span> <span class="fu">LogNormal</span>(μ₁, σ₁)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>LN₂ <span class="op">=</span> <span class="fu">LogNormal</span>(μ₂, σ₂)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The interpolated droplet distribution now only interpolates on <span class="math inline">\(\xi\)</span>, since the assumption is that all plumes are mixtures of the same two droplet distributions</p>
 <p><span class="math display">\[ \xi_t = (1-t)\xi_{h} + t \xi_{c} \]</span></p>
 <p>Below I have written a function to perform the interpolation and provide a <code>MixtureModel</code> distribution for a given <span class="math inline">\(t\)</span>.</p>
 <div id="2adb5099-ea73-48ce-a368-dad00828f0d6" class="cell" data-execution_count="23">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">MixtureModel</span>(t)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@assert</span> <span class="fl">0</span><span class="op">≤</span>t<span class="op">≤</span><span class="fl">1</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    ξₜ <span class="op">=</span> (<span class="fl">1</span><span class="op">-</span>t)<span class="op">*</span>ξh <span class="op">+</span> t<span class="op">*</span>ξc</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">MixtureModel</span>(LN₁,LN₂,ξₜ)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">MixtureModel</span>(t)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@assert</span> <span class="fl">0</span><span class="op">≤</span>t<span class="op">≤</span><span class="fl">1</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    ξₜ <span class="op">=</span> (<span class="fl">1</span><span class="op">-</span>t)<span class="op">*</span>ξh <span class="op">+</span> t<span class="op">*</span>ξc</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">MixtureModel</span>(LN₁,LN₂,ξₜ)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-comedic-level-of-overfitting" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="24">
 <div id="fig-comedic-level-of-overfitting" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="24">
@@ -931,42 +869,42 @@ Figure&nbsp;7: A simple model of a cooling tower plume in which a mist is genera
 <p><span class="math display">\[ \eta = {d^2 \over {d^2 + d_c^2} } = {1 \over { 1 + \left(d_c \over d\right)^2 } } \]</span></p></div></div><p><span class="math display">\[ \eta \left( d \right) = { 1 \over {1 + \left(d_c \over d\right)^2} } \]</span></p>
 <p>Where <span class="math inline">\(d_c\)</span> is some cut diameter.</p>
 <div id="a88a166c-deed-4490-b426-a2e51afe6943" class="cell" data-execution_count="25">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">η</span>(d; dc) <span class="op">=</span> (<span class="fl">1</span> <span class="op">+</span> (dc<span class="op">/</span>d)<span class="op">^</span><span class="fl">2</span>)<span class="op">^-</span><span class="fl">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">η</span>(d; dc) <span class="op">=</span> (<span class="fl">1</span> <span class="op">+</span> (dc<span class="op">/</span>d)<span class="op">^</span><span class="fl">2</span>)<span class="op">^-</span><span class="fl">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The distribution for droplets leaving the tower is then</p>
 <p><span class="math display">\[ f(d) = K \left(1 - \eta\left( d \right) \right) \mathscr{f}_{LN} \left( d \right) \]</span></p>
 <p>Where <span class="math inline">\(K\)</span> is some normalization constant and <span class="math inline">\(\mathscr{f}_{LN}(x)\)</span> is the pdf of the log-normal distribution</p>
 <div id="c1fb6150-edd6-4e94-bcdb-18800507a223" class="cell" data-execution_count="26">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(d; LN, dc, K) <span class="op">=</span> <span class="fu">K*</span>(<span class="fl">1</span><span class="fu">-η</span>(d; dc<span class="op">=</span>dc))<span class="fu">*pdf</span>(LN,d)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(d; LN, dc, K) <span class="op">=</span> <span class="fu">K*</span>(<span class="fl">1</span><span class="fu">-η</span>(d; dc<span class="op">=</span>dc))<span class="fu">*pdf</span>(LN,d)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The normalization constant will have to be calculated numerically, which suggests that building a data structure for the cooling tower would be worthwhile.</p>
 <div id="f8b2ef79-8745-4d10-993d-75bf2a840beb" class="cell" data-execution_count="27">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> CoolingTower{D,F}</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    LN<span class="op">::</span><span class="dt">D</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    dc<span class="op">::</span><span class="dt">F</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    K<span class="op">::</span><span class="dt">F</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> CoolingTower{D,F}</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    LN<span class="op">::</span><span class="dt">D</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    dc<span class="op">::</span><span class="dt">F</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    K<span class="op">::</span><span class="dt">F</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Initializing a <code>CoolingTower</code> then calculates the normalization constant</p>
 <div id="63927fdd-ffae-464e-a07d-e05c4c82f7b6" class="cell" data-execution_count="28">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">QuadGK</span>: quadgk</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">QuadGK</span>: quadgk</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="94ae2128-0993-40dd-93c9-c7201a9cf01a" class="cell" data-execution_count="29">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">CoolingTower</span>(LN,dc)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    I, err <span class="op">=</span> <span class="fu">quadgk</span>( x <span class="op">-&gt;</span> <span class="fu">f</span>(x; LN<span class="op">=</span>LN, dc<span class="op">=</span>dc, K<span class="op">=</span><span class="fl">1</span>), <span class="fl">0</span>, <span class="cn">Inf</span>)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">CoolingTower</span>(LN,<span class="fu">promote</span>(dc,(<span class="fl">1</span><span class="op">/</span>I))<span class="op">...</span>)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">CoolingTower</span>(LN,dc)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    I, err <span class="op">=</span> <span class="fu">quadgk</span>( x <span class="op">-&gt;</span> <span class="fu">f</span>(x; LN<span class="op">=</span>LN, dc<span class="op">=</span>dc, K<span class="op">=</span><span class="fl">1</span>), <span class="fl">0</span>, <span class="cn">Inf</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">CoolingTower</span>(LN,<span class="fu">promote</span>(dc,(<span class="fl">1</span><span class="op">/</span>I))<span class="op">...</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Adding a method for the cdf, calculated by numerically integrating the pdf.</p>
 <div id="36c0bc27-aa13-422a-bccf-314c8c0a6c50" class="cell" data-execution_count="30">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">Distributions.cdf</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">cdf</span>(ct<span class="op">::</span><span class="dt">CoolingTower</span>, x<span class="op">::</span><span class="dt">Real</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    I, err <span class="op">=</span> <span class="fu">quadgk</span>( t <span class="op">-&gt;</span> <span class="fu">f</span>(t; LN<span class="op">=</span>ct.LN, dc<span class="op">=</span>ct.dc, K<span class="op">=</span>ct.K), <span class="fl">0</span>, x)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> I</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cdf</span>(ct<span class="op">::</span><span class="dt">CoolingTower</span>, v<span class="op">::</span><span class="dt">AbstractArray{&lt;:Real}</span>) <span class="op">=</span> [ <span class="fu">cdf</span>(ct,x) for x <span class="kw">in</span> v ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">Distributions.cdf</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">cdf</span>(ct<span class="op">::</span><span class="dt">CoolingTower</span>, x<span class="op">::</span><span class="dt">Real</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    I, err <span class="op">=</span> <span class="fu">quadgk</span>( t <span class="op">-&gt;</span> <span class="fu">f</span>(t; LN<span class="op">=</span>ct.LN, dc<span class="op">=</span>ct.dc, K<span class="op">=</span>ct.K), <span class="fl">0</span>, x)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> I</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cdf</span>(ct<span class="op">::</span><span class="dt">CoolingTower</span>, v<span class="op">::</span><span class="dt">AbstractArray{&lt;:Real}</span>) <span class="op">=</span> [ <span class="fu">cdf</span>(ct,x) for x <span class="kw">in</span> v ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This is a simple model of a cooling tower but it appears to replicate, at least qualitatively, what we see with the two known datasets. In <a href="#fig-ct-model" class="quarto-xref">Figure&nbsp;8</a> the log normal fit to the Old Herringbone data is used as a proxy for a cooling tower with no mist eliminators and then a mist eliminator with a cut diameter of 25μm is applied. The resulting curve is not strictly log-normal, but is extremely well approximated by one.</p>
 <div id="cell-fig-ct-model" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="31">
@@ -986,7 +924,7 @@ Figure&nbsp;8: A cooling tower model showing the Old Herringbone distribution an
 <p>where <span class="math inline">\(\eta_T\)</span> is the total fraction of water removed from the mist entering the mist eliminators and is equal to</p>
 <p><span class="math display">\[ \eta_T = \int_0^\infty \eta(x) \mathscr{f}_{LN}(x) dx \]</span></p>
 <div id="43989e50-8a08-4641-a71b-3e74d03cad5b" class="cell" data-execution_count="32">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>η_T, err <span class="op">=</span> <span class="fu">quadgk</span>( x <span class="op">-&gt;</span> <span class="fu">η</span>(x; dc<span class="op">=</span><span class="fl">25</span>)<span class="fu">*pdf</span>(<span class="fu">LogNormal</span>(μh,σh),x), <span class="fl">0</span>, <span class="cn">Inf</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>η_T, err <span class="op">=</span> <span class="fu">quadgk</span>( x <span class="op">-&gt;</span> <span class="fu">η</span>(x; dc<span class="op">=</span><span class="fl">25</span>)<span class="fu">*pdf</span>(<span class="fu">LogNormal</span>(μh,σh),x), <span class="fl">0</span>, <span class="cn">Inf</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="c8319be3-6e80-4f8a-838f-d3e07d466c17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="33">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="33">
@@ -1012,20 +950,34 @@ W_e &amp;= \left( 1 - \eta_{T} \right) \cdot W
 <h2 class="anchored" data-anchor-id="final-thoughts-and-recommendations">Final Thoughts and Recommendations</h2>
 <p>In the above noodling around I presented three broad approaches that could be reasonable ways of interpolating between known droplet size distributions. Straight interpolation between the cumulative distribution functions, fitting a log-normal and interpolating the parameters, and finally fitting a more complex model and interpolating on the model parameters there. My personal preference would be to do the simple log-normal fit and interpolate on the parameters for that. Generating the log-normal fit only has to be done once and the final interpolation is much simpler to package into a calculation tool, such as a spreadsheet, or incorporated into the various database tools that automatically generate emissions inventories for facilities. The code to implement it requires 6 parameters and the error function to be available. Unlike the original ECCC tool which must keep around the full tables of data to do any of the calculations. You may argue that the log-normal fits are not very good, but I think in the context of these kinds of emissions calculations – which are really only good to 1 or 2 significant figures – it’s probably fine.</p>
 <p>The way the ECCC tool is constructed strikes me as missing an obvious feature: it does the interpolation described above to generate an additional table of droplet sizes then asks the user to manually select which of the three tables best fits their cooling tower: the old herringbone, new cellular, or the interpolated value. It makes more sense to me to simply ask the user to enter the drift rate for their tower and interpolate to <em>that</em> drift rate. If it is valid to interpolate to exactly the mid-point between the two known curves, it is just as valid to interpolate to anywhere else in between.</p>
-
-
-
 </section>
-
-
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-eccc-2024" class="csl-entry" role="listitem">
 Environment and Climate Change Canada. <span>“Wet Cooling Towers: Guide to Reporting,”</span> 2024. <a href="https://www.canada.ca/en/environment-climate-change/services/national-pollutant-release-inventory/report/sector-specific-tools-calculate-emissions/wet-cooling-tower-particulate-guide.html">https://www.canada.ca/en/environment-climate-change/services/national-pollutant-release-inventory/report/sector-specific-tools-calculate-emissions/wet-cooling-tower-particulate-guide.html</a>.
 </div>
 <div id="ref-reisman-2002" class="csl-entry" role="listitem">
 Reisman, Joel, and Gordon Frisbie. <span>“Calculating Realistic PM10 Emissions from Cooling Towers.”</span> <em>Environmental Progress</em> 21, no. 2 (2002): 127–30. <a href="https://doi.org/10.1002/ep.670210216">https://doi.org/10.1002/ep.670210216</a>.
 </div>
-</div></section></div></main> <!-- /main -->
+</div>
+
+
+</section>
+<section id="image-credits" class="level2">
+<h2 class="anchored" data-anchor-id="image-credits">Credits</h2>
+<ul>
+<li>Banner: Lukáš Lehotský (
+<a href="https://unsplash.com/photos/gray-concrete-towers-under-white-clouds-and-blue-sky-during-daytime-vMQFh9rAkeU">Unsplash</a>
+)</li>
+</ul>
+<div class="sharethis-inline-share-buttons pt-5">
+
+</div>
+</section>
+
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right

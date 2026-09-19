@@ -155,6 +155,7 @@ background: url(../../images/pipes-unsplash-header.jpg);
   box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
 }
 </style>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=6aa5a22746655ee67163fe9c&amp;product=sop" async="async"></script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -466,6 +467,7 @@ window.Quarto = {
   <li><a href="#explosive-mass" id="toc-explosive-mass" class="nav-link" data-scroll-target="#explosive-mass">Explosive Mass</a></li>
   <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#image-credits" id="toc-image-credits" class="nav-link" data-scroll-target="#image-credits">Credits</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/aefarrell/aefarrell.github.io/blob/main/posts/turbulent_jet_example/index.ipynb" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/aefarrell/aefarrell.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
 </nav>
@@ -486,16 +488,16 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="the-scenario">The Scenario</h2>
 <p>Consider, for an example, a leak from an acetylene cylinder inside a large building, such as in a warehouse or shop. We imagine, for convenience, that the air within the building is quiescent. For the sake of an example suppose the leak is a 1/4 in. hole, similar in diameter to a typical acetylene hose, and that the operating pressure at that point is 15psig<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> We are interested in exploring the concentration distribution as the acetylene jets into the air and mixes, with our reference concentration of interest being half the LEL of 2.5%(vol).</p>
 <div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;From CGA G-1 2009 the safe operating pressure of an acetylene system</p></div></div><div id="cell-3" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Unitful</span>: @u_str, ustrip</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>using Unitful: <span class="op">@</span>u_str, ustrip</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>inch <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"m"</span>, <span class="fl">1</span>u<span class="st">"inch"</span>) <span class="co"># unit conversion inch-&gt;m</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>psi <span class="op">=</span> <span class="fu">ustrip</span>(u<span class="st">"Pa"</span>, <span class="fl">1</span>u<span class="st">"psi"</span>)  <span class="co"># unit conversion psi-&gt;Pa</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>inch <span class="op">=</span> ustrip(<span class="st">u"m"</span>, <span class="dv">1</span><span class="er">u</span><span class="st">"inch"</span>) <span class="co"># unit conversion inch-&gt;m</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>psi <span class="op">=</span> ustrip(<span class="st">u"Pa"</span>, <span class="dv">1</span><span class="er">u</span><span class="st">"psi"</span>)  <span class="co"># unit conversion psi-&gt;Pa</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>p₂ <span class="op">=</span> <span class="fl">14.7</span>psi   <span class="co"># atmospheric pressure, Pa absolute</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>T₂ <span class="op">=</span> <span class="fl">25</span><span class="op">+</span><span class="fl">273.15</span> <span class="co"># ambient temperature, K</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>p₂ <span class="op">=</span> <span class="fl">14.7</span><span class="er">psi</span>   <span class="co"># atmospheric pressure, Pa absolute</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>T₂ <span class="op">=</span> <span class="dv">25</span><span class="op">+</span><span class="fl">273.15</span> <span class="co"># ambient temperature, K</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>d  <span class="op">=</span> <span class="fl">0.25</span>inch  <span class="co"># diameter of the hole, m</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>p₁ <span class="op">=</span> <span class="fl">15</span>psi<span class="op">+</span>p₂ <span class="co"># pressure of the acetylene, Pa absolute</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>d  <span class="op">=</span> <span class="fl">0.25</span><span class="er">inch</span>  <span class="co"># diameter of the hole, m</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>p₁ <span class="op">=</span> <span class="dv">15</span><span class="er">psi</span><span class="op">+</span>p₂ <span class="co"># pressure of the acetylene, Pa absolute</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>T₁ <span class="op">=</span> T₂        <span class="co"># the release temperature, K</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>298.15</code></pre>
@@ -503,25 +505,25 @@ window.Quarto = {
 </div>
 <p>We can look up some properties of acetylene in Perry’s<span class="citation" data-cites="poling-2007"><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></span></p>
 <div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;<a href="#ref-poling-2007" role="doc-biblioref">Poling et al., <span>“Physical and Chemical Data”</span></a>.</p></div></div><div id="cell-5" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># universal gas constant, J/mol/K</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># universal gas constant, J/mol/K</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> <span class="fl">8.31446261815324</span> </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ideal gas density, kg/m³</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ρ</span>(p,T;MW) <span class="op">=</span> (p<span class="op">*</span>MW)<span class="op">/</span>(R<span class="op">*</span>T)<span class="op">/</span><span class="fl">1000</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ρ(p,T<span class="op">;</span>MW) <span class="op">=</span> (p<span class="op">*</span>MW)<span class="op">/</span>(R<span class="op">*</span>T)<span class="op">/</span><span class="dv">1000</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># gas viscosity correlation, Pa*s</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">μ</span>(T;C) <span class="op">=</span> (C[<span class="fl">1</span>]<span class="op">*</span>T<span class="op">^</span>(C[<span class="fl">2</span>]))<span class="op">/</span>(<span class="fl">1</span><span class="fu">+</span>(C[<span class="fl">3</span>]<span class="op">/</span>T)<span class="fu">+</span>(C[<span class="fl">4</span>]<span class="op">/</span>T<span class="op">^</span><span class="fl">2</span>)) </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>μ(T<span class="op">;</span>C) <span class="op">=</span> (C[<span class="dv">1</span>]<span class="op">*</span>T<span class="op">^</span>(C[<span class="dv">2</span>]))<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span>(C[<span class="dv">3</span>]<span class="op">/</span>T)<span class="op">+</span>(C[<span class="dv">4</span>]<span class="op">/</span>T<span class="op">^</span><span class="dv">2</span>)) </span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Properties of Acetylene</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>MWⱼ <span class="op">=</span> <span class="fl">26.037</span> <span class="co"># molar mass, kg/kmol</span></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>LEL <span class="op">=</span> <span class="fl">0.025</span>  <span class="co"># Lower explosive limit, vol/vol</span></span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>k   <span class="op">=</span> <span class="fl">1.26</span>   <span class="co"># ratio cp/cv at 15C</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>μⱼ  <span class="op">=</span> <span class="fu">μ</span>(T₁;C<span class="op">=</span>[<span class="fl">1.2025e-6</span>,<span class="fl">0.4952</span>,<span class="fl">291.4</span>,<span class="fl">0</span>])</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>ρ₁  <span class="op">=</span> <span class="fu">ρ</span>(p₁,T₁;MW<span class="op">=</span>MWⱼ)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>μⱼ  <span class="op">=</span> μ(T₁<span class="op">;</span>C<span class="op">=</span>[<span class="fl">1.2025e-6</span>,<span class="fl">0.4952</span>,<span class="fl">291.4</span>,<span class="dv">0</span>])</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>ρ₁  <span class="op">=</span> ρ(p₁,T₁<span class="op">;</span>MW<span class="op">=</span>MWⱼ)</span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Properties of Air</span></span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>MWₐ <span class="op">=</span> <span class="fl">28.960</span>  <span class="co"># molar mass, kg/kmol</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>ρ₂  <span class="op">=</span> <span class="fu">ρ</span>(p₂,T₂;MW<span class="op">=</span>MWₐ)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>ρ₂  <span class="op">=</span> ρ(p₂,T₂<span class="op">;</span>MW<span class="op">=</span>MWₐ)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>1.1840386427594014</code></pre>
 </div>
@@ -537,16 +539,16 @@ window.Quarto = {
 <p><span class="math display">\[ \left(p_2 \over p_1 \right) \lt \left( 2 \over k+1 \right)^{k \over k-1} \]</span></p>
 <p>Where <em>G</em> is the mass velocity of acetylene discharged through the hole (in kg/m²/s), <em>c<sub>d</sub></em> is the discharge coefficient which can be assumed to be 0.61<span class="citation" data-cites="ccps-1999">,<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></span> and the rest are as defined earlier. I am assuming, here, that the hole is circular for simplicity.</p>
 <div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;<a href="#ref-ccps-1999" role="doc-biblioref">AIChE/CCPS, 30</a>.</p></div></div><div id="cell-7" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(p₂<span class="op">/</span>p₁) <span class="op">&lt;</span> (<span class="fl">2</span><span class="op">/</span>(k<span class="op">+</span><span class="fl">1</span>))<span class="op">^</span>(k<span class="op">/</span>(k<span class="op">-</span><span class="fl">1</span>)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(p₂<span class="op">/</span>p₁) <span class="op">&lt;</span> (<span class="dv">2</span><span class="op">/</span>(k<span class="op">+</span><span class="dv">1</span>))<span class="op">^</span>(k<span class="op">/</span>(k<span class="op">-</span><span class="dv">1</span>)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>true</code></pre>
 </div>
 </div>
 <p>Therefore the flow is choked and</p>
 <div id="cell-9" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>c_d <span class="op">=</span> <span class="fl">0.61</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>c_d <span class="op">=</span> <span class="fl">0.61</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> c_d <span class="op">*</span> <span class="fu">√</span>(<span class="fu">ρ₁*p₁*k*</span>(<span class="fl">2</span><span class="op">/</span>(k<span class="op">+</span><span class="fl">1</span>))<span class="op">^</span>((k<span class="op">+</span><span class="fl">1</span>)<span class="op">/</span>(k<span class="op">-</span><span class="fl">1</span>)) )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> c_d <span class="op">*</span> √(ρ₁<span class="op">*</span>p₁<span class="op">*</span>k<span class="op">*</span>(<span class="dv">2</span><span class="op">/</span>(k<span class="op">+</span><span class="dv">1</span>))<span class="op">^</span>((k<span class="op">+</span><span class="dv">1</span>)<span class="op">/</span>(k<span class="op">-</span><span class="dv">1</span>)) )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>267.1556913840265</code></pre>
 </div>
@@ -556,7 +558,7 @@ window.Quarto = {
 <p>Where subscript <em>o</em> indicates at the orifice. At this point, after the expansion <span class="math inline">\(p_o = p_2\)</span> and</p>
 <p><span class="math display">\[ \rho_o = \rho_1 \left( p_o \over p_1 \right)^{1 \over k} \]</span></p>
 <div id="cell-11" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ρₒ <span class="op">=</span> <span class="fu">ρ₁*</span>(p₂<span class="op">/</span>p₁)<span class="op">^</span>(<span class="fl">1</span><span class="op">/</span>k)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ρₒ <span class="op">=</span> ρ₁<span class="op">*</span>(p₂<span class="op">/</span>p₁)<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span>k)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>1.2307940295609565</code></pre>
 </div>
@@ -564,7 +566,7 @@ window.Quarto = {
 <p>The velocity at the orifice, i.e.&nbsp;after the gas has expanded, is then</p>
 <p><span class="math display">\[ u_o = {G \over \rho_o} \]</span></p>
 <div id="cell-13" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>uₒ <span class="op">=</span> G<span class="op">/</span>ρₒ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>uₒ <span class="op">=</span> G<span class="op">/</span>ρₒ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>217.05962571115586</code></pre>
 </div>
@@ -590,15 +592,15 @@ Figure&nbsp;1: A turbulent jet expanding into a quiescent atmosphere.
 <p>Another important factor is the Reynolds number, the jet is fully turbulent when <span class="math inline">\(Re \gt 2000\)</span>, where the Reynolds number is calculated with respect to the initial jet velocity and jet diameter (i.e.&nbsp;the hole diameter)</p>
 <p><span class="math display">\[ Re = { \rho u d \over \mu } = { G d \over \mu }\]</span></p>
 <div id="cell-15" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.25</span> <span class="op">&lt;</span> (ρ₂<span class="op">/</span>ρₒ) <span class="op">&lt;</span> <span class="fl">4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.25</span> <span class="op">&lt;</span> (ρ₂<span class="op">/</span>ρₒ) <span class="op">&lt;</span> <span class="dv">4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>true</code></pre>
 </div>
 </div>
 <div id="cell-16" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>Re <span class="op">=</span> G<span class="op">*</span>d<span class="op">/</span>μⱼ</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>Re <span class="op">=</span> G<span class="op">*</span>d<span class="op">/</span>μⱼ</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>Re <span class="op">&gt;</span> <span class="fl">2000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>Re <span class="op">&gt;</span> <span class="dv">2000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>true</code></pre>
 </div>
@@ -615,9 +617,9 @@ Figure&nbsp;1: A turbulent jet expanding into a quiescent atmosphere.
 <p>Note also the ratio of densities, the density <span class="math inline">\(\rho_z\)</span> is the density of the jet at some distance <em>z</em> and it is common to conservatively take this as <span class="math inline">\(\rho_a\)</span>.</p>
 <p>The parameters <span class="math inline">\(k_2\)</span> and <span class="math inline">\(k_3\)</span> are empirically derived for the particular jet and <span class="math inline">\(k_2\)</span> is a function of Reynolds number below <span class="math inline">\(Re \lt 20000\)</span>.<span class="citation" data-cites="long-1963"><a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></span> The conservative values suggested are <em>6</em> and <em>5</em> respectively.</p>
 <div class="no-row-height column-margin column-container"><div id="fn11"><p><sup>11</sup>&nbsp;<a href="#ref-long-1963" role="doc-biblioref">Long, <span>“Estimation of the Extent of Hazard Areas Around a Vent”</span></a>.</p></div></div><div id="cell-19" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">C</span>(r, z; C₀<span class="op">=</span><span class="fl">1.0</span>, k₂<span class="op">=</span><span class="fl">6</span>, k₃<span class="op">=</span><span class="fl">5</span>, d<span class="op">=</span>d, ρz<span class="op">=</span>ρ₂, ρₒ<span class="op">=</span>ρₒ)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> C₀ <span class="op">*</span> k₂ <span class="op">*</span> (d<span class="op">/</span>z) <span class="op">*</span> <span class="fu">√</span>(ρz<span class="op">/</span>ρₒ) <span class="op">*</span> <span class="fu">exp</span>(<span class="fu">-</span>(k₃<span class="op">*</span>r<span class="op">/</span>z)<span class="op">^</span><span class="fl">2</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>function C(r, z<span class="op">;</span> C₀<span class="op">=</span><span class="fl">1.0</span>, k₂<span class="op">=</span><span class="dv">6</span>, k₃<span class="op">=</span><span class="dv">5</span>, d<span class="op">=</span>d, ρz<span class="op">=</span>ρ₂, ρₒ<span class="op">=</span>ρₒ)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> C₀ <span class="op">*</span> k₂ <span class="op">*</span> (d<span class="op">/</span>z) <span class="op">*</span> √(ρz<span class="op">/</span>ρₒ) <span class="op">*</span> exp(<span class="op">-</span>(k₃<span class="op">*</span>r<span class="op">/</span>z)<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>end</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>C (generic function with 1 method)</code></pre>
 </div>
@@ -661,41 +663,41 @@ Figure&nbsp;3: Concentration contours at the release elevation.
 <p>Except that we define the explosive mass to be the volume where <span class="math inline">\(C &gt; \frac{1}{2} LEL\)</span>. A lazy way to do this is to define a function that equals <span class="math inline">\(C\)</span> if it is <span class="math inline">\(\gt \frac{1}{2} LEL\)</span> and zero otherwise.</p>
 <p>The potential core region is poorly described by this model, and the closer to the origin of the jet the more un-physical the results: giving concentrations greater than 100% and being undefined completely at the origin. One way of hand waving this away is to chop off any concentrations above 100%.</p>
 <div id="cell-24" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">igrd</span>(v; lim<span class="op">=</span><span class="fl">0.5</span><span class="op">*</span>LEL)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>function igrd(v<span class="op">;</span> lim<span class="op">=</span><span class="fl">0.5</span><span class="op">*</span>LEL)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    r, z <span class="op">=</span> v</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> z<span class="op">&gt;</span><span class="fl">0</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> <span class="fu">C</span>(r,z)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> c<span class="op">&lt;</span>lim ? <span class="fl">0</span> <span class="op">:</span> <span class="fu">min</span>(<span class="fl">1</span>,c)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> z<span class="op">&gt;</span><span class="dv">0</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> C(r,z)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> c<span class="op">&lt;</span>lim ? <span class="dv">0</span> : <span class="bu">min</span>(<span class="dv">1</span>,c)</span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> <span class="fl">0</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    end</span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> r<span class="op">*</span>c</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>end</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>igrd (generic function with 1 method)</code></pre>
 </div>
 </div>
 <p>Integrating over some plausible bounds, taken by looking at the plots above, gives the volume of acetylene.</p>
 <div id="cell-26" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">HCubature</span>: hcubature</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>using HCubature: hcubature</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>I, err <span class="op">=</span> <span class="fu">hcubature</span>(igrd, [<span class="fl">0</span>, <span class="fl">0</span>], [<span class="fl">0.25</span>, <span class="fl">2.0</span>], atol <span class="op">=</span> <span class="fl">1e-8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>I, err <span class="op">=</span> hcubature(igrd, [<span class="dv">0</span>, <span class="dv">0</span>], [<span class="fl">0.25</span>, <span class="fl">2.0</span>], atol <span class="op">=</span> <span class="fl">1e-8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>(0.0008207940258726464, 9.999922827914883e-9)</code></pre>
 </div>
 </div>
 <p>Which can be plugged into the equation to calculate the final explosive mass.</p>
 <div id="cell-28" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mₑ <span class="op">=</span> <span class="fl">2</span><span class="op">*</span><span class="cn">π</span><span class="op">*</span>ρₒ<span class="op">*</span>I</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mₑ <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>π<span class="op">*</span>ρₒ<span class="op">*</span>I</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>0.006347452155224944</code></pre>
 </div>
 </div>
 <p>To give a sense of how much this is, the explosive mass is equivalent to ~1s of discharge at the steady state discharge rate.</p>
 <div id="cell-30" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="fu">G*</span>(<span class="cn">π</span><span class="op">/</span><span class="fl">4</span>)<span class="op">*</span>d<span class="op">^</span><span class="fl">2</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> G<span class="op">*</span>(π<span class="op">/</span><span class="dv">4</span>)<span class="op">*</span>d<span class="op">^</span><span class="dv">2</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>mₑ<span class="op">/</span>m</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
@@ -739,6 +741,17 @@ Revill, B. K. <span>“Jet Mixing.”</span> In <em>Mixing in the Process Indust
 </div>
 
 
+</section>
+<section id="image-credits" class="level2">
+<h2 class="anchored" data-anchor-id="image-credits">Credits</h2>
+<ul>
+<li>Banner: Ricardo Gomez Angel (
+<a href="https://unsplash.com/es/@rgaleriacom?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a>
+)</li>
+</ul>
+<div class="sharethis-inline-share-buttons pt-5">
+
+</div>
 </section>
 
 
