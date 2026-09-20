@@ -577,7 +577,7 @@ T = 368.15
 <h3 class="anchored" data-anchor-id="an-example-brew">An example brew</h3>
 <p>At this point we can start defining what our specific brew is going to be: roast, grind size, dose, and water temperature. From this we can work to estimate the necessary parameters, such as the equilibrium constant, solid and liquid phase diffusivities. To an extent, these parameters then govern what specific model is used to model the brew.</p>
 <div id="80d68e7a-43d4-4f68-95ea-6ecad957f16f" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># properties of the coffee grounds</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># properties of the coffee grounds</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># equilibrium parameters</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Moroney et al. 2015</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>q_sat <span class="op">=</span> <span class="fl">118.95</span> <span class="co"># kg/m³</span></span>
@@ -604,47 +604,47 @@ T = 368.15
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>Vₗ <span class="op">=</span> <span class="fl">500e-6</span> <span class="co"># m³</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="004248c5-010b-418c-aadc-7c984f65d385" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># properties of the water</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># properties of the water</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># density</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Poling et al. 2007, 2-103</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>MW <span class="op">=</span> <span class="fl">18.015</span> <span class="co">#kg/kmol</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>function ρₗ(T)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    τ <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> T<span class="op">/</span><span class="fl">647.096</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    mol_dens <span class="op">=</span> <span class="fl">17.863</span> <span class="op">+</span> <span class="fl">58.606</span><span class="op">*</span>τ<span class="op">^</span><span class="fl">0.35</span> <span class="op">-</span> <span class="fl">95.396</span><span class="op">*</span>τ<span class="op">^</span>(<span class="dv">2</span><span class="op">/</span><span class="dv">3</span>) <span class="op">+</span> <span class="fl">213.89</span><span class="op">*</span>τ <span class="op">-</span> <span class="fl">141.26</span><span class="op">*</span>τ<span class="op">^</span>(<span class="dv">4</span><span class="op">/</span><span class="dv">3</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ρₗ</span>(T)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    τ <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> T<span class="op">/</span><span class="fl">647.096</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    mol_dens <span class="op">=</span> <span class="fl">17.863</span> <span class="op">+</span> <span class="fl">58.606</span><span class="op">*</span>τ<span class="op">^</span><span class="fl">0.35</span> <span class="op">-</span> <span class="fl">95.396</span><span class="op">*</span>τ<span class="op">^</span>(<span class="fl">2</span><span class="op">/</span><span class="fl">3</span>) <span class="op">+</span> <span class="fl">213.89</span><span class="op">*</span>τ <span class="op">-</span> <span class="fl">141.26</span><span class="op">*</span>τ<span class="op">^</span>(<span class="fl">4</span><span class="op">/</span><span class="fl">3</span>)</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mol_dens<span class="op">*</span>MW</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>end</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># viscosity</span></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Poling et al. 2007, 2-432</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>μₗ(T) <span class="op">=</span> exp(<span class="op">-</span><span class="fl">52.843</span> <span class="op">+</span> <span class="fl">3703.6</span><span class="op">/</span>T <span class="op">+</span> <span class="fl">5.866</span><span class="op">*</span>log(T) <span class="op">-</span> <span class="fl">5.879e-29</span><span class="op">*</span>T<span class="op">^</span><span class="dv">10</span>)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>νₗ(T) <span class="op">=</span> μₗ(T)<span class="op">/</span>ρₗ(T)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">μₗ</span>(T) <span class="op">=</span> <span class="fu">exp</span>(<span class="op">-</span><span class="fl">52.843</span> <span class="op">+</span> <span class="fl">3703.6</span><span class="op">/</span>T <span class="op">+</span> <span class="fl">5.866</span><span class="fu">*log</span>(T) <span class="op">-</span> <span class="fl">5.879e-29</span><span class="op">*</span>T<span class="op">^</span><span class="fl">10</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">νₗ</span>(T) <span class="op">=</span> <span class="fu">μₗ</span>(T)<span class="op">/</span><span class="fu">ρₗ</span>(T)</span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># brew temperature</span></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># assumed, 95°C</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>Tₗ <span class="op">=</span> <span class="dv">95</span><span class="op">+</span><span class="fl">273.15</span> <span class="co">#K</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>Tₗ <span class="op">=</span> <span class="fl">95</span><span class="op">+</span><span class="fl">273.15</span> <span class="co">#K</span></span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># initial concentration</span></span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>c₀ <span class="op">=</span> <span class="fl">0.0</span> <span class="co"># kg/m³</span></span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># final (max) concentration</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>c_max <span class="op">=</span> <span class="bu">min</span>(q_sat<span class="op">*</span>Vₛ<span class="op">/</span>Vₗ <span class="op">+</span> c₀, c_sat) <span class="co"># kg/m³</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>c_max <span class="op">=</span> <span class="fu">min</span>(q_sat<span class="op">*</span>Vₛ<span class="op">/</span>Vₗ <span class="op">+</span> c₀, c_sat) <span class="co"># kg/m³</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>These are a lot of parameters and I think it is good practice to think about how to organize them into a <code>struct</code>. In this case I define an <code>InfusionBrew</code> struct to store all of the parameters necessary for defining the brew recipe for an infusion brewer.</p>
 <div id="c17fcb9a-b892-45b7-ad66-c08cdcdf52a7" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>struct InfusionBrew{T}</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    K::T</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    q_max::T</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    c_max::T</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    Vₗ::T</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    Vₛ::T</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    mₛ::T</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    𝒟ₛ::T</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    𝒟ₗ::T</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    b::T</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>end </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> InfusionBrew{T}</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    K<span class="op">::</span><span class="dt">T</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    q_max<span class="op">::</span><span class="dt">T</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    c_max<span class="op">::</span><span class="dt">T</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    Vₗ<span class="op">::</span><span class="dt">T</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    Vₛ<span class="op">::</span><span class="dt">T</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    mₛ<span class="op">::</span><span class="dt">T</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    𝒟ₛ<span class="op">::</span><span class="dt">T</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    𝒟ₗ<span class="op">::</span><span class="dt">T</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    b<span class="op">::</span><span class="dt">T</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="c0381de2-2336-477a-bd67-6795f0be2bed" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>brew <span class="op">=</span> InfusionBrew(K,q_sat,c_max,Vₗ,Vₛ,mₛ,𝒟ₛ,𝒟ₗ,b)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>brew <span class="op">=</span> <span class="fu">InfusionBrew</span>(K,q_sat,c_max,Vₗ,Vₛ,mₛ,𝒟ₛ,𝒟ₗ,b);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 </section>
@@ -670,7 +670,7 @@ Figure&nbsp;3: The mass transfer system for making coffee with a French press.
 </figcaption>
 </figure>
 </div>
-<p>There are two rates important processes governing the extraction of coffee:</p>
+<p>There are two important processes governing the extraction of coffee:</p>
 <ol type="1">
 <li>Diffusion across the interface into the thin film, governed by <a href="https://en.wikipedia.org/wiki/Fick%27s_laws_of_diffusion#Fick's_first_law">Fick’s first law</a></li>
 <li>Transfer from the thin film into the bulk liquid</li>
@@ -714,9 +714,9 @@ Bi = 35.7124842370744 + 51.178588534736114 √Re</code></pre>
 </div>
 <p>Under this model, any flow with <em>Re</em> &gt; 10.3 corresponds to <em>Bi</em> &gt; 200, which occurs when the velocity is</p>
 <div id="cd39dca1-330f-430b-a68f-ab2e25df5058" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Re <span class="op">=</span> <span class="fl">10.3</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Re <span class="op">=</span> <span class="fl">10.3</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> Re<span class="op">*</span>νₗ(Tₗ)<span class="op">/</span>b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> <span class="fu">Re*νₗ</span>(Tₗ)<span class="op">/</span>b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>0.005570341094459917</code></pre>
 </div>
@@ -767,17 +767,17 @@ Bi = 35.7124842370744 + 51.178588534736114 √Re</code></pre>
 <p><span class="math display">\[ \tan(x) - { {3 x} \over { 3 + \alpha x^2 } } = 0 \Leftrightarrow \left( 3 + \alpha x^2 \right) \sin(x) - 3 x \cos(x) = 0 \]</span></p>
 <p>This latter form is nice and continuous, with no singularities.</p>
 <div id="53c7cbac-b4a3-4c11-96df-999941ee4220" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>using IntervalRootFinding</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>using Roots</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">IntervalRootFinding</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>α <span class="op">=</span> Vₗ<span class="op">/</span>(K<span class="op">*</span>Vₛ)</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>f(x) <span class="op">=</span> tan(x) <span class="op">-</span> <span class="dv">3</span><span class="er">x</span><span class="op">/</span>(<span class="dv">3</span><span class="op">+</span>α<span class="op">*</span>x<span class="op">^</span><span class="dv">2</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>g(x) <span class="op">=</span> (<span class="dv">3</span> <span class="op">+</span> α<span class="op">*</span>x<span class="op">^</span><span class="dv">2</span>)<span class="op">*</span>sin(x) <span class="op">-</span> <span class="dv">3</span><span class="er">x</span><span class="op">*</span>cos(x)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(x) <span class="op">=</span> <span class="fu">tan</span>(x) <span class="op">-</span> <span class="fl">3</span>x<span class="op">/</span>(<span class="fl">3</span><span class="op">+</span>α<span class="op">*</span>x<span class="op">^</span><span class="fl">2</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">g</span>(x) <span class="op">=</span> (<span class="fl">3</span> <span class="op">+</span> α<span class="op">*</span>x<span class="op">^</span><span class="fl">2</span>)<span class="fu">*sin</span>(x) <span class="op">-</span> <span class="fl">3</span><span class="fu">x*cos</span>(x)</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># find the first 5 roots</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>k<span class="op">=</span><span class="dv">5</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>xk <span class="op">=</span> find_zeros(g, <span class="dv">0</span>, (k<span class="op">+</span><span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)<span class="op">*</span>π)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>k<span class="op">=</span><span class="fl">5</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>xk <span class="op">=</span> <span class="fu">find_zeros</span>(g, <span class="fl">0</span>, (k<span class="op">+</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>)<span class="op">*</span><span class="cn">π</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>6-element Vector{Float64}:
   0.0
@@ -854,35 +854,35 @@ Figure&nbsp;4: The roots of the equations <em>f(x)</em> and <em>g(x)</em>, note 
 </div>
 <p>Since <em>α</em> is fixed for a given problem we will end up using the same roots over and over again, so it would be nice to pre-calculate those roots. However, at this point, we don’t know how many we will need to get a reasonable answer. So my approach is to calculate as many as we need dynamically: if we need more roots than have already been calculated, calculate those ones and append them to the list of already calculated roots.</p>
 <div id="df36a34b-2e20-4bf9-a060-33dfe602ad6f" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>function getroots(n)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n ≤ length(xk)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> xk[<span class="dv">2</span>:n]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">getroots</span>(n)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="op">≤</span> <span class="fu">length</span>(xk)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> xk[<span class="fl">2</span><span class="op">:</span>n]</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        new_roots <span class="op">=</span> find_zeros(x <span class="op">-&gt;</span> g(x), xk[end], (n<span class="op">+</span><span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)<span class="op">*</span>π)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        append<span class="op">!</span>(xk, new_roots)</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> xk[<span class="dv">2</span>:end]</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    end</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>end</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        new_roots <span class="op">=</span> <span class="fu">find_zeros</span>(x <span class="op">-&gt;</span> <span class="fu">g</span>(x), xk[<span class="kw">end</span>], (n<span class="op">+</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>)<span class="op">*</span><span class="cn">π</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">append!</span>(xk, new_roots)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> xk[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The standard approach to calculating an infinite series is to use <a href="https://en.wikipedia.org/wiki/Richardson_extrapolation">Richardson extrapolation</a> as this accelerates convergence and allows for an error estimate.</p>
 <div id="abe7f74f-7da2-4c49-855a-4d068f905f8c" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>using Richardson:extrapolate</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Richardson</span>:extrapolate</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>function u_f(τ)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    val, err <span class="op">=</span> extrapolate(<span class="dv">1</span>, x0<span class="op">=</span>Inf) do N</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                xk <span class="op">=</span> getroots(Int(N))</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                <span class="dv">6</span><span class="er">α</span><span class="op">*</span>(α<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span><span class="bu">sum</span>( exp.(<span class="op">-</span>τ.<span class="op">*</span>(xk.<span class="op">^</span><span class="dv">2</span>)).<span class="op">/</span>((<span class="dv">9</span><span class="op">*</span>(α<span class="op">+</span><span class="dv">1</span>)).<span class="op">+</span>(α.<span class="op">*</span>xk).<span class="op">^</span><span class="dv">2</span>) )</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>            end</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">u_f</span>(τ)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    val, err <span class="op">=</span> <span class="fu">extrapolate</span>(<span class="fl">1</span>, x0<span class="op">=</span><span class="cn">Inf</span>) <span class="cf">do</span> N</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                xk <span class="op">=</span> <span class="fu">getroots</span>(<span class="fu">Int</span>(N))</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                <span class="fl">6</span><span class="fu">α*</span>(α<span class="op">+</span><span class="fl">1</span>)<span class="fu">*sum</span>( <span class="fu">exp</span>.(<span class="op">-</span>τ<span class="op">.*</span>(xk<span class="op">.^</span><span class="fl">2</span>))<span class="op">./</span>((<span class="fl">9</span><span class="fu">*</span>(α<span class="op">+</span><span class="fl">1</span>))<span class="op">.+</span>(α<span class="op">.*</span>xk)<span class="op">.^</span><span class="fl">2</span>) )</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">end</span></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> val</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>end</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we can put together a bulk concentration function</p>
 <div id="eaf8b30a-b351-442f-89b7-440f09ba8a50" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>function c(t)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    τ <span class="op">=</span> (𝒟ₛ<span class="op">*</span>t)<span class="op">/</span>b<span class="op">^</span><span class="dv">2</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> (c₀ <span class="op">-</span> c_max)<span class="op">*</span>u_f(τ) <span class="op">+</span> c_max</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">c</span>(t)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    τ <span class="op">=</span> (𝒟ₛ<span class="op">*</span>t)<span class="op">/</span>b<span class="op">^</span><span class="fl">2</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> (c₀ <span class="op">-</span> c_max)<span class="fu">*u_f</span>(τ) <span class="op">+</span> c_max</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> c</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>end</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-concentration" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="13">
 <div id="fig-concentration" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="13">
@@ -938,7 +938,7 @@ Figure&nbsp;5: The concentration of solubles in the extract over time.
 </div>
 <p>Extraction is simply concentration over dose</p>
 <div id="5f62678e-98d4-4c31-82bb-8097145a9783" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>extraction(t) <span class="op">=</span> c(t)<span class="op">*</span>Vₗ<span class="op">/</span>mₛ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">extraction</span>(t) <span class="op">=</span> <span class="fu">c</span>(t)<span class="op">*</span>Vₗ<span class="op">/</span>mₛ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-extraction" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="15">
 <div id="fig-extraction" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="15">
@@ -997,48 +997,48 @@ Figure&nbsp;6: The extraction of coffee solubles over time.
 <h3 class="anchored" data-anchor-id="packaging-the-final-result">Packaging the final result</h3>
 <p>At this point we have enough to put together a <code>struct</code> to contain the parameters needed for the Carslaw and Jaeger model</p>
 <div id="859a926a-6e9d-433e-be7a-8de75836e97a" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>struct CarslawSolution{T}</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    α::T</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    τ₁::T</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    xk::Vector{T}</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    ib::InfusionBrew{T}</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>end</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> CarslawSolution{T}</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    α<span class="op">::</span><span class="dt">T</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    τ₁<span class="op">::</span><span class="dt">T</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    xk<span class="op">::</span><span class="dt">Vector{T}</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    ib<span class="op">::</span><span class="dt">InfusionBrew{T}</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>function CarslawSolution(ib::InfusionBrew)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">CarslawSolution</span>(ib<span class="op">::</span><span class="dt">InfusionBrew</span>)</span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    α  <span class="op">=</span> ib.Vₗ<span class="op">/</span>(ib.K<span class="op">*</span>ib.Vₛ)</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    τ₁ <span class="op">=</span> ib.𝒟ₛ<span class="op">/</span>ib.b<span class="op">^</span><span class="dv">2</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    xk <span class="op">=</span> find_zeros( x <span class="op">-&gt;</span> (<span class="dv">3</span> <span class="op">+</span> α<span class="op">*</span>x<span class="op">^</span><span class="dv">2</span>)<span class="op">*</span>sin(x) <span class="op">-</span> <span class="dv">3</span><span class="er">x</span><span class="op">*</span>cos(x) , <span class="dv">0</span>, (<span class="fl">10.5</span>)<span class="op">*</span>π)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> CarslawSolution(α, τ₁, xk, ib)</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>end</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    τ₁ <span class="op">=</span> ib.𝒟ₛ<span class="op">/</span>ib.b<span class="op">^</span><span class="fl">2</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    xk <span class="op">=</span> <span class="fu">find_zeros</span>( x <span class="op">-&gt;</span> (<span class="fl">3</span> <span class="op">+</span> α<span class="op">*</span>x<span class="op">^</span><span class="fl">2</span>)<span class="fu">*sin</span>(x) <span class="op">-</span> <span class="fl">3</span><span class="fu">x*cos</span>(x) , <span class="fl">0</span>, (<span class="fl">10.5</span>)<span class="op">*</span><span class="cn">π</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">CarslawSolution</span>(α, τ₁, xk, ib)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>and update our code to add some methods for calculating the concentration and extraction based on a Carslaw and Jaeger model for the infusion brew.</p>
 <div id="3825b2ca-916e-481e-afa3-be7bc098af93" class="cell" data-execution_count="20">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>function getroots(n, model::CarslawSolution)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n ≤ length(model.xk)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> model.xk[<span class="dv">2</span>:n]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">getroots</span>(n, model<span class="op">::</span><span class="dt">CarslawSolution</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="op">≤</span> <span class="fu">length</span>(model.xk)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> model.xk[<span class="fl">2</span><span class="op">:</span>n]</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        new_roots <span class="op">=</span> find_zeros(x <span class="op">-&gt;</span> (<span class="dv">3</span> <span class="op">+</span> model.α<span class="op">*</span>x<span class="op">^</span><span class="dv">2</span>)<span class="op">*</span>sin(x) <span class="op">-</span> <span class="dv">3</span><span class="er">x</span><span class="op">*</span>cos(x), </span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                               model.xk[end], (n<span class="op">+</span><span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)<span class="op">*</span>π)</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        append<span class="op">!</span>(model.xk, new_roots)</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> model.xk[<span class="dv">2</span>:end]</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    end</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>end</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        new_roots <span class="op">=</span> <span class="fu">find_zeros</span>(x <span class="op">-&gt;</span> (<span class="fl">3</span> <span class="op">+</span> model.α<span class="op">*</span>x<span class="op">^</span><span class="fl">2</span>)<span class="fu">*sin</span>(x) <span class="op">-</span> <span class="fl">3</span><span class="fu">x*cos</span>(x), </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                               model.xk[<span class="kw">end</span>], (n<span class="op">+</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>)<span class="op">*</span><span class="cn">π</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">append!</span>(model.xk, new_roots)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> model.xk[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>function c(t, model::CarslawSolution)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">c</span>(t, model<span class="op">::</span><span class="dt">CarslawSolution</span>)</span>
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    τ <span class="op">=</span> model.τ₁<span class="op">*</span>t</span>
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    α <span class="op">=</span> model.α</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    u_f, err <span class="op">=</span> extrapolate(<span class="dv">1</span>, x0<span class="op">=</span>Inf) do N</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>                  xk <span class="op">=</span> getroots(Int(N), model)</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>                  <span class="dv">6</span><span class="er">α</span><span class="op">*</span>(α<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span><span class="bu">sum</span>( exp.(<span class="op">-</span>τ.<span class="op">*</span>(xk.<span class="op">^</span><span class="dv">2</span>)).<span class="op">/</span>((<span class="dv">9</span><span class="op">*</span>(α<span class="op">+</span><span class="dv">1</span>)).<span class="op">+</span>(α.<span class="op">*</span>xk).<span class="op">^</span><span class="dv">2</span>) )</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>               end</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    u_f, err <span class="op">=</span> <span class="fu">extrapolate</span>(<span class="fl">1</span>, x0<span class="op">=</span><span class="cn">Inf</span>) <span class="cf">do</span> N</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>                  xk <span class="op">=</span> <span class="fu">getroots</span>(<span class="fu">Int</span>(N), model)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>                  <span class="fl">6</span><span class="fu">α*</span>(α<span class="op">+</span><span class="fl">1</span>)<span class="fu">*sum</span>( <span class="fu">exp</span>.(<span class="op">-</span>τ<span class="op">.*</span>(xk<span class="op">.^</span><span class="fl">2</span>))<span class="op">./</span>((<span class="fl">9</span><span class="fu">*</span>(α<span class="op">+</span><span class="fl">1</span>))<span class="op">.+</span>(α<span class="op">.*</span>xk)<span class="op">.^</span><span class="fl">2</span>) )</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>               <span class="cf">end</span></span>
 <span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> (c₀ <span class="op">-</span> c_max)<span class="op">*</span>u_f <span class="op">+</span> c_max</span>
 <span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> c</span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>end</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>extraction(t, model::CarslawSolution) <span class="op">=</span> c(t, model)<span class="op">*</span>model.ib.Vₗ<span class="op">/</span>model.ib.mₛ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="fu">extraction</span>(t, model<span class="op">::</span><span class="dt">CarslawSolution</span>) <span class="op">=</span> <span class="fu">c</span>(t, model)<span class="op">*</span>model.ib.Vₗ<span class="op">/</span>model.ib.mₛ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="8c88375f-be1c-486b-9025-1061f5d0f155" class="cell" data-execution_count="21">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sol <span class="op">=</span> CarslawSolution(brew)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sol <span class="op">=</span> <span class="fu">CarslawSolution</span>(brew);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The advantage of packaging code like this is that is now easy to explore the impact of changes to individual parameters, for example below is the impact that changing grind size has on the extraction curve. It follows our general intuition that smaller grind sizes extract faster. It also shows a major weakness of this model: there is only one particle size in the model, which is average over the range of actual particle sizes. This model works well if the grind is quite uniform, however if there is a wide range of particle sizes the actual coffee will be a mix of over extracted coffee (from the small particles) and under extracted coffee (from the large particles).</p>
 <div id="cell-fig-grind-size" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="22">

@@ -441,17 +441,17 @@ background: url(../../posts/building_infiltration_example/matt-palmer-unsplash.j
 <h3 class="anchored" data-anchor-id="ambient-air-data">Ambient Air Data</h3>
 <p>I downloaded just the pm2.5 measurements for Edmonton Central from October 2000, the earliest reported values, through to the end of December 2020, the latest values in the database at this time, from <a href="https://airdata.alberta.ca/reporting/Download/MultipleParameters">Alberta’s Ambient Air Data Warehouse</a>. This is a csv with 177,072 rows of data and several columns each corresponding to, I’m guessing, a different instrument. Over time the station has swapped out instruments for measuring pm2.5s and those are recorded as a different measurement type.</p>
 <div id="9bedce3f-f797-417c-8a38-69fc2ca1d963" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>using CSV, DataFrames, Dates, Pipe, Plots</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CSV</span>, <span class="bu">DataFrames</span>, <span class="bu">Dates</span>, <span class="bu">Pipe</span>, <span class="bu">Plots</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="f5eb747b-43a1-489c-a9f5-7a9e13f5a020" class="cell" data-tags="[]" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_file <span class="op">=</span> <span class="st">"data/Long Term pm2.5 Edmonton Central.csv"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_file <span class="op">=</span> <span class="st">"data/Long Term pm2.5 Edmonton Central.csv"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ambient_data <span class="op">=</span> <span class="op">@</span>pipe data_file <span class="op">|&gt;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    CSV.File( _ <span class="op">;</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ambient_data <span class="op">=</span> <span class="pp">@pipe</span> data_file <span class="op">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    CSV.<span class="fu">File</span>( _ ; </span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>             dateformat<span class="op">=</span><span class="st">"mm/dd/yyyy HH:MM:SS"</span>, </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>             types<span class="op">=</span>[DateTime, DateTime, Float64, Float64, Float64, Float64], </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>             header<span class="op">=</span><span class="dv">16</span>, silencewarnings<span class="op">=</span>true) <span class="op">|&gt;</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    DataFrame(_)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>             types<span class="op">=</span>[<span class="dt">DateTime</span>, <span class="dt">DateTime</span>, <span class="dt">Float64</span>, <span class="dt">Float64</span>, <span class="dt">Float64</span>, <span class="dt">Float64</span>], </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>             header<span class="op">=</span><span class="fl">16</span>, silencewarnings<span class="op">=</span><span class="cn">true</span>) <span class="op">|&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">DataFrame</span>(_);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="a300e7eb-1eaa-4dda-86ef-31d2dc5edb32" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
@@ -487,52 +487,52 @@ background: url(../../posts/building_infiltration_example/matt-palmer-unsplash.j
 <p>One complication is that the dataset has four columns of pm2.5 data that are full of mostly missing values since they each only correspond to the period in which the given instrument is running. So I first need to collect those measurement values, drop the missing values, and take the mean of what remains. I assume there is no overlap and so it’s the mean of one number, but I haven’t checked to see if that’s true and the mean seems like the most sensible thing to do if there is overlap.</p>
 <p>If there is a missing hour entirely, i.e.&nbsp;no instrument has a reading, then I skip it. That neither counts as the start nor the end of a smoke event and I move to the next row.</p>
 <div id="ef4d29b1-1f51-4b01-91cc-7cdc570e7b82" class="cell" data-tags="[]" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>using Statistics</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Statistics</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>lim_1h <span class="op">=</span> <span class="fl">80.0</span>  <span class="co">#μg/m³ 1-hr limit</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>lim_24h <span class="op">=</span> <span class="fl">29.0</span> <span class="co">#μg/m³ 24-hr limit</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>function exceedences(df<span class="op">;</span> limit<span class="op">=</span>lim_1h)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">exceedences</span>(df; limit<span class="op">=</span>lim_1h)</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> DataFrame(start_date <span class="op">=</span> DateTime[], end_date <span class="op">=</span> DateTime[], month <span class="op">=</span> Int64[], year <span class="op">=</span> Int64[], duration <span class="op">=</span> Float64[], max_conc <span class="op">=</span> Float64[])</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> <span class="fu">DataFrame</span>(start_date <span class="op">=</span> <span class="dt">DateTime</span>[], end_date <span class="op">=</span> <span class="dt">DateTime</span>[], month <span class="op">=</span> <span class="dt">Int64</span>[], year <span class="op">=</span> <span class="dt">Int64</span>[], duration <span class="op">=</span> <span class="dt">Float64</span>[], max_conc <span class="op">=</span> <span class="dt">Float64</span>[])</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    flag <span class="op">=</span> false</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    start_date <span class="op">=</span> nothing</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    end_date <span class="op">=</span> nothing</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    flag <span class="op">=</span> <span class="cn">false</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    start_date <span class="op">=</span> <span class="cn">nothing</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    end_date <span class="op">=</span> <span class="cn">nothing</span></span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    max_conc <span class="op">=</span> <span class="fl">0.0</span></span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> r <span class="kw">in</span> eachrow(ambient_data)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        measurements <span class="op">=</span> [r[:MeasurementValue], r[:MeasurementValue_1], r[:MeasurementValue_2], r[:MeasurementValue_3]]</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        measurements <span class="op">=</span> collect( skipmissing(measurements) )</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        conc <span class="op">=</span> <span class="cf">if</span> (sizeof(measurements)<span class="op">&gt;</span><span class="dv">0</span>) mean(measurements) <span class="cf">else</span> missing end</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> r <span class="kw">in</span> <span class="fu">eachrow</span>(ambient_data)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        measurements <span class="op">=</span> [r[<span class="op">:</span>MeasurementValue], r[<span class="op">:</span>MeasurementValue_1], r[<span class="op">:</span>MeasurementValue_2], r[<span class="op">:</span>MeasurementValue_3]]</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        measurements <span class="op">=</span> <span class="fu">collect</span>( <span class="fu">skipmissing</span>(measurements) )</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        conc <span class="op">=</span> <span class="cf">if</span> (<span class="fu">sizeof</span>(measurements)<span class="op">&gt;</span><span class="fl">0</span>) <span class="fu">mean</span>(measurements) <span class="cf">else</span> <span class="cn">missing</span> <span class="cf">end</span></span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> typeof(conc) <span class="op">==</span> Missing</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="fu">typeof</span>(conc) <span class="op">==</span> <span class="dt">Missing</span></span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>            <span class="co"># ignore missing data</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        elseif conc <span class="op">&gt;</span> limit</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> flag <span class="op">==</span> true            <span class="co"># we are already in a sequence</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>                end_date <span class="op">=</span> r[:IntervalEnd]</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>                max_conc <span class="op">=</span> <span class="bu">max</span>(conc, max_conc)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elseif</span> conc <span class="op">&gt;</span> limit</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> flag <span class="op">==</span> <span class="cn">true</span>            <span class="co"># we are already in a sequence</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>                end_date <span class="op">=</span> r[<span class="op">:</span>IntervalEnd]</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>                max_conc <span class="op">=</span> <span class="fu">max</span>(conc, max_conc)</span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>                       <span class="co"># we are starting a sequence</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>                flag <span class="op">=</span> true</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>                start_date <span class="op">=</span> r[:IntervalStart]</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>                end_date <span class="op">=</span> r[:IntervalEnd]</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>                max_conc <span class="op">=</span> <span class="bu">max</span>(conc, max_conc)</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>            end</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>                flag <span class="op">=</span> <span class="cn">true</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>                start_date <span class="op">=</span> r[<span class="op">:</span>IntervalStart]</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>                end_date <span class="op">=</span> r[<span class="op">:</span>IntervalEnd]</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>                max_conc <span class="op">=</span> <span class="fu">max</span>(conc, max_conc)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">end</span></span>
 <span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> flag <span class="op">==</span> true           <span class="co"># we are ending a sequence</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>                flag <span class="op">=</span> false</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>                duration <span class="op">=</span> Dates.value.(end_date <span class="op">-</span> start_date)<span class="op">/</span><span class="fl">3.6e6</span></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>                push<span class="op">!</span>(results, [start_date, end_date, month(start_date), year(start_date), duration, max_conc])</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> flag <span class="op">==</span> <span class="cn">true</span>           <span class="co"># we are ending a sequence</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>                flag <span class="op">=</span> <span class="cn">false</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>                duration <span class="op">=</span> <span class="bu">Dates</span>.<span class="fu">value</span>.(end_date <span class="op">-</span> start_date)<span class="op">/</span><span class="fl">3.6e6</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>                <span class="fu">push!</span>(results, [start_date, end_date, <span class="fu">month</span>(start_date), <span class="fu">year</span>(start_date), duration, max_conc])</span>
 <span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>                max_conc <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>            end</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>        end</span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    end</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>            <span class="cf">end</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> results</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>end</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="81618648-c98a-42f9-a605-aa7473cc3730" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;outputs_hidden&quot;:true}}" data-tags="[]" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>result_1hr <span class="op">=</span> exceedences(ambient_data, limit<span class="op">=</span>lim_1h)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>result_1hr <span class="op">=</span> <span class="fu">exceedences</span>(ambient_data, limit<span class="op">=</span>lim_1h)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="a9931224-5d8f-4b52-8e8d-ae1d2ff0a1bc" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="6">
 <div class="cell-output cell-output-stdout">

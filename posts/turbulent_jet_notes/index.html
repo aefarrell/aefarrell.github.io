@@ -700,28 +700,28 @@ Figure&nbsp;1: A turbulent jet emitted from a circular orifice.
 <p>at <em>φ = 0</em>, therefore <em>F’’(0) = -1</em></p></div></div><p><span class="math display">\[ {d \mathbf{u} \over dt }_{t=0} = \begin{bmatrix} 0 \\ -1 \end{bmatrix}\]</span></p>
 <p>Putting that together, the ODE can be integrated easily<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;Because of how <span class="math inline">\(\bar{v}_z\)</span> and <span class="math inline">\(\bar{v}_r\)</span> were defined <span class="math inline">\(-{ F^{\prime} \over \phi } \ge 0\)</span>, i.e.&nbsp;<span class="math inline">\({ F^{\prime} \over \phi } \le 0\)</span>. For the signs to work out, <span class="math inline">\(F \le 0\)</span> and <span class="math inline">\(F^{\prime} \le 0\)</span> (since <span class="math inline">\(F F^{\prime} \ge 0\)</span>)</p></div></div><div id="b60f42cc-66ed-4af1-a274-295c3143a916" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>using StaticArrays</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>using DifferentialEquations: ODEProblem, Tsit5, solve, TerminateSteadyState</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">StaticArrays</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DifferentialEquations</span>: ODEProblem, Tsit5, solve, TerminateSteadyState</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>function sys(u,p,t)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    u₁, u₂ <span class="op">=</span> u[<span class="dv">1</span>], u[<span class="dv">2</span>]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">sys</span>(u,p,t)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    u₁, u₂ <span class="op">=</span> u[<span class="fl">1</span>], u[<span class="fl">2</span>]</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> t <span class="op">&gt;</span> <span class="fl">0.0</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        du₁ <span class="op">=</span> u₂</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        du₂ <span class="op">=</span> u₂<span class="op">/</span>t <span class="op">+</span> √(<span class="bu">max</span>((u₁<span class="op">*</span>u₂),<span class="dv">0</span>))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        du₂ <span class="op">=</span> u₂<span class="op">/</span>t <span class="op">+</span> <span class="fu">√</span>(<span class="fu">max</span>((u₁<span class="op">*</span>u₂),<span class="fl">0</span>))</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        du₁ <span class="op">=</span> <span class="fl">0.0</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        du₂ <span class="op">=</span> <span class="op">-</span><span class="fl">1.0</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    end</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> SA[du₁<span class="op">;</span> du₂]</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>end</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> SA[du₁; du₂]</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>u0    <span class="op">=</span> SA[<span class="fl">0.0</span><span class="op">;</span> <span class="fl">0.0</span>]</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>u0    <span class="op">=</span> SA[<span class="fl">0.0</span>; <span class="fl">0.0</span>]</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>tspan <span class="op">=</span> (<span class="fl">0.0</span>, <span class="fl">6.0</span>)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>prob  <span class="op">=</span> ODEProblem(sys, u0, tspan)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>sol   <span class="op">=</span> solve(prob, Tsit5(), dtmax<span class="op">=</span><span class="fl">0.1</span>, callback<span class="op">=</span>TerminateSteadyState())</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>prob  <span class="op">=</span> <span class="fu">ODEProblem</span>(sys, u0, tspan)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>sol   <span class="op">=</span> <span class="fu">solve</span>(prob, <span class="fu">Tsit5</span>(), dtmax<span class="op">=</span><span class="fl">0.1</span>, callback<span class="op">=</span><span class="fu">TerminateSteadyState</span>())</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sol.retcode)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sol.retcode)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Success</code></pre>
 </div>
@@ -742,19 +742,19 @@ Figure&nbsp;2: The numerical integration of F(φ), Prandtl mixing length theory.
 </div>
 <p>Using the solution in terms of φ we can write a function <em>f(ξ)</em></p>
 <div id="5be93f8e-8c9b-40fb-b5fa-8c1bbca7c152" class="cell" data-tags="[]" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>function f_pml(ξ<span class="op">;</span> a<span class="op">=</span><span class="fl">0.066</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    ϕ <span class="op">=</span> <span class="bu">abs</span>(ξ)<span class="op">/</span>a</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">f_pml</span>(ξ; a<span class="op">=</span><span class="fl">0.066</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    ϕ <span class="op">=</span> <span class="fu">abs</span>(ξ)<span class="op">/</span>a</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ϕ <span class="op">&gt;</span><span class="dv">0</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        F, F′ <span class="op">=</span> sol(ϕ)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ϕ <span class="op">&gt;</span><span class="fl">0</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        F, F′ <span class="op">=</span> <span class="fu">sol</span>(ϕ)</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        f <span class="op">=</span> <span class="op">-</span>F′<span class="op">/</span>ϕ</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        f  <span class="op">=</span> <span class="bu">max</span>(f, <span class="dv">0</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        f  <span class="op">=</span> <span class="fu">max</span>(f, <span class="fl">0</span>)</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        f <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    end</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        f <span class="op">=</span> <span class="fl">1</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> f</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>end</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="comparison-with-tollmien" class="level3 page-columns page-full">
@@ -781,9 +781,9 @@ Figure&nbsp;3: This solution versus the tabulated results of Tollmien, demonstra
 <p>The width at half height, <span class="math inline">\(b_{1/2}\)</span>, is an important parameter and often velocity profiles are scaled relative to this. To compare different models on a fair basis, it is a good idea to determine what the model parameters are relative to <span class="math inline">\(b_{1/2}\)</span>. Then each model can be scaled to the same <span class="math inline">\(b_{1/2}\)</span> and compared, apples-to-apples.</p>
 <p>In this case we don’t have a closed form for the velocity profile so we need to solve for φ such that <em>f(φ)=0</em> numerically.</p>
 <div id="8564b3cb-03f4-4154-9353-d171ece8ecf0" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>using Roots: find_zero</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Roots</span>: find_zero</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ϕ_half <span class="op">=</span> find_zero( ϕ <span class="op">-&gt;</span> f_pml(ϕ<span class="op">;</span> a<span class="op">=</span><span class="dv">1</span>)<span class="op">-</span><span class="fl">0.5</span>, (<span class="dv">1</span>, <span class="fl">1.25</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ϕ_half <span class="op">=</span> <span class="fu">find_zero</span>( ϕ <span class="op">-&gt;</span> <span class="fu">f_pml</span>(ϕ; a<span class="op">=</span><span class="fl">1</span>)<span class="op">-</span><span class="fl">0.5</span>, (<span class="fl">1</span>, <span class="fl">1.25</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>1.2277665940765845</code></pre>
 </div>
@@ -796,7 +796,7 @@ Figure&nbsp;3: This solution versus the tabulated results of Tollmien, demonstra
 </div>
 <p>Using a default value for <span class="math inline">\({ b_{1/2} \over z } = 0.0848\)</span> we arrive at</p>
 <div id="4273aa8d-aff1-4202-80ac-f5a81c0a3097" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>b_half <span class="op">=</span> <span class="fl">0.0848</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>b_half <span class="op">=</span> <span class="fl">0.0848</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> b_half<span class="op">/</span>ϕ_half</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
@@ -830,23 +830,23 @@ Figure&nbsp;3: This solution versus the tabulated results of Tollmien, demonstra
 <p><span class="math display">\[ k = \sqrt{1 \over 8 I } v_0 d_0 \]</span></p>
 <p>with the value of the integral coming directly from the ode solver</p>
 <div id="fc66ee5d-7e40-4463-bc85-febd183760c3" class="cell" data-tags="[]" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>using NumericalIntegration: integrate</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NumericalIntegration</span>: integrate</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ϕ, F′ <span class="op">=</span> sol.t, sol[<span class="dv">2</span>,:]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ϕ, F′ <span class="op">=</span> sol.t, sol[<span class="fl">2</span>,<span class="op">:</span>]</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># trim any unphysical values</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>F′[F′.<span class="op">&gt;</span><span class="dv">0</span>] .<span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>F′[F′<span class="op">.&gt;</span><span class="fl">0</span>] <span class="op">.=</span> <span class="fl">0.0</span></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>function integrand(ϕ, F′)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ϕ<span class="op">&gt;</span><span class="dv">0</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> F′<span class="op">^</span><span class="dv">2</span><span class="op">/</span>ϕ</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">integrand</span>(ϕ, F′)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ϕ<span class="op">&gt;</span><span class="fl">0</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> F′<span class="op">^</span><span class="fl">2</span><span class="op">/</span>ϕ</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    end</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>end</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">0</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>I <span class="op">=</span> integrate(ϕ, integrand.(ϕ, F′))</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>I <span class="op">=</span> a<span class="op">^</span><span class="dv">2</span> <span class="op">*</span> I</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>I <span class="op">=</span> <span class="fu">integrate</span>(ϕ, <span class="fu">integrand</span>.(ϕ, F′))</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>I <span class="op">=</span> a<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> I</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>0.002573069044757039</code></pre>
 </div>
@@ -901,7 +901,7 @@ Figure&nbsp;3: This solution versus the tabulated results of Tollmien, demonstra
 <p><span class="math display">\[ = {2 \varepsilon C_2^2 \over z} \left( 1 + \left( C_2 \xi \over 2 \right)^2 \right)^{-2} \]</span></p>
 <p><span class="math display">\[ f \left( \xi \right) = { \bar{v}_z \over \bar{v}_{z,max} } =  \left( 1 + \left( C_2 \xi \over 2 \right)^2 \right)^{-2} \]</span></p>
 <div id="d09837c9-cd76-4a68-923a-6d3ef0b55da6" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>f_ev(ξ<span class="op">;</span> C₂<span class="op">=</span><span class="fl">15.1</span>) <span class="op">=</span> ( <span class="dv">1</span> <span class="op">+</span> (C₂<span class="op">*</span>ξ<span class="op">/</span><span class="dv">2</span>)<span class="op">^</span><span class="dv">2</span> )<span class="op">^-</span><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f_ev</span>(ξ; C₂<span class="op">=</span><span class="fl">15.1</span>) <span class="op">=</span> ( <span class="fl">1</span> <span class="op">+</span> (C₂<span class="op">*</span>ξ<span class="op">/</span><span class="fl">2</span>)<span class="op">^</span><span class="fl">2</span> )<span class="op">^-</span><span class="fl">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="width-at-half-height-1" class="level3">
@@ -912,7 +912,7 @@ Figure&nbsp;3: This solution versus the tabulated results of Tollmien, demonstra
 <p><span class="math display">\[ C_2 = 2 \sqrt{\sqrt{2}-1} \frac{z}{ b_{1/2} } \]</span></p>
 <p>using the same parameterization as above we get</p>
 <div id="0c1512c0-a800-4eb8-8ba8-becabad14713" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>C₂ <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>√(√(<span class="dv">2</span>)<span class="op">-</span><span class="dv">1</span>)<span class="op">/</span>b_half</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>C₂ <span class="op">=</span> <span class="fl">2</span><span class="fu">*√</span>(<span class="fu">√</span>(<span class="fl">2</span>)<span class="op">-</span><span class="fl">1</span>)<span class="op">/</span>b_half</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>15.179109738339214</code></pre>
 </div>
@@ -940,7 +940,7 @@ Figure&nbsp;3: This solution versus the tabulated results of Tollmien, demonstra
 <p><span class="math display">\[ f \left( \xi \right) = \exp \left( -c \xi^2 \right) \]</span></p>
 <p>Where <em>c</em> is a parameter determined by fitting to a dataset.</p>
 <div id="2c811dd9-5c34-4f0a-af30-4b183d1f5242" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>f_emp(ξ<span class="op">;</span> c<span class="op">=</span><span class="dv">72</span>) <span class="op">=</span> exp(<span class="op">-</span>c<span class="op">*</span>ξ<span class="op">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f_emp</span>(ξ; c<span class="op">=</span><span class="fl">72</span>) <span class="op">=</span> <span class="fu">exp</span>(<span class="op">-</span>c<span class="op">*</span>ξ<span class="op">^</span><span class="fl">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="width-at-half-height-2" class="level3">
 <h3 class="anchored" data-anchor-id="width-at-half-height-2">Width at Half Height</h3>
@@ -950,7 +950,7 @@ Figure&nbsp;3: This solution versus the tabulated results of Tollmien, demonstra
 <p><span class="math display">\[ c = \ln \left( 2 \right) \left( \frac{z}{ b_{1/2} } \right)^2 \]</span></p>
 <p>using the same parameterization as above we get</p>
 <div id="798cacec-796d-4310-9a00-5d253d863b6a" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> log(<span class="dv">2</span>)<span class="op">/</span>b_half<span class="op">^</span><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fu">log</span>(<span class="fl">2</span>)<span class="op">/</span>b_half<span class="op">^</span><span class="fl">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>96.39039423504045</code></pre>
 </div>
