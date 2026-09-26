@@ -3,7 +3,7 @@ title: "Mapping Pollen Dispersion"
 description: "Calculating how far the wind blows."
 author: "Allan Farrell"
 date: "05/10/2025"
-categories: [julia, dispersion modelling, pollen]
+categories: [julia, dispersion modelling, pollen, Ermak model]
 reference-location: margin
 title-block-banner: banner.jpg
 bibliography: references.bib
