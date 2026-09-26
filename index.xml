@@ -6067,6 +6067,7 @@ Unsplash
   <category>julia</category>
   <category>dispersion modelling</category>
   <category>integral plume models</category>
+  <category>Ooms model</category>
   <guid>https://aefarrell.github.io/posts/ooms_1974/</guid>
   <pubDate>Sat, 27 Jun 2026 06:00:00 GMT</pubDate>
   <media:content url="https://aefarrell.github.io/posts/ooms_plume_model/plume_sketch.png" medium="image" type="image/png" height="160" width="144"/>
@@ -8043,7 +8044,7 @@ font-style: inherit;">mass🔴</span>(x₂)</span></code></pre></div></div>
 </div>
 <p>It is definitely a little bit of cheating to point out that the simple one-dimensional integral is much more performant than any of the three integrations of the whole volume, see Table&nbsp;1.</p>
 <div class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="42">
-<div id="tbl-perf" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="42" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}">
+<div id="tbl-perf" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="42">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-perf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1: Performance of the integration methods.
@@ -8278,7 +8279,8 @@ Unsplash
  ]]></description>
   <category>julia</category>
   <category>dispersion modelling</category>
-  <category>explosions</category>
+  <category>explosive mass</category>
+  <category>gaussian model</category>
   <guid>https://aefarrell.github.io/posts/gaussian_explosive_mass/</guid>
   <pubDate>Sun, 22 Feb 2026 07:00:00 GMT</pubDate>
   <media:content url="https://aefarrell.github.io/posts/gaussian_explosive_mass/plume.png" medium="image" type="image/png" height="72" width="144"/>
@@ -9262,6 +9264,8 @@ Unsplash
   <category>julia</category>
   <category>blowdown</category>
   <category>dispersion modelling</category>
+  <category>gaussian model</category>
+  <category>Palazzi model</category>
   <guid>https://aefarrell.github.io/posts/vessel_blowdown_dispersion/</guid>
   <pubDate>Tue, 23 Dec 2025 07:00:00 GMT</pubDate>
   <media:content url="https://aefarrell.github.io/posts/vessel_blowdown_dispersion/dispersion.png" medium="image" type="image/png" height="108" width="144"/>
@@ -13115,6 +13119,7 @@ Unsplash
   <category>julia</category>
   <category>dispersion modelling</category>
   <category>integral plume models</category>
+  <category>Ooms model</category>
   <guid>https://aefarrell.github.io/posts/ooms_plume_model/</guid>
   <pubDate>Sun, 15 Jun 2025 06:00:00 GMT</pubDate>
   <media:content url="https://aefarrell.github.io/posts/ooms_plume_model/plume_sketch.png" medium="image" type="image/png" height="160" width="144"/>
@@ -17639,6 +17644,7 @@ McPherson, E. Gregory, Natalie S. van Doorn, and Paula J. Peper. <span>“Urban 
   <category>julia</category>
   <category>dispersion modelling</category>
   <category>pollen</category>
+  <category>Ermak model</category>
   <guid>https://aefarrell.github.io/posts/pollen_dispersion/</guid>
   <pubDate>Sat, 10 May 2025 06:00:00 GMT</pubDate>
 </item>
@@ -23338,6 +23344,7 @@ Ooms, G. <span>“A New Method for the Calculation of the Plume Path of Gases Em
   <category>python</category>
   <category>hydrogen</category>
   <category>dispersion modelling</category>
+  <category>integral plume models</category>
   <guid>https://aefarrell.github.io/posts/hydrogen_release_modeling/</guid>
   <pubDate>Sun, 22 Sep 2024 06:00:00 GMT</pubDate>
 </item>
@@ -32708,6 +32715,7 @@ Unsplash
  ]]></description>
   <category>julia</category>
   <category>dispersion modelling</category>
+  <category>gaussian model</category>
   <guid>https://aefarrell.github.io/posts/dispersion_parameter_sensitivity/</guid>
   <pubDate>Mon, 30 Oct 2023 06:00:00 GMT</pubDate>
   <media:content url="https://aefarrell.github.io/posts/dispersion_parameter_sensitivity/output_35_0.svg" medium="image" type="image/svg+xml"/>
