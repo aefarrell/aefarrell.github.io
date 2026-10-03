@@ -518,7 +518,7 @@ window.Quarto = {
 </section>
 <section id="weather-parameters" class="level3">
 <h3 class="anchored" data-anchor-id="weather-parameters">Weather Parameters</h3>
-<p>For neutrally buoyant gaussian dispersion a class <em>F</em> Pasquill stability is <a href="https://aefarrell.github.io/2020/12/12/worst_case_weather/">the worst case scenario</a>, this leads to the least dispersion and thus greatest concentrations downwind. The windspeed is initially assumed to be 1.5 m/s.</p>
+<p>For neutrally buoyant gaussian dispersion a class <em>F</em> Pasquill stability is <a href="../../posts/worst_case_weather/">the worst case scenario</a>, this leads to the least dispersion and thus greatest concentrations downwind. The windspeed is initially assumed to be 1.5 m/s.</p>
 <table class="caption-top table">
 <tbody>
 <tr class="odd">
@@ -623,12 +623,6 @@ window.Quarto = {
 <section id="dispersion-parameters-for-a-gaussian-puff-modelccps-1996" class="level4">
 <h4 class="anchored" data-anchor-id="dispersion-parameters-for-a-gaussian-puff-modelccps-1996">Dispersion parameters for a Gaussian puff model<span class="citation" data-cites="ccps-1996"><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></span></h4>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 16%">
-<col style="width: 33%">
-<col style="width: 27%">
-<col style="width: 22%">
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: center;">Stability</th>
@@ -640,38 +634,38 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td style="text-align: center;">A</td>
-<td style="text-align: center;">$ 0.18 x^{0.92} $</td>
-<td style="text-align: center;">$ 0.60 x^{0.75} $</td>
+<td style="text-align: center;"><span class="math inline">\(0.18 x^{0.92}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(0.60 x^{0.75}\)</span></td>
 <td style="text-align: center;">3 m/s</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">B</td>
-<td style="text-align: center;">$ 0.14 x^{0.92} $</td>
-<td style="text-align: center;">$ 0.53 x^{0.73} $</td>
+<td style="text-align: center;"><span class="math inline">\(0.14 x^{0.92}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(0.53 x^{0.73}\)</span></td>
 <td style="text-align: center;">5 m/s</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">C</td>
-<td style="text-align: center;">$ 0.10 x^{0.92} $</td>
-<td style="text-align: center;">$ 0.34 x^{0.71} $</td>
+<td style="text-align: center;"><span class="math inline">\(0.10 x^{0.92}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(0.34 x^{0.71}\)</span></td>
 <td style="text-align: center;">6 m/s</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">D</td>
-<td style="text-align: center;">$ 0.06 x^{0.92} $</td>
-<td style="text-align: center;">$ 0.15 x^{0.70} $</td>
+<td style="text-align: center;"><span class="math inline">\(0.06 x^{0.92}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(0.15 x^{0.70}\)</span></td>
 <td style="text-align: center;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">E</td>
-<td style="text-align: center;">$ 0.04 x^{0.92} $</td>
-<td style="text-align: center;">$ 0.10 x^{0.65} $</td>
+<td style="text-align: center;"><span class="math inline">\(0.04 x^{0.92}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(0.10 x^{0.65}\)</span></td>
 <td style="text-align: center;">5 m/s</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">F</td>
-<td style="text-align: center;">$ 0.02 x^{0.89} $</td>
-<td style="text-align: center;">$ 0.05 x^{0.61} $</td>
+<td style="text-align: center;"><span class="math inline">\(0.02 x^{0.89}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(0.05 x^{0.61}\)</span></td>
 <td style="text-align: center;">3 m/s</td>
 </tr>
 </tbody>
@@ -689,13 +683,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="outdoor-concentration">Outdoor Concentration</h3>
 <p>The outdoor concentration can be calculated at any point using the above equations and below is an animation showing the cloud moving from the release point down to the location of the center of the building. The horizontal slice is at 1m elevation, and the vertical slice is at 0m crosswind distance, the center planes of the cloud.</p>
 <p>As is clear, for a very stable cloud the dispersion is small relative to the distance traveled (the cross wind distance is exaggerated for visibility) and the bulk of the mass of chlorine is contained in a 10m diameter ball by the time it reaches the building.</p>
-<div id="cell-fig-disp" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-tags="[]" data-execution_count="5">
-<div class="cell-output cell-output-stderr">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-cyan-fg ansi-bold">[ </span><span class="ansi-cyan-fg ansi-bold">Info: </span>Saved animation to /home/allan/Code/notes/notebooks/tmp.gif
-</pre>
-</div>
-</div>
+<div id="cell-fig-disp" class="cell" data-tags="[]" data-execution_count="5">
 <div id="fig-disp" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="5">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-disp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -901,7 +889,7 @@ Figure&nbsp;4: Indoor concentrations assuming a linear ventillation model, showi
 </div>
 <p>In either the single point or averaged outdoor concentration models the indoor concentration rapidly rises above the ERPG-3 limit, which is very bad, and then slowly decays over time<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. In this case almost immediately after the cloud has passed the indoor space is more concentrated in Chlorine than the outside air. At the very least this suggests that the building is not a good shelter in place location, or at least a much more detailed analysis of building infiltration would be needed to show that it <em>was</em> a good shelter in place location.</p>
 <div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;Note that the indoor concentrations are in mg/m³ whereas the outdoor concentration peaks in the kg/m³, so the building is doing something, it is reducing the indoor concentration by several orders of magnitude, it just isn’t enough</p></div></div></section>
-<section id="sensitivity" class="level2">
+<section id="sensitivity" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="sensitivity">Sensitivity</h2>
 <p>For the scenario modeling I approached the problem in a very general way such that the methods for solving the indoor concentration didn’t depend explicitly upon the model of the outdoor concentration. Which is why it was solved numerically. This is a very useful way of approaching things, especially from a code re-use point of view.</p>
 <p>However, in this particular case, if we take the outdoor concentration to be simply the gaussian puff model at a single point then this ODE can be solved analytically and that is useful for exploring the system’s sensitivity to windspeed, atmospheric stability, etc.</p>
@@ -915,8 +903,8 @@ Figure&nbsp;4: Indoor concentrations assuming a linear ventillation model, showi
 \left[{ \exp \left( -\frac{1}{2} \left( {y} \over \sigma_y \right)^2 \right) \over { \sqrt{2 \pi} \sigma_y } } \right]  \]</span></p>
 <p><span class="math display">\[ \times { 1 \over { \sqrt{2 \pi} \sigma_z } } \left[ \exp \left( -\frac{1}{2} \left( {z - h} \over \sigma_z \right)^2 \right) + \exp \left( -\frac{1}{2} \left( {z + h} \over \sigma_z \right)^2 \right)\right]\]</span></p>
 <p><span class="math display">\[ c_{o}(x,y,z,t) = m C_x(x, t) C_y(x, y) C_z(x, z)\]</span></p>
-<p>and noting that only <span class="math inline">\(C_x\)</span> depends on time we can collect the other stuff into a big constant called <span class="math inline">\(C_1\)</span>, giving us<a href="#fn-7" class="sidenote-number"></a><span id="fn-7" class="sidenote">I am assuming the dispersion parameters are all constant, this is not strictly true as they all depend upon the downwind location of the center of the puff, which is a function of time</span></p>
-<p><span class="math display">\[ c_{o}(t) = C_1 { 1 \over { \sqrt{2 \pi} \sigma_x } }\exp \left( -\frac{1}{2} \left( {x - ut} \over \sigma_x \right)^2 \right) \]</span></p>
+<p>and noting that only <span class="math inline">\(C_x\)</span> depends on time we can collect the other stuff into a big constant called <span class="math inline">\(C_1\)</span>, giving us <a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;I am assuming the dispersion parameters are all constant, this is not strictly true as they all depend upon the downwind location of the center of the puff, which is a function of time</p></div></div><p><span class="math display">\[ c_{o}(t) = C_1 { 1 \over { \sqrt{2 \pi} \sigma_x } }\exp \left( -\frac{1}{2} \left( {x - ut} \over \sigma_x \right)^2 \right) \]</span></p>
 <p>this is a gaussian in time, let <span class="math inline">\(\mu = \frac{x}{u}\)</span> and <span class="math inline">\(\sigma_t = \frac{\sigma_x}{u}\)</span></p>
 <p><span class="math display">\[ c_{o}(t) = { C_1 \over u } { 1 \over { \sqrt{2 \pi} \sigma_t } }\exp \left( -\frac{1}{2} \left( {t - \mu} \over \sigma_t \right)^2 \right) \]</span></p>
 <p>suppose the Laplace transform of this is <span class="math inline">\(C_{o}(s)\)</span>, and <a href="../../posts/building_infiltration_example/#a-control-systems-approach">taking the Laplace transform</a> of the ODE we arrive at</p>
@@ -1070,8 +1058,8 @@ Figure&nbsp;7: Sensitivity of indoor concentration to outdoor windspeed.
 <pre><code>5.82417274262381e-5</code></pre>
 </div>
 </div>
-<p>The time it takes the cloud to pass is simply orders of magnitude faster than the response of the infiltration model. So, in effect, the puff is acting like a impulse – causing a step change – and changing the windspeed merely moves the time at which that step change takes place. The faster the windspeed the better the approximation $ (-x) H(x) $ gets and if we take another look at the approximation for max concentration, we see it is independent of windspeed.</p>
-<p>Note that for the simplified ASHRAE model with <span class="math inline">\(\Delta T = 0\)</span> the natural ventilation rate is directly proportional to windspeed, i.e.&nbsp;$ = k u $ where <em>k</em> is all the vaious constants of that model collected for convenience, plugging this into the approximation we find the windspeed cancels out entirely.</p>
+<p>The time it takes the cloud to pass is simply orders of magnitude faster than the response of the infiltration model. So, in effect, the puff is acting like a impulse – causing a step change – and changing the windspeed merely moves the time at which that step change takes place. The faster the windspeed the better the approximation <span class="math inline">\(\mathrm{erfc}(-x) \approx 2 H(x)\)</span> gets and if we take another look at the approximation for max concentration, we see it is independent of windspeed.</p>
+<p>Note that for the simplified ASHRAE model with <span class="math inline">\(\Delta T = 0\)</span> the natural ventilation rate is directly proportional to windspeed, i.e.&nbsp;<span class="math inline">\(\lambda = k u\)</span> where <em>k</em> is all the vaious constants of that model collected for convenience, plugging this into the approximation we find the windspeed cancels out entirely.</p>
 <p><span class="math display">\[ { \lambda C_1 \over u } \exp \left( { \left( \lambda \sigma_t \right)^2 \over 2 } \right) \]</span></p>
 <p><span class="math display">\[ = { { k u C_1 } \over u } \exp \left( { \left( k u \frac{\sigma_x}{u} \right)^2 \over 2 } \right) \]</span></p>
 <p><span class="math display">\[ = k C_1 \exp \left( { \left( k \sigma_x \right)^2 \over 2 } \right) \]</span></p>
