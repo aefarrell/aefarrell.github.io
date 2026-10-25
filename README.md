@@ -1,2 +1,2 @@
 # aefarrell.github.io
-Jupyter notebooks rendered as a blog by quarto
+Jupyter notebooks rendered as [a blog](https://aefarrell.github.io) by quarto
