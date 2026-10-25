@@ -19,17 +19,17 @@ repo-actions: false
 
 ## What this is
 
-This blog is a collection of (mostly) jupyter notebooks, in either python or [julia](https://julialang.org/), solving various engineering and math problems. These are my weekend projects and are often inspired by things happening in the world, interesting problems I may have encountered at work, or just passing interests of mine. There isn't really a theme other than mostly chemical engineering, since that's my profession, and mostly process safety and consequence modelling, as that's something I'm personally interested in. 
+This blog is a collection of (mostly) [jupyter notebooks](https://jupyter.org), in either [python](https://python.org/) or [julia](https://julialang.org/), solving various engineering and math problems. These notebooks are weekend projects^[though sometimes they take far longer than a weekend to write 😂] which tend to be in chemical engineering and chemical hazard analysis, as those are two interests of mine (and my profession), but there isn't a set theme.
 
-I think the best way to learn something new is to try it out yourself, play around with solving problems, see what works and what doesn't. That's what these notebooks are. I am also a big believer in putting one's random projects and terrible code online for other people to look at. The source code for each post is available for you to download and modify to your hearts content. I also try to provide references for everything I'm doing, and those are a good resource for more context. This is a great opportunity for you to tell me all the ways my code is terrible and what I should be doing instead, or tell me all the interesting things you did with it, and the new directions you went in. The internet is a better place when we share.
+I am a big believer in putting one's random projects and terrible code online for other people to look at. The source code for each post is available for you to download and modify to your hearts content. I also try to provide references for everything I'm doing, and those are a good resource for more context. This is a great opportunity for you to tell me all the ways my code is terrible and what I should be doing instead, or tell me all the interesting things you did with it, and the new directions you went in. The internet is a better place when we share.
 
 ## What this is not
 
-These blog posts do not contain my professional advice or opinion, nor do they represent the opinions of my employer. These are weekend projects, with no guarantees of correctness. You have to think for yourself. 
+These blog posts do not contain my professional advice or opinion, nor do they represent the opinions of my employer. These are not complete professional reports or assessments, they are weekend projects, with no guarantees of completeness or correctness. You have to think for yourself. 
 
 ## Some technical caveats
 
-The blog itself is rendered directly from the jupyter notebooks by [quarto](https://quarto.org/). However, a lot of the boiler plate and set-up is hidden in the final blog post for readability. If you want more details (especially how the plots are generated), please see the source noteboook. 
+The blog itself is rendered directly from the jupyter notebooks by [quarto](https://quarto.org/). However, a lot of the boiler plate and set-up is hidden in the final blog post for readability. If you want more details (especially how the plots are generated), please see the source noteboook^[there should be a link under the table of contents for the post to the source notebook]
 
 Posts which use julia take advantage of the built in environment manager and there is an associated `Project.toml` for each notebook with compat entries frozen at the *last known working* versions. Many packages under active development will change significantly over time, so it is worth checking to see which version I was using as the package may have changed in the meantime.
 
